@@ -45,6 +45,10 @@ class Proposals_Incoming(models.Model):
     def __str__(self):
         return self.title
 
+    # return ID
+    def id(self):
+        return self.id
+
     # Return client
     def client(self):
         return self.client_name
@@ -55,36 +59,51 @@ class Proposals_Incoming(models.Model):
 
 
 class Supervisors(models.Model):
-    name = models.CharField(max_length=128)
+    name_first = models.CharField(max_length=128, default="")
+    name_last = models.CharField(max_length=128, default="")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    email = models.CharField(max_length=255, default="")
 
     # OEM Relationships
     pass
 
 
 class Units(models.Model):
-    name = models.CharField(max_length=128)
+    title = models.CharField(max_length=128, default="")
     date_modified = models.DateField(auto_now=True)
     date_created = models.DateField(auto_now_add=True)
+
+    unit_code = models.CharField(max_length=8, default="AAA0001")
+    BB_unit_code = models.CharField(max_length=8, default="AAA0001")
+    ulos = models.TextField(default="")
+    num_students = models.IntegerField(default=0)
 
     # OEM Relationships
     pass
 
 
 class Companies(models.Model):
-    name = models.CharField(max_length=128)
+    name = models.CharField(max_length=128, default="")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    address = models.CharField(max_length=255, default="")
+    website = models.CharField(max_length=255, default="")
+    desc = models.TextField(default="")
 
     # OEM Relationships
     pass
 
 
 class Departments(models.Model):
-    name = models.CharField(max_length=128)
+    name = models.CharField(max_length=128, default="")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    phone = models.CharField(max_length=10, default="00000000")
+    email = models.CharField(max_length=255, default="")
 
     # OEM Relationships
     company = models.ForeignKey(Companies, models.SET_NULL, blank=True, null=True)
@@ -92,9 +111,13 @@ class Departments(models.Model):
 
 
 class Contacts(models.Model):
-    name = models.CharField(max_length=128)
+    name = models.CharField(max_length=128, default="")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    position = models.CharField(max_length=128, default="")
+    phone = models.CharField(max_length=10, default="00000000")
+    email = models.CharField(max_length=255, default="")
 
     # OEM Relationships
     department = models.ForeignKey(Departments, models.SET_NULL, blank=True, null=True)
@@ -102,7 +125,7 @@ class Contacts(models.Model):
 
 
 class Clients(models.Model):
-    name = models.CharField(max_length=128)
+    name = models.CharField(max_length=128, default="")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -113,9 +136,16 @@ class Clients(models.Model):
 
 
 class Proposals(models.Model):
-    name = models.CharField(max_length=128)
+    title = models.CharField(max_length=128, default="")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    desc = models.TextField(default="")
+    status = models.CharField(max_length=255, default="")
+    spec = models.TextField(default="")
+    skills = models.TextField(default="")
+    env = models.TextField(default="")
+    res = models.TextField(default="")
 
     # OEM Relationships
     client = models.ForeignKey(Clients, models.SET_NULL, blank=True, null=True)
@@ -127,9 +157,11 @@ class Proposals(models.Model):
 
 
 class Projects(models.Model):
-    name = models.CharField(max_length=128)
+    title = models.CharField(max_length=128, default="")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    group_code_canvas = models.CharField(max_length=255, default="")
 
     # OEM Relationships
     unit = models.ForeignKey(Units, models.SET_NULL, blank=True, null=True)
@@ -138,7 +170,8 @@ class Projects(models.Model):
 
 
 class Students(models.Model):
-    name = models.CharField(max_length=128)
+    name_first = models.CharField(max_length=128, default="")
+    name_last = models.CharField(max_length=128, default="")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
