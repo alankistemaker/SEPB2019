@@ -45,20 +45,8 @@ class Proposals_Incoming(models.Model):
     def __str__(self):
         return self.title
 
-    # return ID
-    def id(self):
-        return self.id
 
-    # Return client
-    def client(self):
-        return self.client_name
-
-    # Return date created
-    def received(self):
-        return self.created_at
-
-
-class Supervisors(models.Model):
+class Supervisors_Internal(models.Model):
     name_first = models.CharField(max_length=128, default="")
     name_last = models.CharField(max_length=128, default="")
     created_at = models.DateTimeField(auto_now_add=True)
@@ -68,6 +56,23 @@ class Supervisors(models.Model):
 
     # OEM Relationships
     pass
+ 
+    def __str__(self):
+        return self.title
+
+class Supervisors_External(models.Model):
+    name_first = models.CharField(max_length=128, default="")
+    name_last = models.CharField(max_length=128, default="")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    email = models.CharField(max_length=255, default="")
+
+    # OEM Relationships
+    pass
+
+    def __str__(self):
+        return (self.name_last + " " + self.name_first)
 
 
 class Units(models.Model):
@@ -83,6 +88,9 @@ class Units(models.Model):
     # OEM Relationships
     pass
 
+    def __str__(self):
+        return (self.unit_code + " " + self.title)
+
 
 class Companies(models.Model):
     name = models.CharField(max_length=128, default="")
@@ -96,6 +104,9 @@ class Companies(models.Model):
     # OEM Relationships
     pass
 
+    def __str__(self):
+        return self.name
+
 
 class Departments(models.Model):
     name = models.CharField(max_length=128, default="")
@@ -108,6 +119,9 @@ class Departments(models.Model):
     # OEM Relationships
     company = models.ForeignKey(Companies, models.SET_NULL, blank=True, null=True)
     pass
+
+    def __str__(self):
+        return self.name
 
 
 class Contacts(models.Model):
@@ -123,6 +137,9 @@ class Contacts(models.Model):
     department = models.ForeignKey(Departments, models.SET_NULL, blank=True, null=True)
     pass
 
+    def __str__(self):
+        return self.name
+
 
 class Clients(models.Model):
     name = models.CharField(max_length=128, default="")
@@ -133,6 +150,9 @@ class Clients(models.Model):
     company = models.ForeignKey(Companies, models.SET_NULL, blank=True, null=True)
     contact = models.ForeignKey(Contacts, models.SET_NULL, blank=True, null=True)
     pass
+
+    def __str__(self):
+        return self.name
 
 
 class Proposals(models.Model):
@@ -149,11 +169,14 @@ class Proposals(models.Model):
 
     # OEM Relationships
     client = models.ForeignKey(Clients, models.SET_NULL, blank=True, null=True)
-    supervisors = models.ManyToManyField(Supervisors)
+    supervisors_external = models.ManyToManyField(Supervisors_External)
     proposal_incoming = models.ForeignKey(
         Proposals_Incoming, models.SET_NULL, blank=True, null=True
     )
     pass
+
+    def __str__(self):
+        return self.title
 
 
 class Projects(models.Model):
@@ -166,7 +189,10 @@ class Projects(models.Model):
     # OEM Relationships
     unit = models.ForeignKey(Units, models.SET_NULL, blank=True, null=True)
     proposal = models.ForeignKey(Proposals, models.SET_NULL, blank=True, null=True)
-    supervisors = models.ManyToManyField(Supervisors)
+    supervisors_internal = models.ManyToManyField(Supervisors_Internal)
+
+    def __str__(self):
+        return self.title
 
 
 class Students(models.Model):
@@ -178,4 +204,7 @@ class Students(models.Model):
     # OEM Relationships
     project = models.ForeignKey(Projects, models.SET_NULL, blank=True, null=True)
     unit = models.ForeignKey(Units, models.SET_NULL, blank=True, null=True)
+
+    def __str__(self):
+        return (self.name_last + " " + self.name_first)
 
