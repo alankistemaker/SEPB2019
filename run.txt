@@ -1,0 +1,9 @@
+Open CMD
+cd C:\Users\User\Documents\myproj
+venv\Scripts\activate
+python manage.py runserver
+
+
+Stop
+Ctrl-Break
+deactivate
