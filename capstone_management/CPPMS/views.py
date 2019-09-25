@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from capstone_management.CPPMS.models import Proposal, Project, Client
+from .models import Proposal, Project, Client
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
@@ -74,27 +74,27 @@ def project_detail(request, pk=None):
 
     if request.method == "POST":
         project_id = request.POST.get("project_id")
-        project_name = request.POST.get("project_name")
-        project_category = request.POST.get("project_category")
-        project_year = request.POST.get("project_year")
-        project_groupname = request.POST.get("project_groupname")
-        project_unit = request.POST.get("project_unit")
-        project_convenor = request.POST.get("project_convenor")
-        project_supervisor = request.POST.get("project_supervisor")
-        project_teamleader = request.POST.get("project_teamleader")
-        project_groupsize = request.POST.get("project_groupsize")
+        project_name = request.POST.get("title")
+        project_category = request.POST.get("category")
+        project_year = request.POST.get("year")
+        # project_groupname = request.POST.get("project_groupname")
+        project_unit = request.POST.get("unit")
+        # project_convenor = request.POST.get("project_convenor")
+        project_supervisor = request.POST.get("internal_supervisor")
+        # project_teamleader = request.POST.get("project_teamleader")
+        # project_groupsize = request.POST.get("project_groupsize")
 
         if request.POST.get("save") == "save":
             project_detail = Project.objects.filter(project_id=project_id).update(
                 project_name=project_name,
                 project_category=project_category,
                 project_year=project_year,
-                project_groupname=project_groupname,
+                # project_groupname=project_groupname,
                 project_unit=project_unit,
-                project_convenor=project_convenor,
+                # project_convenor=project_convenor,
                 project_supervisor=project_supervisor,
-                project_teamleader=project_teamleader,
-                project_groupsize=project_groupsize,
+                # project_teamleader=project_teamleader,
+                # project_groupsize=project_groupsize,
             )
             print("Sucess Update Project Detail!")
         elif request.POST.get("delete") == "delete":
@@ -111,24 +111,24 @@ def client(request):
 def new_client(request):
     if request.method == "POST":
         client_id = request.POST.get("client_id")
-        client_name = request.POST.get("client_name")
-        client_address = request.POST.get("client_address")
-        client_website = request.POST.get("client_website")
-        client_contact = request.POST.get("client_contact")
-        client_title = request.POST.get("client_title")
-        client_phone = request.POST.get("client_phone")
-        client_email = request.POST.get("client_email")
+        client_name = request.POST.get("name")
+        # client_address = request.POST.get("client_address")
+        # client_website = request.POST.get("client_website")
+        # client_contact = request.POST.get("contact")
+        # client_title = request.POST.get("client_title")
+        # client_phone = request.POST.get("client_phone")
+        # client_email = request.POST.get("client_email")
 
         if request.POST.get("save") == "save":
             new_client = Client.objects.create(
                 client_id=client_id,
                 client_name=client_name,
-                client_address=client_address,
-                client_website=client_website,
-                client_contact=client_contact,
-                client_title=client_title,
-                client_phone=client_phone,
-                client_email=client_email,
+                # client_address=client_address,
+                # client_website=client_website,
+                # client_contact=client_contact,
+                # client_title=client_title,
+                # client_phone=client_phone,
+                # client_email=client_email,
             )
             print("Success Add New Client!")
     return render(request, "new_client.html", {})
@@ -160,8 +160,8 @@ def client_detail(request, pk=None):
 
     if request.method == "POST":
         client_id = request.POST.get("client_id")
-        client_name = request.POST.get("client_name")
-        client_address = request.POST.get("client_address")
+        client_name = request.POST.get("name")
+        # client_address = request.POST.get("client_address")
         client_website = request.POST.get("client_website")
         client_contact = request.POST.get("client_contact")
         client_title = request.POST.get("client_title")
