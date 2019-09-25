@@ -1,0 +1,26 @@
+{% extends "project.html" %}
+
+{% block page_detail_content %}
+      <form method="POST">{% csrf_token %}
+          <div style="position:absolute; left:93%; top:105px; height:70px;">
+              <button type="submit" name="save" value="save"><i class="fas fa-save" style="font-size:25px"></i></button>
+              <button type="submit" name="delete" value="delete"><i class="fa fa-trash" style="font-size:25px"></i></button>
+          </div>
+    
+          <div style="position:absolute; top:170px; left:18%; font-family:Segoe UI; color:#000000; font-size:16px">
+              <h1>Project Detail</h1>
+              <hr><br>
+              <p>ID: <input type="text" style="left:45%; width:500px; text-align:right;" name="project_id" value="{{ project_detail.project_id }}"></p>
+              <p>Name: <input type="text" style="left:45%; width:500px; text-align:right;" name="project_name" value="{{ project_detail.project_name }}"></p>
+              <p>Category: <input type="text" style="left:45%; width:500px; text-align:right;" name="project_category" value="{{ project_detail.project_category }}"></p>
+              <p>Year: <input type="text" style="left:45%; width:500px; text-align:right;" name="project_year" value="{{ project_detail.project_year }}"></p>
+              <p>Group Name: <input type="text" style="left:45%; width:500px; text-align:right;" name="project_groupname" value="{{ project_detail.project_groupname }}"></p>
+              <p>Unit: <input type="text" style="left:45%; width:500px; text-align:right;" name="project_unit" value="{{ project_detail.project_unit }}"></p>
+              <p>Convenor: <input type="text" style="left:45%; width:500px; text-align:right;" name="project_convenor" value="{{ project_detail.project_convenor }}"></p>
+              <p>Supervisor: <input type="text" style="left:45%; width:500px; text-align:right;" name="project_supervisor" value="{{ project_detail.project_supervisor }}"></p>
+              <p>Team Leader: <input type="text" style="left:45%; width:500px; text-align:right;" name="project_teamleader" value="{{ project_detail.project_teamleader }}"></p>
+              <p>Group Size: <input type="text" style="left:45%; width:500px; text-align:right;" name="project_groupsize" value="{{ project_detail.project_groupsize }}"></p>
+          </div>
+      </form>
+
+{% endblock %}

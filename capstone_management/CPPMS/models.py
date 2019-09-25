@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-class Proposals_Incoming(models.Model):
+class Incoming_Proposal(models.Model):
     proposals = (
         models.Manager()
     )  # calling 'Proposals_Incoming.proposals.all()' will return a list of all Proposals_Incoming objects
@@ -46,7 +46,7 @@ class Proposals_Incoming(models.Model):
         return self.title
 
 
-class Supervisors_Internal(models.Model):
+class Internal_Supervisor(models.Model):
     name_first = models.CharField(max_length=128, default="")
     name_last = models.CharField(max_length=128, default="")
     created_at = models.DateTimeField(auto_now_add=True)
@@ -56,11 +56,12 @@ class Supervisors_Internal(models.Model):
 
     # OEM Relationships
     pass
- 
+
     def __str__(self):
         return self.title
 
-class Supervisors_External(models.Model):
+
+class External_Supervisor(models.Model):
     name_first = models.CharField(max_length=128, default="")
     name_last = models.CharField(max_length=128, default="")
     created_at = models.DateTimeField(auto_now_add=True)
@@ -72,10 +73,10 @@ class Supervisors_External(models.Model):
     pass
 
     def __str__(self):
-        return (self.name_last + " " + self.name_first)
+        return self.name_last + " " + self.name_first
 
 
-class Units(models.Model):
+class Unit(models.Model):
     title = models.CharField(max_length=128, default="")
     date_modified = models.DateField(auto_now=True)
     date_created = models.DateField(auto_now_add=True)
@@ -89,10 +90,10 @@ class Units(models.Model):
     pass
 
     def __str__(self):
-        return (self.unit_code + " " + self.title)
+        return self.unit_code + " " + self.title
 
 
-class Companies(models.Model):
+class Company(models.Model):
     name = models.CharField(max_length=128, default="")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -108,7 +109,7 @@ class Companies(models.Model):
         return self.name
 
 
-class Departments(models.Model):
+class Department(models.Model):
     name = models.CharField(max_length=128, default="")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -117,14 +118,14 @@ class Departments(models.Model):
     email = models.CharField(max_length=255, default="")
 
     # OEM Relationships
-    company = models.ForeignKey(Companies, models.SET_NULL, blank=True, null=True)
+    company = models.ForeignKey(Company, models.SET_NULL, blank=True, null=True)
     pass
 
     def __str__(self):
         return self.name
 
 
-class Contacts(models.Model):
+class Contact(models.Model):
     name = models.CharField(max_length=128, default="")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -134,28 +135,28 @@ class Contacts(models.Model):
     email = models.CharField(max_length=255, default="")
 
     # OEM Relationships
-    department = models.ForeignKey(Departments, models.SET_NULL, blank=True, null=True)
+    department = models.ForeignKey(Department, models.SET_NULL, blank=True, null=True)
     pass
 
     def __str__(self):
         return self.name
 
 
-class Clients(models.Model):
+class Client(models.Model):
     name = models.CharField(max_length=128, default="")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     # OEM Relationships
-    company = models.ForeignKey(Companies, models.SET_NULL, blank=True, null=True)
-    contact = models.ForeignKey(Contacts, models.SET_NULL, blank=True, null=True)
+    company = models.ForeignKey(Company, models.SET_NULL, blank=True, null=True)
+    contact = models.ForeignKey(Contact, models.SET_NULL, blank=True, null=True)
     pass
 
     def __str__(self):
         return self.name
 
 
-class Proposals(models.Model):
+class Proposal(models.Model):
     title = models.CharField(max_length=128, default="")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -168,10 +169,10 @@ class Proposals(models.Model):
     res = models.TextField(default="")
 
     # OEM Relationships
-    client = models.ForeignKey(Clients, models.SET_NULL, blank=True, null=True)
-    supervisors_external = models.ManyToManyField(Supervisors_External)
+    client = models.ForeignKey(Client, models.SET_NULL, blank=True, null=True)
+    supervisors_external = models.ManyToManyField(External_Supervisor)
     proposal_incoming = models.ForeignKey(
-        Proposals_Incoming, models.SET_NULL, blank=True, null=True
+        Incoming_Proposal, models.SET_NULL, blank=True, null=True
     )
     pass
 
@@ -179,7 +180,7 @@ class Proposals(models.Model):
         return self.title
 
 
-class Projects(models.Model):
+class Project(models.Model):
     title = models.CharField(max_length=128, default="")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -187,24 +188,24 @@ class Projects(models.Model):
     group_code_canvas = models.CharField(max_length=255, default="")
 
     # OEM Relationships
-    unit = models.ForeignKey(Units, models.SET_NULL, blank=True, null=True)
-    proposal = models.ForeignKey(Proposals, models.SET_NULL, blank=True, null=True)
-    supervisors_internal = models.ManyToManyField(Supervisors_Internal)
+    unit = models.ForeignKey(Unit, models.SET_NULL, blank=True, null=True)
+    proposal = models.ForeignKey(Proposal, models.SET_NULL, blank=True, null=True)
+    supervisors_internal = models.ManyToManyField(Internal_Supervisor)
 
     def __str__(self):
         return self.title
 
 
-class Students(models.Model):
+class Student(models.Model):
     name_first = models.CharField(max_length=128, default="")
     name_last = models.CharField(max_length=128, default="")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     # OEM Relationships
-    project = models.ForeignKey(Projects, models.SET_NULL, blank=True, null=True)
-    unit = models.ForeignKey(Units, models.SET_NULL, blank=True, null=True)
+    project = models.ForeignKey(Project, models.SET_NULL, blank=True, null=True)
+    unit = models.ForeignKey(Unit, models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
-        return (self.name_last + " " + self.name_first)
+        return self.name_last + " " + self.name_first
 

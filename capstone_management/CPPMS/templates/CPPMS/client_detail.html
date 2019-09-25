@@ -1,0 +1,24 @@
+{% extends "client.html" %}
+
+{% block page_detail_content %}
+      <form method="POST">{% csrf_token %}
+          <div style="position:absolute; left:93%; top:105px; height:70px;">
+              <button type="submit" name="save" value="save"><i class="fas fa-save" style="font-size:25px"></i></button>
+              <button type="submit" name="delete" value="delete"><i class="fa fa-trash" style="font-size:25px"></i></button>
+          </div>
+    
+          <div style="position:absolute; top:170px; left:18%; font-family:Segoe UI; color:#000000; font-size:16px">
+              <h1>Client Detail</h1>
+              <hr><br>
+              <p>ID: <input type="text" style="left:45%; width:500px; text-align:right;" name="client_id" value="{{ client_detail.client_id }}"></p>
+              <p>Name: <input type="text" style="left:45%; width:500px; text-align:right;" name="client_name" value="{{ client_detail.client_name }}"></p>
+              <p>Address: <input type="text" style="left:45%; width:500px; text-align:right;" name="client_address" value="{{ client_detail.client_address }}"></p>
+              <p>Website: <input type="text" style="left:45%; width:500px; text-align:right;" name="client_website" value="{{ client_detail.client_website }}"></p>
+              <p>Contact: <input type="text" style="left:45%; width:500px; text-align:right;" name="client_contact" value="{{ client_detail.client_contact }}"></p>
+              <p>Title: <input type="text" style="left:45%; width:500px; text-align:right;" name="client_title" value="{{ client_detail.client_title }}"></p>
+              <p>Phone: <input type="text" style="left:45%; width:500px; text-align:right;" name="client_phone" value="{{ client_detail.client_phone }}"></p>
+              <p>Email: <input type="text" style="left:45%; width:500px; text-align:right;" name="client_email" value="{{ client_detail.client_email }}"></p>
+          </div>
+      </form>
+
+{% endblock %}
