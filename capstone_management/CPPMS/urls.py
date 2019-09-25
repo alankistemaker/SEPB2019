@@ -1,5 +1,5 @@
 from django.urls import path, re_path
-from capstone_management.CPPMS import views
+from . import views
 
 urlpatterns = [
     path("index/", views.index, name="index"),
