@@ -8,5 +8,27 @@
           <button type="submit"><i class="far fa-folder-open" style="font-size:20px"></i></button></p>
         </form>
       </div>
+      
+<table
+  border="3"
+  style="position:absolute; top:160px; left:15%; width:85%; font-family:Segoe UI; font-size:16px"
+>
+  <tr style="text-align:center; background-color:#C0C0C0">
+    <th style="width:10%"><strong>ID</strong></th>
+    <th style="width:40%"><strong>TITLE</strong></th>
+    <th style="width:30%"><strong>CLIENT NAME</strong></th>
+    <th style="width:20%"><strong>DATE</strong></th>
+  </tr>
+  {% for proposal in web_proposal %}
+  <tr style="text-align:right">
+    <td>
+      <a href="proposal_extract/{{ proposal.pk }}">{{ proposal.pk }}</a>
+    </td>
+    <td>{{ proposal.title }}</td>
+    <td>{{ proposal.client_name }}</td>
+    <td>{{ proposal.created_at }}</td>
+  </tr>
+  {% endfor %}
+</table>
 
 {% endblock %}

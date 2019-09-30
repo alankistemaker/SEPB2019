@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Proposal, Project, Client, Unit, Group
+from .models import *
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
@@ -14,7 +14,64 @@ def proposal(request):
 
 
 def incoming_proposal(request):
-    return render(request, "incoming_proposal.html", {})
+    web_proposal = Incoming_Proposal.proposals.all()
+    print(web_proposal)
+    return render(request, "incoming_proposal.html", {"web_proposal": web_proposal})
+
+
+def proposal_extract(request, pk=None):
+    proposal_extract = get_object_or_404(Incoming_Proposal, pk=pk)
+
+    if request.method == "POST":
+        extract_id = request.POST.get("pk")
+        extract_title = request.POST.get("title")
+        extract_description = request.POST.get("description")
+        extract_status = request.POST.get("status")
+        
+        extract_client_name = request.POST.get("client_name")
+        
+        extract_company_desc = request.POST.get("company_desc")
+        extract_company_website = request.POST.get("company_website")
+        extract_company_address = request.POST.get("company_address")
+        
+        extract_contact_name = request.POST.get("contact_name")
+        extract_contact_phone = request.POST.get("contact_phone")
+        extract_contact_email = request.POST.get("contact_email")
+        extract_contact_position = request.POST.get("contact_position")
+        
+        extract_department_name = request.POST.get("department_name")
+        extract_department_phone = request.POST.get("department_phone")
+        extract_department_email = request.POST.get("department_email")
+        
+        extract_proposal_specialisation = request.POST.get("proposal_specialisation")
+        extract_proposal_skills = request.POST.get("proposal_skills")
+        extract_proposal_environment = request.POST.get("proposal_environment")
+        extract_proposal_research = request.POST.get("proposal_research")
+        
+        extract_supervisor_name = request.POST.get("supervisor_name")
+        extract_supervisor_phone = request.POST.get("supervisor_phone")
+        extract_supervisor_email = request.POST.get("supervisor_email")
+        extract_supervisor_title = request.POST.get("supervisor_title")
+
+        if request.POST.get("save") == "save":
+            Proposal.objects.create(title=extract_title, desc=extract_description, status=extract_status,
+                                    spec=extract_proposal_specialisation, skills=extract_proposal_skills,
+                                    env=extract_proposal_environment, res=extract_proposal_research)
+            Client.objects.create(name=extract_client_name)
+            Company.objects.create(name=extract_company_desc, address=extract_company_address, website=extract_company_website)
+            Contact.objects.create(name=extract_contact_name, position=extract_contact_position, 
+                                   phone=extract_contact_phone, email=extract_contact_email)
+            Department.objects.create(name=extract_department_name, phone=extract_department_phone, email=extract_department_email)
+            Internal_Supervisor.objects.create(name_first=extract_supervisor_name, email=extract_supervisor_email)
+            print("Sucess Update Project Detail!")
+            
+            proposal_extract = Incoming_Proposal.proposals.filter(pk=extract_id).delete()
+            print("Sucess Delete This Incoming Proposal!")
+        elif request.POST.get("delete") == "delete":
+            proposal_extract = Incoming_Proposal.proposals.filter(pk=extract_id).delete()
+            print("Sucess Delete This Incoming Proposal!")
+
+    return render(request, "proposal_extract.html", {"proposal_extract": proposal_extract})
 
 
 def proposal_list(request):
