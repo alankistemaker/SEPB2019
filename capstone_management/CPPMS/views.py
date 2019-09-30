@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Proposal, Project, Client
+from .models import Proposal, Project, Client, Unit, Group
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
@@ -56,28 +56,38 @@ def project_list(request):
     project_list = Project.objects.all()
     if filter_value:
         project_filter = project_list.filter(
-            Q(project_id__icontains=filter_value)
-            | Q(project_name__icontains=filter_value)
-            | Q(project_category__icontains=filter_value)
+            Q(pk__icontains=filter_value)
+            | Q(title__icontains=filter_value)
+            | Q(category__icontains=filter_value)
+            | Q(completed=False)
         )
+        past_projects = project_filter.filter(completed=True)
     else:
-        project_filter = project_list.all()
+        project_filter = project_list.filter(completed=False)
+        past_projects = project_list.filter(completed=True)
+
     return render(
         request,
         "project_list.html",
-        {"project_filter": project_filter, "filter_value": filter_value},
+        {
+            "project_filter": project_filter,
+            "filter_value": filter_value,
+            "past_projects": past_projects,
+        },
     )
 
 
 def project_detail(request, pk=None):
     project_detail = get_object_or_404(Project, pk=pk)
+    units = Unit.objects.all()
+    groups = Group.objects.all()
 
     if request.method == "POST":
         project_id = request.POST.get("project_id")
         project_name = request.POST.get("title")
         project_category = request.POST.get("category")
         project_year = request.POST.get("year")
-        # project_groupname = request.POST.get("project_groupname")
+        project_groupname = request.POST.get("group")
         project_unit = request.POST.get("unit")
         # project_convenor = request.POST.get("project_convenor")
         project_supervisor = request.POST.get("internal_supervisor")
@@ -85,23 +95,30 @@ def project_detail(request, pk=None):
         # project_groupsize = request.POST.get("project_groupsize")
 
         if request.POST.get("save") == "save":
-            project_detail = Project.objects.filter(project_id=project_id).update(
+            if Group.objects.filter(pk=project_groupname.pk):
+                project_groupname.project = project_detail
+            else:
+                Group.objects.create(
+                    name = project_groupname
+                )
+            project_detail = Project.objects.filter(pk=project_id).update(
                 project_name=project_name,
                 project_category=project_category,
                 project_year=project_year,
-                # project_groupname=project_groupname,
                 project_unit=project_unit,
                 # project_convenor=project_convenor,
                 project_supervisor=project_supervisor,
-                # project_teamleader=project_teamleader,
-                # project_groupsize=project_groupsize,
             )
             print("Sucess Update Project Detail!")
         elif request.POST.get("delete") == "delete":
             project_detail = Project.objects.filter(project_id=project_id).delete()
             print("Sucess Delete Project Detail!")
 
-    return render(request, "project_detail.html", {"project_detail": project_detail})
+    return render(
+        request,
+        "project_detail.html",
+        {"project_detail": project_detail, "units": units, "groups": groups},
+    )
 
 
 def client(request):
