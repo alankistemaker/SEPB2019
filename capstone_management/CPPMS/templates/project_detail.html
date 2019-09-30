@@ -21,7 +21,7 @@
       <input
         type="text"
         style="left:45%; width:500px; text-align:right;"
-        name="project_id"
+        name="pk"
         value="{{ project_detail.pk }}"
       />
     </p>
@@ -30,7 +30,7 @@
       <input
         type="text"
         style="left:45%; width:500px; text-align:right;"
-        name="project_name"
+        name="title"
         value="{{ project_detail.title }}"
       />
     </p>
@@ -39,7 +39,7 @@
       <input
         type="text"
         style="left:45%; width:500px; text-align:right;"
-        name="project_category"
+        name="category"
         value="{{ project_detail.category }}"
       />
     </p>
@@ -48,7 +48,7 @@
       <input
         type="text"
         style="left:45%; width:500px; text-align:right;"
-        name="project_year"
+        name="year"
         value="{{ project_detail.year }}"
       />
     </p>
@@ -57,8 +57,8 @@
       <input list="groups"
         type="text"
         style="left:45%; width:500px; text-align:right;"
-        name="project_groupname"
-        value="{{ project_detail.groupname }}"
+        name="group"
+        value="{{ project_detail.group }}"
       />
       <datalist id="groups">
       {% for group in groups %}
@@ -83,8 +83,8 @@
       <input
         type="text"
         style="left:45%; width:500px; text-align:right;"
-        name="project_convenor"
-        value="{{ project_detail.project_convenor }}"
+        name="convenor"
+        value="{{ project_detail.convenor }}"
       />
     </p>
     <p>
@@ -92,7 +92,7 @@
       <input
         type="text"
         style="left:45%; width:500px; text-align:right;"
-        name="project_supervisor"
+        name="internal_supervisor"
         value="{{ project_detail.internal_supervisor }}"
       />
     </p>
@@ -101,8 +101,8 @@
       <input
         type="text"
         style="left:45%; width:500px; text-align:right;"
-        name="project_teamleader"
-        value="{{ project_detail.project_teamleader }}"
+        name="teamleader"
+        value="{{ project_detail.teamleader }}"
       />
     </p>
     <p>
@@ -110,8 +110,8 @@
       <input
         type="text"
         style="left:45%; width:500px; text-align:right;"
-        name="project_groupsize"
-        value="{{ project_detail.project_groupsize }}"
+        name="groupsize"
+        value="{{ project_detail.groupsize }}"
       />
     </p>
   </div>
