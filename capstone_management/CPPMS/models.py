@@ -58,7 +58,7 @@ class Internal_Supervisor(models.Model):
     pass
 
     def __str__(self):
-        return self.name_last + " " + self.name_last
+        return self.name_last + ", " + self.name_first
 
 
 class External_Supervisor(models.Model):
@@ -90,7 +90,10 @@ class Unit(models.Model):
     pass
 
     def __str__(self):
-        return self.unit_code + " " + self.title
+        return self.unit_code
+
+    def full(self):
+        return self.unit_code + ": " + self.title
 
 
 class Company(models.Model):
@@ -203,11 +206,15 @@ class Project(models.Model):
     # group_code_canvas = models.CharField(max_length=255, default="")
     category = models.CharField(max_length=128, default="")
     year = models.IntegerField(default="0000")
+    # is this a completed, past, project
+    completed = models.BooleanField(default=0)
 
     # OEM Relationships
     unit = models.ForeignKey(Unit, models.SET_NULL, blank=True, null=True)
     proposal = models.ForeignKey(Proposal, models.SET_NULL, blank=True, null=True)
-    internal_supervisor = models.ManyToManyField(Internal_Supervisor)
+    internal_supervisor = models.ForeignKey(
+        Internal_Supervisor, models.SET_NULL, blank=True, null=True
+    )
     group_members = models.ManyToManyField(
         Student, through="Group", through_fields=("project", "student")
     )
@@ -226,8 +233,10 @@ class Group(models.Model):
     # OEM Relationships
     project = models.ForeignKey(Project, models.SET_NULL, blank=True, null=True)
     student = models.ForeignKey(Student, models.SET_NULL, blank=True, null=True)
-    # is_leader = models.BooleanField(default=False)
     leader = models.ForeignKey(
         Student, models.SET_NULL, blank=True, null=True, related_name="group_leader"
     )
+
+    def size(self):
+        return self.count(student)
 

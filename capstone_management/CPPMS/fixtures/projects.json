@@ -1,0 +1,30 @@
+[
+  {
+    "model": "CPPMS.project",
+    "pk": 1,
+    "fields": {
+      "title": "Test",
+      "category": "SOFTWARE DEV",
+      "year": "2019",
+      "created_at": "2013-01-16T08:16:59.844Z",
+      "updated_at": "2013-01-16T08:16:59.844Z",
+      "unit": 1,
+      "proposal": 1,
+      "internal_supervisor": 1
+    }
+  },
+  {
+    "model": "CPPMS.project",
+    "pk": 2,
+    "fields": {
+      "title": "Test Two",
+      "category": "SOFTWARE DEV",
+      "year": "2019",
+      "created_at": "2013-01-16T08:16:59.844Z",
+      "updated_at": "2013-01-16T08:16:59.844Z",
+      "unit": 2,
+      "proposal": 2,
+      "internal_supervisor": 2
+    }
+  }
+]

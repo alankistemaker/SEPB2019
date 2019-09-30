@@ -98,9 +98,7 @@ def project_detail(request, pk=None):
             if Group.objects.filter(pk=project_groupname.pk):
                 project_groupname.project = project_detail
             else:
-                Group.objects.create(
-                    name = project_groupname
-                )
+                Group.objects.create(name=project_groupname)
             project_detail = Project.objects.filter(pk=project_id).update(
                 project_name=project_name,
                 project_category=project_category,
