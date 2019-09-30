@@ -1,0 +1,90 @@
+[
+  {
+    "model": "CPPMS.internal_supervisor",
+    "pk": 0,
+    "fields": {
+      "name_first": "Lacy",
+      "name_last": "Rowe",
+      "email": "lacyrowe@daido.com",
+      "created_at": "2019-09-28T01:12:58-10:00",
+      "updated_at": "2019-05-26T03:05:43-10:00"
+    }
+  },
+  {
+    "model": "CPPMS.internal_supervisor",
+    "pk": 1,
+    "fields": {
+      "name_first": "Oneal",
+      "name_last": "Santiago",
+      "email": "onealsantiago@daido.com",
+      "created_at": "2019-04-20T06:05:14-10:00",
+      "updated_at": "2019-05-12T03:46:13-10:00"
+    }
+  },
+  {
+    "model": "CPPMS.internal_supervisor",
+    "pk": 2,
+    "fields": {
+      "name_first": "Casandra",
+      "name_last": "Cain",
+      "email": "casandracain@daido.com",
+      "created_at": "2019-02-06T01:11:20-11:00",
+      "updated_at": "2019-01-09T06:05:53-11:00"
+    }
+  },
+  {
+    "model": "CPPMS.internal_supervisor",
+    "pk": 3,
+    "fields": {
+      "name_first": "Kayla",
+      "name_last": "Santana",
+      "email": "kaylasantana@daido.com",
+      "created_at": "2019-07-29T08:01:32-10:00",
+      "updated_at": "2019-02-21T05:17:34-11:00"
+    }
+  },
+  {
+    "model": "CPPMS.internal_supervisor",
+    "pk": 4,
+    "fields": {
+      "name_first": "Terra",
+      "name_last": "Booth",
+      "email": "terrabooth@daido.com",
+      "created_at": "2019-05-07T08:03:45-10:00",
+      "updated_at": "2019-03-20T01:21:31-11:00"
+    }
+  },
+  {
+    "model": "CPPMS.internal_supervisor",
+    "pk": 5,
+    "fields": {
+      "name_first": "Milagros",
+      "name_last": "Castro",
+      "email": "milagroscastro@daido.com",
+      "created_at": "2019-04-16T11:02:14-10:00",
+      "updated_at": "2019-02-04T09:46:54-11:00"
+    }
+  },
+  {
+    "model": "CPPMS.internal_supervisor",
+    "pk": 6,
+    "fields": {
+      "name_first": "Mcbride",
+      "name_last": "Powers",
+      "email": "mcbridepowers@daido.com",
+      "created_at": "2019-08-18T09:14:56-10:00",
+      "updated_at": "2019-06-26T12:35:49-10:00"
+    }
+  },
+  {
+    "model": "CPPMS.internal_supervisor",
+    "pk": 7,
+    "fields": {
+      "name_first": "Violet",
+      "name_last": "Juarez",
+      "email": "violetjuarez@daido.com",
+      "created_at": "2019-05-16T02:17:52-10:00",
+      "updated_at": "2019-08-28T08:41:16-10:00"
+    }
+  }
+]

@@ -1,0 +1,110 @@
+[
+  {
+    "model": "CPPMS.unit",
+    "pk": 0,
+    "fields": {
+      "title": "Pariatur officia anim labore deserunt consequat dolore ex dolor proident in eu nulla id.",
+      "created_at": "2019-05-19T01:39:04-10:00",
+      "updated_at": "2019-07-05T04:48:10-10:00",
+      "unit_code": 712719,
+      "BB_unit_code": 199316,
+      "ulos": "<ReferenceError: sentences is not defined>"
+    }
+  },
+  {
+    "model": "CPPMS.unit",
+    "pk": 1,
+    "fields": {
+      "title": "In occaecat deserunt non nulla fugiat id nisi.",
+      "created_at": "2019-06-03T05:03:19-10:00",
+      "updated_at": "2019-02-17T11:58:33-11:00",
+      "unit_code": 254332,
+      "BB_unit_code": 180374,
+      "ulos": "<ReferenceError: sentences is not defined>"
+    }
+  },
+  {
+    "model": "CPPMS.unit",
+    "pk": 2,
+    "fields": {
+      "title": "Lorem cillum minim commodo aliquip ea proident excepteur nisi excepteur eiusmod.",
+      "created_at": "2019-04-24T12:30:36-10:00",
+      "updated_at": "2019-03-16T04:51:28-11:00",
+      "unit_code": 197015,
+      "BB_unit_code": 950010,
+      "ulos": "<ReferenceError: sentences is not defined>"
+    }
+  },
+  {
+    "model": "CPPMS.unit",
+    "pk": 3,
+    "fields": {
+      "title": "Qui in et duis consequat dolore veniam labore ut qui est exercitation.",
+      "created_at": "2019-03-13T12:26:02-11:00",
+      "updated_at": "2019-09-29T10:45:39-10:00",
+      "unit_code": 80954,
+      "BB_unit_code": 825295,
+      "ulos": "<ReferenceError: sentences is not defined>"
+    }
+  },
+  {
+    "model": "CPPMS.unit",
+    "pk": 4,
+    "fields": {
+      "title": "Aute velit voluptate aliquip enim irure ea.",
+      "created_at": "2019-01-28T09:10:36-11:00",
+      "updated_at": "2019-06-02T11:36:02-10:00",
+      "unit_code": 256883,
+      "BB_unit_code": 959127,
+      "ulos": "<ReferenceError: sentences is not defined>"
+    }
+  },
+  {
+    "model": "CPPMS.unit",
+    "pk": 5,
+    "fields": {
+      "title": "Pariatur Lorem ullamco ut occaecat sunt culpa culpa fugiat ut proident laboris eiusmod.",
+      "created_at": "2019-08-10T10:40:19-10:00",
+      "updated_at": "2019-04-05T06:44:56-11:00",
+      "unit_code": 985098,
+      "BB_unit_code": 658967,
+      "ulos": "<ReferenceError: sentences is not defined>"
+    }
+  },
+  {
+    "model": "CPPMS.unit",
+    "pk": 6,
+    "fields": {
+      "title": "Ea magna deserunt dolore nostrud consectetur exercitation ex.",
+      "created_at": "2019-07-03T11:16:23-10:00",
+      "updated_at": "2019-02-16T12:33:34-11:00",
+      "unit_code": 123851,
+      "BB_unit_code": 133344,
+      "ulos": "<ReferenceError: sentences is not defined>"
+    }
+  },
+  {
+    "model": "CPPMS.unit",
+    "pk": 7,
+    "fields": {
+      "title": "Nulla adipisicing adipisicing sunt officia incididunt occaecat mollit non nisi.",
+      "created_at": "2019-02-15T06:20:13-11:00",
+      "updated_at": "2019-08-28T08:03:05-10:00",
+      "unit_code": 999040,
+      "BB_unit_code": 68889,
+      "ulos": "<ReferenceError: sentences is not defined>"
+    }
+  },
+  {
+    "model": "CPPMS.unit",
+    "pk": 8,
+    "fields": {
+      "title": "Do officia labore mollit quis sint dolor aliquip sunt ex.",
+      "created_at": "2019-01-17T11:57:24-11:00",
+      "updated_at": "2019-02-06T01:37:32-11:00",
+      "unit_code": 25922,
+      "BB_unit_code": 126897,
+      "ulos": "<ReferenceError: sentences is not defined>"
+    }
+  }
+]

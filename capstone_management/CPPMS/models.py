@@ -58,7 +58,7 @@ class Internal_Supervisor(models.Model):
     pass
 
     def __str__(self):
-        return self.title
+        return self.name_last + " " + self.name_last
 
 
 class External_Supervisor(models.Model):
@@ -78,13 +78,13 @@ class External_Supervisor(models.Model):
 
 class Unit(models.Model):
     title = models.CharField(max_length=128, default="")
-    date_modified = models.DateField(auto_now=True)
-    date_created = models.DateField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     unit_code = models.CharField(max_length=8, default="AAA0001")
     BB_unit_code = models.CharField(max_length=8, default="AAA0001")
     ulos = models.TextField(default="")
-    #num_students = models.IntegerField(default=0)
+    # num_students = models.IntegerField(default=0)
 
     # OEM Relationships
     pass
@@ -179,37 +179,42 @@ class Proposal(models.Model):
     def __str__(self):
         return self.title
 
+
 class Student(models.Model):
     name_first = models.CharField(max_length=128, default="")
     name_last = models.CharField(max_length=128, default="")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    email = models.CharField(max_length=128, default="")
 
     # OEM Relationships
-    unit = models.ManyToManyField(Unit)
-    
+
     pass
 
     def __str__(self):
         return self.name_last + " " + self.name_first
+
 
 class Project(models.Model):
     title = models.CharField(max_length=128, default="")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    #group_code_canvas = models.CharField(max_length=255, default="")
+    # group_code_canvas = models.CharField(max_length=255, default="")
     category = models.CharField(max_length=128, default="")
     year = models.IntegerField(default="0000")
 
     # OEM Relationships
     unit = models.ForeignKey(Unit, models.SET_NULL, blank=True, null=True)
     proposal = models.ForeignKey(Proposal, models.SET_NULL, blank=True, null=True)
-    supervisors_internal = models.ManyToManyField(Internal_Supervisor)
-    group_members = models.ManyToManyField(Student, through='Group', through_fields=('project', 'student'))
+    internal_supervisor = models.ManyToManyField(Internal_Supervisor)
+    group_members = models.ManyToManyField(
+        Student, through="Group", through_fields=("project", "student")
+    )
 
     def __str__(self):
         return self.title
+
 
 class Group(models.Model):
     name = models.CharField(max_length=128, default="")
@@ -217,13 +222,12 @@ class Group(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     group_code_canvas = models.CharField(max_length=255, default="")
-    
+
     # OEM Relationships
     project = models.ForeignKey(Project, models.SET_NULL, blank=True, null=True)
     student = models.ForeignKey(Student, models.SET_NULL, blank=True, null=True)
-    #is_leader = models.BooleanField(default=False)
-    leader = models.ForeignKey(Student, models.SET_NULL, blank=True, null=True, related_name="group_leader")
-
-
-
+    # is_leader = models.BooleanField(default=False)
+    leader = models.ForeignKey(
+        Student, models.SET_NULL, blank=True, null=True, related_name="group_leader"
+    )
 
