@@ -1,7 +1,9 @@
 from django.urls import path, re_path
 from . import views
+from django.contrib import admin
 
 urlpatterns = [
+    path("admin/", admin.site.urls),
     path("index/", views.index, name="index"),
     path("proposal/", views.proposal, name="proposal"),
     path("proposal/incoming_proposal/", views.incoming_proposal, name="incoming_proposal"),
