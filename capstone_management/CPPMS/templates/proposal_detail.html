@@ -1,56 +1,239 @@
-{% extends "proposal.html" %}
+{% extends "proposal.html" %} {% block page_detail_content %}
+<form method="POST">
+  {% csrf_token %}
+  <div style="position:absolute; left:93%; top:105px; height:70px;">
+    <button type="submit" name="save" value="save">
+      <i class="fas fa-save" style="font-size:25px"></i>
+    </button>
+    <button type="submit" name="delete" value="delete">
+      <i class="fa fa-trash" style="font-size:25px"></i>
+    </button>
+  </div>
 
-{% block page_detail_content %}
-      <form method="POST">{% csrf_token %}
-          <div style="position:absolute; left:96%; top:105px; height:70px;">
-              <button type="submit" name="save" value="save"><i class="fas fa-save" style="font-size:25px"></i></button>
-          </div>
-          
-          <table border="3" style="position:absolute; top:160px; left:15%; width:85%; font-family:Segoe UI; font-size:16px">
-              <tr style="text-align:center; background-color:#C0C0C0">
-                  <th style="width:35%"><strong>PROPOSAL STAGE</strong></th>
-                  <th style="width:15%"><strong>ASSIGN</strong></th>
-                  <th style="width:15%"><strong>DATE</strong></th>
-                  <th style="width:10%"><strong>STATUS</strong></th>
-                  <th style="width:25%"><strong>NOTE</strong></th>
-              </tr>
-              <tr>
-                  <td style="text-align:center">Proposal is recieved from Client</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-              </tr>
-              <tr>
-                  <td style="text-align:center">Proposal is allocated to Unit</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-              </tr>
-              <tr>
-                  <td style="text-align:center">Proposal is allocated to Student Team</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-              </tr>
-              <tr>
-                  <td style="text-align:center">Proposal is allocated to Supervisor</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-              </tr>
-              <tr>
-                  <td style="text-align:center">Proposal is generated to Project</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-              </tr>
-          </table>
-          
-      </form>
+  <div
+    style="position:absolute; top:170px; left:18%; font-family:Segoe UI; color:#000000; font-size:16px"
+  >
+    <h1>Proposal Detail</h1>   
+    <hr />
+    <br />
+    <p>
+      ID:
+      <input
+        type="text"
+        style="left:45%; width:500px; text-align:right;"
+        name="pk"
+        value="{{ proposal_detail.pk }}"
+      />
+    </p>
+    <p>
+      Title:
+      <input
+        type="text"
+        style="left:45%; width:500px; text-align:right;"
+        name="title"
+        value="{{ proposal_detail.title }}"
+      />
+    </p>
+    <p>
+      Description:
+      <input
+        type="text"
+        style="left:45%; width:500px; text-align:right;"
+        name="description"
+        value="{{ proposal_detail.description }}"
+      />
+    </p>
+    <p>
+      Status:
+      <input
+        type="text"
+        style="left:45%; width:500px; text-align:right;"
+        name="status"
+        value="{{ proposal_detail.status }}"
+      />
+    </p>
+    <hr />
+    <br />
+    <p>
+      Client Name:
+      <input
+        type="text"
+        style="left:45%; width:500px; text-align:right;"
+        name="client_name"
+        value="{{ proposal_detail.client_name }}"
+      />
+    </p>
+    <p>
+      Company Description:
+      <input
+        type="text"
+        style="left:45%; width:500px; text-align:right;"
+        name="company_desc"
+        value="{{ proposal_detail.company_desc }}"
+      />
+    </p>
+    <p>
+      Company Website:
+      <input list="groups"
+        type="text"
+        style="left:45%; width:500px; text-align:right;"
+        name="company_website"
+        value="{{ proposal_detail.company_website }}"
+      />
+    </p>
+    <p>
+      Company Address:
+      <input
+        type="text"
+        style="left:45%; width:500px; text-align:right;"
+        name="company_address"
+        value="{{ proposal_detail.company_address }}"
+      />
+    </p>
+    <hr />
+    <br />
+    <p>
+      Contact Name:
+      <input
+        type="text"
+        style="left:45%; width:500px; text-align:right;"
+        name="contact_name"
+        value="{{ proposal_detail.contact_name }}"
+      />
+    </p>
+    <p>
+      Contact Phone:
+      <input
+        type="text"
+        style="left:45%; width:500px; text-align:right;"
+        name="contact_phone"
+        value="{{ proposal_detail.contact_phone }}"
+      />
+    </p>
+    <p>
+      Contact Email:
+      <input
+        type="text"
+        style="left:45%; width:500px; text-align:right;"
+        name="contact_email"
+        value="{{ proposal_detail.contact_email }}"
+      />
+    </p>
+    <p>
+      Contact Position:
+      <input list="groups"
+        type="text"
+        style="left:45%; width:500px; text-align:right;"
+        name="contact_position"
+        value="{{ proposal_detail.contact_position }}"
+      />
+    </p>
+    <hr />
+    <br />
+    <p>
+      Department Name:
+      <input
+        type="text"
+        style="left:45%; width:500px; text-align:right;"
+        name="department_name"
+        value="{{ proposal_detail.department_name }}"
+      />
+    </p>
+    <p>
+      Department Phone:
+      <input
+        type="text"
+        style="left:45%; width:500px; text-align:right;"
+        name="department_phone"
+        value="{{ proposal_detail.department_phone }}"
+      />
+    </p>
+    <p>
+      Department Email:
+      <input
+        type="text"
+        style="left:45%; width:500px; text-align:right;"
+        name="department_email"
+        value="{{ proposal_detail.department_email }}"
+      />
+    </p>
+    <hr />
+    <br />
+    <p>
+      Proposal Specialisation:
+      <input
+        type="text"
+        style="left:45%; width:500px; text-align:right;"
+        name="proposal_specialisation"
+        value="{{ proposal_detail.proposal_specialisation }}"
+      />
+    </p>
+    <p>
+      Proposal Skills:
+      <input list="groups"
+        type="text"
+        style="left:45%; width:500px; text-align:right;"
+        name="proposal_skills"
+        value="{{ proposal_detail.proposal_skills }}"
+      />
+    </p>
+    <p>
+      Proposal Environment:
+      <input
+        type="text"
+        style="left:45%; width:500px; text-align:right;"
+        name="proposal_environment"
+        value="{{ proposal_detail.proposal_environment }}"
+      />
+    </p>
+     <p>
+      Proposal Research:
+      <input
+        type="text"
+        style="left:45%; width:500px; text-align:right;"
+        name="proposal_research"
+        value="{{ proposal_detail.proposal_research }}"
+      />
+    </p>
+    <hr />
+    <br />
+    <p>
+      Supervisor Name:
+      <input
+        type="text"
+        style="left:45%; width:500px; text-align:right;"
+        name="supervisor_name"
+        value="{{ proposal_detail.supervisor_name }}"
+      />
+    </p>
+    <p>
+      Supervisor Phone:
+      <input
+        type="text"
+        style="left:45%; width:500px; text-align:right;"
+        name="supervisor_phone"
+        value="{{ proposal_detail.supervisor_phone }}"
+      />
+    </p>
+    <p>
+      Supervisor Email:
+      <input
+        type="text"
+        style="left:45%; width:500px; text-align:right;"
+        name="supervisor_email"
+        value="{{ proposal_detail.supervisor_email }}"
+      />
+    </p>
+    <p>
+      Supervisor Title:
+      <input list="groups"
+        type="text"
+        style="left:45%; width:500px; text-align:right;"
+        name="supervisor_title"
+        value="{{ proposal_detail.supervisor_title }}"
+      />
+    </p>
+  </div>
+</form>
 
 {% endblock %}

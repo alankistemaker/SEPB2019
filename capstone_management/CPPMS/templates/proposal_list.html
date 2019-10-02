@@ -36,20 +36,20 @@
   {% for proposal in proposal_filter %}
   <tr style="text-align:right">
     <td>
-      <a href="proposal_detail/{{ proposal.pk }}">{{ proposal.pk }}</a>
+      <a href="proposal_progress/{{ proposal.pk }}">{{ proposal.pk }}</a>
     </td>
     <td>{{ proposal.title }}</td>
     <td>{{ proposal.created_at }}</td>
     <td>{{ proposal.proposal_unit }}</td>
     <td style="text-align:center">
       <button type="submit" name="proposal" value="proposal">
-        <i style="font-size:16px">Proposal</i>
+        <a href="proposal_detail/{{ proposal.pk }}" style="font-size:16px">Proposal</a>
       </button>
       <button type="submit" name="project" value="project">
-        <i style="font-size:16px">Project</i>
+        <a style="font-size:16px">Project</a>
       </button>
       <button type="submit" name="client" value="client">
-        <i style="font-size:16px">Client</i>
+        <a style="font-size:16px">Client</a>
       </button>
     </td>
     <td>{{ proposal.client }}</td>

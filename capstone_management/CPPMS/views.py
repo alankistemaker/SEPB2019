@@ -15,7 +15,6 @@ def proposal(request):
 
 def incoming_proposal(request):
     web_proposal = Incoming_Proposal.proposals.all()
-    print(web_proposal)
     return render(request, "incoming_proposal.html", {"web_proposal": web_proposal})
 
 
@@ -119,6 +118,10 @@ def proposal_list(request):
         {"proposal_filter": proposal_filter, "filter_value": filter_value},
     )
 
+
+def proposal_progress(request, pk=None):
+    proposal_progress = get_object_or_404(Proposal, pk=pk)
+    return render(request, "proposal_progress.html", {"proposal_progress": proposal_progress})
 
 def proposal_detail(request, pk=None):
     proposal_detail = get_object_or_404(Proposal, pk=pk)
