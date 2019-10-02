@@ -27,50 +27,77 @@ def proposal_extract(request, pk=None):
         extract_title = request.POST.get("title")
         extract_description = request.POST.get("description")
         extract_status = request.POST.get("status")
-        
+
         extract_client_name = request.POST.get("client_name")
-        
+
         extract_company_desc = request.POST.get("company_desc")
         extract_company_website = request.POST.get("company_website")
         extract_company_address = request.POST.get("company_address")
-        
+
         extract_contact_name = request.POST.get("contact_name")
         extract_contact_phone = request.POST.get("contact_phone")
         extract_contact_email = request.POST.get("contact_email")
         extract_contact_position = request.POST.get("contact_position")
-        
+
         extract_department_name = request.POST.get("department_name")
         extract_department_phone = request.POST.get("department_phone")
         extract_department_email = request.POST.get("department_email")
-        
+
         extract_proposal_specialisation = request.POST.get("proposal_specialisation")
         extract_proposal_skills = request.POST.get("proposal_skills")
         extract_proposal_environment = request.POST.get("proposal_environment")
         extract_proposal_research = request.POST.get("proposal_research")
-        
+
         extract_supervisor_name = request.POST.get("supervisor_name")
         extract_supervisor_phone = request.POST.get("supervisor_phone")
         extract_supervisor_email = request.POST.get("supervisor_email")
         extract_supervisor_title = request.POST.get("supervisor_title")
 
         if request.POST.get("save") == "save":
-            Department.objects.create(name=extract_department_name, phone=extract_department_phone, email=extract_department_email)
-            Company.objects.create(name=extract_company_desc, address=extract_company_address, website=extract_company_website)
-            Contact.objects.create(name=extract_contact_name, position=extract_contact_position, phone=extract_contact_phone, email=extract_contact_email)
+            Department.objects.create(
+                name=extract_department_name,
+                phone=extract_department_phone,
+                email=extract_department_email,
+            )
+            Company.objects.create(
+                name=extract_company_desc,
+                address=extract_company_address,
+                website=extract_company_website,
+            )
+            Contact.objects.create(
+                name=extract_contact_name,
+                position=extract_contact_position,
+                phone=extract_contact_phone,
+                email=extract_contact_email,
+            )
             Client.objects.create(name=extract_client_name)
-            Internal_Supervisor.objects.create(name_first=extract_supervisor_name, email=extract_supervisor_email)
-            Proposal.objects.create(title=extract_title, desc=extract_description, status=extract_status,
-                                    spec=extract_proposal_specialisation, skills=extract_proposal_skills,
-                                    env=extract_proposal_environment, res=extract_proposal_research)
-            print("Sucess Update Project Detail!")
-            
-            proposal_extract = Incoming_Proposal.proposals.filter(pk=extract_id).delete()
+            Internal_Supervisor.objects.create(
+                name_first=extract_supervisor_name, email=extract_supervisor_email
+            )
+            Proposal.objects.create(
+                title=extract_title,
+                desc=extract_description,
+                status=extract_status,
+                spec=extract_proposal_specialisation,
+                skills=extract_proposal_skills,
+                env=extract_proposal_environment,
+                res=extract_proposal_research,
+            )
+            print("Sucessfully Updated Proposal Detail!")
+
+            proposal_extract = Incoming_Proposal.proposals.filter(
+                pk=extract_id
+            ).delete()
             print("Sucess Delete This Incoming Proposal!")
         elif request.POST.get("delete") == "delete":
-            proposal_extract = Incoming_Proposal.proposals.filter(pk=extract_id).delete()
+            proposal_extract = Incoming_Proposal.proposals.filter(
+                pk=extract_id
+            ).delete()
             print("Sucess Delete This Incoming Proposal!")
 
-    return render(request, "proposal_extract.html", {"proposal_extract": proposal_extract})
+    return render(
+        request, "proposal_extract.html", {"proposal_extract": proposal_extract}
+    )
 
 
 def proposal_list(request):
@@ -81,10 +108,16 @@ def proposal_list(request):
 
     proposal_list = Proposal.objects.all()
     if filter_value:
-        proposal_filter = proposal_list.filter(Q(pk__icontains=filter_value) | Q(title__icontains=filter_value))
+        proposal_filter = proposal_list.filter(
+            Q(pk__icontains=filter_value) | Q(title__icontains=filter_value)
+        )
     else:
         proposal_filter = proposal_list.all()
-    return render(request, "proposal_list.html", {"proposal_filter": proposal_filter, "filter_value": filter_value})
+    return render(
+        request,
+        "proposal_list.html",
+        {"proposal_filter": proposal_filter, "filter_value": filter_value},
+    )
 
 
 def proposal_detail(request, pk=None):
@@ -104,13 +137,26 @@ def project_list(request):
 
     project_list = Project.objects.all()
     if filter_value:
-        project_filter = project_list.filter(Q(pk__icontains=filter_value) | Q(title__icontains=filter_value) | Q(category__icontains=filter_value) | Q(completed=False))
+        project_filter = project_list.filter(
+            Q(pk__icontains=filter_value)
+            | Q(title__icontains=filter_value)
+            | Q(category__icontains=filter_value)
+            | Q(completed=False)
+        )
         past_projects = project_filter.filter(completed=True)
     else:
         project_filter = project_list.filter(completed=False)
         past_projects = project_list.filter(completed=True)
 
-    return render(request, "project_list.html", {"project_filter": project_filter, "filter_value": filter_value, "past_projects": past_projects})
+    return render(
+        request,
+        "project_list.html",
+        {
+            "project_filter": project_filter,
+            "filter_value": filter_value,
+            "past_projects": past_projects,
+        },
+    )
 
 
 def project_detail(request, pk=None):
@@ -148,7 +194,26 @@ def project_detail(request, pk=None):
             project_detail = Project.objects.filter(pk=project_id).delete()
             print("Sucess Delete Project Detail!")
 
-    return render(request, "project_detail.html", {"project_detail": project_detail, "units": units, "groups": groups})
+    return render(
+        request,
+        "project_detail.html",
+        {"project_detail": project_detail, "units": units, "groups": groups},
+    )
+
+
+def project_detail_test(request, pk=None):
+    project_detail = get_object_or_404(Project, pk=pk)
+    group_members = project_detail.group_members.all()
+    students = Student.objects.all()
+    return render(
+        request,
+        "project_detail_test.html",
+        {
+            "project_detail": project_detail,
+            "group_members": group_members,
+            "students": students,
+        },
+    )
 
 
 def client(request):
@@ -173,8 +238,18 @@ def new_client(request):
 
         if request.POST.get("save") == "save":
             ####Department.objects.create(name=client_department_name, phone=client_department_phone, email=client_department_email)
-            Company.objects.create(name=client_company_name, address=client_company_address, website=client_company_website, desc=client_company_description)
-            Contact.objects.create(name=client_contact_name, position=client_contact_position, phone=client_contact_phone, email=client_contact_email)
+            Company.objects.create(
+                name=client_company_name,
+                address=client_company_address,
+                website=client_company_website,
+                desc=client_company_description,
+            )
+            Contact.objects.create(
+                name=client_contact_name,
+                position=client_contact_position,
+                phone=client_contact_phone,
+                email=client_contact_email,
+            )
             Client.objects.create(name=client_name)
             print("Success Add New Client!")
     return render(request, "new_client.html", {})
@@ -188,10 +263,16 @@ def client_list(request):
 
     client_list = Client.objects.all()
     if filter_value:
-        client_filter = client_list.filter(Q(pk__icontains=filter_value) | Q(name__icontains=filter_value))
+        client_filter = client_list.filter(
+            Q(pk__icontains=filter_value) | Q(name__icontains=filter_value)
+        )
     else:
         client_filter = client_list.all()
-    return render(request, "client_list.html", {"client_filter": client_filter, "filter_value": filter_value})
+    return render(
+        request,
+        "client_list.html",
+        {"client_filter": client_filter, "filter_value": filter_value},
+    )
 
 
 def client_detail(request, pk=None):
@@ -216,7 +297,7 @@ def client_detail(request, pk=None):
             client_detail = Client.objects.filter(pk=client_id).update(
                 name=client_name,
                 company=client_company_name,
-                contact=client_contact_name
+                contact=client_contact_name,
             )
             print("Sucess Update Client Detail!")
         elif request.POST.get("delete") == "delete":
