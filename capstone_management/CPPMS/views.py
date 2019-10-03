@@ -19,7 +19,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 
 # Create your views here.
 
-#logout View
+#logout_view
 def logout_view(request):
 	logout(request)
 	return redirect("/CPPMS/login/")

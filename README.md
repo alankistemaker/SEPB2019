@@ -3,6 +3,6 @@ Capstone project management
 
 Test for slack integration
 
-_Tweak the form field rendering in templates_
+***Tweak the form field rendering in templates***
 
 pip install django-widget-tweaks
