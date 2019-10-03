@@ -43,4 +43,7 @@ urlpatterns = [
         views.project_detail_test,
         name="project_detail_test",
     ),
+    path('login/', views.login_view, name='login'),
+    path('logout/', views.logout_view, name='logout'),
+    path('change_pw/', views.change_password, name='Change_pw'),
 ]

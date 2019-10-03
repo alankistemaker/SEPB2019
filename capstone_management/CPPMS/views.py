@@ -4,21 +4,82 @@ from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
 
+
+from django.contrib.auth import (
+authenticate,
+get_user_model,
+login,
+logout,
+update_session_auth_hash,
+)
+from django.contrib.auth.decorators import login_required
+from .forms import UserLoginForm
+from django.contrib import messages
+from django.contrib.auth.forms import PasswordChangeForm
+
 # Create your views here.
+
+#logout View
+def logout_view(request):
+	logout(request)
+	return redirect("/CPPMS/login/")
+
+#Login
+def login_view(request):
+	form = UserLoginForm(request.POST or None)
+	if form.is_valid():
+		username = form.cleaned_data.get("username")
+		password = form.cleaned_data.get("password")
+		user = authenticate(username=username, password=password)
+		login(request,user)
+		if request.user.is_authenticated:
+			print("user is Authenticated")
+		else:
+			print("user is not Authenticated")
+		return redirect("/CPPMS/index/")
+	return render(request,"login.html",{"form":form})
+
+#change pw
+@login_required(login_url="/CPPMS/login/")
+def change_password(request):
+    usernamer = request.user.first_name +' '+ request.user.last_name
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            #msg= 'Your password was successfully updated!'
+            return redirect("/logout/")
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'change_password.html', {
+        'form': form,'usernamer':usernamer
+    })
+
+
+
+
+@login_required(login_url="/CPPMS/login/")
 def index(request):
-    return render(request, "index.html", {})
+    usernamer = request.user.first_name +' '+ request.user.last_name
+    return render(request, "index.html", {'usernamer':usernamer})
 
-
+@login_required(login_url="/CPPMS/login/")
 def proposal(request):
-    return render(request, "proposal.html", {})
+    usernamer = request.user.first_name +' '+ request.user.last_name
+    return render(request, "proposal.html", {'usernamer':usernamer})
 
-
+@login_required(login_url="/CPPMS/login/")
 def incoming_proposal(request):
+    usernamer = request.user.first_name +' '+ request.user.last_name
     web_proposal = Incoming_Proposal.proposals.all()
-    return render(request, "incoming_proposal.html", {"web_proposal": web_proposal})
+    return render(request, "incoming_proposal.html", {"web_proposal": web_proposal,'usernamer':usernamer})
 
-
+@login_required(login_url="/CPPMS/login/")
 def proposal_extract(request, pk=None):
+    usernamer = request.user.first_name +' '+ request.user.last_name
     proposal_extract = get_object_or_404(Incoming_Proposal, pk=pk)
 
     if request.method == "POST":
@@ -95,11 +156,12 @@ def proposal_extract(request, pk=None):
             print("Sucess Delete This Incoming Proposal!")
 
     return render(
-        request, "proposal_extract.html", {"proposal_extract": proposal_extract}
+        request, "proposal_extract.html", {"proposal_extract": proposal_extract,'usernamer':usernamer}
     )
 
-
+@login_required(login_url="/CPPMS/login/")
 def proposal_list(request):
+    usernamer = request.user.first_name +' '+ request.user.last_name
     if request.method == "POST":
         filter_value = request.POST.get("proposal_list")
     else:
@@ -115,24 +177,29 @@ def proposal_list(request):
     return render(
         request,
         "proposal_list.html",
-        {"proposal_filter": proposal_filter, "filter_value": filter_value},
+        {"proposal_filter": proposal_filter, "filter_value": filter_value,'usernamer':usernamer},
     )
 
-
+@login_required(login_url="/CPPMS/login/")
 def proposal_progress(request, pk=None):
+    usernamer = request.user.first_name +' '+ request.user.last_name
     proposal_progress = get_object_or_404(Proposal, pk=pk)
-    return render(request, "proposal_progress.html", {"proposal_progress": proposal_progress})
+    return render(request, "proposal_progress.html", {"proposal_progress": proposal_progress,'usernamer':usernamer})
 
+@login_required(login_url="/CPPMS/login/")
 def proposal_detail(request, pk=None):
+    usernamer = request.user.first_name +' '+ request.user.last_name
     proposal_detail = get_object_or_404(Proposal, pk=pk)
-    return render(request, "proposal_detail.html", {"proposal_detail": proposal_detail})
+    return render(request, "proposal_detail.html", {"proposal_detail": proposal_detail,'usernamer':usernamer})
 
-
+@login_required(login_url="/CPPMS/login/")
 def project(request):
-    return render(request, "project.html", {})
+    usernamer = request.user.first_name +' '+ request.user.last_name
+    return render(request, "project.html", {'usernamer':usernamer})
 
-
+@login_required(login_url="/CPPMS/login/")
 def project_list(request):
+    usernamer = request.user.first_name +' '+ request.user.last_name
     if request.method == "POST":
         filter_value = request.POST.get("project_list")
     else:
@@ -158,11 +225,13 @@ def project_list(request):
             "project_filter": project_filter,
             "filter_value": filter_value,
             "past_projects": past_projects,
+            'usernamer':usernamer,
         },
     )
 
-
+@login_required(login_url="/CPPMS/login/")
 def project_detail(request, pk=None):
+    usernamer = request.user.first_name +' '+ request.user.last_name
     project_detail = get_object_or_404(Project, pk=pk)
     units = Unit.objects.all()
     groups = Group.objects.all()
@@ -200,11 +269,12 @@ def project_detail(request, pk=None):
     return render(
         request,
         "project_detail.html",
-        {"project_detail": project_detail, "units": units, "groups": groups},
+        {"project_detail": project_detail, "units": units, "groups": groups,'usernamer':usernamer},
     )
 
-
+@login_required(login_url="/CPPMS/login/")
 def project_detail_test(request, pk=None):
+    usernamer = request.user.first_name +' '+ request.user.last_name
     project_detail = get_object_or_404(Project, pk=pk)
     group_members = project_detail.group_members.all()
     students = Student.objects.all()
@@ -215,15 +285,18 @@ def project_detail_test(request, pk=None):
             "project_detail": project_detail,
             "group_members": group_members,
             "students": students,
+            'usernamer':usernamer
         },
     )
 
-
+@login_required(login_url="/CPPMS/login/")
 def client(request):
-    return render(request, "client.html", {})
+    usernamer = request.user.first_name +' '+ request.user.last_name
+    return render(request, "client.html", {'usernamer':usernamer})
 
-
+@login_required(login_url="/CPPMS/login/")
 def new_client(request):
+    usernamer = request.user.first_name +' '+ request.user.last_name
     if request.method == "POST":
         client_id = request.POST.get("pk")
         client_name = request.POST.get("name")
@@ -255,10 +328,11 @@ def new_client(request):
             )
             Client.objects.create(name=client_name)
             print("Success Add New Client!")
-    return render(request, "new_client.html", {})
+    return render(request, "new_client.html", {'usernamer':usernamer})
 
-
+@login_required(login_url="/CPPMS/login/")
 def client_list(request):
+    usernamer = request.user.first_name +' '+ request.user.last_name
     if request.method == "POST":
         filter_value = request.POST.get("client_list")
     else:
@@ -274,11 +348,12 @@ def client_list(request):
     return render(
         request,
         "client_list.html",
-        {"client_filter": client_filter, "filter_value": filter_value},
+        {"client_filter": client_filter, "filter_value": filter_value,'usernamer':usernamer},
     )
 
-
+@login_required(login_url="/CPPMS/login/")
 def client_detail(request, pk=None):
+    usernamer = request.user.first_name +' '+ request.user.last_name
     client_detail = get_object_or_404(Client, pk=pk)
 
     if request.method == "POST":
@@ -306,5 +381,5 @@ def client_detail(request, pk=None):
         elif request.POST.get("delete") == "delete":
             client_detail = Client.objects.filter(pk=client_id).delete()
             print("Sucess Delete Client Detail!")
-    return render(request, "client_detail.html", {"client_detail": client_detail})
+    return render(request, "client_detail.html", {"client_detail": client_detail,'usernamer':usernamer})
 
