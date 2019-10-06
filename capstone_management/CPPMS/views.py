@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import *
 from .forms import *
+from django.conf import settings
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
@@ -17,11 +18,15 @@ def proposal(request):
 
 def word_proposal(request):
     uploaded_proposal = ""
-    if request.POST.get("upload") == "upload" and request.FILES["upload"]:
-        uploaded_proposal = request.FILES["upload"]
-    elif request.POST.get("delete") == "delete":
+    if "upload" in request.POST and request.FILES["file"]:
+        upload = request.FILES["file"]
+        fs = FileSystemStorage()
+        filename = fs.save(upload.name, upload)
+        uploaded_proposal = fs.url(filename)
+        
+    if "delete" in request.POST:
         uploaded_proposal = ""
-    elif request.POST.get("extract") == "extract":
+    elif "extract" in request.POST:
         uploaded_proposal = ""
     return render(request, "word_proposal.html", {"uploaded_proposal": uploaded_proposal})
 
@@ -65,7 +70,7 @@ def proposal_extract(request, pk=None):
         extract_supervisor_email = request.POST.get("supervisor_email")
         extract_supervisor_title = request.POST.get("supervisor_title")
 
-        if request.POST.get("save") == "save":
+        if "save" in request.POST:
             Department.objects.create(name=extract_department_name, phone=extract_department_phone, email=extract_department_email)
             Company.objects.create(name=extract_company_desc, address=extract_company_address, website=extract_company_website)
             Contact.objects.create(name=extract_contact_name, position=extract_contact_position, phone=extract_contact_phone, email=extract_contact_email)
@@ -78,7 +83,7 @@ def proposal_extract(request, pk=None):
             
             proposal_extract = Incoming_Proposal.proposals.filter(pk=extract_id).delete()
             print("Sucess Delete This Incoming Proposal!")
-        elif request.POST.get("delete") == "delete":
+        elif "delete" in request.POST:
             proposal_extract = Incoming_Proposal.proposals.filter(pk=extract_id).delete()
             print("Sucess Delete This Incoming Proposal!")
 
@@ -146,7 +151,7 @@ def project_detail(request, pk=None):
         # project_teamleader = request.POST.get("teamleader")
         # project_groupsize = request.POST.get("groupsize")
 
-        if request.POST.get("save") == "save":
+        if "save" in request.POST:
             ####if Group.objects.filter(pk=project_groupname.pk):
             ####    project_groupname.project = project_detail
             ####else:
@@ -160,7 +165,7 @@ def project_detail(request, pk=None):
                 supervisor=project_supervisor,
             )
             print("Sucess Update Project Detail!")
-        elif request.POST.get("delete") == "delete":
+        elif "delete" in request.POST:
             project_detail = Project.objects.filter(pk=project_id).delete()
             print("Sucess Delete Project Detail!")
 
@@ -187,7 +192,7 @@ def new_client(request):
         client_contact_phone = request.POST.get("contact_phone")
         client_contact_email = request.POST.get("contact_email")
 
-        if request.POST.get("save") == "save":
+        if "save" in request.POST:
             ####Department.objects.create(name=client_department_name, phone=client_department_phone, email=client_department_email)
             Company.objects.create(name=client_company_name, address=client_company_address, website=client_company_website, desc=client_company_description)
             Contact.objects.create(name=client_contact_name, position=client_contact_position, phone=client_contact_phone, email=client_contact_email)
@@ -228,7 +233,7 @@ def client_detail(request, pk=None):
         client_contact_phone = request.POST.get("contact_phone")
         client_contact_email = request.POST.get("contact_email")
 
-        if request.POST.get("save") == "save":
+        if "save" in request.POST:
             client_detail = Client.objects.filter(pk=client_id).update(
                 name=client_name,
                 company=client_company_name,

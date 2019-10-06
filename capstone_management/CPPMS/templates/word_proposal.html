@@ -12,8 +12,18 @@
       <div class="search-container" style="position:absolute; top:160px; left:15%; width:85%; font-family:Segoe UI; font-size:16px">
         <form method="POST" enctype="multipart/form-data">{% csrf_token %}
           <p style="color:#000000; font-size:24px"><strong>Upload Word-structured Proposal: </strong>
-          <input type="file" style="width:70%; font-size:20px" name="upload" value="{{ uploaded_proposal }}"></p>
+          <input type="file" style="width:70%; font-size:20px" name="file">
+          <button type="submit" style="font-size:20px" name="upload">Upload</button></p>
         </form>
+      </div>  
+      
+      </hr></br>
+      
+      {% if uploaded_proposal %}
+      <div class="search-container" style="position:absolute; top:280px; left:15%; width:85%; font-family:Segoe UI; font-size:16px">
+        <p style="color:#000000; font-size:24px"><strong>Proposal uploaded at: </strong></br>
+        <a href="{{ uploaded_proposal }}">{{ uploaded_proposal }}</a></p>
       </div>
+      {% endif %}
 
 {% endblock %}
