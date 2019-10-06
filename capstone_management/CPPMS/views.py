@@ -12,7 +12,7 @@ logout,
 update_session_auth_hash,
 )
 from django.contrib.auth.decorators import login_required
-from .forms import UserLoginForm
+from .forms import UserLoginForm,SignUpForm
 from django.contrib import messages
 from django.contrib.auth.forms import PasswordChangeForm
 
@@ -56,6 +56,24 @@ def change_password(request):
     return render(request, 'change_password.html', {
         'form': form,'usernamer':usernamer
     })
+
+#add user
+@login_required(login_url="/CPPMS/login/")
+def Adduser(request):
+    usernamer = request.user.first_name +' '+ request.user.last_name
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect("/CPPMS/index/")
+    else:
+        form = SignUpForm()
+    return render(request, 'adduser.html', {'form': form,'usernamer':usernamer})
+
 
 
 

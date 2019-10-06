@@ -13,7 +13,8 @@ from .models import (
     Project,
     Group,
 )
-
+admin.site.site_header = "CPPMS Administration"
+admin.site.site_title = "CPPMS Administration"
 # Register your models here.
 admin.site.register(Incoming_Proposal)
 admin.site.register(Internal_Supervisor)

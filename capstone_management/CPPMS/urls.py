@@ -46,4 +46,6 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),#login
     path('logout/', views.logout_view, name='logout'),
     path('change_pw/', views.change_password, name='Change_pw'),
+    path('add_user/', views.Adduser, name='Adduser'),
+    #path('profile/', views.profile, name='profile'),
 ]
