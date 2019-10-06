@@ -6,6 +6,8 @@ from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from django.core.files.storage import FileSystemStorage
+from docx import Document
+from io import StringIO
 import os
 
 # Create your views here.
@@ -46,18 +48,27 @@ def word_proposal(request):
 
 def word_detail(request, pk=None):
     proposal_detail = get_object_or_404(Upload_Proposal, pk=pk)
+    extract_word = {}
     
     if request.method == "POST":
         proposal_id = request.POST.get("pk")
         proposal_title = request.POST.get("title")
         proposal_filepath = request.POST.get("filepath")
         proposal_uploaded = request.POST.get("uploaded_at")
+        full_path = os.path.join(settings.MEDIA_ROOT, proposal_title)
         
         if "extract" in request.POST:
-            print("jenny")
+            document = Document(full_path)
+            # Extract Word file and Add neccessary data into a dictionay
+            for table in document.tables:
+                for row in table.rows:
+                    for i in range(22):
+                        if row.cells[0].text == str(i):
+                            extract_word[row.cells[1].text] = row.cells[2].text
+            
         if "delete" in request.POST:
             proposal_detail = Upload_Proposal.objects.filter(pk=proposal_id).delete()
-            os.remove(os.path.join(settings.MEDIA_ROOT, proposal_title))
+            os.remove(full_path)
     return render(request, "word_detail.html", {"proposal_detail": proposal_detail})
 
 
