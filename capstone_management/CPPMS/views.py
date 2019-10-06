@@ -11,29 +11,30 @@ from io import StringIO
 import os
 
 # Create your views here.
+
+def count():
+    count = []
+    count_web = Incoming_Proposal.proposals.all().count()
+    count_word = Upload_Proposal.objects.all().count()
+    count_all = count_web + count_word
+    count = [count_web, count_word, count_all]
+    return count
+
+
 def index(request):
-    return render(request, "index.html", {})
+    count()
+    return render(request, "index.html", {"count":count})
 
 
 def proposal(request):
-    return render(request, "proposal.html", {})
-
-def extract(proposal):
-    path = settings.MEDIA_ROOT
-    files = []
-    print(proposal)
-    
-    for r, d, f in os.walk(path):
-        for file in f:
-            files.append(os.path.join(r, file))
-
-    for f in files:
-        print(f)
-    return print("finish")
+    count()
+    return render(request, "proposal.html", {"count":count})
 
     
 def word_proposal(request):
     uploaded_proposal = ""
+    count()
+    
     if "upload" in request.POST and request.FILES["file"]:
         upload = request.FILES["file"]
         fs = FileSystemStorage()
@@ -43,11 +44,12 @@ def word_proposal(request):
         Upload_Proposal.objects.create(title=upload.name, filepath=uploaded_proposal)
     
     word_proposals = Upload_Proposal.objects.all()
-    return render(request, "word_proposal.html", {"uploaded_proposal": uploaded_proposal, "word_proposals": word_proposals})
+    return render(request, "word_proposal.html", {"count":count, "uploaded_proposal": uploaded_proposal, "word_proposals": word_proposals})
 
 
 def word_detail(request, pk=None):
     proposal_detail = get_object_or_404(Upload_Proposal, pk=pk)
+    count()
     extract = False
     extract_word = {}
     
@@ -175,7 +177,7 @@ def word_detail(request, pk=None):
                                     env=proposal_environment, res=proposal_research)
             print("Sucess Save/Update Word-structured Proposal Detail!")
             
-    return render(request, "word_detail.html", {"proposal_detail": proposal_detail, "extract":extract,
+    return render(request, "word_detail.html", {"count":count, "proposal_detail": proposal_detail, "extract":extract,
                                                 "title":title, "description":description, "status":status, "client_name":client_name, 
                                                 "company_desc":company_desc, "company_website":company_website, "company_address":company_address, 
                                                 "contact_name":contact_name, "contact_phone":contact_phone, "contact_email":contact_email, 
@@ -188,11 +190,14 @@ def word_detail(request, pk=None):
 
 def incoming_proposal(request):
     web_proposal = Incoming_Proposal.proposals.all()
-    return render(request, "incoming_proposal.html", {"web_proposal": web_proposal})
+    count()
+    
+    return render(request, "incoming_proposal.html", {"count":count, "web_proposal": web_proposal})
 
 
 def proposal_extract(request, pk=None):
     proposal_extract = get_object_or_404(Incoming_Proposal, pk=pk)
+    count()
 
     if request.method == "POST":
         extract_id = request.POST.get("pk")
@@ -242,10 +247,12 @@ def proposal_extract(request, pk=None):
             proposal_extract = Incoming_Proposal.proposals.filter(pk=extract_id).delete()
             print("Sucess Delete This Incoming Proposal!")
 
-    return render(request, "proposal_extract.html", {"proposal_extract": proposal_extract})
+    return render(request, "proposal_extract.html", {"count":count, "proposal_extract": proposal_extract})
 
 
 def proposal_list(request):
+    count()
+    
     if request.method == "POST":
         filter_value = request.POST.get("proposal_list")
     else:
@@ -256,23 +263,31 @@ def proposal_list(request):
         proposal_filter = proposal_list.filter(Q(pk__icontains=filter_value) | Q(title__icontains=filter_value))
     else:
         proposal_filter = proposal_list.all()
-    return render(request, "proposal_list.html", {"proposal_filter": proposal_filter, "filter_value": filter_value})
+    return render(request, "proposal_list.html", {"count":count, "proposal_filter": proposal_filter, "filter_value": filter_value})
 
 
 def proposal_progress(request, pk=None):
     proposal_progress = get_object_or_404(Proposal, pk=pk)
-    return render(request, "proposal_progress.html", {"proposal_progress": proposal_progress})
+    count()
+    
+    return render(request, "proposal_progress.html", {"count":count, "proposal_progress": proposal_progress})
 
 def proposal_detail(request, pk=None):
     proposal_detail = get_object_or_404(Proposal, pk=pk)
-    return render(request, "proposal_detail.html", {"proposal_detail": proposal_detail})
+    count()
+    
+    return render(request, "proposal_detail.html", {"count":count, "proposal_detail": proposal_detail})
 
 
 def project(request):
-    return render(request, "project.html", {})
+    count()
+    
+    return render(request, "project.html", {"count":count})
 
 
 def project_list(request):
+    count()
+    
     if request.method == "POST":
         filter_value = request.POST.get("project_list")
     else:
@@ -286,11 +301,12 @@ def project_list(request):
         project_filter = project_list.filter(completed=False)
         past_projects = project_list.filter(completed=True)
 
-    return render(request, "project_list.html", {"project_filter": project_filter, "filter_value": filter_value, "past_projects": past_projects})
+    return render(request, "project_list.html", {"count":count, "project_filter": project_filter, "filter_value": filter_value, "past_projects": past_projects})
 
 
 def project_detail(request, pk=None):
     project_detail = get_object_or_404(Project, pk=pk)
+    count()
     units = Unit.objects.all()
     groups = Group.objects.all()
 
@@ -324,14 +340,18 @@ def project_detail(request, pk=None):
             project_detail = Project.objects.filter(pk=project_id).delete()
             print("Sucess Delete Project Detail!")
 
-    return render(request, "project_detail.html", {"project_detail": project_detail, "units": units, "groups": groups})
+    return render(request, "project_detail.html", {"count":count, "project_detail": project_detail, "units": units, "groups": groups})
 
 
 def client(request):
-    return render(request, "client.html", {})
+    count()
+    
+    return render(request, "client.html", {"count":count})
 
 
 def new_client(request):
+    count()
+    
     if request.method == "POST":
         client_id = request.POST.get("pk")
         client_name = request.POST.get("name")
@@ -353,10 +373,12 @@ def new_client(request):
             Contact.objects.create(name=client_contact_name, position=client_contact_position, phone=client_contact_phone, email=client_contact_email)
             Client.objects.create(name=client_name)
             print("Success Add New Client!")
-    return render(request, "new_client.html", {})
+    return render(request, "new_client.html", {"count":count})
 
 
 def client_list(request):
+    count()
+    
     if request.method == "POST":
         filter_value = request.POST.get("client_list")
     else:
@@ -367,11 +389,12 @@ def client_list(request):
         client_filter = client_list.filter(Q(pk__icontains=filter_value) | Q(name__icontains=filter_value))
     else:
         client_filter = client_list.all()
-    return render(request, "client_list.html", {"client_filter": client_filter, "filter_value": filter_value})
+    return render(request, "client_list.html", {"count":count, "client_filter": client_filter, "filter_value": filter_value})
 
 
 def client_detail(request, pk=None):
     client_detail = get_object_or_404(Client, pk=pk)
+    count()
 
     if request.method == "POST":
         client_id = request.POST.get("pk")
@@ -398,5 +421,5 @@ def client_detail(request, pk=None):
         elif request.POST.get("delete") == "delete":
             client_detail = Client.objects.filter(pk=client_id).delete()
             print("Sucess Delete Client Detail!")
-    return render(request, "client_detail.html", {"client_detail": client_detail})
+    return render(request, "client_detail.html", {"count":count, "client_detail": client_detail})
 

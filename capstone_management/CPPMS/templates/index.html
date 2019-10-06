@@ -35,11 +35,13 @@
           >
         </li>
         <li class="nav-item">
-          <i
-            class="fa fa-bell"
-            style="font-size:36px; width:50px; color:#D3D3D3"
-            href="#"
-          ></i>
+          <span class="fa-stack">
+            <span class="fa fa-circle-o fa-stack-2x"></span>
+            <a class="fa-stack-1x" 
+            style="font-size:36px; width:50px; color:#D3D3D3" 
+            href="{% url 'proposal_list' %}"
+            ><strong>{{ count.2 }}</strong></a></span>
+          </span>
         </li>
         <li class="nav-item">
           <i
