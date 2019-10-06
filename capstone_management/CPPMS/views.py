@@ -48,14 +48,76 @@ def word_proposal(request):
 
 def word_detail(request, pk=None):
     proposal_detail = get_object_or_404(Upload_Proposal, pk=pk)
+    extract = False
     extract_word = {}
     
+    # declare null var
+    title = ""
+    description = ""
+    status = ""
+        
+    client_name = ""
+        
+    company_desc = ""
+    company_website = ""
+    company_address = ""
+        
+    contact_name = ""
+    contact_phone = ""
+    contact_email = ""
+    contact_position = ""
+        
+    department_name = ""
+    department_phone = ""
+    department_email = ""
+        
+    proposal_specialisation = ""
+    proposal_skills = ""
+    proposal_environment = ""
+    proposal_research = ""
+        
+    supervisor_name = ""
+    supervisor_phone = ""
+    supervisor_email = ""
+    supervisor_title = ""
+    
     if request.method == "POST":
+        # when extract is False
         proposal_id = request.POST.get("pk")
         proposal_title = request.POST.get("title")
         proposal_filepath = request.POST.get("filepath")
         proposal_uploaded = request.POST.get("uploaded_at")
         full_path = os.path.join(settings.MEDIA_ROOT, proposal_title)
+        
+        # when extract is True
+        title = request.POST.get("title")
+        description = request.POST.get("description")
+        status = request.POST.get("status")
+        
+        client_name = request.POST.get("client_name")
+        
+        company_desc = request.POST.get("company_desc")
+        company_website = request.POST.get("company_website")
+        company_address = request.POST.get("company_address")
+        
+        contact_name = request.POST.get("contact_name")
+        contact_phone = request.POST.get("contact_phone")
+        contact_email = request.POST.get("contact_email")
+        contact_position = request.POST.get("contact_position")
+        
+        department_name = request.POST.get("department_name")
+        department_phone = request.POST.get("department_phone")
+        department_email = request.POST.get("department_email")
+        
+        proposal_specialisation = request.POST.get("proposal_specialisation")
+        proposal_skills = request.POST.get("proposal_skills")
+        proposal_environment = request.POST.get("proposal_environment")
+        proposal_research = request.POST.get("proposal_research")
+        
+        supervisor_name = request.POST.get("supervisor_name")
+        supervisor_phone = request.POST.get("supervisor_phone")
+        supervisor_email = request.POST.get("supervisor_email")
+        supervisor_title = request.POST.get("supervisor_title")
         
         if "extract" in request.POST:
             document = Document(full_path)
@@ -64,12 +126,64 @@ def word_detail(request, pk=None):
                 for row in table.rows:
                     for i in range(22):
                         if row.cells[0].text == str(i):
-                            extract_word[row.cells[1].text] = row.cells[2].text
+                            extract_word[row.cells[0].text] = row.cells[2].text
+            
+            # List through dictionary keys
+            title = extract_word["14"]
+            description = extract_word["17"]
+            status = ""
+            
+            client_name = extract_word["1"]
+            
+            company_desc = extract_word["2"]
+            company_website = extract_word["4"]
+            company_address = extract_word["3"]
+            
+            contact_name = extract_word["5"]
+            contact_phone = extract_word["7"]
+            contact_email = extract_word["8"]
+            contact_position = extract_word["6"]
+            
+            department_name = extract_word["11"]
+            department_phone = extract_word["12"]
+            department_email = extract_word["13"]
+            
+            proposal_specialisation = extract_word["18"]
+            proposal_skills = extract_word["19"]
+            proposal_environment = extract_word["20"]
+            proposal_research = extract_word["21"]
+            
+            supervisor_name = extract_word["9"]
+            supervisor_phone = extract_word["12"]
+            supervisor_email = extract_word["13"]
+            supervisor_title = extract_word["10"]
+            
+            extract = True
             
         if "delete" in request.POST:
             proposal_detail = Upload_Proposal.objects.filter(pk=proposal_id).delete()
             os.remove(full_path)
-    return render(request, "word_detail.html", {"proposal_detail": proposal_detail})
+            
+        if "save" in request.POST:
+            Department.objects.create(name=department_name, phone=department_phone, email=department_email)
+            Company.objects.create(name=company_desc, address=company_address, website=company_website)
+            Contact.objects.create(name=contact_name, position=contact_position, phone=contact_phone, email=contact_email)
+            Client.objects.create(name=client_name)
+            Internal_Supervisor.objects.create(name_first=supervisor_name, email=supervisor_email)
+            Proposal.objects.create(title=title, desc=description, status=status,
+                                    spec=proposal_specialisation, skills=proposal_skills,
+                                    env=proposal_environment, res=proposal_research)
+            print("Sucess Save/Update Word-structured Proposal Detail!")
+            
+    return render(request, "word_detail.html", {"proposal_detail": proposal_detail, "extract":extract,
+                                                "title":title, "description":description, "status":status, "client_name":client_name, 
+                                                "company_desc":company_desc, "company_website":company_website, "company_address":company_address, 
+                                                "contact_name":contact_name, "contact_phone":contact_phone, "contact_email":contact_email, 
+                                                "contact_position":contact_position, "department_name":department_name, "department_phone":department_phone,
+                                                "department_email":department_email, "proposal_specialisation":proposal_specialisation, 
+                                                "proposal_skills":proposal_skills, "proposal_environment":proposal_environment, 
+                                                "proposal_research":proposal_research, "supervisor_name":supervisor_name, "supervisor_phone":supervisor_phone, 
+                                                "supervisor_email":supervisor_email, "supervisor_title":supervisor_title})
 
 
 def incoming_proposal(request):
