@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from .models import *
+from .forms import *
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
+from django.core.files.storage import FileSystemStorage
 
 # Create your views here.
 def index(request):
@@ -11,6 +13,17 @@ def index(request):
 
 def proposal(request):
     return render(request, "proposal.html", {})
+
+
+def word_proposal(request):
+    uploaded_proposal = ""
+    if request.POST.get("upload") == "upload" and request.FILES["upload"]:
+        uploaded_proposal = request.FILES["upload"]
+    elif request.POST.get("delete") == "delete":
+        uploaded_proposal = ""
+    elif request.POST.get("extract") == "extract":
+        uploaded_proposal = ""
+    return render(request, "word_proposal.html", {"uploaded_proposal": uploaded_proposal})
 
 
 def incoming_proposal(request):

@@ -46,6 +46,16 @@ class Incoming_Proposal(models.Model):
         return self.title
 
 
+class Upload_Proposal(models.Model):
+    title = models.CharField(max_length=128, default="")
+    filepath = models.FileField(null=True, blank=True)
+    
+    pass
+
+    def __str__(self):
+        return self.filepath
+    
+
 class Internal_Supervisor(models.Model):
     name_first = models.CharField(max_length=128, default="")
     name_last = models.CharField(max_length=128, default="")

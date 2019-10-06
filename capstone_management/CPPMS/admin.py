@@ -1,18 +1,5 @@
 from django.contrib import admin
-from .models import (
-    Incoming_Proposal,
-    Internal_Supervisor,
-    External_Supervisor,
-    Unit,
-    Company,
-    Department,
-    Contact,
-    Client,
-    Proposal,
-    Student,
-    Project,
-    Group,
-)
+from .models import *
 
 # Register your models here.
 admin.site.register(Incoming_Proposal)

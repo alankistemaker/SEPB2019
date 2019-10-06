@@ -1,0 +1,19 @@
+{% extends "proposal.html" %}
+
+{% block sub-page_content %}   
+
+      <div style="position:absolute; left:93%; top:105px; height:70px;">
+          <form method="POST">{% csrf_token %}
+              <button type="submit" name="extract" value="extract"><i class="fa fa-share-square" style="font-size:25px"></i></button>
+              <button type="submit" name="delete" value="delete"><i class="fa fa-trash" style="font-size:25px"></i></button>
+          </form>
+      </div> 
+  
+      <div class="search-container" style="position:absolute; top:160px; left:15%; width:85%; font-family:Segoe UI; font-size:16px">
+        <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+          <p style="color:#000000; font-size:24px"><strong>Upload Word-structured Proposal: </strong>
+          <input type="file" style="width:70%; font-size:20px" name="upload" value="{{ uploaded_proposal }}"></p>
+        </form>
+      </div>
+
+{% endblock %}
