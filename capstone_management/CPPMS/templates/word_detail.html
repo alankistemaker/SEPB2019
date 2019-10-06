@@ -1,0 +1,58 @@
+{% extends "proposal.html" %} {% block page_detail_content %}
+<form method="POST">
+  {% csrf_token %}
+  <div style="position:absolute; left:93%; top:105px; height:70px;">
+    <button type="submit" name="extract" value="extract">
+      <i class="fa fa-share-square" style="font-size:25px"></i>
+    </button>
+    <button type="submit" name="delete" value="delete">
+      <i class="fa fa-trash" style="font-size:25px"></i>
+    </button>
+  </div>
+
+  <div
+    style="position:absolute; top:170px; left:18%; font-family:Segoe UI; color:#000000; font-size:16px"
+  >
+    <h1>Proposal Detail</h1>   
+    <hr />
+    <br />
+    <p>
+      ID:
+      <input
+        type="text"
+        style="left:45%; width:500px; text-align:right;"
+        name="pk"
+        value="{{ proposal_detail.pk }}"
+      />
+    </p>
+    <p>
+      Title:
+      <input
+        type="text"
+        style="left:45%; width:500px; text-align:right;"
+        name="title"
+        value="{{ proposal_detail.title }}"
+      />
+    </p>
+    <p>
+      File Path:
+      <input
+        type="text"
+        style="left:45%; width:500px; text-align:right;"
+        name="filepath"
+        value="{{ proposal_detail.filepath }}"
+      />
+    </p>
+    <p>
+      Uploaded At:
+      <input
+        type="text"
+        style="left:45%; width:500px; text-align:right;"
+        name="uploaded_at"
+        value=""
+      />
+    </p>
+  </div>
+</form>
+
+{% endblock %}

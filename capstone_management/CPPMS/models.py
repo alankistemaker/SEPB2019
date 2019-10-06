@@ -48,12 +48,12 @@ class Incoming_Proposal(models.Model):
 
 class Upload_Proposal(models.Model):
     title = models.CharField(max_length=128, default="")
-    filepath = models.FileField(null=True, blank=True)
+    filepath = models.FileField(null=True, blank=True, default="")
     
     pass
 
     def __str__(self):
-        return self.filepath
+        return self.title
     
 
 class Internal_Supervisor(models.Model):

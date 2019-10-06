@@ -6,6 +6,7 @@ from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from django.core.files.storage import FileSystemStorage
+import os
 
 # Create your views here.
 def index(request):
@@ -15,7 +16,20 @@ def index(request):
 def proposal(request):
     return render(request, "proposal.html", {})
 
+def extract(proposal):
+    path = settings.MEDIA_ROOT
+    files = []
+    print(proposal)
+    
+    for r, d, f in os.walk(path):
+        for file in f:
+            files.append(os.path.join(r, file))
 
+    for f in files:
+        print(f)
+    return print("finish")
+
+    
 def word_proposal(request):
     uploaded_proposal = ""
     if "upload" in request.POST and request.FILES["file"]:
@@ -24,11 +38,27 @@ def word_proposal(request):
         filename = fs.save(upload.name, upload)
         uploaded_proposal = fs.url(filename)
         
-    if "delete" in request.POST:
-        uploaded_proposal = ""
-    elif "extract" in request.POST:
-        uploaded_proposal = ""
-    return render(request, "word_proposal.html", {"uploaded_proposal": uploaded_proposal})
+        Upload_Proposal.objects.create(title=upload.name, filepath=uploaded_proposal)
+    
+    word_proposals = Upload_Proposal.objects.all()
+    return render(request, "word_proposal.html", {"uploaded_proposal": uploaded_proposal, "word_proposals": word_proposals})
+
+
+def word_detail(request, pk=None):
+    proposal_detail = get_object_or_404(Upload_Proposal, pk=pk)
+    
+    if request.method == "POST":
+        proposal_id = request.POST.get("pk")
+        proposal_title = request.POST.get("title")
+        proposal_filepath = request.POST.get("filepath")
+        proposal_uploaded = request.POST.get("uploaded_at")
+        
+        if "extract" in request.POST:
+            print("jenny")
+        if "delete" in request.POST:
+            proposal_detail = Upload_Proposal.objects.filter(pk=proposal_id).delete()
+            os.remove(os.path.join(settings.MEDIA_ROOT, proposal_title))
+    return render(request, "word_detail.html", {"proposal_detail": proposal_detail})
 
 
 def incoming_proposal(request):
