@@ -12,7 +12,7 @@ logout,
 update_session_auth_hash,
 )
 from django.contrib.auth.decorators import login_required
-from .forms import UserLoginForm,SignUpForm
+from .forms import UserLoginForm,SignUpForm,UserForm
 from django.contrib import messages
 from django.contrib.auth.forms import PasswordChangeForm
 
@@ -73,8 +73,24 @@ def Adduser(request):
     else:
         form = SignUpForm()
     return render(request, 'adduser.html', {'form': form,'usernamer':usernamer})
+#profile edit
+@login_required(login_url="/CPPMS/login/")
+def profile_edit(request, template_name="profile_edit.html"):
+    usernamer = request.user.first_name +' '+ request.user.last_name
+    if request.method == "POST":
+        form = UserForm(data=request.POST, instance=request.user)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.save()
+            return redirect("/CPPMS/index/")
+    else:
+        form = UserForm(instance=request.user)
 
 
+
+   # return render(template_name, locals(),
+    #    context_instance=RequestContext(request))
+    return render(request, template_name, {'form': form,'usernamer':usernamer})
 
 
 
