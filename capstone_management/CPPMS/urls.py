@@ -15,8 +15,8 @@ urlpatterns = [
         name="proposal_extract",
     ),
     path("proposal/proposal_list/", views.proposal_list, name="proposal_list"),
-    re_path(
-        "proposal_progress/(?P<pk>[_\w\d\-]+)$",
+    path(
+        "proposal_progress/",
         views.proposal_progress,
         name="proposal_progress",
     ),
@@ -45,7 +45,8 @@ urlpatterns = [
     ),
     path('login/', views.login_view, name='login'),#login
     path('logout/', views.logout_view, name='logout'),
-    path('change_pw/', views.change_password, name='Change_pw'),
-    path('add_user/', views.Adduser, name='Adduser'),
+    path('change_pw/', views.change_password, name='change_pw'),
+    path('add_user/', views.Adduser, name='adduser'),
     path('pro_edit/', views.profile_edit, name='profile-edit'),
+    
 ]

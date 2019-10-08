@@ -72,7 +72,7 @@ def Adduser(request):
             return redirect("/CPPMS/index/")
     else:
         form = SignUpForm()
-    return render(request, 'adduser.html', {'form': form,'usernamer':usernamer})
+    return render(request, 'adduser.html', {'form': form,'username':username})
 #profile edit
 @login_required(login_url="/CPPMS/login/")
 def profile_edit(request, template_name="profile_edit.html"):

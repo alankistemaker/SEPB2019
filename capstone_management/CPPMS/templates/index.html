@@ -1,67 +1,57 @@
 {% extends "base.html" %}
 
 {% block page_content %}
-    <nav
-      class="navbar navbar-expand-sm bg-dark navbar-dark"
-      style="position:absolute; width:100%; height:90px"
-    >
-      <!-- Brand -->
-      <a class="navbar-brand" style="font-size:28px; width:200px" href="#"
-        >Project Management</a
-      >
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            style="font-size:28px; width:150px"
-            href="{% url 'incoming_proposal' %}"
-            ><strong>Proposal</strong></a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            style="font-size:28px; width:150px"
-            href="{% url 'project_list' %}"
-            ><strong>Project</strong></a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            style="font-size:28px; width:150px"
-            href="{% url 'client_list' %}"
-            ><strong>Client</strong></a
-          >
-        </li>
-        <li class="nav-item">
-          <i
-            class="fa fa-bell"
-            style="font-size:36px; width:50px; color:#D3D3D3"
-            href="#"
-          ></i>
-        </li>
-        <li class="nav-item">
-          <i
-            class="fas fa-user-circle"
-            style="font-size:36px; width:50px; color:#D3D3D3"
-            href="#"
-          ></i>
-        </li>
-         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-            {{usernamer}}
-          </a>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="/CPPMS/change_pw/">Change Password</a>
-            <a class="dropdown-item" href="/CPPMS/add_user/">Add New User</a>
-            <a class="dropdown-item" href="/CPPMS/pro_edit/">User Pofile</a>
-            <a class="dropdown-item" href="/CPPMS/logout/">Logout</a>
-          </div>
-        </li>
-      </ul>
-    </nav>
-    
-    {% block index_page_content %} 
+<div class="container-fluid">
+	<div class="row">
+		<nav class="navbar navbar-static-top navbar-expand-sm bg-dark navbar-dark w-100" style="height:90px">
+			<!-- Brand -->
+			<a class="navbar-brand w-30" style="font-size:28px" href="#">Project Management</a>
+			
+			<ul class="navbar-nav ml-auto w-70">
+				<li class="nav-item dropdown w-30">
+					<a class="nav-link dropdown-toggle" id="navbardrop" data-toggle="dropdown" style="font-size:28px;" href="{% url 'incoming_proposal' %}">
+						<strong>Proposals</strong>
+					</a>
+					<div class="dropdown-menu">
+						<a class="dropdown-item" href="{% url 'incoming_proposal' %}">Incoming Proposals</a>
+						<a class="dropdown-item" href="{% url 'proposal_list' %}">Proposal List</a>
+						<a class="dropdown-item" href="{% url 'proposal_progress' %}">Proposal Progress</a>
+					</div>
+				</li>
+				<li class="nav-item dropdown w-30">
+					<a class="nav-link dropdown-toggle" id="navbardrop" data-toggle="dropdown" style="font-size:28px;" href="{% url 'project_list' %}">
+						<strong>Projects</strong>
+					</a>
+					<div class="dropdown-menu">
+						<a class="dropdown-item" href="{% url 'project_list' %}">Project List</a>
+					</div>
+				</li>
+				<li class="nav-item dropdown w-30">
+					<a class="nav-link dropdown-toggle" id="navbardrop" data-toggle="dropdown" style="font-size:28px;" href="{% url 'client_list' %}">
+						<strong>Clients</strong>
+					</a>
+					<div class="dropdown-menu">
+						<a class="dropdown-item" href="{% url 'new_client' %}">New Client</a>
+						<a class="dropdown-item" href="{% url 'client_list' %}">Client List</a>
+					</div>
+				</li>
+				<li class="nav-item dropdown w-5">
+					<i class="fa fa-bell" id="navbardrop" data-toggle="dropdown" style="font-size:36px; width:50px; color:#D3D3D3" href="#"></i>
+				</li>
+				<li class="nav-item dropdown dropleft w-5">
+					<i class="fas fa-user-circle" id="navbardrop" data-toggle="dropdown" style="font-size:36px; width:50px; color:#D3D3D3" href="#"></i>
+					<div class="dropdown-menu">
+						<a class="dropdown-item" href="{% url 'change_pw' %}">Change Password</a>
+						<a class="dropdown-item" href="{% url 'adduser' %}">Add New User</a>
+						<a class="dropdown-item" href="{% url 'profile-edit' %}">User Pofile</a>
+						<a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+					</div>
+				</li>
+			</ul>
+		</nav>
+	</div>
+</div>
+
+    {% block index_page_content %}
     {% endblock %}
 {% endblock %}
