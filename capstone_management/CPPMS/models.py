@@ -154,8 +154,10 @@ class Client(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     # OEM Relationships
-    company = models.ForeignKey(Company, models.SET_NULL, blank=True, null=True)
+    #company = models.ForeignKey(Company, models.SET_NULL, blank=True, null=True)
     contact = models.ForeignKey(Contact, models.SET_NULL, blank=True, null=True)
+    #company = models.ForeignKey(Company, models.SET_NULL, blank=True, null=True)
+    department = models.ForeignKey(Department, models.SET_NULL, blank=True, null=True)
     pass
 
     def __str__(self):

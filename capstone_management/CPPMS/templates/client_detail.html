@@ -12,17 +12,17 @@
               <hr><br>
               <p>Client ID: <input type="text" style="left:45%; width:500px; text-align:right;" name="pk" value="{{ client_detail.pk }}"></p>
               <p>Client Name: <input type="text" style="left:45%; width:500px; text-align:right;" name="name" value="{{ client_detail.name }}"></p>
-              <p>Company Name: <input type="text" style="left:45%; width:500px; text-align:right;" name="company_name" value="{{ client_detail.company_name }}"></p>
-              <p>Company Address: <input type="text" style="left:45%; width:500px; text-align:right;" name="company_address" value="{{ client_detail.company_address }}"></p>
-              <p>Company Website: <input type="text" style="left:45%; width:500px; text-align:right;" name="company_website" value="{{ client_detail.company_website }}"></p>
-              <p>Company Description: <input type="text" style="left:45%; width:500px; text-align:right;" name="company_description" value="{{ client_detail.company_description }}"></p>
-              <p>Department Name: <input type="text" style="left:45%; width:500px; text-align:right;" name="department_name" value="{{ client_detail.department_name }}"></p>
-              <p>Department Phone: <input type="text" style="left:45%; width:500px; text-align:right;" name="department_phone" value="{{ client_detail.department_phone }}"></p>
-              <p>Department Email: <input type="text" style="left:45%; width:500px; text-align:right;" name="department_email" value="{{ client_detail.department_email }}"></p>
-              <p>Contact Name: <input type="text" style="left:45%; width:500px; text-align:right;" name="contact_name" value="{{ client_detail.contact_name }}"></p>
-              <p>Contact Position: <input type="text" style="left:45%; width:500px; text-align:right;" name="contact_position" value="{{ client_detail.contact_position }}"></p>
-              <p>Contact Phone: <input type="text" style="left:45%; width:500px; text-align:right;" name="contact_phone" value="{{ client_detail.contact_phone }}"></p>
-              <p>Contact Email: <input type="text" style="left:45%; width:500px; text-align:right;" name="contact_email" value="{{ client_detail.contact_email }}"></p>
+              <p>Company Name: <input type="text" style="left:45%; width:500px; text-align:right;" name="company_name" value="{{ client_detail.department.company.name }}"></p>
+              <p>Company Address: <input type="text" style="left:45%; width:500px; text-align:right;" name="company_address" value="{{ client_detail.department.company.address }}"></p>
+              <p>Company Website: <input type="text" style="left:45%; width:500px; text-align:right;" name="company_website" value="{{ client_detail.department.company.website }}"></p>
+              <p>Company Description: <input type="text" style="left:45%; width:500px; text-align:right;" name="company_description" value="{{ client_detail.department.company.description }}"></p>
+              <p>Department Name: <input type="text" style="left:45%; width:500px; text-align:right;" name="department_name" value="{{ client_detail.department.name }}"></p>
+              <p>Department Phone: <input type="text" style="left:45%; width:500px; text-align:right;" name="department_phone" value="{{ client_detail.department.phone }}"></p>
+              <p>Department Email: <input type="text" style="left:45%; width:500px; text-align:right;" name="department_email" value="{{ client_detail.department.email }}"></p>
+              <p>Contact Name: <input type="text" style="left:45%; width:500px; text-align:right;" name="contact_name" value="{{ client_detail.contact.name }}"></p>
+              <p>Contact Position: <input type="text" style="left:45%; width:500px; text-align:right;" name="contact_position" value="{{ client_detail.contact.position }}"></p>
+              <p>Contact Phone: <input type="text" style="left:45%; width:500px; text-align:right;" name="contact_phone" value="{{ client_detail.contact.phone }}"></p>
+              <p>Contact Email: <input type="text" style="left:45%; width:500px; text-align:right;" name="contact_email" value="{{ client_detail.contact.email }}"></p>
           </div>
       </form>
 

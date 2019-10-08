@@ -20,8 +20,8 @@
         {% for client in client_filter %}
         <tr style="text-align:right">
           <td><a href="client_detail/{{client.pk}}">{{ client.pk }}</a></td>
-          <td>{{ client.name }}</td>
-          <td>{{ client.company }}</td>
+          <td>{{ client }}</td>
+          <td>{{ client.department.company }}</td>
           <td>{{ client.contact }}</td>
           <td>{{ client.contact.department }}</td>
         </tr>

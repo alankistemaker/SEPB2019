@@ -60,7 +60,7 @@
         type="text"
         style="left:45%; width:500px; text-align:right;"
         name="client_name"
-        value="{{ proposal_detail.client_name }}"
+        value="{{ proposal_detail.client.name }}"
       />
     </p>
     <p>
@@ -69,7 +69,7 @@
         type="text"
         style="left:45%; width:500px; text-align:right;"
         name="company_desc"
-        value="{{ proposal_detail.company_desc }}"
+        value="{{ proposal_detail.client.company.description }}"
       />
     </p>
     <p>
@@ -78,7 +78,7 @@
         type="text"
         style="left:45%; width:500px; text-align:right;"
         name="company_website"
-        value="{{ proposal_detail.company_website }}"
+        value="{{ proposal_detail.client.company.website }}"
       />
     </p>
     <p>
@@ -87,7 +87,7 @@
         type="text"
         style="left:45%; width:500px; text-align:right;"
         name="company_address"
-        value="{{ proposal_detail.company_address }}"
+        value="{{ proposal_detail.client.company.address }}"
       />
     </p>
     <hr />
@@ -98,7 +98,7 @@
         type="text"
         style="left:45%; width:500px; text-align:right;"
         name="contact_name"
-        value="{{ proposal_detail.contact_name }}"
+        value="{{ proposal_detail.client.contact.name }}"
       />
     </p>
     <p>
@@ -107,7 +107,7 @@
         type="text"
         style="left:45%; width:500px; text-align:right;"
         name="contact_phone"
-        value="{{ proposal_detail.contact_phone }}"
+        value="{{ proposal_detail.client.contact.phone }}"
       />
     </p>
     <p>
@@ -116,7 +116,7 @@
         type="text"
         style="left:45%; width:500px; text-align:right;"
         name="contact_email"
-        value="{{ proposal_detail.contact_email }}"
+        value="{{ proposal_detail.client.contact.email }}"
       />
     </p>
     <p>
@@ -125,7 +125,7 @@
         type="text"
         style="left:45%; width:500px; text-align:right;"
         name="contact_position"
-        value="{{ proposal_detail.contact_position }}"
+        value="{{ proposal_detail.client.contact.position }}"
       />
     </p>
     <hr />
@@ -136,7 +136,7 @@
         type="text"
         style="left:45%; width:500px; text-align:right;"
         name="department_name"
-        value="{{ proposal_detail.department_name }}"
+        value="{{ proposal_detail.department.name }}"
       />
     </p>
     <p>
@@ -145,7 +145,7 @@
         type="text"
         style="left:45%; width:500px; text-align:right;"
         name="department_phone"
-        value="{{ proposal_detail.department_phone }}"
+        value="{{ proposal_detail.department.phone }}"
       />
     </p>
     <p>
@@ -154,7 +154,7 @@
         type="text"
         style="left:45%; width:500px; text-align:right;"
         name="department_email"
-        value="{{ proposal_detail.department_email }}"
+        value="{{ proposal_detail.department.email }}"
       />
     </p>
     <hr />
@@ -165,7 +165,7 @@
         type="text"
         style="left:45%; width:500px; text-align:right;"
         name="proposal_specialisation"
-        value="{{ proposal_detail.proposal_specialisation }}"
+        value="{{ proposal_detail.spec }}"
       />
     </p>
     <p>
@@ -203,7 +203,7 @@
         type="text"
         style="left:45%; width:500px; text-align:right;"
         name="supervisor_name"
-        value="{{ proposal_detail.supervisor_name }}"
+        value="{{ proposal_detail.supervisor.name }}"
       />
     </p>
     <p>
@@ -212,7 +212,7 @@
         type="text"
         style="left:45%; width:500px; text-align:right;"
         name="supervisor_phone"
-        value="{{ proposal_detail.supervisor_phone }}"
+        value="{{ proposal_detail.supervisor.phone }}"
       />
     </p>
     <p>
@@ -221,7 +221,7 @@
         type="text"
         style="left:45%; width:500px; text-align:right;"
         name="supervisor_email"
-        value="{{ proposal_detail.supervisor_email }}"
+        value="{{ proposal_detail.supervisor.email }}"
       />
     </p>
     <p>
@@ -230,7 +230,7 @@
         type="text"
         style="left:45%; width:500px; text-align:right;"
         name="supervisor_title"
-        value="{{ proposal_detail.supervisor_title }}"
+        value="{{ proposal_detail.supervisor.title }}"
       />
     </p>
   </div>
