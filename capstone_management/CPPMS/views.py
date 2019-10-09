@@ -114,6 +114,30 @@ def incoming_proposal(request):
 def proposal_extract(request, pk=None):
     username = request.user.first_name +' '+ request.user.last_name
     proposal_extract = get_object_or_404(Incoming_Proposal, pk=pk)
+    
+    suggested_company = Company.objects.filter(
+        Q(name__icontains=proposal_extract.company_name)
+        | Q(website__icontains=proposal_extract.company_website)
+        | Q(address__icontains=proposal_extract.company_address)
+    )
+
+    suggested_department = Department.objects.filter(
+        Q(name__icontains=proposal_extract.department_name)
+        | Q(phone__icontains=proposal_extract.department_phone)
+        | Q(email__icontains=proposal_extract.department_email)
+    )
+
+    suggested_client = Client.objects.filter(
+        Q(name__icontains=proposal_extract.client_name)
+        | Q(contact__name__icontains=proposal_extract.contact_name)
+        | Q(department__name__icontains=proposal_extract.department_name)
+    )
+
+    suggested_supervisor = External_Supervisor.objects.filter(
+        Q(name_first__icontains=proposal_extract.supervisor_name)
+        | Q(phone__icontains=proposal_extract.supervisor_phone)
+        | Q(email__icontains=proposal_extract.supervisor_email)
+    )
 
     if request.method == "POST":
         extract_id = request.POST.get("pk")
@@ -189,7 +213,7 @@ def proposal_extract(request, pk=None):
             print("Sucess Delete This Incoming Proposal!")
 
     return render(
-        request, "proposal_extract.html", {"proposal_extract": proposal_extract,'username':username}
+        request, "proposal_extract.html", {"proposal_extract": proposal_extract,'username':username, "suggested_company": suggested_company, "suggested_client": suggested_client, "suggested_supervisor": suggested_supervisor, "suggested_department": suggested_department}
     )
 
 @login_required(login_url="/CPPMS/login/")
