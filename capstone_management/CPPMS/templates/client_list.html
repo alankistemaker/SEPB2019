@@ -3,18 +3,8 @@
 {% block sub-page_content %}
 <div class="container-fluid">
 	<div class="row">
-		<div class="d-flex justify-content-center w-100 " style="background-color:#8B0000; height:50px">
-			<form method="POST">{% csrf_token %}
-				<p style="color:#FFFFFF; font-size:24px">
-					<strong>Search: </strong>
-					<input type="text" style="font-size:20px" placeholder="Filter by client id, client name..." name="client_list" value="{{ filter_value }}">
-					<button type="submit"><i class="fas fa-search" style="font-size:20px"></i></button>
-				</p>
-			</form>
-		</div>
-	</div>
-	<div class="row">
-		<div class="d-flex justify-content-center mx-auto w-100">
+        <div class="col-1"></div>
+		<div class="col-10">
 			<table class="table table-bordered">
 				<tr style="text-align:center; background-color:#C0C0C0">
 					<th style="width:10%"><strong>CLIENT ID</strong></th>
@@ -34,6 +24,7 @@
 				{% endfor %}
 			</table>
 		</div>
+        <div class="col-1"></div>
 	</div>
 </div>
 

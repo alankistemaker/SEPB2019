@@ -4,41 +4,52 @@
 <div class="container-fluid">
 	<div class="row">
 		<nav class="navbar navbar-static-top navbar-expand-sm bg-dark navbar-dark w-100" style="height:90px">
-			<!-- Brand -->
-			<a class="navbar-brand w-30" style="font-size:28px" href="#">Project Management</a>
 			
-			<ul class="navbar-nav ml-auto w-70">
-				<li class="nav-item dropdown w-30">
-					<a class="nav-link dropdown-toggle" id="navbardrop" data-toggle="dropdown" style="font-size:28px;" href="{% url 'incoming_proposal' %}">
-						<strong>Proposals</strong>
-					</a>
-					<div class="dropdown-menu">
-						<a class="dropdown-item" href="{% url 'incoming_proposal' %}">Incoming Proposals</a>
-						<a class="dropdown-item" href="{% url 'proposal_list' %}">Proposal List</a>
-						<a class="dropdown-item" href="{% url 'proposal_progress' %}">Proposal Progress</a>
-					</div>
-				</li>
-				<li class="nav-item dropdown w-30">
-					<a class="nav-link dropdown-toggle" id="navbardrop" data-toggle="dropdown" style="font-size:28px;" href="{% url 'project_list' %}">
-						<strong>Projects</strong>
-					</a>
-					<div class="dropdown-menu">
-						<a class="dropdown-item" href="{% url 'project_list' %}">Project List</a>
-					</div>
-				</li>
-				<li class="nav-item dropdown w-30">
-					<a class="nav-link dropdown-toggle" id="navbardrop" data-toggle="dropdown" style="font-size:28px;" href="{% url 'client_list' %}">
-						<strong>Clients</strong>
-					</a>
-					<div class="dropdown-menu">
-						<a class="dropdown-item" href="{% url 'new_client' %}">New Client</a>
-						<a class="dropdown-item" href="{% url 'client_list' %}">Client List</a>
-					</div>
-				</li>
-				<li class="nav-item dropdown w-5">
-					<i class="fa fa-bell" id="navbardrop" data-toggle="dropdown" style="font-size:36px; width:50px; color:#D3D3D3" href="#"></i>
-				</li>
-				<li class="nav-item dropdown dropleft w-5">
+                <!-- Brand -->
+                <a class="navbar-brand" style="ont-size:28px" href="#">Project Management</a>
+                <form class="mx-auto mt-3" method="POST">
+                    {% csrf_token %}
+                    <p style="color:#FFFFFF; font-size:24px">
+                        <strong>Search: </strong>
+                        <input type="text" style="font-size:20px" placeholder="Search" name="proposal_list" value="{{ filter_value }}">
+                        <button type="submit"><i class="fas fa-search" style="font-size:20px"></i></button>
+                    </p>
+                </form>
+            
+			<ul class="navbar-nav ml-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbardrop" data-toggle="dropdown" style="font-size:20px;" href="{% url 'incoming_proposal' %}">
+                            <strong>Proposals</strong>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url 'incoming_proposal' %}">Incoming Proposals</a>
+                            <a class="dropdown-item" href="{% url 'proposal_list' %}">Proposal List</a>
+                            <a class="dropdown-item" href="{% url 'proposal_progress' %}">Proposal Progress</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbardrop" data-toggle="dropdown" style="font-size:20px;" href="{% url 'project_list' %}">
+                            <strong>Projects</strong>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url 'project_list' %}">Project List</a>
+                        </div>
+                    </li>
+                <div class="col">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbardrop" data-toggle="dropdown" style="font-size:20px;" href="{% url 'client_list' %}">
+                            <strong>Clients</strong>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url 'new_client' %}">New Client</a>
+                            <a class="dropdown-item" href="{% url 'client_list' %}">Client List</a>
+                        </div>
+                    </li>
+                </div>   
+                    <li class="nav-item dropdown">
+                        <i class="fa fa-bell" id="navbardrop" data-toggle="dropdown" style="font-size:36px; width:50px; color:#D3D3D3" href="#"></i>
+                    </li>
+				<li class="nav-item dropdown dropleft">
 					<i class="fas fa-user-circle" id="navbardrop" data-toggle="dropdown" style="font-size:36px; width:50px; color:#D3D3D3" href="#"></i>
 					<div class="dropdown-menu">
 						<a class="dropdown-item" href="{% url 'change_pw' %}">Change Password</a>

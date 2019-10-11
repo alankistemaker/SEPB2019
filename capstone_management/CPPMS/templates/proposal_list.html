@@ -1,49 +1,43 @@
 {% extends "proposal.html" %} {% block sub-page_content %}
 <div class="container-fluid">
 	<div class="row">
-		<div class="d-flex justify-content-center w-100 " style="background-color:#8B0000; height:50px">
-			<form method="POST">
-				{% csrf_token %}
-				<p style="color:#FFFFFF; font-size:24px">
-					<strong>Search: </strong>
-					<input type="text" style="font-size:20px" placeholder="Filter by proposal id, proposal title..." name="proposal_list" value="{{ filter_value }}">
-					<button type="submit"><i class="fas fa-search" style="font-size:20px"></i></button>
-				</p>
-			</form>
-		</div>
-	</div>
-	<div class="row">
-		<div class="d-flex justify-content-center mx-auto w-100">
-			<table class="table table-bordered">
-				<tr style="text-align:center; background-color:#C0C0C0">
-					<th style="width:10%"><strong>PROPOSAL ID</strong></th>
-					<th style="width:30%"><strong>PROPOSAL TITLE</strong></th>
-					<th style="width:15%"><strong>DATE</strong></th>
-					<th style="width:10%"><strong>UNIT CODE</strong></th>
-					<th style="width:20%"><strong>DETAILS</strong></th>
-					<th style="width:15%"><strong>NOTE</strong></th>
-				</tr>
-				{% for proposal in proposal_filter %}
-				<tr style="text-align:center">
-					<td><a href="proposal_progress/{{ proposal.pk }}">{{ proposal.pk }}</a></td>
-					<td>{{ proposal.title }}</td>
-					<td>{{ proposal.created_at }}</td>
-					<td>{{ proposal.proposal_unit }}</td>
-					<td style="text-align:center">
-						<button type="submit" name="proposal" value="proposal">
-							<a href="proposal_detail/{{ proposal.pk }}" style="font-size:16px">Proposal</a>
-						</button>
-						<button type="submit" name="project" value="project">
-							<a style="font-size:16px">Project</a>
-						</button>
-						<button type="submit" name="client" value="client">
-							<a style="font-size:16px">Client</a>
-						</button>
-					</td>
-					<td>{{ proposal.client }}</td>
-				</tr>
-				{% endfor %}
-			</table>
+        <div class="col-1">
+              
+        </div>
+        <div class="col-10">
+            <table class="table table-bordered">
+                <tr style="text-align:center; background-color:#C0C0C0">
+                    <th style="width:10%"><strong>PROPOSAL ID</strong></th>
+                    <th style="width:30%"><strong>PROPOSAL TITLE</strong></th>
+                    <th style="width:15%"><strong>DATE</strong></th>
+                    <th style="width:10%"><strong>UNIT CODE</strong></th>
+                    <th style="width:20%"><strong>DETAILS</strong></th>
+                    <th style="width:15%"><strong>NOTE</strong></th>
+                </tr>
+                {% for proposal in proposal_filter %}
+                <tr style="text-align:center">
+                    <td><a href="proposal_progress/{{ proposal.pk }}">{{ proposal.pk }}</a></td>
+                    <td>{{ proposal.title }}</td>
+                    <td>{{ proposal.created_at }}</td>
+                    <td>{{ proposal.proposal_unit }}</td>
+                    <td style="text-align:center">
+                        <button type="submit" name="proposal" value="proposal">
+                            <a href="proposal_detail/{{ proposal.pk }}" style="font-size:16px">Proposal</a>
+                        </button>
+                        <button type="submit" name="project" value="project">
+                            <a style="font-size:16px">Project</a>
+                        </button>
+                        <button type="submit" name="client" value="client">
+                            <a style="font-size:16px">Client</a>
+                        </button>
+                    </td>
+                    <td>{{ proposal.client }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="col-1">
+            
 		</div>
 	</div>
 </div>

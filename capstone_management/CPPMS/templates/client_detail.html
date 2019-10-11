@@ -1,31 +1,57 @@
 {% extends "client.html" %}
 
-{% block page_detail_content %}
+{% block sub-page_content %}
 <div class="container-fluid">
-	<form method="POST">{% csrf_token %}
-		<div style="position:absolute; left:93%; top:105px; height:70px;">
-			<button type="submit" name="save" value="save"><i class="fas fa-save" style="font-size:25px"></i></button>
-			<button type="submit" name="delete" value="delete"><i class="fa fa-trash" style="font-size:25px"></i></button>
-		</div>
-
-		<div style="position:absolute; top:170px; left:18%; font-family:Segoe UI; color:#000000; font-size:16px">
-			<h1>Client Detail</h1>
-			<hr><br>
-			<p>Client ID: <input type="text" style="left:45%; width:500px; text-align:right;" name="pk" value="{{ client_detail.pk }}"></p>
-			<p>Client Name: <input type="text" style="left:45%; width:500px; text-align:right;" name="name" value="{{ client_detail.name }}"></p>
-			<p>Company Name: <input type="text" style="left:45%; width:500px; text-align:right;" name="company_name" value="{{ client_detail.department.company.name }}"></p>
-			<p>Company Address: <input type="text" style="left:45%; width:500px; text-align:right;" name="company_address" value="{{ client_detail.department.company.address }}"></p>
-			<p>Company Website: <input type="text" style="left:45%; width:500px; text-align:right;" name="company_website" value="{{ client_detail.department.company.website }}"></p>
-			<p>Company Description: <input type="text" style="left:45%; width:500px; text-align:right;" name="company_description" value="{{ client_detail.department.company.description }}"></p>
-			<p>Department Name: <input type="text" style="left:45%; width:500px; text-align:right;" name="department_name" value="{{ client_detail.department.name }}"></p>
-			<p>Department Phone: <input type="text" style="left:45%; width:500px; text-align:right;" name="department_phone" value="{{ client_detail.department.phone }}"></p>
-			<p>Department Email: <input type="text" style="left:45%; width:500px; text-align:right;" name="department_email" value="{{ client_detail.department.email }}"></p>
-			<p>Contact Name: <input type="text" style="left:45%; width:500px; text-align:right;" name="contact_name" value="{{ client_detail.contact.name }}"></p>
-			<p>Contact Position: <input type="text" style="left:45%; width:500px; text-align:right;" name="contact_position" value="{{ client_detail.contact.position }}"></p>
-			<p>Contact Phone: <input type="text" style="left:45%; width:500px; text-align:right;" name="contact_phone" value="{{ client_detail.contact.phone }}"></p>
-			<p>Contact Email: <input type="text" style="left:45%; width:500px; text-align:right;" name="contact_email" value="{{ client_detail.contact.email }}"></p>
-		</div>
-	</form>
+    <div class="row mb-5 mt-5">
+        <div class="col-1"></div>
+        <div class="col-5">
+            <h1>Client Details</h1>
+            <hr />
+        </div>
+        <div class="col-5">
+            <h1>Client Proposals</h1>
+            <hr />
+        </div>
+        <div class="col-1"></div>
+    </div>
+    <div class="row mb-5">
+        <div class="col-1">
+        </div>
+        <div class="card card-body bg-light col-1">
+            <div class="well" value="{{ client_detail.pk }}"><strong>ID: </strong>{{ client_detail.pk }}</div>
+        </div>
+        <div class="card card-body bg-light col-2">
+            <p value="{{ client_detail.name }}"><strong>Name: </strong>{{client_detail.name }}</p>
+        </div>
+        <div class="card card-body bg-light col-2">
+            <p value="{{ client_detail.department.company.name }}"><strong>Company Name: </strong>{{ client_detail.department.company.name }}</p>
+        </div>
+        <div class="col-5">
+        </div>
+        <div class="col-1"></div>
+    </div>
+    <div class="row mb-5">
+        <div class="col-1"></div>
+        <div class="card card-body bg-light col-3">
+            <p value="{{ client_detail.department.company.address }}"><strong>Company Address: </strong>{{ client_detail.department.company.address }}</p>
+        </div>
+        <div class="card card-body bg-light col-2">
+            <p value="{{ client_detail.department.company.website }}"><strong>Company Website: </strong>{{ client_detail.department.company.website }}</p>
+        </div>
+        <div class="col-5"></div>
+        <div class="col-1"></div>
+    </div>
+    <div class="row mb-5">
+        <div class="col-1"></div>
+        <div class="card card-body bg-light col-5">
+            <p value="{{ client_detail.department.company.description }}"><strong>Company Description: </strong>{{ client_detail.department.company.description }}</p>
+        </div>
+        <div class="col-6"></div>
+    </div>
+    <div class="row mb-5">
+        <div class="col-1"></div>
+        <div class="card card-body bg-light col-2"></div>
+    </div>
 </div>
 
 {% endblock %}

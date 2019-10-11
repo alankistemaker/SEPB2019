@@ -73,6 +73,7 @@ def Adduser(request):
     else:
         form = SignUpForm()
     return render(request, 'adduser.html', {'form': form,'username':username})
+
 #profile edit
 @login_required(login_url="/CPPMS/login/")
 def profile_edit(request, template_name="profile_edit.html"):
@@ -91,7 +92,6 @@ def profile_edit(request, template_name="profile_edit.html"):
    # return render(template_name, locals(),
     #    context_instance=RequestContext(request))
     return render(request, template_name, {'form': form,'usernamer':usernamer})
-
 
 
 @login_required(login_url="/CPPMS/login/")
@@ -390,6 +390,15 @@ def client_detail(request, pk=None):
     client_detail = get_object_or_404(Client, pk=pk)
     companies = Company.objects.all()
 
+    
+    return render(request, "client_detail.html", {"client_detail": client_detail,'username':username, "companies": companies})
+
+@login_required(login_url="/CPPMS/login/")
+def client_edit(request, pk=None):
+    username = request.user.first_name +' '+ request.user.last_name
+    client_edit = get_object_or_404(Client, pk=pk)
+    companies = Company.objects.all()
+
     if request.method == "POST":
         client_id = request.POST.get("pk")
         client_name = request.POST.get("name")
@@ -406,14 +415,13 @@ def client_detail(request, pk=None):
         client_contact_email = request.POST.get("contact_email")
 
         if request.POST.get("save") == "save":
-            client_detail = Client.objects.filter(pk=client_id).update(
+            client_edit = Client.objects.filter(pk=client_id).update(
                 name=client_name,
                 company=client_company_name,
                 contact=client_contact_name,
             )
-            print("Sucess Update Client Detail!")
+            print("Sucessfully Updated Client Details!")
         elif request.POST.get("delete") == "delete":
-            client_detail = Client.objects.filter(pk=client_id).delete()
-            print("Sucess Delete Client Detail!")
-    return render(request, "client_detail.html", {"client_detail": client_detail,'username':username, "companies": companies})
-
+            client_edit = Client.objects.filter(pk=client_id).delete()
+            print("Sucessfully Deleted Client Details!")
+    return render(request, "client_edit.html", {"client_edit": client_edit,'username':username, "companies": companies})
