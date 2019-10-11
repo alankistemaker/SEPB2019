@@ -296,12 +296,10 @@ def project_list(request):
     project_list = Project.objects.all()
     if filter_value:
         project_filter = project_list.filter(Q(pk__icontains=filter_value) | Q(title__icontains=filter_value) | Q(category__icontains=filter_value) | Q(completed=False))
-        past_projects = project_filter.filter(completed=True)
     else:
-        project_filter = project_list.filter(completed=False)
-        past_projects = project_list.filter(completed=True)
+        project_filter = project_list.all()
 
-    return render(request, "project_list.html", {"count":count, "project_filter": project_filter, "filter_value": filter_value, "past_projects": past_projects})
+    return render(request, "project_list.html", {"count":count, "project_filter": project_filter, "filter_value": filter_value})
 
 
 def project_detail(request, pk=None):

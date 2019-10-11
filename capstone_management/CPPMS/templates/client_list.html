@@ -1,31 +1,54 @@
-{% extends "client.html" %}
+{% extends "client.html" %} {% block sub-page_content %}
+  <h2>Client List</h2>
+{% endblock %}
 
-{% block sub-page_content %}
-      <div class="search-container" style="position:absolute; top:100px; left:15%; height:70px; width:60%; font-family:Segoe UI">
-        <form method="POST">{% csrf_token %}
-          <p style="color:#FFFFFF; font-size:24px"><strong>Search: </strong>
-          <input type="text" style="width:70%; font-size:20px" placeholder="Filter by client id, client name..." name="client_list" value="{{ filter_value }}">
-          <button type="submit"><i class="fas fa-search" style="font-size:20px"></i></button></p>
+{% block page_detail_content %}
+<div class="row mb-2">
+    <div class="col-12">
+        <form method="POST" class="form-inline bg-white rounded shadow-sm pt-2 pl-3 border">
+            {% csrf_token %}
+            <div class="form-group mb-2 mr-3">
+                <label class="font-weight-bold">Search</label>
+            </div>
+            <div class="form-group mb-2 mr-1">
+                <input type="text" class="form-control" placeholder="Filter by client id, client name..." name="client_list" value="{{ filter_value }}" style="width: 500px"/>
+            </div>
+            <div class="form-group mb-2">
+                <button class="btn btn-primary" type="submit"><i class="ti-search"></i></button>
+            </div>
         </form>
-      </div>
-      
-      <table border="3" style="position:absolute; top:160px; left:15%; width:85%; font-family:Segoe UI; font-size:16px">
-        <tr style="text-align:center; background-color:#C0C0C0">
-          <th style="width:10%"><strong>CLIENT ID</strong></th>
-          <th style="width:25%"><strong>CLIENT NAME</strong></th>
-          <th style="width:25%"><strong>COMPANY</strong></th>
-          <th style="width:15%"><strong>CONTACT NAME</strong></th>
-          <th style="width:25%"><strong>DEPARTMENT</strong></th>
-        </tr>
-        {% for client in client_filter %}
-        <tr style="text-align:right">
-          <td><a href="client_detail/{{client.pk}}">{{ client.pk }}</a></td>
-          <td>{{ client.name }}</td>
-          <td>{{ client.company }}</td>
-          <td>{{ client.contact }}</td>
-          <td>{{ client.contact.department }}</td>
-        </tr>
-        {% endfor %}
-      </table>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="table-responsive card shadow-sm">
+            <table class="table table-hover">
+              <thead>
+                  <tr class="table-primary">
+                      <th>ID</th>
+                      <th>Client/Organisation Name</th>
+                      <th>Company</th>
+                      <th>Contact Name</th>
+                      <th>Department</th>
+                    </tr>
+              </thead>
+              <tbody>
+                  {% for client in client_filter %}
+                  <tr>
+                    <td>
+                      <a href="client_detail/{{ client.pk }}">{{ client.pk }}</a>
+                    </td>
+                    <td>{{ client.name }}</td>
+                    <td>{{ client.company }}</td>
+                    <td>{{ client.contact }}</td>
+                    <td>{{ client.contact.department }}</td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+            </table>
+        </div>
+    </div>    
+</div>
 
 {% endblock %}
