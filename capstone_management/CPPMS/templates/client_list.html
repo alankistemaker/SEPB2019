@@ -3,28 +3,38 @@
 {% block sub-page_content %}
 <div class="container-fluid">
 	<div class="row">
+        
         <div class="col-1"></div>
-		<div class="col-10">
-			<table class="table table-bordered">
-				<tr style="text-align:center; background-color:#C0C0C0">
-					<th style="width:10%"><strong>CLIENT ID</strong></th>
-					<th style="width:25%"><strong>CLIENT NAME</strong></th>
-					<th style="width:25%"><strong>COMPANY</strong></th>
-					<th style="width:15%"><strong>CONTACT NAME</strong></th>
-					<th style="width:25%"><strong>DEPARTMENT</strong></th>
-				</tr>
-				{% for client in client_filter %}
-				<tr style="text-align:center">
-					<td><a href="client_detail/{{client.pk}}">{{ client.pk }}</a></td>
-					<td>{{ client }}</td>
-					<td>{{ client.department.company }}</td>
-					<td>{{ client.contact }}</td>
-					<td>{{ client.contact.department }}</td>
-				</tr>
-				{% endfor %}
-			</table>
+        
+		<div class="col">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover text-center">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col"><strong>CLIENT ID</strong></th>
+                            <th scope="col"><strong>CLIENT NAME</strong></th>
+                            <th scope="col"><strong>COMPANY</strong></th>
+                            <th scope="col"><strong>CONTACT NAME</strong></th>
+                            <th scope="col"><strong>DEPARTMENT</strong></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for client in client_filter %}
+                        <tr scope="row">
+                            <td><a href="client_detail/{{client.pk}}">{{ client.pk }}</a></td>
+                            <td>{{ client }}</td>
+                            <td>{{ client.department.company }}</td>
+                            <td>{{ client.contact }}</td>
+                            <td>{{ client.contact.department }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
 		</div>
+
         <div class="col-1"></div>
+        
 	</div>
 </div>
 

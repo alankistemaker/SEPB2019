@@ -77,7 +77,7 @@ def Adduser(request):
 #profile edit
 @login_required(login_url="/CPPMS/login/")
 def profile_edit(request, template_name="profile_edit.html"):
-    usernamer = request.user.first_name +' '+ request.user.last_name
+    username = request.user.first_name +' '+ request.user.last_name
     if request.method == "POST":
         form = UserForm(data=request.POST, instance=request.user)
         if form.is_valid():
@@ -372,6 +372,7 @@ def client_list(request):
         filter_value = ""
 
     client_list = Client.objects.all()
+    
     if filter_value:
         client_filter = client_list.filter(
             Q(pk__icontains=filter_value) | Q(name__icontains=filter_value)
@@ -388,10 +389,14 @@ def client_list(request):
 def client_detail(request, pk=None):
     username = request.user.first_name +' '+ request.user.last_name
     client_detail = get_object_or_404(Client, pk=pk)
-    companies = Company.objects.all()
-
+    proposals = Proposal.objects.all()
     
-    return render(request, "client_detail.html", {"client_detail": client_detail,'username':username, "companies": companies})
+    filter_value = client_detail.pk
+    
+    if filter_value:
+        proposal_filter = proposals.filter( client_id=filter_value )
+    
+    return render(request, "client_detail.html", {"proposal_filter": proposal_filter, "client_detail": client_detail, "username": username, "proposals": proposals})
 
 @login_required(login_url="/CPPMS/login/")
 def client_edit(request, pk=None):

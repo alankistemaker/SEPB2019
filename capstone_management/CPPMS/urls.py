@@ -25,9 +25,9 @@ urlpatterns = [
     
     path("client/client_list/", views.client_list, name="client_list"),
     
-    re_path("client_edit/(?P<pk>[_\w\d\-]+)$", views.client_edit, name="client_edit"),
-    
     re_path("client_detail/(?P<pk>[_\w\d\-]+)$", views.client_detail, name="client_detail"),
+    
+    re_path("client_edit/(?P<pk>[_\w\d\-]+)$", views.client_edit, name="client_edit"),
     
     path("project/", views.project, name="project"),
     
