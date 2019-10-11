@@ -48,4 +48,8 @@ urlpatterns = [
     path('change_pw/', views.change_password, name='Change_pw'),
     path('add_user/', views.Adduser, name='Adduser'),
     path('pro_edit/', views.profile_edit, name='profile-edit'),
+    path('ajax_calls/search/', views.autocompleteModel, name='autocompleteModel'),
+    path('ajax_calls/search2/', views.autocompleteModel2, name='autocompleteModel2'),
+    path('ajax_calls/search3/', views.autocompleteModel3, name='autocompleteModel3'),
+   
 ]

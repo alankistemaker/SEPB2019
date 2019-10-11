@@ -15,8 +15,62 @@ from django.contrib.auth.decorators import login_required
 from .forms import UserLoginForm,SignUpForm,UserForm
 from django.contrib import messages
 from django.contrib.auth.forms import PasswordChangeForm
-
+from django.http import HttpResponse
+import json
 # Create your views here.
+
+def autocompleteModel(request):
+    if request.is_ajax():
+        q = request.GET.get('term', '').capitalize()
+        search_qs = Client.objects.filter(Q(pk__icontains=q) | Q(name__startswith=q))
+        results = []
+        print (q)
+        for r in search_qs:
+            results.append(r.name)
+
+    
+        data = json.dumps(results)
+    else:
+        data = 'fail'
+    mimetype = 'application/json'
+    return HttpResponse(data, mimetype)
+
+def autocompleteModel2(request):
+    if request.is_ajax():
+        q = request.GET.get('term', '').capitalize()
+        search_qs = Project.objects.filter(
+                    Q(pk__icontains=q)
+            | Q(title__icontains=q)
+            | Q(category__icontains=q)
+            | Q(completed=False)
+        )
+        results = []
+        print (q)
+        for r in search_qs:
+            results.append(r.title)
+        data = json.dumps(results)
+    else:
+        data = 'fail'
+    mimetype = 'application/json'
+    return HttpResponse(data, mimetype)
+
+
+def autocompleteModel3(request):
+    if request.is_ajax():
+        q = request.GET.get('term', '').capitalize()
+        search_qs = Client.objects.filter(
+        Q(pk__icontains=q) | Q(title__icontains=q)
+        )
+        results = []
+        print (q)
+        for r in search_qs:
+            results.append(r.name)
+        data = json.dumps(results)
+    else:
+        data = 'fail'
+    mimetype = 'application/json'
+    return HttpResponse(data, mimetype)
+
 
 #logout_view
 def logout_view(request):
