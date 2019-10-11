@@ -3,7 +3,7 @@ from .models import *
 from .forms import *
 from django.conf import settings
 from django.db.models import Q
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
 from django.core.files.storage import FileSystemStorage
 from docx import Document
@@ -19,16 +19,6 @@ def count():
     count_all = count_web + count_word
     count = [count_web, count_word, count_all]
     return count
-
-
-def index(request):
-    count()
-    return render(request, "index.html", {"count":count})
-
-
-def proposal(request):
-    count()
-    return render(request, "proposal.html", {"count":count})
 
     
 def word_proposal(request):
@@ -168,7 +158,6 @@ def word_detail(request, pk=None):
             
         if "save" in request.POST:
             Department.objects.create(name=department_name, phone=department_phone, email=department_email)
-            Company.objects.create(name=company_desc, address=company_address, website=company_website)
             Contact.objects.create(name=contact_name, position=contact_position, phone=contact_phone, email=contact_email)
             Client.objects.create(name=client_name)
             Internal_Supervisor.objects.create(name_first=supervisor_name, email=supervisor_email)
@@ -197,55 +186,66 @@ def incoming_proposal(request):
 
 def proposal_extract(request, pk=None):
     proposal_extract = get_object_or_404(Incoming_Proposal, pk=pk)
+    queryset_client = Client.objects.all()
+    existing_client = list(queryset_client)
+    exist = False
     count()
 
     if request.method == "POST":
-        extract_id = request.POST.get("pk")
-        extract_title = request.POST.get("title")
-        extract_description = request.POST.get("description")
-        extract_status = request.POST.get("status")
+        proposal_id = request.POST.get("pk")
+        title = request.POST.get("title")
+        description = request.POST.get("description")
+        status = request.POST.get("status")
         
-        extract_client_name = request.POST.get("client_name")
+        client_name = request.POST.get("client_name")
+        company_desc = request.POST.get("company_desc")
+        company_website = request.POST.get("company_website")
+        company_address = request.POST.get("company_address")
         
-        extract_company_desc = request.POST.get("company_desc")
-        extract_company_website = request.POST.get("company_website")
-        extract_company_address = request.POST.get("company_address")
+        contact_name = request.POST.get("contact_name")
+        contact_phone = request.POST.get("contact_phone")
+        contact_email = request.POST.get("contact_email")
+        contact_position = request.POST.get("contact_position")
         
-        extract_contact_name = request.POST.get("contact_name")
-        extract_contact_phone = request.POST.get("contact_phone")
-        extract_contact_email = request.POST.get("contact_email")
-        extract_contact_position = request.POST.get("contact_position")
+        department_name = request.POST.get("department_name")
+        department_phone = request.POST.get("department_phone")
+        department_email = request.POST.get("department_email")
         
-        extract_department_name = request.POST.get("department_name")
-        extract_department_phone = request.POST.get("department_phone")
-        extract_department_email = request.POST.get("department_email")
+        proposal_specialisation = request.POST.get("proposal_specialisation")
+        proposal_skills = request.POST.get("proposal_skills")
+        proposal_environment = request.POST.get("proposal_environment")
+        proposal_research = request.POST.get("proposal_research")
         
-        extract_proposal_specialisation = request.POST.get("proposal_specialisation")
-        extract_proposal_skills = request.POST.get("proposal_skills")
-        extract_proposal_environment = request.POST.get("proposal_environment")
-        extract_proposal_research = request.POST.get("proposal_research")
-        
-        extract_supervisor_name = request.POST.get("supervisor_name")
-        extract_supervisor_phone = request.POST.get("supervisor_phone")
-        extract_supervisor_email = request.POST.get("supervisor_email")
-        extract_supervisor_title = request.POST.get("supervisor_title")
+        supervisor_name = request.POST.get("supervisor_name")
+        supervisor_phone = request.POST.get("supervisor_phone")
+        supervisor_email = request.POST.get("supervisor_email")
+        supervisor_title = request.POST.get("supervisor_title")
 
         if "save" in request.POST:
-            Department.objects.create(name=extract_department_name, phone=extract_department_phone, email=extract_department_email)
-            Company.objects.create(name=extract_company_desc, address=extract_company_address, website=extract_company_website)
-            Contact.objects.create(name=extract_contact_name, position=extract_contact_position, phone=extract_contact_phone, email=extract_contact_email)
-            Client.objects.create(name=extract_client_name)
-            Internal_Supervisor.objects.create(name_first=extract_supervisor_name, email=extract_supervisor_email)
-            Proposal.objects.create(title=extract_title, desc=extract_description, status=extract_status,
-                                    spec=extract_proposal_specialisation, skills=extract_proposal_skills,
-                                    env=extract_proposal_environment, res=extract_proposal_research)
+            Department.objects.create(name=department_name, phone=department_phone, email=department_email)
+            Contact.objects.create(name=contact_name, position=contact_position, phone=contact_phone, email=contact_email)
+            External_Supervisor.objects.create(name=supervisor_name, email=supervisor_email, phone=supervisor_phone, title=supervisor_title)
+            Proposal.objects.create(title=title, desc=description, status=status, spec=proposal_specialisation, 
+                                    skills=proposal_skills, env=proposal_environment, res=proposal_research)
+            for i in range(len(existing_client)):
+                if str(client_name).lower() == str(existing_client[i]).lower():
+                    exist = True
+                    pass
+            if not exist:
+                Client.objects.create(name=client_name, address=company_address, website=company_website, desc=company_desc)
+            else:
+                print("Existing client!")
             print("Sucess Update Project Detail!")
             
-            proposal_extract = Incoming_Proposal.proposals.filter(pk=extract_id).delete()
+            proposal_extract = Incoming_Proposal.proposals.filter(pk=proposal_id).delete()
             print("Sucess Delete This Incoming Proposal!")
+            
+            return redirect("../../proposal_list")
         elif "delete" in request.POST:
-            proposal_extract = Incoming_Proposal.proposals.filter(pk=extract_id).delete()
+            proposal_extract = Incoming_Proposal.proposals.filter(pk=proposal_id).delete()
             print("Sucess Delete This Incoming Proposal!")
+            
+            return redirect("../../incoming_proposal")
 
     return render(request, "proposal_extract.html", {"count":count, "proposal_extract": proposal_extract})
 

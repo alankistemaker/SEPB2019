@@ -12,6 +12,7 @@ class Incoming_Proposal(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=50, default="N/A")
+    
     client_name = models.CharField(max_length=255, default="N/A")
     company_desc = models.TextField(default="N/A")
     company_website = models.CharField(max_length=255, default="N/A")
@@ -49,6 +50,8 @@ class Incoming_Proposal(models.Model):
 class Upload_Proposal(models.Model):
     title = models.CharField(max_length=128, default="")
     filepath = models.FileField(null=True, blank=True, default="")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     
     pass
 
@@ -57,33 +60,35 @@ class Upload_Proposal(models.Model):
     
 
 class Internal_Supervisor(models.Model):
-    name_first = models.CharField(max_length=128, default="")
-    name_last = models.CharField(max_length=128, default="")
+    name = models.CharField(max_length=128, default="")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     email = models.CharField(max_length=255, default="")
+    phone = models.CharField(max_length=10, default="00000000")
+    title = models.CharField(max_length=255, default="N/A")
 
     # OEM Relationships
     pass
 
     def __str__(self):
-        return self.name_last + ", " + self.name_first
+        return self.name
 
 
 class External_Supervisor(models.Model):
-    name_first = models.CharField(max_length=128, default="")
-    name_last = models.CharField(max_length=128, default="")
+    name = models.CharField(max_length=128, default="")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     email = models.CharField(max_length=255, default="")
+    phone = models.CharField(max_length=10, default="00000000")
+    title = models.CharField(max_length=255, default="N/A")
 
     # OEM Relationships
     pass
 
     def __str__(self):
-        return self.name_last + " " + self.name_first
+        return self.name
 
 
 class Unit(models.Model):
@@ -106,22 +111,6 @@ class Unit(models.Model):
         return self.unit_code + ": " + self.title
 
 
-class Company(models.Model):
-    name = models.CharField(max_length=128, default="")
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    address = models.CharField(max_length=255, default="")
-    website = models.CharField(max_length=255, default="")
-    desc = models.TextField(default="")
-
-    # OEM Relationships
-    pass
-
-    def __str__(self):
-        return self.name
-
-
 class Department(models.Model):
     name = models.CharField(max_length=128, default="")
     created_at = models.DateTimeField(auto_now_add=True)
@@ -130,8 +119,6 @@ class Department(models.Model):
     phone = models.CharField(max_length=10, default="00000000")
     email = models.CharField(max_length=255, default="")
 
-    # OEM Relationships
-    company = models.ForeignKey(Company, models.SET_NULL, blank=True, null=True)
     pass
 
     def __str__(self):
@@ -159,9 +146,13 @@ class Client(models.Model):
     name = models.CharField(max_length=128, default="")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
+    address = models.CharField(max_length=255, default="")
+    website = models.CharField(max_length=255, default="")
+    desc = models.TextField(default="")
 
     # OEM Relationships
-    company = models.ForeignKey(Company, models.SET_NULL, blank=True, null=True)
+    department = models.ForeignKey(Department, models.SET_NULL, blank=True, null=True)
     contact = models.ForeignKey(Contact, models.SET_NULL, blank=True, null=True)
     pass
 

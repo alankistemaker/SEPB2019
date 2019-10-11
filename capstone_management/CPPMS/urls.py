@@ -6,8 +6,6 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("index/", views.index, name="index"),
-    path("proposal/", views.proposal, name="proposal"),
     path("proposal/word_proposal/", views.word_proposal, name="word_proposal"),
     re_path("word_proposal_detail/(?P<pk>[_\w\d\-]+)$", views.word_detail, name="word_detail"),
     path("proposal/incoming_proposal/", views.incoming_proposal, name="incoming_proposal"),
