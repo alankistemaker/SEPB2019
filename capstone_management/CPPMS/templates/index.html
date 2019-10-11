@@ -45,10 +45,10 @@
                     </li>
                 </div>   
                     <li class="nav-item dropdown">
-                        <i class="fa fa-bell" id="navbardrop" data-toggle="dropdown" style="font-size:36px; width:50px; color:#D3D3D3" href="#"></i>
+                        <a class="btn" role="button" data-toggle="tooltip" title="Notifications"><i class="fa fa-bell" id="navbardrop" data-toggle="dropdown" style="font-size:36px; width:50px; color:#D3D3D3" href="#"></i></a>
                     </li>
 				<li class="nav-item dropdown dropleft">
-					<i class="fas fa-user-circle" id="navbardrop" data-toggle="dropdown" style="font-size:36px; width:50px; color:#D3D3D3" href="#"></i>
+                    <a class="btn" role="button" data-toggle="dropdown" id="navbardrop"><i class="fas fa-user-circle" data-toggle="tooltip" title="Profile" style="font-size:36px; width:50px; color:#D3D3D3"></i></a>
 					<div class="dropdown-menu">
 						<a class="dropdown-item" href="{% url 'change_pw' %}">Change Password</a>
 						<a class="dropdown-item" href="{% url 'adduser' %}">Add New User</a>

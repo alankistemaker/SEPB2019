@@ -1,13 +1,15 @@
-{% extends "base.html" %}
+{% extends "index.html" %}
 
 {% load widget_tweaks %}
 {% load staticfiles %}
 
-{% block page_content %}
+{% block index_page_content %}
 <div class="container-fluid">
 	<div class="row">
+        <div class="col-3"></div>
 		<div class="card-body">
 			<h2>Add New User</h2>
+            <hr />
 			
             <form class="form" method="post">
 			{% csrf_token %}
@@ -30,6 +32,7 @@
 			<button type="submit" class="btn btn-flat btn-primary ink-reaction">Add User</button>
 			</form>
 		</div>
+        <div class="col-3"></div>
 	</div>
 </div>
 

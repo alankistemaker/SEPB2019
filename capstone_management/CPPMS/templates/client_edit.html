@@ -2,7 +2,8 @@
 
 {% block sub-page_content %}
 <div class="container-fluid">
-    <form method="POST">{% csrf_token %}
+    <form method="POST">
+        {% csrf_token %}
 
         <div class="row mb-2 mt-5" style="font-family:Segoe UI; color:#000000; font-size:16px">
             <div class="col-3"></div>
@@ -11,12 +12,8 @@
                 <hr />
             </div>
             <div class="col-1">
-                <button type="submit" name="save" value="save">
-                    <i class="fas fa-save" style="font-size:25px"></i>
-                </button>
-                <button type="submit" name="delete" value="delete">
-                    <i class="fa fa-trash" style="font-size:25px"></i>
-                </button>
+                <a class="btn" role="button" type="submit" name="save" value="save" data-toggle="tooltip" title="Save"><i class="fa fa-save" style="font-size:25px"></i></a>
+                <a class="btn" role="button" type="submit" name="delete" value="delete" data-toggle="tooltip" title="Delete"><i class="fa fa-trash" style="font-size:25px"></i></a>
             </div>
             <div class="col-3"></div>
         </div>

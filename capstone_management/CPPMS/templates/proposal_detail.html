@@ -1,4 +1,25 @@
-{% extends "proposal.html" %} {% block page_detail_content %}
+{% extends "proposal.html" %}
+{% block page_detail_content %}
+<div class="container-fluid">
+    <form method="POST">
+    {% csrf_token %}
+        <div class="row mb-2 mt-5">
+            <div class="col-3"></div>
+
+            <div class="col">
+                <h1>Proposal Details</h1>
+                <hr />
+            </div>
+
+            <div class="col-3"></div>
+        </div>
+
+        <div class="row mb-2">
+
+        </div>
+    </form>
+</div>
+
 <form method="POST">
   {% csrf_token %}
   <div style="position:absolute; left:93%; top:105px; height:70px;">

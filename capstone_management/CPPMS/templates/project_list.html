@@ -1,44 +1,59 @@
 {% extends "project.html" %} {% block sub-page_content %}
 <div class="container-fluid">
-	<div class="row">
-        <div class="col-1">
-            
-        </div>
-		<div class="col-10">
-			<table class="table table-bordered">
-			<tr style="text-align:center; background-color:#C0C0C0">
-				<th style="width:15%"><strong>PROJECT ID</strong></th>
-				<th style="width:35%"><strong>PROJECT TITLE</strong></th>
-				<th style="width:25%"><strong>PROJECT CATEGORY</strong></th>
-				<th style="width:10%"><strong>YEAR</strong></th>
-				<th style="width:15%"><strong>UNIT CODE</strong></th>
-			</tr>
-			<td>Current Projects</td>
-			{% for project in project_filter %}
-			<tr style="text-align:center">
-				<td><a href="project_detail/{{ project.pk }}">{{ project.pk }}</a></td>
-				<td>{{ project.title }}</td>
-				<td>{{ project.category }}</td>
-				<td>{{ project.year }}</td>
-				<td>{{ project.unit }}</td>
-			</tr>
-			{% endfor %}
-			<td>Past Projects</td>
-			{% for project in past_projects %}
-			<tr style="text-align:center">
-				<td><a href="project_detail/{{ project.pk }}">{{ project.pk }}</a></td>
-				<td>{{ project.title }}</td>
-				<td>{{ project.category }}</td>
-				<td>{{ project.year }}</td>
-				<td>{{ project.unit }}</td>
-			</tr>
-			{% endfor %}
-			</table>
-		</div>
-        <div class="col-1">
-        
-        </div>
-	</div>
-</div>
+    
+    <div class="row mb-2 mt-5">
+        <div class="col-3"></div>
 
+        <div class="col">
+            <h1>Project List</h1>
+            <hr />
+        </div>
+
+        <div class="col-3"></div>
+    </div>
+    
+	<div class="row mb-2">
+        
+        <div class="col-1"></div>
+        
+		<div class="col">
+			<div class="table-responsive">
+                <table class="table table-bordered table-hover text-center">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col"><strong>PROJECT ID</strong></th>
+                            <th scope="col"><strong>PROJECT TITLE</strong></th>
+                            <th scope="col"><strong>PROJECT CATEGORY</strong></th>
+                            <th scope="col"><strong>YEAR</strong></th>
+                            <th scope="col"><strong>UNIT CODE</strong></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <td>Current Projects</td>
+                        {% for project in project_filter %}
+                        <tr scope="row">
+                            <td><a href="project_detail/{{ project.pk }}">{{ project.pk }}</a></td>
+                            <td>{{ project.title }}</td>
+                            <td>{{ project.category }}</td>
+                            <td>{{ project.year }}</td>
+                            <td>{{ project.unit }}</td>
+                        </tr>
+                        {% endfor %}
+                        <td>Past Projects</td>
+                        {% for project in past_projects %}
+                        <tr scope="row">
+                            <td><a href="project_detail/{{ project.pk }}">{{ project.pk }}</a></td>
+                            <td>{{ project.title }}</td>
+                            <td>{{ project.category }}</td>
+                            <td>{{ project.year }}</td>
+                            <td>{{ project.unit }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-1"></div>
+    </div>
+</div>
 {% endblock %}

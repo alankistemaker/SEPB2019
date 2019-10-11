@@ -91,7 +91,7 @@ def profile_edit(request, template_name="profile_edit.html"):
 
    # return render(template_name, locals(),
     #    context_instance=RequestContext(request))
-    return render(request, template_name, {'form': form,'usernamer':usernamer})
+    return render(request, template_name, {'form': form,'username':username})
 
 
 @login_required(login_url="/CPPMS/login/")

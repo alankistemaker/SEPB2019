@@ -1,44 +1,52 @@
 {% extends "proposal.html" %} {% block sub-page_content %}
 <div class="container-fluid">
-	<div class="row">
-        <div class="col-1">
-              
+    
+    <div class="row mb-2 mt-5">
+        <div class="col-3"></div>
+
+        <div class="col">
+            <h1>Proposal List</h1>
+            <hr />
         </div>
-        <div class="col-10">
-            <table class="table table-bordered">
-                <tr style="text-align:center; background-color:#C0C0C0">
-                    <th style="width:10%"><strong>PROPOSAL ID</strong></th>
-                    <th style="width:30%"><strong>PROPOSAL TITLE</strong></th>
-                    <th style="width:15%"><strong>DATE</strong></th>
-                    <th style="width:10%"><strong>UNIT CODE</strong></th>
-                    <th style="width:20%"><strong>DETAILS</strong></th>
-                    <th style="width:15%"><strong>NOTE</strong></th>
-                </tr>
-                {% for proposal in proposal_filter %}
-                <tr style="text-align:center">
-                    <td><a href="proposal_progress/{{ proposal.pk }}">{{ proposal.pk }}</a></td>
-                    <td>{{ proposal.title }}</td>
-                    <td>{{ proposal.created_at }}</td>
-                    <td>{{ proposal.proposal_unit }}</td>
-                    <td style="text-align:center">
-                        <button type="submit" name="proposal" value="proposal">
-                            <a href="proposal_detail/{{ proposal.pk }}" style="font-size:16px">Proposal</a>
-                        </button>
-                        <button type="submit" name="project" value="project">
-                            <a style="font-size:16px">Project</a>
-                        </button>
-                        <button type="submit" name="client" value="client">
-                            <a style="font-size:16px">Client</a>
-                        </button>
-                    </td>
-                    <td>{{ proposal.client }}</td>
-                </tr>
-                {% endfor %}
-            </table>
+
+        <div class="col-3"></div>
+    </div>
+    
+	<div class="row mb-2">
+        <div class="col-1"></div>
+        <div class="col">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover text-center">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col"><strong>PROPOSAL ID</strong></th>
+                            <th scope="col"><strong>PROPOSAL TITLE</strong></th>
+                            <th scope="col"><strong>DATE</strong></th>
+                            <th scope="col"><strong>UNIT CODE</strong></th>
+                            <th scope="col"><strong>DETAILS</strong></th>
+                            <th scope="col"><strong>NOTE</strong></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for proposal in proposal_filter %}
+                        <tr scope="row">
+                            <td><a href="proposal_progress/{{ proposal.pk }}">{{ proposal.pk }}</a></td>
+                            <td>{{ proposal.title }}</td>
+                            <td>{{ proposal.created_at }}</td>
+                            <td>{{ proposal.proposal_unit }}</td>
+                            <td style="text-align:center">
+                                <a class="btn" role="button" type="submit" name="proposal" value="proposal" data-toggle="tooltip" title="Proposal" href="proposal_detail/{{ proposal.pk }}">Proposal</a>
+                                <a class="btn" role="button" type="submit" name="project" value="project" data-toggle="tooltip" title="Project" href="">Project</a>
+                                <a class="btn" role="button" type="submit" name="client" value="client" data-toggle="tooltip" title="Client" href="">Client</a>
+                            </td>
+                            <td>{{ proposal.client }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="col-1">
-            
-		</div>
+        <div class="col-1"></div>
 	</div>
 </div>
 
