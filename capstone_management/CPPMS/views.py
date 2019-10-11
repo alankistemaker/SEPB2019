@@ -347,33 +347,6 @@ def client(request):
     return render(request, "client.html", {"count":count})
 
 
-def new_client(request):
-    count()
-    
-    if request.method == "POST":
-        client_id = request.POST.get("pk")
-        client_name = request.POST.get("name")
-        client_company_name = request.POST.get("company_name")
-        client_company_address = request.POST.get("company_address")
-        client_company_website = request.POST.get("company_website")
-        client_company_description = request.POST.get("company_description")
-        client_department_name = request.POST.get("department_name")
-        client_department_phone = request.POST.get("department_phone")
-        client_department_email = request.POST.get("department_email")
-        client_contact_name = request.POST.get("contact_name")
-        client_contact_position = request.POST.get("contact_position")
-        client_contact_phone = request.POST.get("contact_phone")
-        client_contact_email = request.POST.get("contact_email")
-
-        if "save" in request.POST:
-            ####Department.objects.create(name=client_department_name, phone=client_department_phone, email=client_department_email)
-            Company.objects.create(name=client_company_name, address=client_company_address, website=client_company_website, desc=client_company_description)
-            Contact.objects.create(name=client_contact_name, position=client_contact_position, phone=client_contact_phone, email=client_contact_email)
-            Client.objects.create(name=client_name)
-            print("Success Add New Client!")
-    return render(request, "new_client.html", {"count":count})
-
-
 def client_list(request):
     count()
     
