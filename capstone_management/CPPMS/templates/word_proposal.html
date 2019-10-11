@@ -30,7 +30,7 @@
               <a href="word_proposal_detail/{{ proposal.pk }}">{{ proposal.pk }}</a>
             </td>
             <td>{{ proposal.title }}</td>
-            <td></td>
+            <td>{{ proposal.created_at }}</td>
           </tr>
           {% endfor %}
         </table>

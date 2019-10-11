@@ -23,15 +23,29 @@ def count():
     
 def word_proposal(request):
     uploaded_proposal = ""
+    queryset_proposal = Upload_Proposal.objects.all()
+    existing_proposal = list(queryset_proposal)
+    exist = False
     count()
     
-    if "upload" in request.POST and request.FILES["file"]:
-        upload = request.FILES["file"]
-        fs = FileSystemStorage()
-        filename = fs.save(upload.name, upload)
-        uploaded_proposal = fs.url(filename)
-        
-        Upload_Proposal.objects.create(title=upload.name, filepath=uploaded_proposal)
+    if "upload" in request.POST:
+        try:
+            if "upload" in request.POST and request.FILES["file"]:
+                upload = request.FILES["file"]
+                fs = FileSystemStorage()
+                
+                for i in range(len(existing_proposal)):
+                    if str(upload.name).lower() == str(existing_proposal[i]).lower():
+                        exist = True
+                        pass
+                if not exist:
+                    filename = fs.save(upload.name, upload)
+                    uploaded_proposal = fs.url(filename)
+                    Upload_Proposal.objects.create(title=upload.name, filepath=uploaded_proposal)
+                else:
+                    print("Existing proposal!")        
+        except:
+            print("No file upload")
     
     word_proposals = Upload_Proposal.objects.all()
     return render(request, "word_proposal.html", {"count":count, "uploaded_proposal": uploaded_proposal, "word_proposals": word_proposals})
@@ -48,8 +62,7 @@ def word_detail(request, pk=None):
     description = ""
     status = ""
         
-    client_name = ""
-        
+    client_name = ""       
     company_desc = ""
     company_website = ""
     company_address = ""
