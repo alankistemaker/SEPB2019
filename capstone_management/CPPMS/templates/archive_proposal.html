@@ -11,25 +11,15 @@
           <th>Title</th>
           <th style="min-width: 120px">Client/Organisation Name</th>
           <th>Date</th>
-          <th>Note</th>
         </tr>
         {% for proposal in archive_proposal %}
         <tr>
           <td>
-            <a>{{ proposal.pk }}</a>
+            <a href="archive_detail/{{ proposal.pk }}">{{ proposal.pk }}</a>
           </td>
           <td>{{ proposal.title }}</td>
           <td>{{ proposal.client_name }}</td>
           <td>{{ proposal.created_at }}</td>
-          <td>
-            <form method="POST">{% csrf_token %}
-              <div class="mb-1">
-                <button type="submit" name="unarchive" value="unarchive" class="btn btn-primary" style="width: 120px">
-                   <a class="text-light">Unarchive</a>
-                </button>
-              </div>
-            </form>
-          </td>
         </tr>
         {% endfor %}
       </table>

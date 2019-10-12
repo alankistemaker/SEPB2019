@@ -15,6 +15,7 @@ urlpatterns = [
     re_path("proposal_progress/(?P<pk>[_\w\d\-]+)$", views.proposal_progress, name="proposal_progress"),
     re_path("proposal_detail/(?P<pk>[_\w\d\-]+)$", views.proposal_detail, name="proposal_detail"),
     path("proposal/archive_proposal/", views.archive_proposal, name="archive_proposal"),
+    re_path("archive_detail/(?P<pk>[_\w\d\-]+)$", views.archive_detail, name="archive_detail"),
     
     path("client/client_list/", views.client_list, name="client_list"),
     re_path("client_detail/(?P<pk>[_\w\d\-]+)$", views.client_detail, name="client_detail"),

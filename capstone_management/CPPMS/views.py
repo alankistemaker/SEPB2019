@@ -223,13 +223,6 @@ def incoming_proposal(request):
     return render(request, "incoming_proposal.html", {"count":count, "web_proposal": web_proposal})
 
 
-def archive_proposal(request):
-    archive_proposal = Archive_Proposal.objects.all()
-    count()
-    
-    return render(request, "archive_proposal.html", {"count":count, "archive_proposal": archive_proposal})
-
-
 def proposal_extract(request, pk=None):
     proposal_extract = get_object_or_404(Incoming_Proposal, pk=pk)
     count()
@@ -386,6 +379,68 @@ def proposal_detail(request, pk=None):
             return redirect("../../proposal_list")
               
     return render(request, "proposal_detail.html", {"count":count, "proposal_detail": proposal_detail})
+
+
+def archive_proposal(request):
+    archive_proposal = Archive_Proposal.objects.all()
+    count()
+    
+    return render(request, "archive_proposal.html", {"count":count, "archive_proposal": archive_proposal})
+
+
+def archive_detail(request, pk=None):
+    archive_detail = get_object_or_404(Archive_Proposal, pk=pk)
+    count()
+    
+    if request.method == "POST":
+        proposal_id = request.POST.get("pk")
+        title = request.POST.get("title")
+        description = request.POST.get("description")
+        status = request.POST.get("status")
+        
+        client_name = request.POST.get("client_name")
+        company_desc = request.POST.get("company_desc")
+        company_website = request.POST.get("company_website")
+        company_address = request.POST.get("company_address")
+        
+        contact_name = request.POST.get("contact_name")
+        contact_phone = request.POST.get("contact_phone")
+        contact_email = request.POST.get("contact_email")
+        contact_position = request.POST.get("contact_position")
+        
+        department_name = request.POST.get("department_name")
+        department_phone = request.POST.get("department_phone")
+        department_email = request.POST.get("department_email")
+        
+        proposal_specialisation = request.POST.get("proposal_specialisation")
+        proposal_skills = request.POST.get("proposal_skills")
+        proposal_environment = request.POST.get("proposal_environment")
+        proposal_research = request.POST.get("proposal_research")
+        
+        supervisor_name = request.POST.get("supervisor_name")
+        supervisor_phone = request.POST.get("supervisor_phone")
+        supervisor_email = request.POST.get("supervisor_email")
+        supervisor_title = request.POST.get("supervisor_title")
+        
+        if "delete" in request.POST:
+            archive_detail = Archive_Proposal.objects.filter(pk=proposal_id).delete()
+            print("Sucess Delete This Proposal Forever!")
+            
+            return redirect("../../archive_proposal")
+        
+        if "unarchive" in request.POST:
+            incoming_proposal = Incoming_Proposal.proposals.create(title=title, description=description, status=status, client_name=client_name, company_desc=company_desc, 
+                                company_website=company_website, company_address=company_address, contact_name=contact_name, contact_phone=contact_phone, contact_email=contact_email,
+                                contact_position=contact_position, department_name=department_name, department_phone=department_phone, department_email=department_email,
+                                proposal_specialisation=proposal_specialisation, proposal_skills=proposal_skills, proposal_environment=proposal_environment, proposal_research=proposal_research,
+                                supervisor_name=supervisor_name, supervisor_phone=supervisor_phone, supervisor_email=supervisor_email, supervisor_title=supervisor_title)
+            archive_detail = Archive_Proposal.objects.filter(pk=proposal_id).delete()
+            
+            print("Sucess Unarchive This Proposal!")
+            
+            return redirect("../../incoming_proposal")
+              
+    return render(request, "archive_detail.html", {"count":count, "archive_detail": archive_detail})
 
 
 def project_list(request):
