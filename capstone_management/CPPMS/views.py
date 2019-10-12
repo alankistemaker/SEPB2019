@@ -53,9 +53,6 @@ def word_proposal(request):
 
 def word_detail(request, pk=None):
     proposal_detail = get_object_or_404(Upload_Proposal, pk=pk)
-    queryset_client = Client.objects.all()
-    existing_client = list(queryset_client)
-    exist = False
     count()
     extract = False
     extract_word = {}
@@ -173,20 +170,34 @@ def word_detail(request, pk=None):
             return redirect("../../word_proposal")
             
         if "save" in request.POST:
-            Department.objects.create(name=department_name, phone=department_phone, email=department_email)
-            Contact.objects.create(name=contact_name, position=contact_position, phone=contact_phone, email=contact_email)
-            External_Supervisor.objects.create(name=supervisor_name, email=supervisor_email, phone=supervisor_phone, title=supervisor_title)
-            Proposal.objects.create(title=title, desc=description, status=status, spec=proposal_specialisation, 
-                                    skills=proposal_skills, env=proposal_environment, res=proposal_research)
-            for i in range(len(existing_client)):
-                if str(client_name).lower() == str(existing_client[i]).lower():
-                    exist = True
-                    pass
-            if not exist:
-                Client.objects.create(name=client_name, address=company_address, website=company_website, desc=company_desc)
-            else:
-                print("Existing client!")
-                
+            # External Supervisor table
+            try:
+                external_supervisor_table = External_Supervisor.objects.create(name=supervisor_name, email=supervisor_email, phone=supervisor_phone, title=supervisor_title)
+            except:
+                external_supervisor_table = External_Supervisor.objects.get(name=supervisor_name)
+            # Department table
+            try:
+                department_table = Department.objects.create(name=department_name, phone=department_phone, email=department_email)
+            except:
+                department_table = Department.objects.get(name=department_name)
+            # Contact table
+            try:
+                contact_table = Contact.objects.create(name=contact_name, position=contact_position, phone=contact_phone, email=contact_email, department=department_table)
+            except:
+                contact_table = Contact.objects.get(name=contact_name)
+                contact_table.department = department_table
+            # Client table
+            try:
+                client_table = Client.objects.create(name=client_name, address=company_address, website=company_website, desc=company_desc, department=department_table, contact=contact_table)
+            except:
+                client_table = Client.objects.get(name=client_name)
+                client_table.department = department_table
+                client_table.contact = contact_table
+            # Proposal table 
+            proposal_table = Proposal.objects.create(title=title, desc=description, status=status, spec=proposal_specialisation, 
+                            skills=proposal_skills, env=proposal_environment, res=proposal_research, client=client_table, supervisors_external=external_supervisor_table)
+            print("Sucess Update Project Detail!")
+            
             proposal_detail = Upload_Proposal.objects.filter(pk=proposal_id).delete()
             #### os.remove(full_path) 
             print("Sucess Save/Update Word-structured Proposal Detail!")
@@ -214,9 +225,6 @@ def incoming_proposal(request):
 
 def proposal_extract(request, pk=None):
     proposal_extract = get_object_or_404(Incoming_Proposal, pk=pk)
-    queryset_client = Client.objects.all()
-    existing_client = list(queryset_client)
-    exist = False
     count()
 
     if request.method == "POST":
@@ -249,20 +257,33 @@ def proposal_extract(request, pk=None):
         supervisor_email = request.POST.get("supervisor_email")
         supervisor_title = request.POST.get("supervisor_title")
 
-        if "save" in request.POST:
-            Department.objects.create(name=department_name, phone=department_phone, email=department_email)
-            Contact.objects.create(name=contact_name, position=contact_position, phone=contact_phone, email=contact_email)
-            External_Supervisor.objects.create(name=supervisor_name, email=supervisor_email, phone=supervisor_phone, title=supervisor_title)
-            Proposal.objects.create(title=title, desc=description, status=status, spec=proposal_specialisation, 
-                                    skills=proposal_skills, env=proposal_environment, res=proposal_research)
-            for i in range(len(existing_client)):
-                if str(client_name).lower() == str(existing_client[i]).lower():
-                    exist = True
-                    pass
-            if not exist:
-                Client.objects.create(name=client_name, address=company_address, website=company_website, desc=company_desc)
-            else:
-                print("Existing client!")
+        if "save" in request.POST:                                  
+            # External Supervisor table
+            try:
+                external_supervisor_table = External_Supervisor.objects.create(name=supervisor_name, email=supervisor_email, phone=supervisor_phone, title=supervisor_title)
+            except:
+                external_supervisor_table = External_Supervisor.objects.get(name=supervisor_name)
+            # Department table
+            try:
+                department_table = Department.objects.create(name=department_name, phone=department_phone, email=department_email)
+            except:
+                department_table = Department.objects.get(name=department_name)
+            # Contact table
+            try:
+                contact_table = Contact.objects.create(name=contact_name, position=contact_position, phone=contact_phone, email=contact_email, department=department_table)
+            except:
+                contact_table = Contact.objects.get(name=contact_name)
+                contact_table.department = department_table
+            # Client table
+            try:
+                client_table = Client.objects.create(name=client_name, address=company_address, website=company_website, desc=company_desc, department=department_table, contact=contact_table)
+            except:
+                client_table = Client.objects.get(name=client_name)
+                client_table.department = department_table
+                client_table.contact = contact_table
+            # Proposal table 
+            proposal_table = Proposal.objects.create(title=title, desc=description, status=status, spec=proposal_specialisation, 
+                            skills=proposal_skills, env=proposal_environment, res=proposal_research, client=client_table, supervisors_external=external_supervisor_table)
             print("Sucess Update Project Detail!")
             
             proposal_extract = Incoming_Proposal.proposals.filter(pk=proposal_id).delete()

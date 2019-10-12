@@ -92,7 +92,7 @@ class External_Supervisor(models.Model):
 
 
 class Unit(models.Model):
-    title = models.CharField(max_length=128, default="")
+    title = models.CharField(max_length=128, default="", unique=True)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -112,7 +112,7 @@ class Unit(models.Model):
 
 
 class Department(models.Model):
-    name = models.CharField(max_length=128, default="")
+    name = models.CharField(max_length=128, default="", unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -126,7 +126,7 @@ class Department(models.Model):
 
 
 class Contact(models.Model):
-    name = models.CharField(max_length=128, default="")
+    name = models.CharField(max_length=128, default="", unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -143,7 +143,7 @@ class Contact(models.Model):
 
 
 class Client(models.Model):
-    name = models.CharField(max_length=128, default="")
+    name = models.CharField(max_length=128, default="", unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
@@ -174,7 +174,7 @@ class Proposal(models.Model):
 
     # OEM Relationships
     client = models.ForeignKey(Client, models.SET_NULL, blank=True, null=True)
-    supervisors_external = models.ManyToManyField(External_Supervisor)
+    supervisors_external = models.ForeignKey(External_Supervisor, models.SET_NULL, blank=True, null=True)
     proposal_incoming = models.ForeignKey(
         Incoming_Proposal, models.SET_NULL, blank=True, null=True
     )
@@ -185,8 +185,7 @@ class Proposal(models.Model):
 
 
 class Student(models.Model):
-    name_first = models.CharField(max_length=128, default="")
-    name_last = models.CharField(max_length=128, default="")
+    name = models.CharField(max_length=128, default="", unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     email = models.CharField(max_length=128, default="")
@@ -196,11 +195,11 @@ class Student(models.Model):
     pass
 
     def __str__(self):
-        return self.name_last + " " + self.name_first
+        return self.name_
 
 
 class Project(models.Model):
-    title = models.CharField(max_length=128, default="")
+    title = models.CharField(max_length=128, default="", unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -225,7 +224,7 @@ class Project(models.Model):
 
 
 class Group(models.Model):
-    name = models.CharField(max_length=128, default="")
+    name = models.CharField(max_length=128, default="", unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

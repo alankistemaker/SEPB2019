@@ -29,9 +29,8 @@
                       <th>ID</th>
                       <th>Title</th>
                       <th>Date</th>
-                      <th style="min-width: 100px">Unit Code</th>
                       <th>Details</th>
-                      <th>Note</th>
+                      <th>Client Name</th>
                     </tr>
               </thead>
               <tbody>
@@ -42,7 +41,6 @@
                     </td>
                     <td>{{ proposal.title }}</td>
                     <td>{{ proposal.created_at }}</td>
-                    <td>{{ proposal.proposal_unit }}</td>
                     <td>
                       <div class="mb-1">
                           <button type="submit" name="proposal" value="proposal" class="btn btn-primary" style="width: 100px">
@@ -60,7 +58,7 @@
                             </button>
                       </div>
                     </td>
-                    <td>{{ proposal.client }}</td>
+                    <td>{{ proposal.client.name }}</td>
                   </tr>
                   {% endfor %}
               </tbody>
