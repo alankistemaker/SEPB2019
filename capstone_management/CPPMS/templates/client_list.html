@@ -28,7 +28,7 @@
                   <tr class="table-primary">
                       <th>ID</th>
                       <th>Client/Organisation Name</th>
-                      <th>Company</th>
+                      <th>Date</th>
                       <th>Contact Name</th>
                       <th>Department</th>
                     </tr>
@@ -40,9 +40,9 @@
                       <a href="client_detail/{{ client.pk }}">{{ client.pk }}</a>
                     </td>
                     <td>{{ client.name }}</td>
-                    <td>{{ client.company }}</td>
-                    <td>{{ client.contact }}</td>
-                    <td>{{ client.contact.department }}</td>
+                    <td>{{ client.updated_at }}</td>
+                    <td>{{ client.contact.name }}</td>
+                    <td>{{ client.contact.department.name }}</td>
                   </tr>
                   {% endfor %}
               </tbody>

@@ -466,28 +466,33 @@ def client_detail(request, pk=None):
 
     if request.method == "POST":
         client_id = request.POST.get("pk")
-        client_name = request.POST.get("name")
-        client_company_name = request.POST.get("company_name")
-        client_company_address = request.POST.get("company_address")
-        client_company_website = request.POST.get("company_website")
-        client_company_description = request.POST.get("company_description")
-        client_department_name = request.POST.get("department_name")
-        client_department_phone = request.POST.get("department_phone")
-        client_department_email = request.POST.get("department_email")
-        client_contact_name = request.POST.get("contact_name")
-        client_contact_position = request.POST.get("contact_position")
-        client_contact_phone = request.POST.get("contact_phone")
-        client_contact_email = request.POST.get("contact_email")
+        client_name = request.POST.get("client_name")
+        company_desc = request.POST.get("company_desc")
+        company_website = request.POST.get("company_website")
+        company_address = request.POST.get("company_address")
+        
+        contact_name = request.POST.get("contact_name")
+        contact_phone = request.POST.get("contact_phone")
+        contact_email = request.POST.get("contact_email")
+        contact_position = request.POST.get("contact_position")
+        
+        department_name = request.POST.get("department_name")
+        department_phone = request.POST.get("department_phone")
+        department_email = request.POST.get("department_email")
 
-        if "save" in request.POST:
-            client_detail = Client.objects.filter(pk=client_id).update(
-                name=client_name,
-                company=client_company_name,
-                contact=client_contact_name
-            )
-            print("Sucess Update Client Detail!")
-        elif request.POST.get("delete") == "delete":
+        if "delete" in request.POST:
             client_detail = Client.objects.filter(pk=client_id).delete()
-            print("Sucess Delete Client Detail!")
+            print("Sucess Delete This Client!")
+            
+            return redirect("../../client_list")
+        
+        if "save" in request.POST:
+            department_table = Department.objects.filter(name=department_name).update(phone=department_phone, email=department_email)
+            contact_table = Contact.objects.filter(name=contact_name).update(position=contact_position, phone=contact_phone, email=contact_email, department=department_table)
+            client_table = Client.objects.filter(pk=client_id).update(name=client_name, address=company_address, website=company_website, desc=company_desc, department=department_table, contact=contact_table)
+
+            print("Sucess Update Client Detail!")
+            
+            return redirect("../../client_list")
     return render(request, "client_detail.html", {"count":count, "client_detail": client_detail})
 
