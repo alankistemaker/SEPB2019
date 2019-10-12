@@ -325,6 +325,54 @@ def proposal_detail(request, pk=None):
     proposal_detail = get_object_or_404(Proposal, pk=pk)
     count()
     
+    if request.method == "POST":
+        proposal_id = request.POST.get("pk")
+        title = request.POST.get("title")
+        description = request.POST.get("description")
+        status = request.POST.get("status")
+        
+        client_name = request.POST.get("client_name")
+        company_desc = request.POST.get("company_desc")
+        company_website = request.POST.get("company_website")
+        company_address = request.POST.get("company_address")
+        
+        contact_name = request.POST.get("contact_name")
+        contact_phone = request.POST.get("contact_phone")
+        contact_email = request.POST.get("contact_email")
+        contact_position = request.POST.get("contact_position")
+        
+        department_name = request.POST.get("department_name")
+        department_phone = request.POST.get("department_phone")
+        department_email = request.POST.get("department_email")
+        
+        proposal_specialisation = request.POST.get("proposal_specialisation")
+        proposal_skills = request.POST.get("proposal_skills")
+        proposal_environment = request.POST.get("proposal_environment")
+        proposal_research = request.POST.get("proposal_research")
+        
+        supervisor_name = request.POST.get("supervisor_name")
+        supervisor_phone = request.POST.get("supervisor_phone")
+        supervisor_email = request.POST.get("supervisor_email")
+        supervisor_title = request.POST.get("supervisor_title")
+        
+        if "delete" in request.POST:
+            proposal_detail = Proposal.objects.filter(pk=proposal_id).delete()
+            print("Sucess Delete This Proposal!")
+            
+            return redirect("../../proposal_list")
+        
+        if "save" in request.POST:
+            external_supervisor_table = External_Supervisor.objects.filter(name=supervisor_name).update(email=supervisor_email, phone=supervisor_phone, title=supervisor_title)
+            department_table = Department.objects.filter(name=department_name).update(phone=department_phone, email=department_email)
+            contact_table = Contact.objects.filter(name=contact_name).update(position=contact_position, phone=contact_phone, email=contact_email, department=department_table)
+            client_table = Client.objects.filter(name=client_name).update(address=company_address, website=company_website, desc=company_desc, department=department_table, contact=contact_table)
+            
+            proposal_detail = Proposal.objects.filter(pk=proposal_id).update(title=title, desc=description, status=status, spec=proposal_specialisation, 
+                            skills=proposal_skills, env=proposal_environment, res=proposal_research, client=client_table, supervisors_external=external_supervisor_table)
+            print("Sucess Update Project Detail!")
+            
+            return redirect("../../proposal_list")
+              
     return render(request, "proposal_detail.html", {"count":count, "proposal_detail": proposal_detail})
 
 
