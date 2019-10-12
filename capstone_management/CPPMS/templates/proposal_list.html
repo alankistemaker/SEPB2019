@@ -29,7 +29,7 @@
                       <th>ID</th>
                       <th>Title</th>
                       <th>Date</th>
-                      <th>Details</th>
+                      <th>Note</th>
                       <th>Client Name</th>
                     </tr>
               </thead>
@@ -43,18 +43,13 @@
                     <td>{{ proposal.created_at }}</td>
                     <td>
                       <div class="mb-1">
-                          <button type="submit" name="proposal" value="proposal" class="btn btn-primary" style="width: 100px">
-                              <a href="proposal_detail/{{ proposal.pk }}" class="text-light">Proposal</a>
+                          <button type="submit" name="proposal" value="proposal" class="btn btn-primary" style="width: 120px">
+                              <a href="proposal_detail/{{ proposal.pk }}" class="text-light">Details</a>
                             </button>
                       </div>
                       <div class="mb-1">
-                          <button type="submit" name="project" value="project" class="btn btn-primary" style="width: 100px">
-                              <a>Project</a>
-                            </button>
-                      </div>
-                      <div class="mb-1">
-                          <button type="submit" name="client" value="client" class="btn btn-primary" style="width: 100px">
-                              <a>Client</a>
+                          <button type="submit" name="project" value="project" class="btn btn-primary" style="width: 120px">
+                              <a>Generation</a>
                             </button>
                       </div>
                     </td>

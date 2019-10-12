@@ -223,6 +223,13 @@ def incoming_proposal(request):
     return render(request, "incoming_proposal.html", {"count":count, "web_proposal": web_proposal})
 
 
+def archive_proposal(request):
+    archive_proposal = Archive_Proposal.objects.all()
+    count()
+    
+    return render(request, "archive_proposal.html", {"count":count, "archive_proposal": archive_proposal})
+
+
 def proposal_extract(request, pk=None):
     proposal_extract = get_object_or_404(Incoming_Proposal, pk=pk)
     count()
@@ -291,6 +298,11 @@ def proposal_extract(request, pk=None):
             
             return redirect("../../proposal_list")
         elif "delete" in request.POST:
+            archive_proposal = Archive_Proposal.objects.create(title=title, description=description, status=status, client_name=client_name, company_desc=company_desc, 
+                                company_website=company_website, company_address=company_address, contact_name=contact_name, contact_phone=contact_phone, contact_email=contact_email,
+                                contact_position=contact_position, department_name=department_name, department_phone=department_phone, department_email=department_email,
+                                proposal_specialisation=proposal_specialisation, proposal_skills=proposal_skills, proposal_environment=proposal_environment, proposal_research=proposal_research,
+                                supervisor_name=supervisor_name, supervisor_phone=supervisor_phone, supervisor_email=supervisor_email, supervisor_title=supervisor_title)
             proposal_extract = Incoming_Proposal.proposals.filter(pk=proposal_id).delete()
             print("Sucess Delete This Incoming Proposal!")
             
@@ -376,12 +388,6 @@ def proposal_detail(request, pk=None):
     return render(request, "proposal_detail.html", {"count":count, "proposal_detail": proposal_detail})
 
 
-def project(request):
-    count()
-    
-    return render(request, "project.html", {"count":count})
-
-
 def project_list(request):
     count()
     
@@ -436,12 +442,6 @@ def project_detail(request, pk=None):
             print("Sucess Delete Project Detail!")
 
     return render(request, "project_detail.html", {"count":count, "project_detail": project_detail, "units": units, "groups": groups})
-
-
-def client(request):
-    count()
-    
-    return render(request, "client.html", {"count":count})
 
 
 def client_list(request):

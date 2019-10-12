@@ -45,6 +45,46 @@ class Incoming_Proposal(models.Model):
     # Return title of proposal
     def __str__(self):
         return self.title
+    
+
+class Archive_Proposal(models.Model):
+    # Entity Elements
+    title = models.CharField(max_length=255, default="NO TITLE")
+    description = models.TextField(default="NO DESCRIPTION")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    status = models.CharField(max_length=50, default="N/A")
+    
+    client_name = models.CharField(max_length=255, default="N/A")
+    company_desc = models.TextField(default="N/A")
+    company_website = models.CharField(max_length=255, default="N/A")
+    company_address = models.CharField(max_length=255, default="N/A")
+
+    contact_name = models.CharField(max_length=255, default="N/A")
+    contact_phone = models.CharField(max_length=10, default="N/A")
+    contact_email = models.CharField(max_length=255, default="N/A")
+    contact_position = models.CharField(max_length=255, default="N/A")
+
+    department_name = models.CharField(max_length=255, default="N/A")
+    department_phone = models.CharField(max_length=10, default="N/A")
+    department_email = models.CharField(max_length=255, default="N/A")
+
+    proposal_specialisation = models.TextField(default="N/A")
+    proposal_skills = models.TextField(default="N/A")
+    proposal_environment = models.TextField(default="N/A")
+    proposal_research = models.TextField(default="N/A")
+
+    supervisor_name = models.CharField(max_length=255, default="N/A")
+    supervisor_phone = models.CharField(max_length=10, default="N/A")
+    supervisor_email = models.CharField(max_length=255, default="N/A")
+    supervisor_title = models.CharField(max_length=255, default="N/A")
+
+    # OEM Relationships
+    pass
+
+    # Return title of proposal
+    def __str__(self):
+        return self.title
 
 
 class Upload_Proposal(models.Model):
