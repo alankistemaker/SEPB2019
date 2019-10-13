@@ -1,69 +1,67 @@
 {% extends "proposal.html" %}
+
 {% block sub-page_content %}
-  {% if not messages %}
-    <h2>Proposal Progress</h2>
-  {% else %}
-    <h2>Proposal Progress</h2>
-    {% for message in messages %}<li>{{ message }}</li>{% endfor %}
-  {% endif %}
+
+{% if not messages %}
+<h2>Proposal Progress</h2>
+{% else %}
+<h2>Proposal Progress</h2>
+{% for message in messages %}<li>{{ message }}</li>{% endfor %}
+{% endif %}
+
 {% endblock %}
 
 {% block page_detail_content %}
-      <form method="POST">{% csrf_token %}
-          <div style="position:absolute; left:96%; top:105px; height:70px;">
-              <button type="submit" name="save" value="save"><i class="fas fa-save" style="font-size:25px"></i></button>
-              <button type="submit" name="generate" value="generate"><i class="fas fa-project-diagram" style="font-size:25px"></i></button>
-          </div>
-          
-          <div style="position:absolute; top:170px; left:18%; font-family:Segoe UI; color:#000000; font-size:16px">
-              <p>Title: <input type="text" style="left:45%; width:500px; text-align:right;" name="title" value="{{ proposal_progress.title }}"/></p>
-          </div>
-          
-          <table border="3" style="position:absolute; top:230px; left:15%; width:85%; font-family:Segoe UI; font-size:16px">
-              <tr style="text-align:center; background-color:#C0C0C0">
-                  <th style="width:35%"><strong>PROPOSAL STAGE</strong></th>
-                  <th style="width:15%"><strong>ASSIGN</strong></th>
-                  <th style="width:15%"><strong>DATE</strong></th>
-                  <th style="width:10%"><strong>STATUS</strong></th>
-                  <th style="width:25%"><strong>NOTE</strong></th>
-              </tr>
-              <tr>
-                  <td style="text-align:center">Proposal is recieved from Client</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-              </tr>
-              <tr>
-                  <td style="text-align:center">Proposal is allocated to Unit</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-              </tr>
-              <tr>
-                  <td style="text-align:center">Proposal is allocated to Student Team</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-              </tr>
-              <tr>
-                  <td style="text-align:center">Proposal is allocated to Supervisor</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-              </tr>
-              <tr>
-                  <td style="text-align:center">Proposal is generated to Project</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-              </tr>
-          </table>
-          
-      </form>
+
+<form method="POST">
+    {% csrf_token %}
+    <div style="position:absolute; left:96%; top:105px; height:70px;">
+        <button type="submit" name="save" value="save"><i class="fas fa-save" style="font-size:25px"></i></button>
+    </div>
+    <table border="3" style="position:absolute; top:160px; left:15%; width:85%; font-family:Segoe UI; font-size:16px">
+        <tr style="text-align:center; background-color:#C0C0C0">
+            <th style="width:35%"><strong>PROPOSAL STAGE</strong></th>
+            <th style="width:15%"><strong>ASSIGN</strong></th>
+            <th style="width:15%"><strong>DATE</strong></th>
+            <th style="width:10%"><strong>STATUS</strong></th>
+            <th style="width:25%"><strong>NOTE</strong></th>
+        </tr>
+        <tr>
+            <td style="text-align:center">Proposal is recieved from Client</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td style="text-align:center">Proposal is allocated to Unit</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td style="text-align:center">Proposal is allocated to Student Team</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td style="text-align:center">Proposal is allocated to Supervisor</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td style="text-align:center">Proposal is generated to Project</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+</form>
 
 {% endblock %}

@@ -1,62 +1,63 @@
 {% extends "project.html" %} 
+
 {% block sub-page_content %}
-  {% if not messages %}
-    <h2>Project List</h2>
-  {% else %}
-    <h2>Project List</h2>
-    {% for message in messages %}<li>{{ message }}</li>{% endfor %}
-  {% endif %}
+
+{% if not messages %}
+<h2>Project List</h2>
+{% else %}
+<h2>Project List</h2>
+{% for message in messages %}<li>{{ message }}</li>{% endfor %}
+{% endif %}
+
 {% endblock %}
 
 {% block page_detail_content %}
-<div class="row mb-2">
-    <div class="col-12">
-        <form method="POST" class="form-inline bg-white rounded shadow-sm pt-2 pl-3 border">
-            {% csrf_token %}
-            <div class="form-group mb-2 mr-3">
-                <label class="font-weight-bold">Search</label>
-            </div>
-            <div class="form-group mb-2 mr-1">
-                <input type="text" class="form-control" placeholder="Filter by project_title, project_id, project_category..." name="project_list" value="{{ filter_value }}" style="width: 500px"/>
-            </div>
-            <div class="form-group mb-2">
-                <button class="btn btn-primary" type="submit"><i class="ti-search"></i></button>
-            </div>
-        </form>
-    </div>
-</div>
 
-<div class="row">
-    <div class="col-12">
+<div class="row mb-2">
+
+    <div class="col-1"></div>
+
+    <div class="col">
         <div class="table-responsive card shadow-sm">
-            <table class="table table-hover">
-              <thead>
-                  <tr class="table-primary">
-                      <th>ID</th>
-                      <th>Title</th>
-                      <th style="min-width: 200px">Category</th>
-                      <th style="min-width: 100px">Unit Code</th>
-                      <th style="min-width: 100px">Year</th>
-                      <th style="min-width: 150px">Created at</th>
+            <table class="table table-bordered table-hover text-center">
+                <thead>
+                    <tr class="table-primary">
+                        <th scope="col"><strong>PROJECT ID</strong></th>
+                        <th scope="col"><strong>PROJECT TITLE</strong></th>
+                        <th scope="col"><strong>PROJECT CATEGORY</strong></th>
+                        <th scope="col"><strong>YEAR</strong></th>
+                        <th scope="col"><strong>UNIT CODE</strong></th>
+                        <th scope="col"><strong>CREATED AT</strong></th>
                     </tr>
-              </thead>
-              <tbody>
-                  {% for project in project_filter %}
-                  <tr>
-                    <td>
-                      <a href="project_detail/{{ project.pk }}">{{ project.pk }}</a>
-                    </td>
-                    <td>{{ project.title }}</td>
-                    <td>{{ project.category }}</td>
-                    <td>{{ project.unit_code }}</td>
-                    <td>{{ project.year }}</td>
-                    <td>{{ project.created_at }}</td>
-                  </tr>
-                  {% endfor %}
-              </tbody>
+                </thead>
+                <tbody>
+                    <td>Current Projects</td>
+                    {% for project in project_filter %}
+                    <tr scope="row">
+                        <td><a href="project_detail/{{ project.pk }}">{{ project.pk }}</a></td>
+                        <td>{{ project.title }}</td>
+                        <td>{{ project.category }}</td>
+                        <td>{{ project.year }}</td>
+                        <td>{{ project.unit }}</td>
+                        <td>{{ project.created_at }}</td>
+                    </tr>
+                    {% endfor %}
+                    <td>Past Projects</td>
+                    {% for project in past_projects %}
+                    <tr scope="row">
+                        <td><a href="project_detail/{{ project.pk }}">{{ project.pk }}</a></td>
+                        <td>{{ project.title }}</td>
+                        <td>{{ project.category }}</td>
+                        <td>{{ project.year }}</td>
+                        <td>{{ project.unit }}</td>
+                        <td>{{ project.created_at }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
             </table>
         </div>
-    </div>    
+    </div>
+    <div class="col-1"></div>
 </div>
 
 {% endblock %}

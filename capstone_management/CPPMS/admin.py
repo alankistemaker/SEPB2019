@@ -1,6 +1,23 @@
 from django.contrib import admin
 from .models import *
 
+from .models import (
+    Incoming_Proposal,
+    Internal_Supervisor,
+    External_Supervisor,
+    Unit,
+    Company,
+    Department,
+    Contact,
+    Client,
+    Proposal,
+    Student,
+    Project,
+    Group,
+)
+admin.site.site_header = "CPPMS Administration"
+admin.site.site_title = "CPPMS Administration"
+
 # Register your models here.
 admin.site.register(Incoming_Proposal)
 admin.site.register(Internal_Supervisor)

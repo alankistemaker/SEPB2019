@@ -17,8 +17,10 @@ from django.contrib import admin
 from django.conf import settings
 from django.urls import include, path
 from django.conf.urls.static import static
+from CPPMS import views
 
 urlpatterns = [
+    path('', views.login_view, name='login'),
     path('CPPMS/', include('CPPMS.urls')),
     path('admin/', admin.site.urls),
 ]

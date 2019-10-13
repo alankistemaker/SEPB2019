@@ -1,16 +1,21 @@
-{% extends "proposal.html" %} 
+{% extends "proposal.html" %}
+           
 {% block sub-page_content %}
-  {% if not messages %}
-    <h2>Proposal List</h2>
-  {% else %}
-    <h2>Proposal List</h2>
-    {% for message in messages %}<li>{{ message }}</li>{% endfor %}
-  {% endif %}
+
+{% if not messages %}
+<h2>Proposal List</h2>
+{% else %}
+<h2>Proposal List</h2>
+{% for message in messages %}<li>{{ message }}</li>{% endfor %}
+{% endif %}
+
 {% endblock %}
 
 {% block page_detail_content %}
+
 <div class="row mb-2">
-    <div class="col-12">
+    <div class="col-3"></div>
+    <div class="col">
         <form method="POST" class="form-inline bg-white rounded shadow-sm pt-2 pl-3 border">
             {% csrf_token %}
             <div class="form-group mb-2 mr-3">
@@ -20,52 +25,47 @@
                 <input type="text" class="form-control" placeholder="Filter by proposal id, proposal title..." name="proposal_list" value="{{ filter_value }}" style="width: 500px"/>
             </div>
             <div class="form-group mb-2">
-                <button class="btn btn-primary" type="submit"><i class="ti-search"></i></button>
+                <button class="btn btn-primary fa fa-search" type="submit"></button>
             </div>
         </form>
     </div>
+    <div class="col-3"></div>
 </div>
 
-<div class="row">
-    <div class="col-12">
+<div class="row mb-2">
+    <div class="col-1"></div>
+    <div class="col">
         <div class="table-responsive card shadow-sm">
-            <table class="table table-hover">
-              <thead>
-                  <tr class="table-primary">
-                      <th>ID</th>
-                      <th>Title</th>
-                      <th>Date</th>
-                      <th>Note</th>
-                      <th>Client Name</th>
+            <table class="table table-bordered table-hover text-center">
+                <thead>
+                    <tr class="table-primary">
+                        <th scope="col"><strong>PROPOSAL ID</strong></th>
+                        <th scope="col"><strong>PROPOSAL TITLE</strong></th>
+                        <th scope="col"><strong>DATE</strong></th>
+                        <th scope="col"><strong>UNIT CODE</strong></th>
+                        <th scope="col"><strong>NOTE</strong></th>
+                        <th scope="col"><strong>CLIENT NAME</strong></th>
                     </tr>
-              </thead>
-              <tbody>
-                  {% for proposal in proposal_filter %}
-                  <tr>
-                    <td>
-                      <a href="proposal_progress/{{ proposal.pk }}">{{ proposal.pk }}</a>
-                    </td>
-                    <td>{{ proposal.title }}</td>
-                    <td>{{ proposal.created_at }}</td>
-                    <td>
-                      <div class="mb-1">
-                          <button type="submit" name="proposal" value="proposal" class="btn btn-primary" style="width: 120px">
-                              <a href="proposal_detail/{{ proposal.pk }}" class="text-light">Details</a>
-                            </button>
-                      </div>
-                      <div class="mb-1">
-                          <button type="submit" name="project" value="project" class="btn btn-primary" style="width: 120px">
-                              <a>Generation</a>
-                            </button>
-                      </div>
-                    </td>
-                    <td>{{ proposal.client.name }}</td>
-                  </tr>
-                  {% endfor %}
-              </tbody>
+                </thead>
+                <tbody>
+                    {% for proposal in proposal_filter %}
+                    <tr scope="row">
+                        <td><a href="proposal_progress/{{ proposal.pk }}">{{ proposal.pk }}</a></td>
+                        <td>{{ proposal.title }}</td>
+                        <td>{{ proposal.created_at }}</td>
+                        <td>{{ proposal.proposal_unit }}</td>
+                        <td style="text-align:center">
+                            <a class="btn" role="button" type="submit" name="proposal" value="proposal" data-toggle="tooltip" title="Proposal" href="proposal_detail/{{ proposal.pk }}">Details</a>
+                            <a class="btn" role="button" type="submit" name="project" value="project" data-toggle="tooltip" title="Project" href="">Generation</a>
+                        </td>
+                        <td>{{ proposal.client.name }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
             </table>
         </div>
-    </div>    
+    </div>
+    <div class="col-1"></div>
 </div>
 
 {% endblock %}

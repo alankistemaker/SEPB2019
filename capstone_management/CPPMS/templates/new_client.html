@@ -1,0 +1,198 @@
+{% extends "client.html" %}
+
+{% block sub-page_content %}
+
+{% if not messages %}
+<h2>New Client</h2>
+{% else %}
+<h2>New Client</h2>
+{% for message in messages %}<li>{{ message }}</li>{% endfor %}
+{% endif %}
+
+{% endblock %}
+
+{% block page_detail_content %}
+
+<form method="POST">
+    {% csrf_token %}
+    
+    <div class="row mb-2">
+        <div class="col-8"></div>
+        <div class="col">
+            <a class="btn" role="button" type="submit" name="save" value="save" data-toggle="tooltip" title="Save"><i class="fa fa-save" style="font-size:25px"></i></a>
+            <a class="btn" role="button" type="submit" name="delete" value="delete" data-toggle="tooltip" title="Delete"><i class="fa fa-trash" style="font-size:25px"></i></a>
+        </div>
+        <div class="col-2"></div>
+    </div>
+    
+
+    <div class="row mb-2">
+        <div class="col-3"></div> 
+        <div class="col">
+            <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputID">Client ID:</span>
+                </div>
+                <input type="text" class="form-control" aria-label="pk" aria-describedby="inputID" style="text-align:right;" name="pk" value="{{ pk }}"/>
+            </div>
+        </div>
+        <div class="col-3"></div>
+    </div>
+    
+    <div class="row mb-2">
+        <div class="col-3"></div> 
+        <div class="col">
+            <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputName">Client Name:</span>
+                </div>
+                <input type="text" class="form-control" aria-label="name" aria-describedby="inputName" style="text-align:right;" name="name" value="{{ name }}"/>
+                <hr />
+            </div>
+        </div>
+        <div class="col-3"></div>
+    </div>
+
+    <div class="row mb-2">
+        <div class="col-3"></div> 
+        <div class="col">
+            <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputCompName">Company Name:</span>
+                </div>
+                <input type="text" class="form-control" aria-label="company_name" aria-describedby="inputCompName" style="text-align:right;" name="company_name" value="{{ company_name }}"/>
+            </div>
+        </div>
+        <div class="col-3"></div>
+    </div>
+    
+    <div class="row mb-2">
+        <div class="col-3"></div> 
+        <div class="col">
+            <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputCompWeb">Company Website:</span>
+                </div>
+                <input type="text" class="form-control" aria-label="company_website" aria-describedby="inputCompWeb" style="text-align:right;" name="company_website" value="{{ company_website }}"/>
+            </div>
+        </div>
+        <div class="col-3"></div>
+    </div>
+
+    <div class="row mb-2">
+        <div class="col-3"></div> 
+        <div class="col">
+            <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputCompAdd">Company Address:</span>
+                </div>
+                <input type="text" class="form-control" aria-label="company_address" aria-describedby="inputCompAdd" style="text-align:right;" name="company_address" value="{{ company_address }}"/>
+            </div>
+        </div>
+        <div class="col-3"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-3"></div> 
+        <div class="col">
+            <div class="form-group">
+                    <label for="inputCompDesc" class="input-group-text" id="inputCompDesc" >Company Description:</label>
+                <textarea class="form-control" rows="5" id="inputCompDesc" aria-label="company_description" aria-describedby="inputCompDesc" style="text-align:left;" name="company_description" value="{{ company_description }}"></textarea>
+            </div>
+        </div>
+        <div class="col-3"></div>
+    </div>
+
+    <div class="row mb-2">
+        <div class="col-3"></div> 
+        <div class="col">
+            <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputDepName">Department Name:</span>
+                </div>
+                <input type="text" class="form-control" aria-label="department_name" aria-describedby="inputDepName" style="text-align:right;" name="department_name" value="{{ department_name }}"/>
+            </div>
+        </div>
+        <div class="col-3"></div> 
+    </div>
+    
+    <div class="row mb-2">
+        <div class="col-3"></div> 
+        <div class="col">
+            <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputDepPhone">Department Phone:</span>
+                </div>
+                <input type="text" class="form-control" aria-label="department_phone" aria-describedby="inputDepPhone" style="text-align:right;" name="department_phone" value="{{ department_phone }}"/>
+            </div>
+        </div>
+        <div class="col-3"></div>
+    </div>
+
+    <div class="row mb-2">    
+        <div class="col-3"></div> 
+        <div class="col">
+            <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputDepEmail">Department Email:</span>
+                </div>
+                <input type="text" class="form-control" aria-label="department_email" aria-describedby="inputDepEmail" style="text-align:right;" name="department_email" value="{{ department_email }}"/>
+            </div>
+        </div>
+        <div class="col-3"></div>
+    </div>
+
+    <div class="row mb-2">
+        <div class="col-3"></div> 
+        <div class="col">
+            <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputContName">Contact Name:</span>
+                </div>
+                <input type="text" class="form-control" aria-label="contact_name" aria-describedby="inputContName" style="text-align:right;" name="contact_name" value="{{ contact_name }}"/>
+            </div>
+        </div>
+        <div class="col-3"></div> 
+    </div>
+    
+    <div class="row mb-2">
+        <div class="col-3"></div> 
+        <div class="col">
+            <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputContPos">Contact Position:</span>
+                </div>
+                <input type="text" class="form-control" aria-label="contact_position" aria-describedby="inputContPos" style="text-align:right;" name="contact_position" value="{{ contact_position }}"/>
+            </div>
+        </div>
+        <div class="col-3"></div>
+    </div>
+
+    <div class="row mb-2">
+        <div class="col-3"></div>
+        <div class="col">
+            <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputContPhone">Contact Phone:</span>
+                </div>
+                <input type="text" class="form-control" aria-label="contact_phone" aria-describedby="inputContPhone" style="text-align:right;" name="contact_phone" value="{{ contact_phone }}"/>
+            </div>
+        </div>
+        <div class="col-3"></div>
+    </div>
+
+    <div class="row mb-2">
+        <div class="col-3"></div> 
+        <div class="col">
+            <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputContEmail">Contact Email:</span>
+                </div>
+                <input type="text" class="form-control" aria-label="contact_email" aria-describedby="inputContEmail" style="text-align:right;" name="contact_email" value="{{ contact_email }}"/>
+            </div>
+        </div>
+        <div class="col-3"></div>   
+    </div>
+</form>
+
+{% endblock %}

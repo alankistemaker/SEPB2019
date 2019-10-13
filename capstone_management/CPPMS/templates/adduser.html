@@ -1,0 +1,41 @@
+{% extends "index.html" %}
+
+{% load widget_tweaks %}
+{% load staticfiles %}
+
+{% block index_page_content %}
+<div class="container-fluid">
+    <div class="card">
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="card-body">
+                <h2>Add New User</h2>
+                <hr />
+
+                <form class="form" method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                <div>
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.help_text %}
+                    <small style="color: grey">
+                        {{ field.help_text }}
+                    </small>
+                    {% endif %}
+                    {% for error in field.errors %}
+                    <p style="color: red">
+                        {{ error }}
+                    </p>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-flat btn-primary ink-reaction">Add User</button>
+                </form>
+            </div>
+            <div class="col-3"></div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

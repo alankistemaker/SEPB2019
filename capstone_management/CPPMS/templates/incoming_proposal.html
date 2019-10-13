@@ -1,33 +1,58 @@
 {% extends "proposal.html" %} 
 {% block sub-page_content %}
-  {% if not messages %}
-    <h2>Incoming Proposal</h2>
-  {% else %}
-    <h2>Incoming Proposal</h2>
-    {% for message in messages %}<li>{{ message }}</li>{% endfor %}
-  {% endif %}
+
+{% if not messages %}
+<h2>Incoming Proposal</h2>
+{% else %}
+<h2>Incoming Proposal</h2>
+{% for message in messages %}<li>{{ message }}</li>{% endfor %}
+{% endif %}
+
 {% endblock %}
 
-{% block page_detail_content %} 
-<div class="card table-responsive shadow-sm">
-    <table class="table table-hover">
-        <tr class="table-primary">
-          <th>ID</th>
-          <th>Title</th>
-          <th style="min-width: 120px">Client/Organisation Name</th>
-          <th>Date</th>
-        </tr>
-        {% for proposal in web_proposal %}
-        <tr>
-          <td>
-            <a href="proposal_extract/{{ proposal.pk }}">{{ proposal.pk }}</a>
-          </td>
-          <td>{{ proposal.title }}</td>
-          <td>{{ proposal.client_name }}</td>
-          <td>{{ proposal.created_at }}</td>
-        </tr>
-        {% endfor %}
-      </table>
-</div>        
+{% block page_detail_content %}
+    
+<div class="row mb-2 mt-5">
+    <div class="col-3"></div>
 
+    <div class="col">
+        <h1>Incoming Proposals</h1>
+        <hr />
+    </div>
+
+    <div class="col-3"></div>
+</div>
+
+<div class="row mb-2">
+
+    <div class="col-1"></div>
+
+    <div class="col">
+        <div class="table-responsive card shadow-sm">
+            <table class="table table-bordered table-hover text-center">
+                <thead>
+                    <tr class="table-primary">
+                        <th scope="col"><strong>ID</strong></th>
+                        <th scope="col"><strong>TITLE</strong></th>
+                        <th scope="col"><strong>CLIENT NAME</strong></th>
+                        <th scope="col"><strong>DATE</strong></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for proposal in web_proposal %}
+                    <tr scope="row">
+                        <td><a href="proposal_extract/{{ proposal.pk }}">{{ proposal.pk }}</a></td>
+                        <td>{{ proposal.title }}</td>
+                        <td>{{ proposal.client_name }}</td>
+                        <td>{{ proposal.created_at }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="col-1"></div>
+
+</div>
 {% endblock %}

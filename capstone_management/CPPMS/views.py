@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from .models import *
 from .forms import *
 from django.conf import settings
@@ -10,6 +9,19 @@ from django.contrib import messages
 from docx import Document
 from io import StringIO
 import os
+
+
+from django.contrib.auth import (
+authenticate,
+get_user_model,
+login,
+logout,
+update_session_auth_hash,
+)
+from django.contrib.auth.decorators import login_required
+from .forms import UserLoginForm,SignUpForm,UserForm
+from django.contrib import messages
+from django.contrib.auth.forms import PasswordChangeForm
 
 # Create your views here.
 
@@ -221,15 +233,119 @@ def word_detail(request, pk=None):
                    "proposal_research":proposal_research, "supervisor_name":supervisor_name, "supervisor_phone":supervisor_phone, 
                    "supervisor_email":supervisor_email, "supervisor_title":supervisor_title})
 
+# Logout View
 
+def logout_view(request):
+	logout(request)
+    
+	return redirect("/CPPMS/login/")
+
+# Login View
+
+def login_view(request):
+	form = UserLoginForm(request.POST or None)
+	if form.is_valid():
+		username = form.cleaned_data.get("username")
+		password = form.cleaned_data.get("password")
+		user = authenticate(username=username, password=password)
+		login(request,user)
+		if request.user.is_authenticated:
+			print("user is Authenticated")
+		else:
+			print("user is not Authenticated")
+		return redirect("/CPPMS/index/")
+    
+	return render(request,"login.html",{"form":form})
+
+# Change Password View
+
+@login_required(login_url="/CPPMS/login/")
+def change_password(request):
+    username = request.user.first_name +' '+ request.user.last_name
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            #msg= 'Your password was successfully updated!'
+            return redirect("/logout/")
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+        
+    return render(request, 'change_password.html', {
+        'form': form,"username": username
+    })
+
+# Add User View
+
+@login_required(login_url="/CPPMS/login/")
+def Adduser(request):
+    username = request.user.first_name +' '+ request.user.last_name
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect("/CPPMS/index/")
+    else:
+        form = SignUpForm()
+        
+    return render(request, 'adduser.html', {'form': form,"username": username})
+
+# Profile Edit View
+
+@login_required(login_url="/CPPMS/login/")
+def profile_edit(request, template_name="profile_edit.html"):
+    username = request.user.first_name +' '+ request.user.last_name
+    if request.method == "POST":
+        form = UserForm(data=request.POST, instance=request.user)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.save()
+            return redirect("/CPPMS/index/")
+    else:
+        form = UserForm(instance=request.user)
+
+   # return render(template_name, locals(),
+    #    context_instance=RequestContext(request))
+    return render(request, template_name, {'form': form,"username": username})
+
+# Index View
+
+@login_required(login_url="/CPPMS/login/")
+def index(request):
+    username = request.user.first_name +' '+ request.user.last_name
+    
+    return render(request, "index.html", {"username": username})
+
+# Base Proposal View
+
+@login_required(login_url="/CPPMS/login/")
+def proposal(request):
+    username = request.user.first_name +' '+ request.user.last_name
+    
+    return render(request, "proposal.html", {"username": username})
+
+# Incoming Proposals List View
+
+@login_required(login_url="/CPPMS/login/")
 def incoming_proposal(request):
+    username = request.user.first_name +' '+ request.user.last_name
     web_proposal = Incoming_Proposal.proposals.all()
     count()
     
-    return render(request, "incoming_proposal.html", {"count":count, "web_proposal": web_proposal})
+    return render(request, "incoming_proposal.html", {"count":count, "web_proposal": web_proposal,"username": username})
 
+# Proposal Extraction View
 
+@login_required(login_url="/CPPMS/login/")
 def proposal_extract(request, pk=None):
+    username = request.user.first_name +' '+ request.user.last_name
     proposal_extract = get_object_or_404(Incoming_Proposal, pk=pk)
     count()
 
@@ -308,10 +424,13 @@ def proposal_extract(request, pk=None):
             
             return redirect("../../incoming_proposal")
 
-    return render(request, "proposal_extract.html", {"count":count, "proposal_extract": proposal_extract})
+    return render(request, "proposal_extract.html", {"count":count, "proposal_extract": proposal_extract, "username": username})
 
+# Proposal List View
 
+@login_required(login_url="/CPPMS/login/")
 def proposal_list(request):
+    username = request.user.first_name +' '+ request.user.last_name
     count()
     
     if request.method == "POST":
@@ -321,13 +440,18 @@ def proposal_list(request):
 
     proposal_list = Proposal.objects.all()
     if filter_value:
-        proposal_filter = proposal_list.filter(Q(pk__icontains=filter_value) | Q(title__icontains=filter_value))
+        proposal_filter = proposal_list.filter(
+            Q(pk__icontains=filter_value) | Q(title__icontains=filter_value)
+        )
     else:
         proposal_filter = proposal_list.all()
-    return render(request, "proposal_list.html", {"count":count, "proposal_filter": proposal_filter, "filter_value": filter_value})
+    return render(request, "proposal_list.html", {"count":count, "proposal_filter": proposal_filter, "filter_value": filter_value, "username": username})
 
+# Proposal Progress View
 
+@login_required(login_url="/CPPMS/login/")
 def proposal_progress(request, pk=None):
+    username = request.user.first_name +' '+ request.user.last_name
     proposal_progress = get_object_or_404(Proposal, pk=pk)
     count()
     project_title = ""
@@ -348,9 +472,28 @@ def proposal_progress(request, pk=None):
             return redirect("../../../project/project_list")
         
     
-    return render(request, "proposal_progress.html", {"count":count, "proposal_progress": proposal_progress})
+    return render(request, "proposal_progress.html", {"count":count, "proposal_progress": proposal_progress, "username": username})
 
+# Proposal Detail View
+
+@login_required(login_url="/CPPMS/login/")
 def proposal_detail(request, pk=None):
+    username = request.user.first_name +' '+ request.user.last_name
+    proposal_detail = get_object_or_404(Proposal, pk=pk)
+    projects = Project.objects.all()
+    
+    filter_value = proposal_detail.pk
+    
+    if filter_value:
+        project_filter = projects.filter( proposal_id = filter_value )
+    
+    return render(request, "proposal_detail.html", {"proposal_detail": proposal_detail, "username": username, "project_filter": project_filter})
+
+# Proposal Edit View
+
+@login_required(login_url="/CPPMS/login/")
+def proposal_edit(request, pk=None):
+    username = request.user.first_name +' '+ request.user.last_name
     proposal_detail = get_object_or_404(Proposal, pk=pk)
     count()
     
@@ -403,7 +546,9 @@ def proposal_detail(request, pk=None):
             
             return redirect("../../proposal_list")
               
-    return render(request, "proposal_detail.html", {"count":count, "proposal_detail": proposal_detail})
+    return render(request, "proposal_edit.html", {"count":count, "proposal_detail": proposal_detail, "username": username})
+
+
 
 
 def archive_proposal(request):
@@ -465,10 +610,22 @@ def archive_detail(request, pk=None):
             
             return redirect("../../incoming_proposal")
               
-    return render(request, "archive_detail.html", {"count":count, "archive_detail": archive_detail})
+    return render(request, "archive_detail.html", {"count":count, "archive_detail": archive_detail, "username": username})
 
 
+# Project Base View
+
+@login_required(login_url="/CPPMS/login/")
+def project(request):
+    username = request.user.first_name +' '+ request.user.last_name
+    
+    return render(request, "project.html", {"username": username})
+
+# Project List View
+
+@login_required(login_url="/CPPMS/login/")
 def project_list(request):
+    username = request.user.first_name +' '+ request.user.last_name
     count()
     
     if request.method == "POST":
@@ -479,13 +636,19 @@ def project_list(request):
     project_list = Project.objects.all()
     if filter_value:
         project_filter = project_list.filter(Q(pk__icontains=filter_value) | Q(title__icontains=filter_value) | Q(category__icontains=filter_value) | Q(completed=False))
+        
+        past_projects = project_filter.filter(completed=True)
     else:
         project_filter = project_list.all()
+        past_projects = project_list.filter(completed=True)
 
-    return render(request, "project_list.html", {"count":count, "project_filter": project_filter, "filter_value": filter_value})
+    return render(request, "project_list.html", {"count":count, "project_filter": project_filter, "filter_value": filter_value, "past_projects": past_projects, "username": username})
 
+# Project Edit View
 
-def project_detail(request, pk=None):
+@login_required(login_url="/CPPMS/login/")
+def project_edit(request, pk=None):
+    username = request.user.first_name +' '+ request.user.last_name
     project_detail = get_object_or_404(Project, pk=pk)
     units = Unit.objects.all()
     groups = Group.objects.all()
@@ -521,58 +684,131 @@ def project_detail(request, pk=None):
             project_detail = Project.objects.filter(pk=project_id).delete()
             messages.add_message(request, messages.INFO, "Sucess Delete Project Detail!")
 
-    return render(request, "project_detail.html", {"count":count, "project_detail": project_detail, "units": units, "groups": groups})
+    return render(request, "project_detail.html", {"count":count, "project_detail": project_detail, "units": units, "groups": groups, "username": username})
 
+# Project Details View
 
-def client_list(request):
-    count()
+@login_required(login_url="/CPPMS/login/")
+def project_detail(request, pk=None):
+    username = request.user.first_name +' '+ request.user.last_name
+    project_detail = get_object_or_404(Project, pk=pk)
     
+    return render(request, "project_detail.html", {"project_detail": project_detail, "username": username,})
+
+# Base Client View
+
+@login_required(login_url="/CPPMS/login/")
+def client(request):
+    username = request.user.first_name +' '+ request.user.last_name
+    return render(request, "client.html", {"username": username})
+
+# New Client View
+
+@login_required(login_url="/CPPMS/login/")
+def new_client(request):
+    username = request.user.first_name +' '+ request.user.last_name
+    if request.method == "POST":
+        client_id = request.POST.get("pk")
+        client_name = request.POST.get("name")
+        client_company_name = request.POST.get("company_name")
+        client_company_address = request.POST.get("company_address")
+        client_company_website = request.POST.get("company_website")
+        client_company_description = request.POST.get("company_description")
+        client_department_name = request.POST.get("department_name")
+        client_department_phone = request.POST.get("department_phone")
+        client_department_email = request.POST.get("department_email")
+        client_contact_name = request.POST.get("contact_name")
+        client_contact_position = request.POST.get("contact_position")
+        client_contact_phone = request.POST.get("contact_phone")
+        client_contact_email = request.POST.get("contact_email")
+
+        if request.POST.get("save") == "save":
+            ####Department.objects.create(name=client_department_name, phone=client_department_phone, email=client_department_email)
+            Company.objects.create(
+                name=client_company_name,
+                address=client_company_address,
+                website=client_company_website,
+                desc=client_company_description,
+            )
+            Contact.objects.create(
+                name=client_contact_name,
+                position=client_contact_position,
+                phone=client_contact_phone,
+                email=client_contact_email,
+            )
+            Client.objects.create(name=client_name)
+            print("Success Add New Client!")
+    return render(request, "new_client.html", {"username": username})
+
+# Client List View
+
+@login_required(login_url="/CPPMS/login/")
+def client_list(request):
+    username = request.user.first_name +' '+ request.user.last_name
+    count()
+
     if request.method == "POST":
         filter_value = request.POST.get("client_list")
     else:
         filter_value = ""
 
     client_list = Client.objects.all()
+    
     if filter_value:
-        client_filter = client_list.filter(Q(pk__icontains=filter_value) | Q(name__icontains=filter_value))
+        client_filter = client_list.filter(
+            Q(pk__icontains=filter_value) | Q(name__icontains=filter_value)
+        )
     else:
         client_filter = client_list.all()
-    return render(request, "client_list.html", {"count":count, "client_filter": client_filter, "filter_value": filter_value})
+        
+    return render(request, "client_list.html", {"count":count, "client_filter": client_filter, "filter_value": filter_value, "username": username})
 
+# Client Details View
 
+@login_required(login_url="/CPPMS/login/")
 def client_detail(request, pk=None):
+    username = request.user.first_name +' '+ request.user.last_name
     client_detail = get_object_or_404(Client, pk=pk)
-    count()
+    proposals = Proposal.objects.all()
+    
+    filter_value = client_detail.pk
+    
+    if filter_value:
+        proposal_filter = proposals.filter( client_id=filter_value )
+    
+    return render(request, "client_detail.html", {"proposal_filter": proposal_filter, "client_detail": client_detail, "username": username, "proposals": proposals})
+
+# Client Edit View
+
+@login_required(login_url="/CPPMS/login/")
+def client_edit(request, pk=None):
+    username = request.user.first_name +' '+ request.user.last_name
+    client_edit = get_object_or_404(Client, pk=pk)
+    companies = Company.objects.all()
 
     if request.method == "POST":
         client_id = request.POST.get("pk")
-        client_name = request.POST.get("client_name")
-        company_desc = request.POST.get("company_desc")
-        company_website = request.POST.get("company_website")
-        company_address = request.POST.get("company_address")
-        
-        contact_name = request.POST.get("contact_name")
-        contact_phone = request.POST.get("contact_phone")
-        contact_email = request.POST.get("contact_email")
-        contact_position = request.POST.get("contact_position")
-        
-        department_name = request.POST.get("department_name")
-        department_phone = request.POST.get("department_phone")
-        department_email = request.POST.get("department_email")
+        client_name = request.POST.get("name")
+        client_company_name = request.POST.get("company_name")
+        client_company_address = request.POST.get("company_address")
+        client_company_website = request.POST.get("company_website")
+        client_company_description = request.POST.get("company_description")
+        client_department_name = request.POST.get("department_name")
+        client_department_phone = request.POST.get("department_phone")
+        client_department_email = request.POST.get("department_email")
+        client_contact_name = request.POST.get("contact_name")
+        client_contact_position = request.POST.get("contact_position")
+        client_contact_phone = request.POST.get("contact_phone")
+        client_contact_email = request.POST.get("contact_email")
 
-        if "delete" in request.POST:
-            client_detail = Client.objects.filter(pk=client_id).delete()
-            messages.add_message(request, messages.INFO, "Sucess Delete This Client!")
-            
-            return redirect("../../client_list")
-        
-        if "save" in request.POST:
-            department_table = Department.objects.filter(name=department_name).update(phone=department_phone, email=department_email)
-            contact_table = Contact.objects.filter(name=contact_name).update(position=contact_position, phone=contact_phone, email=contact_email, department=department_table)
-            client_table = Client.objects.filter(pk=client_id).update(name=client_name, address=company_address, website=company_website, desc=company_desc, department=department_table, contact=contact_table)
-
-            messages.add_message(request, messages.INFO, "Sucess Update Client Detail!")
-            
-            return redirect("../../client_list")
-    return render(request, "client_detail.html", {"count":count, "client_detail": client_detail})
-
+        if request.POST.get("save") == "save":
+            client_edit = Client.objects.filter(pk=client_id).update(
+                name=client_name,
+                company=client_company_name,
+                contact=client_contact_name,
+            )
+            print("Sucessfully Updated Client Details!")
+        elif request.POST.get("delete") == "delete":
+            client_edit = Client.objects.filter(pk=client_id).delete()
+            print("Sucessfully Deleted Client Details!")
+    return render(request, "client_edit.html", {"client_edit": client_edit,'username':username, "companies": companies})

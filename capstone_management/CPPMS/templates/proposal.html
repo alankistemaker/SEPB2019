@@ -1,45 +1,25 @@
 {% extends "index.html" %}
 
 {% block index_page_content %}
+
 <div class="row bg-light border rounded mt-2 mb-4 shadow-sm">
-  <div class="col-12 mt-2">
-    <div class="text-center text-secondary">
-        <!--Page title-->
-        {% block sub-page_content %}
+    <div class="col mt-2">
+        <div class="text-center text-secondary">
+            <!--Page title-->
+            {% block sub-page_content %}
+            
+            {% endblock %}
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col" >
+        <!--Main content-->
+        {% block page_detail_content %}
+        
         {% endblock %}
     </div>
-  </div>
 </div>
-
-<!--Sub menu-->
-<div class="row">
-  <div class="col-3" style="padding-left: 0; padding-right: 15px">
-      <div class="card shadow-sm">
-          <div class="text-center border-bottom mt-2 text-secondary">
-            <h3>Menu</h3>
-          </div>
-          <div style="font-size: 1.2em">
-            <p class="m-4"><a href="{% url 'incoming_proposal' %}">Incoming Proposal - {{ count.0 }}</a></p>
-            <p class="m-4"><a href="{% url 'word_proposal' %}">Import Proposal - {{ count.1 }}</a></p>
-            <p class="m-4"><a href="{% url 'proposal_list' %}">Proposal List </a></p>
-            <p class="m-4"><a href="{% url 'archive_proposal' %}">Archived Proposals</a></p>
-          </div>
-        </div>
-  </div>
-  <div class="col-9" style="padding-left: 0; padding-right: 0">
-      <!--Main content-->
-      {% block page_detail_content %}
-      {% endblock %}
-  </div>
-</div>
-
-<!--Make related tab active-->
-<script>
-  window.addEventListener('load', function() {
-    document.getElementById('proposal_li').classList.add('active');
-    document.getElementById('project_li').classList.remove('active');
-    document.getElementById('client_li').classList.remove('active');
-  });
-</script>
     
 {% endblock %}

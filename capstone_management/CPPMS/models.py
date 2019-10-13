@@ -14,6 +14,7 @@ class Incoming_Proposal(models.Model):
     status = models.CharField(max_length=50, default="N/A")
     
     client_name = models.CharField(max_length=255, default="N/A")
+    company_name = models.CharField(max_length=255, default="N/A")
     company_desc = models.TextField(default="N/A")
     company_website = models.CharField(max_length=255, default="N/A")
     company_address = models.CharField(max_length=255, default="N/A")
@@ -130,7 +131,6 @@ class External_Supervisor(models.Model):
     def __str__(self):
         return self.name
 
-
 class Unit(models.Model):
     title = models.CharField(max_length=128, default="", unique=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -149,6 +149,21 @@ class Unit(models.Model):
 
     def full(self):
         return self.unit_code + ": " + self.title
+    
+class Company(models.Model):
+    name = models.CharField(max_length=128, default="")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    address = models.CharField(max_length=255, default="")
+    website = models.CharField(max_length=255, default="")
+    desc = models.TextField(default="")
+
+    # OEM Relationships
+    pass
+
+    def __str__(self):
+        return self.name
 
 
 class Department(models.Model):
@@ -163,6 +178,38 @@ class Department(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Internal_Supervisor(models.Model):
+    name_first = models.CharField(max_length=128, default="")
+    name_last = models.CharField(max_length=128, default="")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    email = models.CharField(max_length=255, default="")
+
+    # OEM Relationships
+    department = models.ForeignKey(Department, models.SET_NULL, blank=True, null=True)
+    pass
+
+    def __str__(self):
+        return self.name_last + ", " + self.name_first
+
+
+class External_Supervisor(models.Model):
+    name_first = models.CharField(max_length=128, default="")
+    name_last = models.CharField(max_length=128, default="")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    email = models.CharField(max_length=255, default="")
+
+    # OEM Relationships
+    department = models.ForeignKey(Department, models.SET_NULL, blank=True, null=True)
+    pass
+
+    def __str__(self):
+        return self.name_last + " " + self.name_first
 
 
 class Contact(models.Model):
@@ -193,7 +240,10 @@ class Client(models.Model):
 
     # OEM Relationships
     department = models.ForeignKey(Department, models.SET_NULL, blank=True, null=True)
+    #company = models.ForeignKey(Company, models.SET_NULL, blank=True, null=True)
     contact = models.ForeignKey(Contact, models.SET_NULL, blank=True, null=True)
+    #company = models.ForeignKey(Company, models.SET_NULL, blank=True, null=True)
+    department = models.ForeignKey(Department, models.SET_NULL, blank=True, null=True)
     pass
 
     def __str__(self):
@@ -256,7 +306,7 @@ class Project(models.Model):
         Internal_Supervisor, models.SET_NULL, blank=True, null=True
     )
     group_members = models.ManyToManyField(
-        Student, through="Group", through_fields=("project", "student")
+        to="Student", through="Group", related_name="members"
     )
 
     def __str__(self):
@@ -273,9 +323,9 @@ class Group(models.Model):
     # OEM Relationships
     project = models.ForeignKey(Project, models.SET_NULL, blank=True, null=True)
     student = models.ForeignKey(Student, models.SET_NULL, blank=True, null=True)
-    leader = models.ForeignKey(
-        Student, models.SET_NULL, blank=True, null=True, related_name="group_leader"
-    )
+    ##leader = models.ForeignKey(
+    ##    Student, models.SET_NULL, blank=True, null=True, related_name="group_leader"
+    ##)
 
     def size(self):
         return self.count(student)

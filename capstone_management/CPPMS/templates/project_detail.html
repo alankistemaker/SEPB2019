@@ -1,148 +1,184 @@
 {% extends "project.html" %} 
+
 {% block sub-page_content %}
-  {% if not messages %}
-    <h2>Project Details</h2>
-  {% else %}
-    <h2>Project Details</h2>
-    {% for message in messages %}<li>{{ message }}</li>{% endfor %}
-  {% endif %}
+
+{% if not messages %}
+<h2>Project Details</h2>
+{% else %}
+<h2>Project Details</h2>
+{% for message in messages %}<li>{{ message }}</li>{% endfor %}
+{% endif %}
+
 {% endblock %}
 
 {% block page_detail_content %}
-<form method="POST">
-  {% csrf_token %}
-  <div style="position:absolute; left:93%; top:105px; height:70px;">
-    <button type="submit" name="save" value="save">
-      <i class="fas fa-save" style="font-size:25px"></i>
-    </button>
-    <button type="submit" name="delete" value="delete">
-      <i class="fa fa-trash" style="font-size:25px"></i>
-    </button>
-  </div>
 
-  <div
-    style="position:absolute; top:170px; left:18%; font-family:Segoe UI; color:#000000; font-size:16px"
-  >
-    <h1>Project Detail</h1>
-    <hr />
-    <br />
-    <p>
-      ID:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="pk"
-        value="{{ project_detail.pk }}"
-      />
-    </p>
-    <p>
-      Title:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="title"
-        value="{{ project_detail.title }}"
-      />
-    </p>
-    <p>
-      Category:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="category"
-        value="{{ project_detail.category }}"
-      />
-    </p>
-    <p>
-      Year:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="year"
-        value="{{ project_detail.year }}"
-      />
-    </p>
-    <p>
-      Completed:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="completed"
-        value="{{ project_detail.completed }}"
-      />
-    </p>
-    <p>
-      Group:
-      <input list="groups"
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="group"
-        value="{{ project_detail.group }}"
-      />
-      <datalist id="groups">
-      {% for group in groups %}
-      <option value={{ group }}
-      {% endfor %} 
-    </p>
-    <p>
-      Unit:
-      <input list="units"
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="project_unit"
-        value="{{ project_detail.unit }}"
-      />
-      <datalist id="units">
-        {% for unit in units %}
-        <option value={{unit.full}}>
-        {% endfor %}
-    </p>
-    <p>
-      Supervisor Name:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="supervisor_name"
-        value="{{ project_detail.internal_supervisor.name }}"
-      />
-    </p>
-    <p>
-      Supervisor Title:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="supervisor_title"
-        value="{{ project_detail.internal_supervisor.title }}"
-      />
-    </p>
-    <p>
-      Supervisor Email:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="supervisor_email"
-        value="{{ project_detail.internal_supervisor.email }}"
-      />
-    </p>
-    <p>
-      Supervisor Phone:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="supervisor_phone"
-        value="{{ project_detail.internal_supervisor.phone }}"
-      />
-    </p>
-    <p>
-      Proposal:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="proposal_title"
-        value="{{ project_detail.proposal.title }}"
-      />
-    </p>
-  </div>
-</form>
+<div class="row">
+    <div class="col">
+        <div class="row mb-2 mt-5">
+            <div class="col-5"></div>
+            
+            <div class="col-1">
+                <a href="project_edit/{{ project_detail.pk }}" class="btn" role="button" style="color:inherit" data-toggle="tooltip" title="Edit"><i class="fa fa-edit" style="font-size:25px"></i></a>
+            </div>
+            <div class="col-6"></div>
+            
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-1"></div>
+
+            <div class="col">
+                <div class="card">
+                    <h6 class="card-header"><strong>ID:</strong></h6>
+                    <div class="card-body text-center">
+                        <p class="card-text" value="{{ project_detail.pk }}">{{ project_detail.pk }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card">
+                    <h6 class="card-header"><strong>Project Title:</strong></h6>
+                    <div class="card-body text-center">
+                        <p class="card-text" value="{{ project_detail.title }}">{{ project_detail.title }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-2">
+
+            <div class="col-1"></div>
+
+            <div class="col">
+                <div class="card">
+                    <h6 class="card-header"><strong>Category:</strong></h6>
+                    <div class="card-body text-center">
+                        <p class="card-text" value="{{ project_detail.category }}">{{ project_detail.category }}</p>
+                    </div>            
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card">
+                    <h6 class="card-header"><strong>Year:</strong></h6>
+                    <div class="card-body text-center">
+                        <p class="card-text" value="{{ project_detail.year }}">{{ project_detail.year }}</p>
+                    </div>            
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-1"></div>
+
+            <div class="col">
+                <div class="card">
+                    <h6 class="card-header"><strong>Group:</strong></h6>
+                    <div class="card-body text-center">
+                        <p class="card-text" value="{{ project_detail.group }}">{{ project_detail.group }}</p>
+                    </div>            
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card">
+                    <h6 class="card-header"><strong>Unit:</strong></h6>
+                    <div class="card-body text-center">
+                        <p class="card-text" value="{{ project_detail.unit }}">{{ project_detail.unit }}</p>
+                    </div>            
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-1"></div>
+
+            <div class="col">
+                <div class="card">
+                    <h6 class="card-header"><strong>Convenor:</strong></h6>
+                    <div class="card-body text-center">
+                        <p class="card-text" value="{{ project_detail.convenor }}">{{ project_detail.convenor }}</p>
+                    </div>            
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card">
+                    <h6 class="card-header"><strong>Supervisor:</strong></h6>
+                    <div class="card-body text-center">
+                        <p class="card-text" value="{{ project_detail.internal_supervisor }}">{{ project_detail.internal_supervisor }}</p>
+                    </div>            
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-1"></div>
+
+            <div class="col">
+                <div class="card">
+                    <h6 class="card-header"><strong>Team Leader:</strong></h6>
+                    <div class="card-body text-center">
+                        <p class="card-text" value=""></p>
+                    </div>            
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card">
+                    <h6 class="card-header"><strong>Group Size:</strong></h6>
+                    <div class="card-body text-center">
+                        <p class="card-text" value=""></p>
+                    </div>            
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="row mb-2 mt-5">
+
+            <div class="col">
+                <h1>Project Groups</h1>
+                <hr />
+            </div>
+
+            <div class="col-1"></div>
+
+        </div>
+
+        <div class="row mb-2">
+
+            <div class="col">
+                <div class="table-responsive card shadow-sm">
+                    <table class="table table-bordered table-hover text-center">
+                        <thead>
+                            <tr class="table-primary">
+                                <th scope="col"><strong></strong></th>
+                                <th scope="col"><strong></strong></th>
+                                <th scope="col"><strong></strong></th>
+                                <th scope="col"><strong></strong></th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr scope="row">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-1"></div>
+
+        </div>
+    </div>
+</div>
 
 {% endblock %}

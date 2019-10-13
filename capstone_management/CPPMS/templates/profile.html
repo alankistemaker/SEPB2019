@@ -1,0 +1,37 @@
+{% extends "index.html" %}
+
+{% load widget_tweaks %}
+{% load staticfiles %}
+
+{% block index_page_content %}
+
+<div class="container-fluid">
+    <div class="row">    
+        <div class="col-3"></div>
+        <div class="col">
+            <div class="card-body">
+                <h2>Profile</h2>
+                <hr />
+                <form class="form" method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                <a>
+                    {{ field.label_tag }}<br>
+                    {{ field }}
+                    {% if field.help_text %}
+                    <small style="color: grey">{{ field.help_text }}</small>
+                    {% endif %}
+                    {% for error in field.errors %}
+                    <p style="color: red">{{ error }}</p>
+                    {% endfor %}
+                </a>
+                {% endfor %}
+                <button type="submit" class="btn btn-flat btn-primary ink-reaction">Apply</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-3"></div>
+    </div>
+</div>
+
+{% endblock %}

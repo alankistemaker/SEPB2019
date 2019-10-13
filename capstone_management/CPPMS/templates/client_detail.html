@@ -1,36 +1,226 @@
 {% extends "client.html" %}
+
 {% block sub-page_content %}
-  {% if not messages %}
-    <h2>Client Details</h2>
-  {% else %}
-    <h2>Client Details</h2>
-    {% for message in messages %}<li>{{ message }}</li>{% endfor %}
-  {% endif %}
+
+{% if not messages %}
+<h2>Client Details</h2>
+{% else %}
+<h2>Client Details</h2>
+{% for message in messages %}<li>{{ message }}</li>{% endfor %}
+{% endif %}
+
 {% endblock %}
 
 {% block page_detail_content %}
-      <form method="POST">{% csrf_token %}
-          <div style="position:absolute; left:93%; top:105px; height:70px;">
-              <button type="submit" name="save" value="save"><i class="fas fa-save" style="font-size:25px"></i></button>
-              <button type="submit" name="delete" value="delete"><i class="fa fa-trash" style="font-size:25px"></i></button>
-          </div>
-    
-          <div style="position:absolute; top:170px; left:18%; font-family:Segoe UI; color:#000000; font-size:16px">
-              <h1>Client Detail</h1>
-              <hr><br>
-              <p>Client ID: <input type="text" style="left:45%; width:500px; text-align:right;" name="pk" value="{{ client_detail.pk }}"></p>
-              <p>Client Name: <input type="text" style="left:45%; width:500px; text-align:right;" name="client_name" value="{{ client_detail.name }}"></p>
-              <p>Company Address: <input type="text" style="left:45%; width:500px; text-align:right;" name="company_address" value="{{ client_detail.address }}"></p>
-              <p>Company Website: <input type="text" style="left:45%; width:500px; text-align:right;" name="company_website" value="{{ client_detail.website }}"></p>
-              <p>Company Description: <input type="text" style="left:45%; width:500px; text-align:right;" name="company_desc" value="{{ client_detail.desc }}"></p>
-              <p>Department Name: <input type="text" style="left:45%; width:500px; text-align:right;" name="department_name" value="{{ client_detail.department.name }}"></p>
-              <p>Department Phone: <input type="text" style="left:45%; width:500px; text-align:right;" name="department_phone" value="{{ client_detail.department.phone }}"></p>
-              <p>Department Email: <input type="text" style="left:45%; width:500px; text-align:right;" name="department_email" value="{{ client_detail.department.email }}"></p>
-              <p>Contact Name: <input type="text" style="left:45%; width:500px; text-align:right;" name="contact_name" value="{{ client_detail.contact.name }}"></p>
-              <p>Contact Position: <input type="text" style="left:45%; width:500px; text-align:right;" name="contact_position" value="{{ client_detail.contact.position }}"></p>
-              <p>Contact Phone: <input type="text" style="left:45%; width:500px; text-align:right;" name="contact_phone" value="{{ client_detail.contact.phone }}"></p>
-              <p>Contact Email: <input type="text" style="left:45%; width:500px; text-align:right;" name="contact_email" value="{{ client_detail.contact.email }}"></p>
-          </div>
-      </form>
+
+<div class="row">
+    <div class="col">
+        <div class="row mb-2">
+
+            <div class="col-8"></div>
+
+            <div class="col">
+                <a href="client_edit/{{ client_detail.pk }}" class="btn" role="button" style="color:inherit" data-toggle="tooltip" title="Edit"><i class="fa fa-edit" style="font-size:25px"></i></a>
+            </div>
+
+            <div class="col-2"></div>
+
+        </div>
+
+        <div class="row mb-2">
+
+            <div class="col-1"></div>
+
+            <div class="col">
+                <div class="card">
+                    <h6 class="card-header"><strong>ID:</strong></h6>
+                    <div class="card-body text-center">
+                        <p class="card-text" value="{{ client_detail.pk }}">{{ client_detail.pk }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card">
+                    <h6 class="card-header"><strong>Client Name: </strong></h6>
+                    <div class="card-body text-center">
+                        <p class="card-text" value="{{ client_detail.name }}">{{client_detail.name }}</p>
+                    </div>            
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row mb-2">
+
+            <div class="col-1"></div>
+
+            <div class="col">
+                <div class="card">
+                    <h6 class="card-header"><strong>Company Name: </strong></h6>
+                    <div class="card-body text-center">
+                        <p class="card-text" value="{{ client_detail.department.company.name }}">{{ client_detail.department.company.name }}</p>
+                    </div>            
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card">
+                    <h6 class="card-header"><strong>Company Website:</strong></h6>
+                    <div class="card-body text-center">
+                        <p class="card-text" value="{{ client_detail.department.company.website }}">{{ client_detail.department.company.website }}</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+            <div class="row mb-2">
+
+                <div class="col-1"></div>
+
+                <div class="col">
+                    <div class="card">
+                        <h6 class="card-header"><strong>Company Address:</strong></h6>
+                        <div class="card-body text-center">
+                            <p class="card-text" value="{{ client_detail.department.company.address }}">{{ client_detail.department.company.address }}</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row mb-2">
+
+                <div class="col-1"></div>
+
+                    <div class="col">
+                        <div class="card">
+                            <h6 class="card-header"><strong>Company Description:</strong></h6>
+                            <div class="card-body text-center">
+                                <p class="card-text" value="{{ client_detail.department.company.description }}">{{ client_detail.department.company.description }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+
+            <div class="row mb-2">
+
+                <div class="col-1"></div>
+
+                <div class="col">
+                    <div class="card">
+                        <h6 class="card-header"><strong>Department Name:</strong></h6>
+                        <div class="card-body text-center">
+                            <p class="card-text" value="{{ client_detail.department.name }}">{{ client_detail.department.name }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card">
+                        <h6 class="card-header"><strong>Department Phone:</strong></h6>
+                        <div class="card-body text-center">
+                            <p class="card-text" value="{{ client_detail.department.phone }}">{{ client_detail.department.phone }}</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row mb-2">
+
+                <div class="col-1"></div>
+
+                <div class="col">
+                    <div class="card">
+                        <h6 class="card-header"><strong>Department Email:</strong></h6>
+                        <div class="card-body text-center">
+                            <p class="card-text" value="{{ client_detail.department.email }}">{{ client_detail.department.email }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card">
+                        <h6 class="card-header"><strong>Contact Name:</strong></h6>
+                        <div class="card-body text-center">
+                            <p class="card-text" value="{{ client_detail.contact.name }}">{{ client_detail.contact.name }}</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row mb-2">
+
+                <div class="col-1"></div>
+
+                <div class="col">
+                    <div class="card">
+                        <h6 class="card-header"><strong>Contact Position:</strong></h6>
+                        <div class="card-body text-center">
+                            <p class="card-text" value="{{ client_detail.contact.position }}">{{ client_detail.contact.position }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card">
+                        <h6 class="card-header"><strong>Contact Phone:</strong></h6>
+                        <div class="card-body text-center">
+                            <p class="card-text" value="{{ client_detail.contact.phone }}">{{ client_detail.contact.phone }}</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            </div>
+
+    <div class="col">
+        <div class="row mb-2 mt-5">
+
+            <div class="col">
+                <h1>Client Proposals</h1>
+                <hr />
+            </div>
+
+            <div class="col-1"></div>
+
+        </div>
+        <div class="row mb-2">
+
+            <div class="col">
+                <div class="table-responsive card shadow-sm">
+                    <table class="table table-bordered table-hover text-center">
+                        <thead>
+                            <tr class="table-primary">
+                                <th scope="col"><strong>ID</strong></th>
+                                <th scope="col"><strong>TITLE</strong></th>
+                                <th scope="col"><strong>DATE</strong></th>
+                                <th scope="col"><strong>SKILLS</strong></th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                        {% for proposal in proposal_filter %}
+                            <tr scope="row">
+                                <td>{{ proposal.pk }}</td>
+                                <td>{{ proposal.title }}</td>
+                                <td>{{ proposal.created_at }}</td>
+                                <td>{{ proposal.skills }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-1"></div>
+
+        </div>
+    </div>
+</div>
 
 {% endblock %}
