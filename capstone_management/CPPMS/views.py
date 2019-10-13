@@ -330,6 +330,23 @@ def proposal_list(request):
 def proposal_progress(request, pk=None):
     proposal_progress = get_object_or_404(Proposal, pk=pk)
     count()
+    project_title = ""
+    
+    if request.method == "POST":
+        project_title = request.POST.get("title")
+        
+        if "generate" in request.POST:
+            try:
+                internal_supervisor_table = Internal_Supervisor.objects.create(name=proposal_progress.supervisors_external.name, 
+                        email=proposal_progress.supervisors_external.email, phone=proposal_progress.supervisors_external.phone, title=proposal_progress.supervisors_external.title)
+            except:
+                internal_supervisor_table = Internal_Supervisor.objects.get(name=proposal_progress.supervisors_external.name)
+            
+            project_generate = Project.objects.create(title=project_title, internal_supervisor=internal_supervisor_table, proposal=proposal_progress)
+            messages.add_message(request, messages.INFO, "Sucess create a new project")
+            
+            return redirect("../../../project/project_list")
+        
     
     return render(request, "proposal_progress.html", {"count":count, "proposal_progress": proposal_progress})
 

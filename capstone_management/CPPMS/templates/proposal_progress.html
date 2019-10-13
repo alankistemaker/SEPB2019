@@ -12,9 +12,14 @@
       <form method="POST">{% csrf_token %}
           <div style="position:absolute; left:96%; top:105px; height:70px;">
               <button type="submit" name="save" value="save"><i class="fas fa-save" style="font-size:25px"></i></button>
+              <button type="submit" name="generate" value="generate"><i class="fas fa-project-diagram" style="font-size:25px"></i></button>
           </div>
           
-          <table border="3" style="position:absolute; top:160px; left:15%; width:85%; font-family:Segoe UI; font-size:16px">
+          <div style="position:absolute; top:170px; left:18%; font-family:Segoe UI; color:#000000; font-size:16px">
+              <p>Title: <input type="text" style="left:45%; width:500px; text-align:right;" name="title" value="{{ proposal_progress.title }}"/></p>
+          </div>
+          
+          <table border="3" style="position:absolute; top:230px; left:15%; width:85%; font-family:Segoe UI; font-size:16px">
               <tr style="text-align:center; background-color:#C0C0C0">
                   <th style="width:35%"><strong>PROPOSAL STAGE</strong></th>
                   <th style="width:15%"><strong>ASSIGN</strong></th>
