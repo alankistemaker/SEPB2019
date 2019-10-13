@@ -36,7 +36,7 @@
       />
     </p>
     <p>
-      Name:
+      Title:
       <input
         type="text"
         style="left:45%; width:500px; text-align:right;"
@@ -60,6 +60,15 @@
         style="left:45%; width:500px; text-align:right;"
         name="year"
         value="{{ project_detail.year }}"
+      />
+    </p>
+    <p>
+      Completed:
+      <input
+        type="text"
+        style="left:45%; width:500px; text-align:right;"
+        name="completed"
+        value="{{ project_detail.completed }}"
       />
     </p>
     <p>
@@ -89,39 +98,48 @@
         {% endfor %}
     </p>
     <p>
-      Convenor:
+      Supervisor Name:
       <input
         type="text"
         style="left:45%; width:500px; text-align:right;"
-        name="convenor"
-        value="{{ project_detail.convenor }}"
+        name="supervisor_name"
+        value="{{ project_detail.internal_supervisor.name }}"
       />
     </p>
     <p>
-      Supervisor:
+      Supervisor Title:
       <input
         type="text"
         style="left:45%; width:500px; text-align:right;"
-        name="internal_supervisor"
-        value="{{ project_detail.internal_supervisor }}"
+        name="supervisor_title"
+        value="{{ project_detail.internal_supervisor.title }}"
       />
     </p>
     <p>
-      Team Leader:
+      Supervisor Email:
       <input
         type="text"
         style="left:45%; width:500px; text-align:right;"
-        name="teamleader"
-        value="{{ project_detail.teamleader }}"
+        name="supervisor_email"
+        value="{{ project_detail.internal_supervisor.email }}"
       />
     </p>
     <p>
-      Group Size:
+      Supervisor Phone:
       <input
         type="text"
         style="left:45%; width:500px; text-align:right;"
-        name="groupsize"
-        value="{{ project_detail.groupsize }}"
+        name="supervisor_phone"
+        value="{{ project_detail.internal_supervisor.phone }}"
+      />
+    </p>
+    <p>
+      Proposal:
+      <input
+        type="text"
+        style="left:45%; width:500px; text-align:right;"
+        name="proposal_title"
+        value="{{ project_detail.proposal.title }}"
       />
     </p>
   </div>
