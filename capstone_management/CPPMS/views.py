@@ -38,13 +38,18 @@ def word_proposal(request):
                 for i in range(len(existing_proposal)):
                     if str(upload.name).lower() == str(existing_proposal[i]).lower():
                         exist = True
+                        messages.add_message(request, messages.INFO, "Existing proposal!")
                         pass
+                    
+                if not str(upload.name).endswith("docx"):
+                    exist = True
+                    messages.add_message(request, messages.INFO, "Not a word file!")
+                    
                 if not exist:
                     filename = fs.save(upload.name, upload)
                     uploaded_proposal = fs.url(filename)
                     Upload_Proposal.objects.create(title=upload.name, filepath=uploaded_proposal)
-                else:
-                    messages.add_message(request, messages.INFO, "Existing proposal!")       
+                           
         except:
             messages.add_message(request, messages.INFO, "No file upload") 
     
@@ -375,7 +380,7 @@ def proposal_detail(request, pk=None):
             client_table = Client.objects.filter(name=client_name).update(address=company_address, website=company_website, desc=company_desc, department=department_table, contact=contact_table)
             
             proposal_detail = Proposal.objects.filter(pk=proposal_id).update(title=title, desc=description, status=status, spec=proposal_specialisation, 
-                            skills=proposal_skills, env=proposal_environment, res=proposal_research, client=client_table, supervisors_external=external_supervisor_table)
+                                skills=proposal_skills, env=proposal_environment, res=proposal_research, client=client_table, supervisors_external=external_supervisor_table)
 
             messages.add_message(request, messages.INFO, "Sucess Update Project Detail!")
             
