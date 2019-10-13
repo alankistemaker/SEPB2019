@@ -1,7 +1,12 @@
-{% extends "proposal.html" %} {% block sub-page_content %}
-  <h2>Archived Proposals</h2>
+{% extends "proposal.html" %} 
+{% block sub-page_content %}
+  {% if not messages %}
+    <h2>Archive Proposals</h2>
+  {% else %}
+    <h2>Archive Proposals</h2>
+    {% for message in messages %}<li>{{ message }}</li>{% endfor %}
+  {% endif %}
 {% endblock %}
-
 
 {% block page_detail_content %} 
 <div class="card table-responsive shadow-sm">

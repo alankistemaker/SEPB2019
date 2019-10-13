@@ -1,5 +1,11 @@
-{% extends "proposal.html" %} {% block sub-page_content %}
-  <h2>Import Proposal</h2>
+{% extends "proposal.html" %} 
+{% block sub-page_content %}
+  {% if not messages %}
+    <h2>Import Proposal</h2>
+  {% else %}
+    <h2>Import Proposal</h2>
+    {% for message in messages %}<li>{{ message }}</li>{% endfor %}
+  {% endif %}
 {% endblock %}
 
 {% block page_detail_content %} 

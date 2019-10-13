@@ -1,4 +1,12 @@
 {% extends "proposal.html" %}
+{% block sub-page_content %}
+  {% if not messages %}
+    <h2>Proposal Progress</h2>
+  {% else %}
+    <h2>Proposal Progress</h2>
+    {% for message in messages %}<li>{{ message }}</li>{% endfor %}
+  {% endif %}
+{% endblock %}
 
 {% block page_detail_content %}
       <form method="POST">{% csrf_token %}

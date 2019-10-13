@@ -1,5 +1,11 @@
-{% extends "project.html" %} {% block sub-page_content %}
-  <h2>Project List</h2>
+{% extends "project.html" %} 
+{% block sub-page_content %}
+  {% if not messages %}
+    <h2>Proposal List</h2>
+  {% else %}
+    <h2>Proposal List</h2>
+    {% for message in messages %}<li>{{ message }}</li>{% endfor %}
+  {% endif %}
 {% endblock %}
 
 {% block page_detail_content %}

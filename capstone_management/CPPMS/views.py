@@ -6,6 +6,7 @@ from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
 from django.core.files.storage import FileSystemStorage
+from django.contrib import messages
 from docx import Document
 from io import StringIO
 import os
@@ -43,9 +44,9 @@ def word_proposal(request):
                     uploaded_proposal = fs.url(filename)
                     Upload_Proposal.objects.create(title=upload.name, filepath=uploaded_proposal)
                 else:
-                    print("Existing proposal!")        
+                    messages.add_message(request, messages.INFO, "Existing proposal!")       
         except:
-            print("No file upload")
+            messages.add_message(request, messages.INFO, "No file upload") 
     
     word_proposals = Upload_Proposal.objects.all()
     return render(request, "word_proposal.html", {"count":count, "uploaded_proposal": uploaded_proposal, "word_proposals": word_proposals})
@@ -196,11 +197,11 @@ def word_detail(request, pk=None):
             # Proposal table 
             proposal_table = Proposal.objects.create(title=title, desc=description, status=status, spec=proposal_specialisation, 
                             skills=proposal_skills, env=proposal_environment, res=proposal_research, client=client_table, supervisors_external=external_supervisor_table)
-            print("Sucess Update Project Detail!")
+            messages.add_message(request, messages.INFO, "Sucess Update Project Detail!")
             
             proposal_detail = Upload_Proposal.objects.filter(pk=proposal_id).delete()
             #### os.remove(full_path) 
-            print("Sucess Save/Update Word-structured Proposal Detail!")
+            messages.add_message(request, messages.INFO, "Sucess Save/Update Word-structured Proposal Detail!")
             
             return redirect("../../proposal_list")
             
@@ -284,10 +285,10 @@ def proposal_extract(request, pk=None):
             # Proposal table 
             proposal_table = Proposal.objects.create(title=title, desc=description, status=status, spec=proposal_specialisation, 
                             skills=proposal_skills, env=proposal_environment, res=proposal_research, client=client_table, supervisors_external=external_supervisor_table)
-            print("Sucess Update Project Detail!")
+            messages.add_message(request, messages.INFO, "Sucess Update Project Detail!")
             
             proposal_extract = Incoming_Proposal.proposals.filter(pk=proposal_id).delete()
-            print("Sucess Delete This Incoming Proposal!")
+            messages.add_message(request, messages.INFO, "Sucess Delete This Incoming Proposal!")
             
             return redirect("../../proposal_list")
         elif "delete" in request.POST:
@@ -297,7 +298,8 @@ def proposal_extract(request, pk=None):
                                 proposal_specialisation=proposal_specialisation, proposal_skills=proposal_skills, proposal_environment=proposal_environment, proposal_research=proposal_research,
                                 supervisor_name=supervisor_name, supervisor_phone=supervisor_phone, supervisor_email=supervisor_email, supervisor_title=supervisor_title)
             proposal_extract = Incoming_Proposal.proposals.filter(pk=proposal_id).delete()
-            print("Sucess Delete This Incoming Proposal!")
+
+            messages.add_message(request, messages.INFO, "Sucess Delete This Incoming Proposal!")
             
             return redirect("../../incoming_proposal")
 
@@ -362,7 +364,7 @@ def proposal_detail(request, pk=None):
         
         if "delete" in request.POST:
             proposal_detail = Proposal.objects.filter(pk=proposal_id).delete()
-            print("Sucess Delete This Proposal!")
+            messages.add_message(request, messages.INFO, "Sucess Delete This Proposal!")
             
             return redirect("../../proposal_list")
         
@@ -374,7 +376,8 @@ def proposal_detail(request, pk=None):
             
             proposal_detail = Proposal.objects.filter(pk=proposal_id).update(title=title, desc=description, status=status, spec=proposal_specialisation, 
                             skills=proposal_skills, env=proposal_environment, res=proposal_research, client=client_table, supervisors_external=external_supervisor_table)
-            print("Sucess Update Project Detail!")
+
+            messages.add_message(request, messages.INFO, "Sucess Update Project Detail!")
             
             return redirect("../../proposal_list")
               
@@ -424,7 +427,7 @@ def archive_detail(request, pk=None):
         
         if "delete" in request.POST:
             archive_detail = Archive_Proposal.objects.filter(pk=proposal_id).delete()
-            print("Sucess Delete This Proposal Forever!")
+            messages.add_message(request, messages.INFO, "Sucess Delete This Proposal Forever!")
             
             return redirect("../../archive_proposal")
         
@@ -435,8 +438,8 @@ def archive_detail(request, pk=None):
                                 proposal_specialisation=proposal_specialisation, proposal_skills=proposal_skills, proposal_environment=proposal_environment, proposal_research=proposal_research,
                                 supervisor_name=supervisor_name, supervisor_phone=supervisor_phone, supervisor_email=supervisor_email, supervisor_title=supervisor_title)
             archive_detail = Archive_Proposal.objects.filter(pk=proposal_id).delete()
-            
-            print("Sucess Unarchive This Proposal!")
+
+            messages.add_message(request, messages.INFO, "Sucess Unarchive This Proposal!")
             
             return redirect("../../incoming_proposal")
               
@@ -462,9 +465,9 @@ def project_list(request):
 
 def project_detail(request, pk=None):
     project_detail = get_object_or_404(Project, pk=pk)
-    count()
     units = Unit.objects.all()
     groups = Group.objects.all()
+    count()
 
     if request.method == "POST":
         project_id = request.POST.get("pk")
@@ -491,10 +494,10 @@ def project_detail(request, pk=None):
                 # project_convenor=project_convenor,
                 supervisor=project_supervisor,
             )
-            print("Sucess Update Project Detail!")
+            messages.add_message(request, messages.INFO, "Sucess Update Project Detail!")
         elif "delete" in request.POST:
             project_detail = Project.objects.filter(pk=project_id).delete()
-            print("Sucess Delete Project Detail!")
+            messages.add_message(request, messages.INFO, "Sucess Delete Project Detail!")
 
     return render(request, "project_detail.html", {"count":count, "project_detail": project_detail, "units": units, "groups": groups})
 
@@ -537,7 +540,7 @@ def client_detail(request, pk=None):
 
         if "delete" in request.POST:
             client_detail = Client.objects.filter(pk=client_id).delete()
-            print("Sucess Delete This Client!")
+            messages.add_message(request, messages.INFO, "Sucess Delete This Client!")
             
             return redirect("../../client_list")
         
@@ -546,7 +549,7 @@ def client_detail(request, pk=None):
             contact_table = Contact.objects.filter(name=contact_name).update(position=contact_position, phone=contact_phone, email=contact_email, department=department_table)
             client_table = Client.objects.filter(pk=client_id).update(name=client_name, address=company_address, website=company_website, desc=company_desc, department=department_table, contact=contact_table)
 
-            print("Sucess Update Client Detail!")
+            messages.add_message(request, messages.INFO, "Sucess Update Client Detail!")
             
             return redirect("../../client_list")
     return render(request, "client_detail.html", {"count":count, "client_detail": client_detail})

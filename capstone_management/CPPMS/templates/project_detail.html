@@ -1,4 +1,14 @@
-{% extends "project.html" %} {% block page_detail_content %}
+{% extends "project.html" %} 
+{% block sub-page_content %}
+  {% if not messages %}
+    <h2>Project Details</h2>
+  {% else %}
+    <h2>Project Details</h2>
+    {% for message in messages %}<li>{{ message }}</li>{% endfor %}
+  {% endif %}
+{% endblock %}
+
+{% block page_detail_content %}
 <form method="POST">
   {% csrf_token %}
   <div style="position:absolute; left:93%; top:105px; height:70px;">
