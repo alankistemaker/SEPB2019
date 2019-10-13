@@ -18,6 +18,8 @@ urlpatterns = [
     path("proposal_progress/", views.proposal_progress, name="proposal_progress"),
     
     re_path("proposal_detail/(?P<pk>[_\w\d\-]+)$", views.proposal_detail, name="proposal_detail"),
+    
+    re_path("proposal_edit/(?P<pk>[_\w\d\-]+)$", views.proposal_edit, name="proposal_edit"),
    
     path("client/", views.client, name="client"),
    
@@ -35,8 +37,8 @@ urlpatterns = [
     
     re_path("project_detail/(?P<pk>[_\w\d\-]+)$", views.project_detail, name="project_detail"),
     
-    re_path("project_detail_test/(?P<pk>[_\w\d\-]+)$", views.project_detail_test, name="project_detail_test"),
-    
+    re_path("project_edit/(?P<pk>[_\w\d\-]+)$", views.project_edit, name="project_edit"),
+        
     path('login/', views.login_view, name='login'),
     
     path('logout/', views.logout_view, name='logout'),
