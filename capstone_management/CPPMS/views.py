@@ -406,6 +406,23 @@ def proposal_detail(request, pk=None):
     return render(request, "proposal_detail.html", {"count":count, "proposal_detail": proposal_detail})
 
 
+def generation_list(request, title=None):   
+    count()
+    
+    if request.method == "POST":
+        filter_value = request.POST.get("generation_list")
+    else:
+        filter_value = ""
+
+    generation_list = Project.objects.filter(proposal__title=title)
+    if filter_value:
+        generation_filter = generation_list.filter(Q(pk__icontains=filter_value) | Q(title__icontains=filter_value))
+    else:
+        generation_filter = generation_list.all()
+    
+    return render(request, "generation_list.html", {"count":count, "generation_filter": generation_filter, "filter_value": filter_value})   
+
+
 def archive_proposal(request):
     archive_proposal = Archive_Proposal.objects.all()
     count()
