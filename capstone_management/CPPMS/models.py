@@ -213,7 +213,7 @@ class Proposal(models.Model):
     res = models.TextField(default="")
 
     # OEM Relationships
-    client = models.ForeignKey(Client, models.SET_NULL, blank=True, null=True)
+    client = models.ForeignKey(Client, on_delete = models.CASCADE, blank=True, null=True)
     supervisors_external = models.ForeignKey(External_Supervisor, models.SET_NULL, blank=True, null=True)
     proposal_incoming = models.ForeignKey(
         Incoming_Proposal, models.SET_NULL, blank=True, null=True
@@ -251,7 +251,7 @@ class Project(models.Model):
 
     # OEM Relationships
     unit = models.ForeignKey(Unit, models.SET_NULL, blank=True, null=True)
-    proposal = models.ForeignKey(Proposal, models.SET_NULL, blank=True, null=True)
+    proposal = models.ForeignKey(Proposal, on_delete = models.CASCADE, blank=True, null=True)
     internal_supervisor = models.ForeignKey(
         Internal_Supervisor, models.SET_NULL, blank=True, null=True
     )
