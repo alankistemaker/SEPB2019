@@ -2,26 +2,15 @@
 {% block sub-page_content %}
 
 {% if not messages %}
-<h2>Incoming Proposal</h2>
+<h2>Incoming Proposals</h2>
 {% else %}
-<h2>Incoming Proposal</h2>
+<h2>Incoming Proposals</h2>
 {% for message in messages %}<li>{{ message }}</li>{% endfor %}
 {% endif %}
 
 {% endblock %}
 
 {% block page_detail_content %}
-    
-<div class="row mb-2 mt-5">
-    <div class="col-3"></div>
-
-    <div class="col">
-        <h1>Incoming Proposals</h1>
-        <hr />
-    </div>
-
-    <div class="col-3"></div>
-</div>
 
 <div class="row mb-2">
 
@@ -29,7 +18,7 @@
 
     <div class="col">
         <div class="table-responsive card shadow-sm">
-            <table class="table table-bordered table-hover text-center">
+            <table class="table table-bordered table-hover">
                 <thead>
                     <tr class="table-primary">
                         <th scope="col"><strong>ID</strong></th>
