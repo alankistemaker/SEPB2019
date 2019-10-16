@@ -34,7 +34,7 @@
             <div class="col">
                 <div class="card">
                     <h6 class="card-header"><strong>ID:</strong></h6>
-                    <div class="card-body text-center">
+                    <div class="card-body">
                         <p class="card-text" value="{{ client_detail.pk }}">{{ client_detail.pk }}</p>
                     </div>
                 </div>
@@ -43,7 +43,7 @@
             <div class="col">
                 <div class="card">
                     <h6 class="card-header"><strong>Client Name: </strong></h6>
-                    <div class="card-body text-center">
+                    <div class="card-body">
                         <p class="card-text" value="{{ client_detail.name }}">{{client_detail.name }}</p>
                     </div>            
                 </div>
@@ -58,7 +58,7 @@
             <div class="col">
                 <div class="card">
                     <h6 class="card-header"><strong>Company Name: </strong></h6>
-                    <div class="card-body text-center">
+                    <div class="card-body">
                         <p class="card-text" value="{{ client_detail.department.company.name }}">{{ client_detail.department.company.name }}</p>
                     </div>            
                 </div>
@@ -67,7 +67,7 @@
             <div class="col">
                 <div class="card">
                     <h6 class="card-header"><strong>Company Website:</strong></h6>
-                    <div class="card-body text-center">
+                    <div class="card-body">
                         <p class="card-text" value="{{ client_detail.department.company.website }}">{{ client_detail.department.company.website }}</p>
                     </div>
                 </div>
@@ -82,7 +82,7 @@
                 <div class="col">
                     <div class="card">
                         <h6 class="card-header"><strong>Company Address:</strong></h6>
-                        <div class="card-body text-center">
+                        <div class="card-body">
                             <p class="card-text" value="{{ client_detail.department.company.address }}">{{ client_detail.department.company.address }}</p>
                         </div>
                     </div>
@@ -97,7 +97,7 @@
                     <div class="col">
                         <div class="card">
                             <h6 class="card-header"><strong>Company Description:</strong></h6>
-                            <div class="card-body text-center">
+                            <div class="card-body">
                                 <p class="card-text" value="{{ client_detail.department.company.description }}">{{ client_detail.department.company.description }}</p>
                             </div>
                         </div>
@@ -112,7 +112,7 @@
                 <div class="col">
                     <div class="card">
                         <h6 class="card-header"><strong>Department Name:</strong></h6>
-                        <div class="card-body text-center">
+                        <div class="card-body">
                             <p class="card-text" value="{{ client_detail.department.name }}">{{ client_detail.department.name }}</p>
                         </div>
                     </div>
@@ -121,7 +121,7 @@
                 <div class="col">
                     <div class="card">
                         <h6 class="card-header"><strong>Department Phone:</strong></h6>
-                        <div class="card-body text-center">
+                        <div class="card-body">
                             <p class="card-text" value="{{ client_detail.department.phone }}">{{ client_detail.department.phone }}</p>
                         </div>
                     </div>
@@ -136,7 +136,7 @@
                 <div class="col">
                     <div class="card">
                         <h6 class="card-header"><strong>Department Email:</strong></h6>
-                        <div class="card-body text-center">
+                        <div class="card-body">
                             <p class="card-text" value="{{ client_detail.department.email }}">{{ client_detail.department.email }}</p>
                         </div>
                     </div>
@@ -145,7 +145,7 @@
                 <div class="col">
                     <div class="card">
                         <h6 class="card-header"><strong>Contact Name:</strong></h6>
-                        <div class="card-body text-center">
+                        <div class="card-body">
                             <p class="card-text" value="{{ client_detail.contact.name }}">{{ client_detail.contact.name }}</p>
                         </div>
                     </div>
@@ -160,7 +160,7 @@
                 <div class="col">
                     <div class="card">
                         <h6 class="card-header"><strong>Contact Position:</strong></h6>
-                        <div class="card-body text-center">
+                        <div class="card-body">
                             <p class="card-text" value="{{ client_detail.contact.position }}">{{ client_detail.contact.position }}</p>
                         </div>
                     </div>
@@ -169,7 +169,7 @@
                 <div class="col">
                     <div class="card">
                         <h6 class="card-header"><strong>Contact Phone:</strong></h6>
-                        <div class="card-body text-center">
+                        <div class="card-body">
                             <p class="card-text" value="{{ client_detail.contact.phone }}">{{ client_detail.contact.phone }}</p>
                         </div>
                     </div>
@@ -193,7 +193,7 @@
 
             <div class="col">
                 <div class="table-responsive card shadow-sm">
-                    <table class="table table-bordered table-hover text-center">
+                    <table class="table table-bordered table-hover">
                         <thead>
                             <tr class="table-primary">
                                 <th scope="col"><strong>ID</strong></th>
