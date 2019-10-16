@@ -1,0 +1,86 @@
+[
+  {
+    "model": "CPPMS.Company",
+    "pk": 1,
+    "fields": {
+      "name": "Swinburne University of Technology",
+      "website": "http://www.swinburne.edu.au/",
+      "created_at": "2013-01-16T08:16:59.844Z",
+      "updated_at": "2013-01-16T08:16:59.844Z",
+      "address": "John Street, Hawthorn, Victroria, Australia",
+      "desc": "University"
+    }
+  },
+  {
+    "model": "CPPMS.department",
+    "pk": 3,
+    "fields": {
+      "name": "Faculty of Science, Engineering and Technology",
+      "created_at": "2013-01-16T08:16:59.844Z",
+      "updated_at": "2013-01-16T08:16:59.844Z",
+
+      "phone": "555-653-482",
+      "email": "fset@swin.edu.au",
+      "company": 1
+    }
+  },
+  {
+    "model": "CPPMS.department",
+    "pk": 4,
+    "fields": {
+      "name": "Faculty of Business and Law",
+      "created_at": "2013-01-16T08:16:59.844Z",
+      "updated_at": "2013-01-16T08:16:59.844Z",
+
+      "phone": "555-653-542",
+      "email": "FBL@swin.edu.au",
+      "company": 1
+    }
+  },
+  {
+    "model": "CPPMS.Internal_supervisor",
+    "pk": 0,
+    "fields": {
+      "name": "Tracey McCloud",
+      "email": "tmccloud@swin.edu.au",
+      "created_at": "2013-01-16T08:16:59.844Z",
+      "updated_at": "2013-01-16T08:16:59.844Z",
+      "department": 4
+    }
+  },
+  {
+    "model": "CPPMS.Internal_supervisor",
+    "pk": 1,
+    "fields": {
+      "name": "Jun Han",
+      "email": "jhan@swin.edu.au",
+      "created_at": "2013-01-16T08:16:59.844Z",
+      "updated_at": "2013-01-16T08:16:59.844Z",
+      "department": 3
+    }
+  },
+  {
+    "model": "CPPMS.unit",
+    "pk": 0,
+    "fields": {
+      "title": "Software Engineering Project A",
+      "created_at": "2019-05-19T01:39:04-10:00",
+      "updated_at": "2019-07-05T04:48:10-10:00",
+      "unit_code": "SWE40001",
+      "BB_unit_code": 199316,
+      "ulos": "ULO 1: Make a project, ULO 2: Do it good"
+    }
+  },
+  {
+    "model": "CPPMS.unit",
+    "pk": 1,
+    "fields": {
+      "title": "Software Engineering Project B",
+      "created_at": "2019-05-19T01:39:04-10:00",
+      "updated_at": "2019-07-05T04:48:10-10:00",
+      "unit_code": "SWE40002",
+      "BB_unit_code": 199317,
+      "ulos": "ULO 1: Make a project, ULO 2: Do it good"
+    }
+  }
+]
