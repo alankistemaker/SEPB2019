@@ -428,6 +428,7 @@ def generation_list(request, title=None):
 
 @login_required(login_url="/CPPMS/login/")
 def archive_proposal(request):
+    username = request.user.first_name +' '+ request.user.last_name
     archive_proposal = Archive_Proposal.objects.all()
     count()
     
