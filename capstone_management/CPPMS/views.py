@@ -604,6 +604,23 @@ def proposal_edit(request, pk=None):
 
 
 
+def generation_list(request, title=None):   
+    count()
+    
+    if request.method == "POST":
+        filter_value = request.POST.get("generation_list")
+    else:
+        filter_value = ""
+
+    generation_list = Project.objects.filter(proposal__title=title)
+    if filter_value:
+        generation_filter = generation_list.filter(Q(pk__icontains=filter_value) | Q(title__icontains=filter_value))
+    else:
+        generation_filter = generation_list.all()
+    
+    return render(request, "generation_list.html", {"count":count, "generation_filter": generation_filter, "filter_value": filter_value})   
+
+
 def archive_proposal(request):
     archive_proposal = Archive_Proposal.objects.all()
     count()
@@ -712,10 +729,17 @@ def project_edit(request, pk=None):
         project_title = request.POST.get("title")
         project_category = request.POST.get("category")
         project_year = request.POST.get("year")
+        project_completed = request.POST.get("completed")
         project_groupname = request.POST.get("group")
         project_unit = request.POST.get("unit")
-        # project_convenor = request.POST.get("convenor")
-        project_supervisor = request.POST.get("internal_supervisor")
+
+        supervisor_name = request.POST.get("supervisor_name")
+        supervisor_title = request.POST.get("supervisor_title")
+        supervisor_email = request.POST.get("supervisor_email")
+        supervisor_phone = request.POST.get("supervisor_phone")
+        
+        proposal_title = request.POST.get("proposal_title")
+        
         # project_teamleader = request.POST.get("teamleader")
         # project_groupsize = request.POST.get("groupsize")
 
@@ -724,18 +748,18 @@ def project_edit(request, pk=None):
             ####    project_groupname.project = project_detail
             ####else:
             ####    Group.objects.create(name=project_groupname)
-            project_detail = Project.objects.filter(pk=project_id).update(
-                title=project_title,
-                category=project_category,
-                year=project_year,
-                unit=project_unit,
-                # project_convenor=project_convenor,
-                supervisor=project_supervisor,
-            )
+            
+            internal_supervisor_table = Internal_Supervisor.objects.filter(name=supervisor_name).update(email=supervisor_email, phone=supervisor_phone, title=supervisor_title)
+            project_detail = Project.objects.filter(pk=project_id).update(title=project_title, category=project_category, year=project_year, completed=project_completed, internal_supervisor=internal_supervisor_table)
             messages.add_message(request, messages.INFO, "Sucess Update Project Detail!")
-        elif "delete" in request.POST:
+            
+            return redirect("../../project_list")
+            
+        if "delete" in request.POST:
             project_detail = Project.objects.filter(pk=project_id).delete()
             messages.add_message(request, messages.INFO, "Sucess Delete Project Detail!")
+            
+            return redirect("../../project_list")
 
     return render(request, "project_detail.html", {"count":count, "project_detail": project_detail, "units": units, "groups": groups, "username": username})
 
