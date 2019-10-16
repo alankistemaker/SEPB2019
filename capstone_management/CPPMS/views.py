@@ -24,9 +24,8 @@ from django.contrib import messages
 from django.contrib.auth.forms import PasswordChangeForm
 from django.http import HttpResponse
 import json
-# Create your views here.
 
-<<<<<<< HEAD
+# Create your views here.
 def count():
     count = []
     count_web = Incoming_Proposal.proposals.all().count()
