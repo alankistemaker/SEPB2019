@@ -22,9 +22,11 @@ from django.contrib.auth.decorators import login_required
 from .forms import UserLoginForm,SignUpForm,UserForm
 from django.contrib import messages
 from django.contrib.auth.forms import PasswordChangeForm
-
+from django.http import HttpResponse
+import json
 # Create your views here.
 
+<<<<<<< HEAD
 def count():
     count = []
     count_web = Incoming_Proposal.proposals.all().count()
@@ -233,8 +235,60 @@ def word_detail(request, pk=None):
                    "proposal_research":proposal_research, "supervisor_name":supervisor_name, "supervisor_phone":supervisor_phone, 
                    "supervisor_email":supervisor_email, "supervisor_title":supervisor_title})
 
-# Logout View
+def autocompleteModel(request):
+    if request.is_ajax():
+        q = request.GET.get('term', '').capitalize()
+        search_qs = Client.objects.filter(Q(pk__icontains=q) | Q(name__startswith=q))
+        results = []
+        print (q)
+        for r in search_qs:
+            results.append(r.name)
 
+    
+        data = json.dumps(results)
+    else:
+        data = 'fail'
+    mimetype = 'application/json'
+    return HttpResponse(data, mimetype)
+
+def autocompleteModel2(request):
+    if request.is_ajax():
+        q = request.GET.get('term', '').capitalize()
+        search_qs = Project.objects.filter(
+                    Q(pk__icontains=q)
+            | Q(title__icontains=q)
+            | Q(category__icontains=q)
+            | Q(completed=False)
+        )
+        results = []
+        print (q)
+        for r in search_qs:
+            results.append(r.title)
+        data = json.dumps(results)
+    else:
+        data = 'fail'
+    mimetype = 'application/json'
+    return HttpResponse(data, mimetype)
+
+
+def autocompleteModel3(request):
+    if request.is_ajax():
+        q = request.GET.get('term', '').capitalize()
+        search_qs = Client.objects.filter(
+        Q(pk__icontains=q) | Q(title__icontains=q)
+        )
+        results = []
+        print (q)
+        for r in search_qs:
+            results.append(r.name)
+        data = json.dumps(results)
+    else:
+        data = 'fail'
+    mimetype = 'application/json'
+    return HttpResponse(data, mimetype)
+
+
+#logout_view
 def logout_view(request):
 	logout(request)
     

@@ -62,5 +62,10 @@ urlpatterns = [
     path('add_user/', views.Adduser, name='adduser'),
     
     path('pro_edit/', views.profile_edit, name='profile-edit'),
+
+    path('ajax_calls/search/', views.autocompleteModel, name='autocompleteModel'),
     
+    path('ajax_calls/search2/', views.autocompleteModel2, name='autocompleteModel2'),
+    
+    path('ajax_calls/search3/', views.autocompleteModel3, name='autocompleteModel3'),
 ]

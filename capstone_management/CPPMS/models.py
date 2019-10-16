@@ -247,7 +247,7 @@ class Client(models.Model):
     pass
 
     def __str__(self):
-        return self.name
+        return self.name 
 
 
 class Proposal(models.Model):

@@ -42,5 +42,52 @@
 			integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
 			crossorigin="anonymous">
 		</script>
+        <script 
+            src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" 
+                type="text/javascript">
+        </script> 
+            
+        <script 
+            src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js" 
+                type="text/javascript">
+        </script>
+        <script>
+        $(document).ready(function(){ 
+            $("#txtSearch").autocomplete({
+                source: "/CPPMS/ajax_calls/search/",
+                minLength: 1,
+                open: function(){
+                    setTimeout(function () {
+                        $('.ui-autocomplete').css('z-index', 99);
+                    }, 0);
+                }
+              });        });
+        </script>
+        
+        <script>
+        $(document).ready(function(){ 
+            $("#txtSearch2").autocomplete({
+                source: "/CPPMS/ajax_calls/search2/",
+                minLength: 1,
+                open: function(){
+                    setTimeout(function () {
+                        $('.ui-autocomplete').css('z-index', 99);
+                    }, 0);
+                }
+              });        });
+        </script>
+        
+        <script>
+        $(document).ready(function(){ 
+            $("#txtSearch3").autocomplete({
+                source: "/CPPMS/ajax_calls/search3/",
+                minLength: 1,
+                open: function(){
+                    setTimeout(function () {
+                        $('.ui-autocomplete').css('z-index', 99);
+                    }, 0);
+                }
+              });        });
+        </script>
 	</body>
 </html>
