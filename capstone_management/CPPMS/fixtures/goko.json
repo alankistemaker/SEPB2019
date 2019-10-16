@@ -1,0 +1,84 @@
+[
+  {
+    "model": "CPPMS.company",
+    "pk": 2,
+    "fields": {
+      "name": "Goko",
+      "website": "https://www.goko.com.au/",
+      "created_at": "2019-07-03T07:08:08-10:00",
+      "updated_at": "2019-08-08T02:19:34-10:00",
+      "address": "55 Kansas Place, Hawthorn, Victoria, Australia",
+      "desc": "Lorem do incididunt quis proident exercitation deserunt culpa cillum fugiat voluptate eiusmod veniam id."
+    }
+  },
+  {
+    "model": "CPPMS.department",
+    "pk": 5,
+    "fields": {
+      "name": "Sales",
+      "created_at": "2013-01-16T08:16:59.844Z",
+      "updated_at": "2013-01-16T08:16:59.844Z",
+
+      "phone": "555-555-555",
+      "email": "sales@goko.com.au",
+      "company": 2
+    }
+  },
+  {
+    "model": "CPPMS.External_Supervisor",
+    "pk": 1,
+    "fields": {
+      "name": "Marco Polo",
+      "created_at": "2013-01-16T08:16:59.844Z",
+      "updated_at": "2013-01-16T08:16:59.844Z",
+      "email": "marco@goko.com.au",
+      "phone": "555-123-032",
+      "title": "Associate Engineer",
+      "department": 5
+    }
+  },
+  {
+    "model": "CPPMS.Contact",
+    "pk": 1,
+    "fields": {
+      "name": "Rune Scapio",
+      "created_at": "2013-01-16T08:16:59.844Z",
+      "updated_at": "2013-01-16T08:16:59.844Z",
+      "position": "Selling GF",
+      "phone": "555-124-231",
+      "email": "rscapio@goko.com",
+      "department": 5
+    }
+  },
+  {
+    "model": "CPPMS.Client",
+    "pk": 1,
+    "fields": {
+      "name": "This field shouldn't exist",
+      "created_at": "2013-01-16T08:16:59.844Z",
+      "updated_at": "2013-01-16T08:16:59.844Z",
+      "address": "This field shouldn't exist",
+      "website": "this field shouldn't exist",
+      "desc": "this field shouldn't exist",
+      "department": 5,
+      "contact": 1
+    }
+  },
+  {
+    "model": "CPPMS.proposal",
+    "pk": 1,
+    "fields": {
+      "title": "Rage management solution",
+      "desc": "Software development can cause significant rage when things don't go as planned.  Students will need to use modern development techniques to mitigate these factors.",
+      "status": "Proposal",
+      "spec": "Having a cool head under pressure",
+      "skills": "AI Technologies, Embedded Systems",
+      "env": "C++, Java, Python",
+      "res": "N/A",
+      "created_at": "2013-01-16T08:16:59.844Z",
+      "updated_at": "2013-01-16T08:16:59.844Z",
+      "client": 1,
+      "external_supervisor": 1
+    }
+  }
+]
