@@ -80,5 +80,22 @@
       "client": 1,
       "external_supervisor": 1
     }
+  },
+  {
+    "model": "CPPMS.proposal",
+    "pk": 2,
+    "fields": {
+      "title": "Smart Parking",
+      "desc": "Create an app that will help you park your car.",
+      "status": "Proposal",
+      "spec": "Mobile App Development, Cloud Computing, Block Chain, AI",
+      "skills": "AI Technologies, Mobile Development",
+      "env": "C++, Java, Python",
+      "res": "N/A",
+      "created_at": "2013-01-16T08:16:59.844Z",
+      "updated_at": "2013-01-16T08:16:59.844Z",
+      "client": 1,
+      "external_supervisor": 1
+    }
   }
 ]
