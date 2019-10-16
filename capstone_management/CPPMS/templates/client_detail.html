@@ -14,95 +14,105 @@
 {% block page_detail_content %}
 
 <div class="row">
+
     <div class="col">
-        <div class="row mb-2">
+        <div class="card">
+            <h1 class="card-header">Client Details <a href="client_edit/{{ client_detail.pk }}" class="btn" role="button" style="color:inherit" data-toggle="tooltip" title="Edit"><i class="fa fa-edit" style="font-size:25px"></i></a></h1>
+            <div class="card-body">
 
-            <div class="col-8"></div>
+                <div class="row mb-2">
 
-            <div class="col">
-                <a href="client_edit/{{ client_detail.pk }}" class="btn" role="button" style="color:inherit" data-toggle="tooltip" title="Edit"><i class="fa fa-edit" style="font-size:25px"></i></a>
-            </div>
-
-            <div class="col-2"></div>
-
-        </div>
-
-        <div class="row mb-2">
-
-            <div class="col-1"></div>
-
-            <div class="col">
-                <div class="card">
-                    <h6 class="card-header"><strong>ID:</strong></h6>
-                    <div class="card-body">
-                        <p class="card-text" value="{{ client_detail.pk }}">{{ client_detail.pk }}</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="card">
-                    <h6 class="card-header"><strong>Client Name: </strong></h6>
-                    <div class="card-body">
-                        <p class="card-text" value="{{ client_detail.name }}">{{client_detail.name }}</p>
-                    </div>            
-                </div>
-            </div>
-
-        </div>
-
-        <div class="row mb-2">
-
-            <div class="col-1"></div>
-
-            <div class="col">
-                <div class="card">
-                    <h6 class="card-header"><strong>Company Name: </strong></h6>
-                    <div class="card-body">
-                        <p class="card-text" value="{{ client_detail.department.company.name }}">{{ client_detail.department.company.name }}</p>
-                    </div>            
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="card">
-                    <h6 class="card-header"><strong>Company Website:</strong></h6>
-                    <div class="card-body">
-                        <p class="card-text" value="{{ client_detail.department.company.website }}">{{ client_detail.department.company.website }}</p>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-            <div class="row mb-2">
-
-                <div class="col-1"></div>
-
-                <div class="col">
-                    <div class="card">
-                        <h6 class="card-header"><strong>Company Address:</strong></h6>
-                        <div class="card-body">
-                            <p class="card-text" value="{{ client_detail.department.company.address }}">{{ client_detail.department.company.address }}</p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="row mb-2">
-
-                <div class="col-1"></div>
+                    <div class="col-1"></div>
 
                     <div class="col">
                         <div class="card">
-                            <h6 class="card-header"><strong>Company Description:</strong></h6>
+                            <h4 class="card-header"><strong>Client Name: </strong></h4>
                             <div class="card-body">
-                                <p class="card-text" value="{{ client_detail.department.company.description }}">{{ client_detail.department.company.description }}</p>
+                                <p value="{{ client_detail.name }}">{{ client_detail.department.company.name }}</p>
                             </div>
                         </div>
                     </div>
 
+                    <div class="col">
+                        <div class="card">
+                            <h4 class="card-header"><strong>Contact Name: </strong></h4>
+                            <div class="card-body">
+                                <p value="{{ client_detail.name }}">{{client_detail.contact.name }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row mb-2">
+
+                    <div class="col-1"></div>
+
+                    <div class="col">
+                        <div class="card">
+                            <h4 class="card-header"><strong>Contact Position: </strong></h4>
+                            <div class="card-body">
+                                <p value="{{ client_detail.contact.position }}">{{client_detail.contact.position }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="card">
+                            <h4 class="card-header"><strong>Contact Phone: </strong></h4>
+                            <div class="card-body">
+                                <p value="{{ client_detail.contact.phone }}">{{client_detail.contact.phone }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row mb-2">
+
+                    <div class="col-1"></div>
+
+                    <div class="col">
+                        <div class="card">
+                            <h4 class="card-header"><strong>Contact Email: </strong></h4>
+                            <div class="card-body">
+                                <p value="{{ client_detail.contact.email }}">{{client_detail.contact.email }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row mb-2">
+
+                    <div class="col-1"></div>
+
+                    <div class="col">
+                        <div class="card">
+                            <h4 class="card-header">
+                                <a data-toggle="collapse" href="#collapse1">Company Details</a>
+                            </h4>
+                        </div>
+                        <div id="collapse1" class="card-body collapse">
+                            <ul class="list-group">
+                                <li class="list-group-item"><strong>Company Name: </strong>
+                                    <p value="{{ client_detail.department.company.name }}">{{ client_detail.department.company.name }}</p>
+                                </li>
+                                <li class="list-group-item"><strong>Company Website: </strong>
+                                    <p value="{{ client_detail.department.company.website }}">{{ client_detail.department.company.website }}</p>
+                                </li>
+                                <li class="list-group-item"><strong>Company Address: </strong>
+                                    <p value="{{ client_detail.department.company.address }}">{{ client_detail.department.company.address }}</p>
+                                </li>
+                                <li class="list-group-item"><strong>Company Description: </strong>
+                                    <p value="{{ client_detail.department.company.description }}">{{ client_detail.department.company.description }}</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
 
             <div class="row mb-2">
@@ -111,116 +121,67 @@
 
                 <div class="col">
                     <div class="card">
-                        <h6 class="card-header"><strong>Department Name:</strong></h6>
-                        <div class="card-body">
-                            <p class="card-text" value="{{ client_detail.department.name }}">{{ client_detail.department.name }}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <div class="card">
-                        <h6 class="card-header"><strong>Department Phone:</strong></h6>
-                        <div class="card-body">
-                            <p class="card-text" value="{{ client_detail.department.phone }}">{{ client_detail.department.phone }}</p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="row mb-2">
-
-                <div class="col-1"></div>
-
-                <div class="col">
-                    <div class="card">
-                        <h6 class="card-header"><strong>Department Email:</strong></h6>
-                        <div class="card-body">
-                            <p class="card-text" value="{{ client_detail.department.email }}">{{ client_detail.department.email }}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <div class="card">
-                        <h6 class="card-header"><strong>Contact Name:</strong></h6>
-                        <div class="card-body">
-                            <p class="card-text" value="{{ client_detail.contact.name }}">{{ client_detail.contact.name }}</p>
+                        <h4 class="card-header">
+                            <a data-toggle="collapse" href="#collapse2">Department Details</a>
+                        </h4>
+                        <div id="collapse2" class="card-body collapse">
+                            <ul class="list-group">
+                                <li class="list-group-item"><strong>Department Name: </strong>
+                                    <p value="{{ client_detail.department.name }}">{{ client_detail.department.name }}</p>
+                                </li>
+                                <li class="list-group-item"><strong>Department Phone: </strong>
+                                    <p value="{{ client_detail.department.phone }}">{{ client_detail.department.phone }}</p>
+                                </li>
+                                <li class="list-group-item"><strong>Department Email: </strong>
+                                    <p value="{{ client_detail.department.email }}">{{ client_detail.department.email }}</p>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
 
             </div>
-
-            <div class="row mb-2">
-
-                <div class="col-1"></div>
-
-                <div class="col">
-                    <div class="card">
-                        <h6 class="card-header"><strong>Contact Position:</strong></h6>
-                        <div class="card-body">
-                            <p class="card-text" value="{{ client_detail.contact.position }}">{{ client_detail.contact.position }}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <div class="card">
-                        <h6 class="card-header"><strong>Contact Phone:</strong></h6>
-                        <div class="card-body">
-                            <p class="card-text" value="{{ client_detail.contact.phone }}">{{ client_detail.contact.phone }}</p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            </div>
-
-    <div class="col">
-        <div class="row mb-2 mt-5">
-
-            <div class="col">
-                <h1>Client Proposals</h1>
-                <hr />
-            </div>
-
-            <div class="col-1"></div>
-
-        </div>
-        <div class="row mb-2">
-
-            <div class="col">
-                <div class="table-responsive card shadow-sm">
-                    <table class="table table-bordered table-hover">
-                        <thead>
-                            <tr class="table-primary">
-                                <th scope="col"><strong>ID</strong></th>
-                                <th scope="col"><strong>TITLE</strong></th>
-                                <th scope="col"><strong>DATE</strong></th>
-                                <th scope="col"><strong>SKILLS</strong></th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                        {% for proposal in proposal_filter %}
-                            <tr scope="row">
-                                <td>{{ proposal.pk }}</td>
-                                <td>{{ proposal.title }}</td>
-                                <td>{{ proposal.created_at }}</td>
-                                <td>{{ proposal.skills }}</td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="col-1"></div>
 
         </div>
     </div>
-</div>
 
-{% endblock %}
+    <div class="col">
+        <div class="card">
+            <h1 class="card-header">Client Proposals</h1>
+            <div class="card-body">
+                <div class="row mb-2">
+
+                    <div class="col">
+                        <div class="table-responsive shadow-sm">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr class="table-primary">
+                                        <th scope="col"><strong>ID</strong></th>
+                                        <th scope="col"><strong>TITLE</strong></th>
+                                        <th scope="col"><strong>DATE</strong></th>
+                                        <th scope="col"><strong>SKILLS</strong></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {% for proposal in proposal_filter %}
+                                    <tr scope="row">
+                                        <td>{{ proposal.pk }}</td>
+                                        <td>{{ proposal.title }}</td>
+                                        <td>{{ proposal.created_at }}</td>
+                                        <td>{{ proposal.skills }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="col-1"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% endblock %}

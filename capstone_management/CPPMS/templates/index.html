@@ -12,8 +12,8 @@
                             <strong>Proposals</strong>
                         </a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{% url 'incoming_proposal' %}">Incoming Proposals  - {{ count.0 }}</a>
-                            <a class="dropdown-item" href="{% url 'word_proposal' %}">Import Proposal - {{ count.1 }}</a>
+                            <a class="dropdown-item" href="{% url 'incoming_proposal' %}">Incoming Proposals  <span class="badge" href="{% url 'proposal_list' %}">{{ count.0 }}</span></a>
+                            <a class="dropdown-item" href="{% url 'word_proposal' %}">Import Proposal <span class="badge" href="{% url 'proposal_list' %}">{{ count.1 }}</span></a>
                             <a class="dropdown-item" href="{% url 'proposal_list' %}">Proposal List</a>
                             <a class="dropdown-item" href="{% url 'proposal_progress' %}">Proposal Progress</a>
                             <a class="dropdown-item" href="{% url 'archive_proposal' %}">Archived Proposals</a>
@@ -39,7 +39,7 @@
                     </li>
                 </div>   
                     <li class="nav-item dropdown">
-                        <a class="nav-link text-light" href="{% url 'proposal_list' %}">{{ count.2 }}</a>
+                        <span class="badge" href="{% url 'proposal_list' %}">{{ count.2 }}</span>
                     </li>
 				<li class="nav-item dropdown dropleft">
                     <a class="btn" role="button" data-toggle="dropdown" id="navbardrop"><i class="fas fa-user-circle" data-toggle="tooltip" title="Profile" style="font-size:36px; width:50px; color:#D3D3D3"></i></a>
