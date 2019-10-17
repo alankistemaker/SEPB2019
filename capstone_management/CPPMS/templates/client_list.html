@@ -16,16 +16,13 @@
 <div class="row mb-2">
     <div class="col-3"></div>
     <div class="col">
-        <form method="POST" class="form-inline bg-white rounded shadow-sm pt-2 pl-3 border">
+        <form method="POST" class="form bg-white rounded">
             {% csrf_token %}
-            <div class="form-group mb-2 mr-3">
-                <label class="font-weight-bold">Search</label>
-            </div>
-            <div class="form-group mb-2 mr-1">
-                <input id="txtSearch" type="text" class="form-control" placeholder="Filter by client id, client name..." name="client_list" value="{{ filter_value }}" style="width: 500px"/>
-            </div>
-            <div class="form-group mb-2">
-                <button class="btn btn-primary fa fa-search" type="submit"></button>
+            <div class="input-group">
+                <input id="txtSearch" type="text" class="form-control" placeholder="Filter by client id, client name..." name="client_list" value="{{ filter_value }}"/>
+                <div class="input-group-append">
+                    <button class="btn btn-dark" type="submit">Search</button>
+                </div>
             </div>
         </form>
     </div>
@@ -41,8 +38,7 @@
             <table class="table table-bordered table-hover">
                 <thead>
                     <tr class="table-primary">
-                        <th scope="col"><strong>CLIENT ID</strong></th>
-                        <th scope="col"><strong>CLIENT NAME</strong></th>
+                        <th scope="col"><strong>CLIENT</strong></th>
                         <th scope="col"><strong>DATE</strong></th>
                         <th scope="col"><strong>CONTACT NAME</strong></th>
                         <th scope="col"><strong>DEPARTMENT</strong></th>
@@ -51,8 +47,7 @@
                 <tbody>
                     {% for client in client_filter %}
                     <tr scope="row">
-                        <td><a href="client_detail/{{client.pk}}">{{ client.pk }}</a></td>
-                        <td>{{ client.name }}</td>
+                        <td><a href="client_detail/{{client.pk}}">{{ client.name }}</a></td>
                         <td>{{ client.updated_at }}</td>
                         <td>{{ client.contact }}</td>
                         <td>{{ client.contact.department }}</td>
