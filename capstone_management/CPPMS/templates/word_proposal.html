@@ -45,7 +45,7 @@
                 {% for proposal in word_proposals %}
                 <tr>
                     <td><a href="word_proposal_detail/{{ proposal.pk }}">{{ proposal.pk }}</a></td>
-                    <td>{{ proposal.title }}</td>
+                    <td><a href="word_proposal_detail/{{ proposal.pk }}">{{ proposal.title }}</a></td>
                     <td>{{ proposal.created_at }}</td>
                 </tr>
                 {% endfor %}

@@ -213,12 +213,18 @@ class Client(models.Model):
     desc = models.TextField(default="")
 
     # OEM Relationships
+    company = models.ForeignKey(Company, models.SET_NULL, blank=True, null=True)
     department = models.ForeignKey(Department, models.SET_NULL, blank=True, null=True)
     contact = models.ForeignKey(Contact, models.SET_NULL, blank=True, null=True)
     pass
 
     def __str__(self):
-        return self.name
+        if (self.company.name is not None):
+            return self.company.name
+        elif (self.contact.name is not None):
+            return self.contact.name
+        else:
+            return "Client name unavailable"
 
 
 class Proposal(models.Model):

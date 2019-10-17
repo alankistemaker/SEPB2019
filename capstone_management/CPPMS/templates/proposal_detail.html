@@ -2,10 +2,8 @@
 
 {% block sub-page_content %}
 
-{% if not messages %}
-<h2>Propsal Details</h2>
-{% else %}
-<h2>Propsal Details</h2>
+<h2>{{ proposal_detail.title }}</h2>
+{% if messages %}
 {% for message in messages %}<li>{{ message }}</li>{% endfor %}
 {% endif %}
 
@@ -78,9 +76,9 @@
 
             <div class="col">
                 <div class="card">
-                    <h6 class="card-header"><strong>Client Name:</strong></h6>
+                    <h6 class="card-header"><strong>Client:</strong></h6>
                     <div class="card-body">
-                        <p class="card-text" value="{{ proposal_detail.client.name }}">{{ proposal_detail.client.name }}</p>
+                        <p class="card-text" value="{{ proposal_detail.client }}">{{ proposal_detail.client }}</p>
                     </div>            
                 </div>
             </div>
@@ -298,7 +296,7 @@
         <div class="row mb-2 mt-5">
 
             <div class="col">
-                <h1>Proposal Projects</h1>
+                <h1>Related Projects</h1>
                 <hr />
             </div>
 
