@@ -38,7 +38,6 @@
             <table class="table table-bordered table-hover">
                 <thead>
                     <tr class="table-primary">
-                        <th scope="col"><strong>PROPOSAL ID</strong></th>
                         <th scope="col"><strong>PROPOSAL TITLE</strong></th>
                         <th scope="col"><strong>DATE</strong></th>
                         <th scope="col"><strong>UNIT CODE</strong></th>
@@ -49,8 +48,7 @@
                 <tbody>
                     {% for proposal in proposal_filter %}
                     <tr scope="row">
-                        <td><a href="proposal_progress/{{ proposal.pk }}">{{ proposal.pk }}</a></td>
-                        <td>{{ proposal.title }}</td>
+                        <td><a href="proposal_progress/{{ proposal.pk }}">{{ proposal.title }}</a></td>
                         <td>{{ proposal.created_at }}</td>
                         <td>{{ proposal.proposal_unit }}</td>
                         <td style="text-align:center">

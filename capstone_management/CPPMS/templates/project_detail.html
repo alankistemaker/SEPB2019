@@ -1,4 +1,4 @@
-{% extends "project.html" %} 
+{% extends "project.html" %}
 
 {% block sub-page_content %}
 
@@ -14,171 +14,124 @@
 {% block page_detail_content %}
 
 <div class="row">
-    <div class="col">
-        <div class="row mb-2 mt-5">
-            <div class="col-5"></div>
-            
-            <div class="col-1">
-                <a href="project_edit/{{ project_detail.pk }}" class="btn" role="button" style="color:inherit" data-toggle="tooltip" title="Edit"><i class="fa fa-edit" style="font-size:25px"></i></a>
-            </div>
-            <div class="col-6"></div>
-            
-        </div>
 
-        <div class="row mb-2">
-            <div class="col-1"></div>
+    <div class="col-1"></div>
 
-            <div class="col">
-                <div class="card">
-                    <h6 class="card-header"><strong>ID:</strong></h6>
-                    <div class="card-body">
-                        <p class="card-text" value="{{ project_detail.pk }}">{{ project_detail.pk }}</p>
+    <div class="col-sm-5">
+        <div class="card">
+            <h1 class="card-header">Project Details <a href="project_edit/{{ project_detail.pk }}" class="btn btn-dark" role="button" data-toggle="tooltip" title="Edit"><i class="fa fa-edit" style="font-size:25px"></i></a></h1>
+
+            <div class="card-body">
+
+                <div class="row mb-2">
+
+                    <div class="col">
+                        <div class="card">
+                            <h6 class="card-header"><strong>Project Title:</strong></h6>
+                            <div class="card-body">
+                                <p>{{ project_detail.title }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="card">
+                            <h6 class="card-header"><strong>Group:</strong></h6>
+                            <div class="card-body">
+                                <p>{{ project_detail.group }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row mb-2">
+
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header"><strong>Unit:</strong></div>
+                            <div class="card-body">
+                                <p>{{ project_detail.unit }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="card">
+                            <h6 class="card-header"><strong>Supervisor:</strong></h6>
+                            <div class="card-body">
+                                <p>{{ project_detail.internal_supervisor }}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col">
-                <div class="card">
-                    <h6 class="card-header"><strong>Project Title:</strong></h6>
-                    <div class="card-body">
-                        <p class="card-text" value="{{ project_detail.title }}">{{ project_detail.title }}</p>
+                <div class="row mb-2">
+                    <div class="col">
+                        <div class="card">
+                            <h4 class="card-header"><a data-toggle="collapse" href="#collapse1">Details</a></h4>
+                            <div id="collapse1" class="collapse">
+                                <ul class="list-group">
+                                    <li class="list-group-item"><strong>Categorye: </strong>
+                                        <p>{{ project_detail.category }}</p>
+                                    </li>
+                                    <li class="list-group-item"><strong>Year: </strong>
+                                        <p>{{ project_detail.year }}</p>
+                                    </li>
+                                    <li class="list-group-item"><strong>Convenor: </strong>
+                                        <p>{{ project_detail.convenor }}</p>
+                                    </li>
+                                    <li class="list-group-item"><strong>Team Leader: </strong>
+                                        <p></p>
+                                    </li>
+                                    <li class="list-group-item"><strong>Group Size: </strong>
+                                        <p></p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row mb-2">
-
-            <div class="col-1"></div>
-
-            <div class="col">
-                <div class="card">
-                    <h6 class="card-header"><strong>Category:</strong></h6>
-                    <div class="card-body">
-                        <p class="card-text" value="{{ project_detail.category }}">{{ project_detail.category }}</p>
-                    </div>            
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="card">
-                    <h6 class="card-header"><strong>Year:</strong></h6>
-                    <div class="card-body">
-                        <p class="card-text" value="{{ project_detail.year }}">{{ project_detail.year }}</p>
-                    </div>            
-                </div>
-            </div>
-        </div>
-
-        <div class="row mb-2">
-            <div class="col-1"></div>
-
-            <div class="col">
-                <div class="card">
-                    <h6 class="card-header"><strong>Group:</strong></h6>
-                    <div class="card-body">
-                        <p class="card-text" value="{{ project_detail.group }}">{{ project_detail.group }}</p>
-                    </div>            
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="card">
-                    <h6 class="card-header"><strong>Unit:</strong></h6>
-                    <div class="card-body">
-                        <p class="card-text" value="{{ project_detail.unit }}">{{ project_detail.unit }}</p>
-                    </div>            
-                </div>
-            </div>
-        </div>
-
-        <div class="row mb-2">
-            <div class="col-1"></div>
-
-            <div class="col">
-                <div class="card">
-                    <h6 class="card-header"><strong>Convenor:</strong></h6>
-                    <div class="card-body">
-                        <p class="card-text" value="{{ project_detail.convenor }}">{{ project_detail.convenor }}</p>
-                    </div>            
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="card">
-                    <h6 class="card-header"><strong>Supervisor:</strong></h6>
-                    <div class="card-body">
-                        <p class="card-text" value="{{ project_detail.internal_supervisor }}">{{ project_detail.internal_supervisor }}</p>
-                    </div>            
-                </div>
-            </div>
-        </div>
-
-        <div class="row mb-2">
-            <div class="col-1"></div>
-
-            <div class="col">
-                <div class="card">
-                    <h6 class="card-header"><strong>Team Leader:</strong></h6>
-                    <div class="card-body">
-                        <p class="card-text" value=""></p>
-                    </div>            
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="card">
-                    <h6 class="card-header"><strong>Group Size:</strong></h6>
-                    <div class="card-body">
-                        <p class="card-text" value=""></p>
-                    </div>            
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="col">
-        <div class="row mb-2 mt-5">
+    <div class="col-sm-5">
+        <div class="card">
+            <h1 class="card-header">Project Students</h1>
+            <div class="card-body">
+                <div class="row mb-2">
 
-            <div class="col">
-                <h1>Project Groups</h1>
-                <hr />
-            </div>
+                    <div class="col">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover ">
+                                <thead>
+                                    <tr class="table-primary">
+                                        <th scope="col"><strong>ID</strong></th>
+                                        <th scope="col"><strong>Name</strong></th>
+                                        <th scope="col"><strong></strong></th>
+                                        <th scope="col"><strong></strong></th>
+                                    </tr>
+                                </thead>
 
-            <div class="col-1"></div>
+                                <tbody>
+                                    <tr scope="row">
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
 
-        </div>
-
-        <div class="row mb-2">
-
-            <div class="col">
-                <div class="table-responsive card shadow-sm">
-                    <table class="table table-bordered table-hover ">
-                        <thead>
-                            <tr class="table-primary">
-                                <th scope="col"><strong></strong></th>
-                                <th scope="col"><strong></strong></th>
-                                <th scope="col"><strong></strong></th>
-                                <th scope="col"><strong></strong></th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            <tr scope="row">
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
                 </div>
             </div>
-
-            <div class="col-1"></div>
-
         </div>
     </div>
+
+    <div class="col-1"></div>
 </div>
 
 {% endblock %}

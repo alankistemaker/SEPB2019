@@ -40,7 +40,6 @@
             <table class="table table-bordered table-hover text-center">
                 <thead>
                     <tr class="table-primary">
-                        <th scope="col"><strong>PROJECT ID</strong></th>
                         <th scope="col"><strong>PROJECT TITLE</strong></th>
                         <th scope="col"><strong>PROJECT CATEGORY</strong></th>
                         <th scope="col"><strong>YEAR</strong></th>
@@ -52,8 +51,7 @@
                     <td>Current Projects</td>
                     {% for project in project_filter %}
                     <tr scope="row">
-                        <td><a href="project_detail/{{ project.pk }}">{{ project.pk }}</a></td>
-                        <td>{{ project.title }}</td>
+                        <td><a href="project_detail/{{ project.pk }}">{{ project.title }}</a></td>
                         <td>{{ project.category }}</td>
                         <td>{{ project.year }}</td>
                         <td>{{ project.unit }}</td>
@@ -63,8 +61,7 @@
                     <td>Past Projects</td>
                     {% for project in past_projects %}
                     <tr scope="row">
-                        <td><a href="project_detail/{{ project.pk }}">{{ project.pk }}</a></td>
-                        <td>{{ project.title }}</td>
+                        <td><a href="project_detail/{{ project.pk }}">{{ project.title }}</a></td>
                         <td>{{ project.category }}</td>
                         <td>{{ project.year }}</td>
                         <td>{{ project.unit }}</td>

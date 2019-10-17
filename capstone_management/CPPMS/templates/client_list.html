@@ -38,8 +38,7 @@
             <table class="table table-bordered table-hover">
                 <thead>
                     <tr class="table-primary">
-                        <th scope="col"><strong>CLIENT ID</strong></th>
-                        <th scope="col"><strong>CLIENT NAME</strong></th>
+                        <th scope="col"><strong>CLIENT</strong></th>
                         <th scope="col"><strong>DATE</strong></th>
                         <th scope="col"><strong>CONTACT NAME</strong></th>
                         <th scope="col"><strong>DEPARTMENT</strong></th>
@@ -48,8 +47,7 @@
                 <tbody>
                     {% for client in client_filter %}
                     <tr scope="row">
-                        <td><a href="client_detail/{{client.pk}}">{{ client.pk }}</a></td>
-                        <td>{{ client.name }}</td>
+                        <td><a href="client_detail/{{client.pk}}">{{ client.name }}</a></td>
                         <td>{{ client.updated_at }}</td>
                         <td>{{ client.contact }}</td>
                         <td>{{ client.contact.department }}</td>
