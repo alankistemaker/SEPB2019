@@ -39,18 +39,22 @@
                 <thead>
                     <tr class="table-primary">
                         <th scope="col"><strong>CLIENT</strong></th>
-                        <th scope="col"><strong>DATE</strong></th>
+                        <th scope="col"><strong>ADDED</strong></th>
+                        <th scope="col"><strong>UPDATED</strong></th>
                         <th scope="col"><strong>CONTACT NAME</strong></th>
                         <th scope="col"><strong>DEPARTMENT</strong></th>
+                        <th scope="col"><strong>CONTACT</strong></th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for client in client_filter %}
                     <tr scope="row">
-                        <td><a href="client_detail/{{client.pk}}">{{ client.name }}</a></td>
+                        <td><a href="client_detail/{{client.pk}}">{{ client.title }}</a></td>
+                        <td>{{ client.created_at }}</td>
                         <td>{{ client.updated_at }}</td>
                         <td>{{ client.contact }}</td>
                         <td>{{ client.contact.department }}</td>
+                        <td>{{ client.contact.contact }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
