@@ -894,8 +894,6 @@ def new_client(request):
 
 
 # Client List View
-
-
 @login_required(login_url="/CPPMS/login/")
 def client_list(request):
     username = request.user.first_name + " " + request.user.last_name
@@ -928,8 +926,6 @@ def client_list(request):
 
 
 # Client Details View
-
-
 @login_required(login_url="/CPPMS/login/")
 def client_detail(request, pk=None):
     username = request.user.first_name + " " + request.user.last_name
@@ -956,8 +952,6 @@ def client_detail(request, pk=None):
 
 
 # Client Edit View
-
-
 @login_required(login_url="/CPPMS/login/")
 def client_edit(request, pk=None):
     username = request.user.first_name + " " + request.user.last_name

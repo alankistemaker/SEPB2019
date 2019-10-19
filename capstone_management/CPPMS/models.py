@@ -276,7 +276,7 @@ class Student(models.Model):
         return self.name
 
 class Group(models.Model):
-    title = models.CharField(max_length=128, default="", unique=True)
+    title = models.CharField(max_length=128, default="")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
