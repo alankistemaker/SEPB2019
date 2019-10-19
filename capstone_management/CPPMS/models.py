@@ -174,6 +174,7 @@ class Unit(models.Model):
     unit_code = models.CharField(max_length=8, default="AAA0001")
     BB_unit_code = models.CharField(max_length=8, default="AAA0001")
     ulos = models.TextField(default="")
+    convenor = models.CharField(max_length=128, default="N/A")
     # num_students = models.IntegerField(default=0)
 
     # OEM Relationships
@@ -202,6 +203,14 @@ class Contact(models.Model):
     def __str__(self):
         return self.name
 
+    def contact(self):
+        if self.email is not None:
+            return self.email
+        elif self.phone is not None:
+            return self.phone
+        else:
+            return "No contact details exist for this contact"
+
 
 class Client(models.Model):
     name = models.CharField(max_length=128, default="")
@@ -218,10 +227,10 @@ class Client(models.Model):
     contact = models.ForeignKey(Contact, models.SET_NULL, blank=True, null=True)
     pass
 
-    def __str__(self):
-        if (self.company.name is not None):
+    def title(self):
+        if self.company.name is not None:
             return self.company.name
-        elif (self.contact.name is not None):
+        elif self.contact.name is not None:
             return self.contact.name
         else:
             return "Client name unavailable"
@@ -254,7 +263,7 @@ class Proposal(models.Model):
 
 
 class Student(models.Model):
-    name = models.CharField(max_length=128, default="", unique=True)
+    name = models.CharField(max_length=128, default="")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     email = models.CharField(max_length=128, default="")
@@ -264,8 +273,24 @@ class Student(models.Model):
     pass
 
     def __str__(self):
-        return self.name_
+        return self.name
 
+class Group(models.Model):
+    title = models.CharField(max_length=128, default="", unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    group_code_canvas = models.CharField(max_length=255, default="")
+
+    # OEM Relationships
+    students = models.ManyToManyField(Student)
+    leader = models.IntegerField(default="0")
+
+    def __str__(self):
+        return self.title
+
+    def size(self):
+        return self.count(students)
 
 class Project(models.Model):
     title = models.CharField(max_length=128, default="", unique=True)
@@ -279,6 +304,8 @@ class Project(models.Model):
     completed = models.BooleanField(default=0)
 
     # OEM Relationships
+    pass
+
     unit = models.ForeignKey(Unit, models.SET_NULL, blank=True, null=True)
     proposal = models.ForeignKey(
         Proposal, on_delete=models.CASCADE, blank=True, null=True
@@ -286,28 +313,11 @@ class Project(models.Model):
     internal_supervisor = models.ForeignKey(
         Internal_Supervisor, models.SET_NULL, blank=True, null=True
     )
-    group_members = models.ManyToManyField(
-        to="Student", through="Group", related_name="members"
-    )
+    group = models.ForeignKey(Group, models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
         return self.title
 
 
-class Group(models.Model):
-    name = models.CharField(max_length=128, default="", unique=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
-    group_code_canvas = models.CharField(max_length=255, default="")
-
-    # OEM Relationships
-    project = models.ForeignKey(Project, models.SET_NULL, blank=True, null=True)
-    student = models.ForeignKey(Student, models.SET_NULL, blank=True, null=True)
-    ##leader = models.ForeignKey(
-    ##    Student, models.SET_NULL, blank=True, null=True, related_name="group_leader"
-    ##)
-
-    def size(self):
-        return self.count(student)
 
