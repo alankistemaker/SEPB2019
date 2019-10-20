@@ -1,14 +1,15 @@
 [
   {
-    "model": "CPPMS.company",
-    "pk": 2,
+    "model": "CPPMS.client",
+    "pk": 20,
     "fields": {
       "name": "Aquamate",
       "website": "http://www.aquamate.com.au/",
       "created_at": "2019-01-21T04:51:10-11:00",
       "updated_at": "2019-09-28T12:35:25-10:00",
       "address": "2 Macdougal Street, Dandenong, Victoria, Australia",
-      "desc": "Adipisicing magna eiusmod id est reprehenderit ea."
+      "desc": "Adipisicing magna eiusmod id est reprehenderit ea.",
+      "contact": 20
     }
   },
   {
@@ -20,8 +21,7 @@
       "updated_at": "2013-01-16T08:16:59.844Z",
 
       "phone": "555-555-555",
-      "email": "logistics@aquamate.com.au",
-      "company": 2
+      "email": "logistics@aquamate.com.au"
     }
   },
   {
@@ -33,12 +33,11 @@
       "updated_at": "2013-01-16T08:16:59.844Z",
 
       "phone": "555-555-555",
-      "email": "sales@aquamate.com.au",
-      "company": 2
+      "email": "sales@aquamate.com.au"
     }
   },
   {
-    "model": "CPPMS.External_Supervisor",
+    "model": "CPPMS.external_supervisor",
     "pk": 20,
     "fields": {
       "name": "William Blake",
@@ -51,7 +50,7 @@
     }
   },
   {
-    "model": "CPPMS.Contact",
+    "model": "CPPMS.contact",
     "pk": 20,
     "fields": {
       "name": "Elvis Presley",
@@ -61,20 +60,6 @@
       "phone": "555-124-341",
       "email": "theking@rockandroll.com",
       "department": 20
-    }
-  },
-  {
-    "model": "CPPMS.Client",
-    "pk": 20,
-    "fields": {
-      "name": "This field shouldn't exist",
-      "created_at": "2013-01-16T08:16:59.844Z",
-      "updated_at": "2013-01-16T08:16:59.844Z",
-      "address": "This field shouldn't exist",
-      "website": "this field shouldn't exist",
-      "desc": "this field shouldn't exist",
-      "company": 2,
-      "contact": 20
     }
   },
   {

@@ -14,14 +14,13 @@
 
 <div class="row mb-2">
 
-    <div class="col-1"></div>
+    <div class="col-md-1"></div>
 
     <div class="col">
         <div class="table-responsive card shadow-sm">
             <table class="table table-bordered table-hover">
                 <thead>
                     <tr class="table-primary">
-                        <th scope="col"><strong>ID</strong></th>
                         <th scope="col"><strong>TITLE</strong></th>
                         <th scope="col"><strong>CLIENT NAME</strong></th>
                         <th scope="col"><strong>DATE</strong></th>
@@ -30,8 +29,7 @@
                 <tbody>
                     {% for proposal in web_proposal %}
                     <tr scope="row">
-                        <td><a href="proposal_extract/{{ proposal.pk }}">{{ proposal.pk }}</a></td>
-                        <td>{{ proposal.title }}</td>
+                        <td><a href="proposal_extract/{{ proposal.pk }}">{{ proposal.title }}</a></td>
                         <td>{{ proposal.client_name }}</td>
                         <td>{{ proposal.created_at }}</td>
                     </tr>
@@ -41,7 +39,7 @@
         </div>
     </div>
 
-    <div class="col-1"></div>
+    <div class="col-md-1"></div>
 
 </div>
 {% endblock %}

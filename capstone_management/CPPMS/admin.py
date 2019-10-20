@@ -6,7 +6,6 @@ from .models import (
     Internal_Supervisor,
     External_Supervisor,
     Unit,
-    Company,
     Department,
     Contact,
     Client,

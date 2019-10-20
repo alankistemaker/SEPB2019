@@ -1,7 +1,7 @@
 [
   {
-    "model": "CPPMS.company",
-    "pk": 3,
+    "model": "CPPMS.client",
+    "pk": 30,
     "fields": {
       "name": "Goko",
       "website": "https://www.goko.com.au/",
@@ -20,12 +20,11 @@
       "updated_at": "2013-01-16T08:16:59.844Z",
 
       "phone": "555-555-555",
-      "email": "sales@goko.com.au",
-      "company": 3
+      "email": "sales@goko.com.au"
     }
   },
   {
-    "model": "CPPMS.External_Supervisor",
+    "model": "CPPMS.external_supervisor",
     "pk": 30,
     "fields": {
       "name": "Marco Polo",
@@ -38,7 +37,7 @@
     }
   },
   {
-    "model": "CPPMS.Contact",
+    "model": "CPPMS.contact",
     "pk": 30,
     "fields": {
       "name": "Rune Scapio",
@@ -48,20 +47,6 @@
       "phone": "555-124-231",
       "email": "rscapio@goko.com",
       "department": 30
-    }
-  },
-  {
-    "model": "CPPMS.Client",
-    "pk": 30,
-    "fields": {
-      "name": "This field shouldn't exist",
-      "created_at": "2013-01-16T08:16:59.844Z",
-      "updated_at": "2013-01-16T08:16:59.844Z",
-      "address": "This field shouldn't exist",
-      "website": "this field shouldn't exist",
-      "desc": "this field shouldn't exist",
-      "company": 3,
-      "contact": 30
     }
   },
   {

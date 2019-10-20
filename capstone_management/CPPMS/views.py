@@ -10,7 +10,6 @@ from docx import Document
 from io import StringIO
 import os
 
-
 from django.contrib.auth import (
     authenticate,
     get_user_model,
@@ -34,7 +33,7 @@ def count():
     count = [count_web, count_word, count_all]
     return count
 
-
+# Search Views
 def autocompleteModel(request):
     if request.is_ajax():
         q = request.GET.get("term", "").capitalize()
@@ -49,7 +48,6 @@ def autocompleteModel(request):
         data = "fail"
     mimetype = "application/json"
     return HttpResponse(data, mimetype)
-
 
 def autocompleteModel2(request):
     if request.is_ajax():
@@ -70,7 +68,6 @@ def autocompleteModel2(request):
     mimetype = "application/json"
     return HttpResponse(data, mimetype)
 
-
 def autocompleteModel3(request):
     if request.is_ajax():
         q = request.GET.get("term", "").capitalize()
@@ -85,17 +82,13 @@ def autocompleteModel3(request):
     mimetype = "application/json"
     return HttpResponse(data, mimetype)
 
-
-# logout_view
+# Logout View
 def logout_view(request):
     logout(request)
 
     return redirect("/CPPMS/login/")
 
-
 # Login View
-
-
 def login_view(request):
     form = UserLoginForm(request.POST or None)
     if form.is_valid():
@@ -109,12 +102,15 @@ def login_view(request):
             print("user is not Authenticated")
         return redirect("/CPPMS/index/")
 
-    return render(request, "login.html", {"form": form})
-
+    return render(
+        request,
+        "login.html",
+        {
+            "form": form
+        }
+    )
 
 # Change Password View
-
-
 @login_required(login_url="/CPPMS/login/")
 def change_password(request):
     username = request.user.first_name + " " + request.user.last_name
@@ -135,13 +131,14 @@ def change_password(request):
     return render(
         request,
         "change_password.html",
-        {"count": count, "form": form, "username": username},
+        {
+            "count": count,
+            "form": form,
+            "username": username
+        }
     )
 
-
 # Add User View
-
-
 @login_required(login_url="/CPPMS/login/")
 def Adduser(request):
     username = request.user.first_name + " " + request.user.last_name
@@ -160,13 +157,16 @@ def Adduser(request):
         form = SignUpForm()
 
     return render(
-        request, "adduser.html", {"count": count, "form": form, "username": username}
+        request,
+        "adduser.html",
+        {
+            "count": count,
+            "form": form,
+            "username": username
+        }
     )
 
-
 # Profile Edit View
-
-
 @login_required(login_url="/CPPMS/login/")
 def profile_edit(request, template_name="profile_edit.html"):
     username = request.user.first_name + " " + request.user.last_name
@@ -184,35 +184,46 @@ def profile_edit(request, template_name="profile_edit.html"):
     # return render(template_name, locals(),
     #    context_instance=RequestContext(request))
     return render(
-        request, template_name, {"count": count, "form": form, "username": username}
+        request,
+        template_name,
+        {
+            "count": count,
+            "form": form,
+            "username": username
+        }
     )
 
-
 # Index View
-
-
 @login_required(login_url="/CPPMS/login/")
 def index(request):
     username = request.user.first_name + " " + request.user.last_name
     count()
 
-    return render(request, "index.html", {"count": count, "username": username})
-
+    return render(
+        request,
+        "index.html",
+        {
+            "count": count,
+            "username": username
+        }
+    )
 
 # Base Proposal View
-
-
 @login_required(login_url="/CPPMS/login/")
 def proposal(request):
     username = request.user.first_name + " " + request.user.last_name
     count()
 
-    return render(request, "proposal.html", {"count": count, "username": username})
-
+    return render(
+        request,
+        "proposal.html",
+        {
+            "count": count,
+            "username": username
+        }
+    )
 
 # Incoming Proposals List View
-
-
 @login_required(login_url="/CPPMS/login/")
 def incoming_proposal(request):
     username = request.user.first_name + " " + request.user.last_name
@@ -222,13 +233,14 @@ def incoming_proposal(request):
     return render(
         request,
         "incoming_proposal.html",
-        {"count": count, "web_proposal": web_proposal, "username": username},
+        {
+            "count": count,
+            "web_proposal": web_proposal,
+            "username": username
+        }
     )
 
-
 # Proposal Extraction View
-
-
 @login_required(login_url="/CPPMS/login/")
 def proposal_extract(request, pk=None):
     username = request.user.first_name + " " + request.user.last_name
@@ -242,9 +254,9 @@ def proposal_extract(request, pk=None):
         status = request.POST.get("status")
 
         client_name = request.POST.get("client_name")
-        company_desc = request.POST.get("company_desc")
-        company_website = request.POST.get("company_website")
-        company_address = request.POST.get("company_address")
+        client_desc = request.POST.get("client_desc")
+        client_website = request.POST.get("client_website")
+        client_address = request.POST.get("client_address")
 
         contact_name = request.POST.get("contact_name")
         contact_phone = request.POST.get("contact_phone")
@@ -301,15 +313,13 @@ def proposal_extract(request, pk=None):
             try:
                 client_table = Client.objects.create(
                     name=client_name,
-                    address=company_address,
-                    website=company_website,
-                    desc=company_desc,
-                    department=department_table,
+                    address=client_address,
+                    website=client_website,
+                    desc=client_desc,
                     contact=contact_table,
                 )
             except:
                 client_table = Client.objects.get(name=client_name)
-                client_table.department = department_table
                 client_table.contact = contact_table
             # Proposal table
             proposal_table = Proposal.objects.create(
@@ -341,9 +351,9 @@ def proposal_extract(request, pk=None):
                 description=description,
                 status=status,
                 client_name=client_name,
-                company_desc=company_desc,
-                company_website=company_website,
-                company_address=company_address,
+                client_desc=client_desc,
+                client_website=client_website,
+                client_address=client_address,
                 contact_name=contact_name,
                 contact_phone=contact_phone,
                 contact_email=contact_email,
@@ -373,13 +383,14 @@ def proposal_extract(request, pk=None):
     return render(
         request,
         "proposal_extract.html",
-        {"count": count, "proposal_extract": proposal_extract, "username": username},
+        {
+            "count": count,
+            "proposal_extract": proposal_extract,
+            "username": username
+        }
     )
 
-
 # Proposal List View
-
-
 @login_required(login_url="/CPPMS/login/")
 def proposal_list(request):
     username = request.user.first_name + " " + request.user.last_name
@@ -404,14 +415,11 @@ def proposal_list(request):
             "count": count,
             "proposal_filter": proposal_filter,
             "filter_value": filter_value,
-            "username": username,
-        },
+            "username": username
+        }
     )
 
-
 # Proposal Progress View
-
-
 @login_required(login_url="/CPPMS/login/")
 def proposal_progress(request, pk=None):
     username = request.user.first_name + " " + request.user.last_name
@@ -447,13 +455,14 @@ def proposal_progress(request, pk=None):
     return render(
         request,
         "proposal_progress.html",
-        {"count": count, "proposal_progress": proposal_progress, "username": username},
+        {
+            "count": count,
+            "proposal_progress": proposal_progress,
+            "username": username
+        }
     )
 
-
 # Proposal Detail View
-
-
 @login_required(login_url="/CPPMS/login/")
 def proposal_detail(request, pk=None):
     username = request.user.first_name + " " + request.user.last_name
@@ -462,9 +471,13 @@ def proposal_detail(request, pk=None):
     count()
 
     filter_value = proposal_detail.pk
+    
+    project_list = Project.objects.all()
 
     if filter_value:
         project_filter = projects.filter(proposal_id=filter_value)
+    else:
+        project_filter = project_list.all()
 
     return render(
         request,
@@ -473,14 +486,11 @@ def proposal_detail(request, pk=None):
             "count": count,
             "proposal_detail": proposal_detail,
             "username": username,
-            "project_filter": project_filter,
-        },
+            "project_filter": project_filter
+        }
     )
 
-
 # Proposal Edit View
-
-
 @login_required(login_url="/CPPMS/login/")
 def proposal_edit(request, pk=None):
     username = request.user.first_name + " " + request.user.last_name
@@ -494,9 +504,9 @@ def proposal_edit(request, pk=None):
         status = request.POST.get("status")
 
         client_name = request.POST.get("client_name")
-        company_desc = request.POST.get("company_desc")
-        company_website = request.POST.get("company_website")
-        company_address = request.POST.get("company_address")
+        client_desc = request.POST.get("client_desc")
+        client_website = request.POST.get("client_website")
+        client_address = request.POST.get("client_address")
 
         contact_name = request.POST.get("contact_name")
         contact_phone = request.POST.get("contact_phone")
@@ -539,9 +549,9 @@ def proposal_edit(request, pk=None):
                 department=department_table,
             )
             client_table = Client.objects.filter(name=client_name).update(
-                address=company_address,
-                website=company_website,
-                desc=company_desc,
+                address=client_address,
+                website=client_website,
+                desc=client_desc,
                 department=department_table,
                 contact=contact_table,
             )
@@ -567,10 +577,14 @@ def proposal_edit(request, pk=None):
     return render(
         request,
         "proposal_edit.html",
-        {"count": count, "proposal_detail": proposal_detail, "username": username},
+        {
+            "count": count,
+            "proposal_detail": proposal_detail,
+            "username": username
+        }
     )
 
-
+# Project Generation View
 @login_required(login_url="/CPPMS/login/")
 def generation_list(request, title=None):
     username = request.user.first_name + " " + request.user.last_name
@@ -596,11 +610,11 @@ def generation_list(request, title=None):
             "count": count,
             "generation_filter": generation_filter,
             "filter_value": filter_value,
-            "username": username,
-        },
+            "username": username
+        }
     )
 
-
+# Archive Proposal View
 @login_required(login_url="/CPPMS/login/")
 def archive_proposal(request):
     username = request.user.first_name + " " + request.user.last_name
@@ -610,18 +624,17 @@ def archive_proposal(request):
     return render(
         request,
         "archive_proposal.html",
-        {"count": count, "archive_proposal": archive_proposal, "username": username},
+        {
+            "count": count,
+            "archive_proposal": archive_proposal,
+            "username": username
+        }
     )
 
-
+# Archive Editing View
 @login_required(login_url="/CPPMS/login/")
-<<<<<<< HEAD
 def archive_edit(request, pk=None):
     username = request.user.first_name +' '+ request.user.last_name
-=======
-def archive_detail(request, pk=None):
-    username = request.user.first_name + " " + request.user.last_name
->>>>>>> 3e21a394d568c3535d4adeeafce1095bd8877cf8
     archive_detail = get_object_or_404(Archive_Proposal, pk=pk)
     count()
 
@@ -632,9 +645,9 @@ def archive_detail(request, pk=None):
         status = request.POST.get("status")
 
         client_name = request.POST.get("client_name")
-        company_desc = request.POST.get("company_desc")
-        company_website = request.POST.get("company_website")
-        company_address = request.POST.get("company_address")
+        client_desc = request.POST.get("client_desc")
+        client_website = request.POST.get("client_website")
+        client_address = request.POST.get("client_address")
 
         contact_name = request.POST.get("contact_name")
         contact_phone = request.POST.get("contact_phone")
@@ -669,9 +682,9 @@ def archive_detail(request, pk=None):
                 description=description,
                 status=status,
                 client_name=client_name,
-                company_desc=company_desc,
-                company_website=company_website,
-                company_address=company_address,
+                client_desc=client_desc,
+                client_website=client_website,
+                client_address=client_address,
                 contact_name=contact_name,
                 contact_phone=contact_phone,
                 contact_email=contact_email,
@@ -695,31 +708,35 @@ def archive_detail(request, pk=None):
             )
 
             return redirect("../../incoming_proposal")
-<<<<<<< HEAD
               
-    return render(request, "archive_edit.html", {"count":count, "archive_detail": archive_detail, "username": username})
-
-# Archive Details View
-=======
-
     return render(
         request,
-        "archive_detail.html",
-        {"count": count, "archive_detail": archive_detail, "username": username},
+        "archive_edit.html",
+        {
+            "count":count,
+            "archive_detail": archive_detail,
+            "username": username
+        }
     )
->>>>>>> 3e21a394d568c3535d4adeeafce1095bd8877cf8
 
+# Archive Details View
 @login_required(login_url="/CPPMS/login/")
 def archive_detail(request, pk=None):
     username = request.user.first_name +' '+ request.user.last_name
     archive_detail = get_object_or_404(Archive_Proposal, pk=pk)
     count()
     
-    return render(request, "archive_detail.html", {"count":count, "archive_detail": archive_detail, "username": username,})
+    return render(
+        request,
+        "archive_detail.html",
+        {
+            "count":count,
+            "archive_detail": archive_detail,
+            "username": username
+        }
+    )
 
 # Project Base View
-
-
 @login_required(login_url="/CPPMS/login/")
 def project(request):
     username = request.user.first_name + " " + request.user.last_name
@@ -727,10 +744,7 @@ def project(request):
 
     return render(request, "project.html", {"count": count, "username": username})
 
-
 # Project List View
-
-
 @login_required(login_url="/CPPMS/login/")
 def project_list(request):
     username = request.user.first_name + " " + request.user.last_name
@@ -763,14 +777,11 @@ def project_list(request):
             "project_filter": project_filter,
             "filter_value": filter_value,
             "past_projects": past_projects,
-            "username": username,
-        },
+            "username": username
+        }
     )
 
-
-# Project Edit View
-
-
+# Project Editing View
 @login_required(login_url="/CPPMS/login/")
 def project_edit(request, pk=None):
     username = request.user.first_name + " " + request.user.last_name
@@ -832,20 +843,17 @@ def project_edit(request, pk=None):
 
     return render(
         request,
-        "project_detail.html",
+        "project_edit.html",
         {
             "count": count,
             "project_detail": project_detail,
             "units": units,
             "groups": groups,
-            "username": username,
-        },
+            "username": username
+        }
     )
 
-
 # Project Details View
-
-
 @login_required(login_url="/CPPMS/login/")
 def project_detail(request, pk=None):
     username = request.user.first_name + " " + request.user.last_name
@@ -858,10 +866,7 @@ def project_detail(request, pk=None):
         {"count": count, "project_detail": project_detail, "username": username},
     )
 
-
 # Base Client View
-
-
 @login_required(login_url="/CPPMS/login/")
 def client(request):
     username = request.user.first_name + " " + request.user.last_name
@@ -869,10 +874,7 @@ def client(request):
 
     return render(request, "client.html", {"count": count, "username": username})
 
-
 # New Client View
-
-
 @login_required(login_url="/CPPMS/login/")
 def new_client(request):
     username = request.user.first_name + " " + request.user.last_name
@@ -880,11 +882,10 @@ def new_client(request):
 
     if request.method == "POST":
         client_id = request.POST.get("pk")
-        client_name = request.POST.get("name")
-        client_company_name = request.POST.get("company_name")
-        client_company_address = request.POST.get("company_address")
-        client_company_website = request.POST.get("company_website")
-        client_company_description = request.POST.get("company_description")
+        client_name = request.POST.get("client_name")
+        client_address = request.POST.get("client_address")
+        client_website = request.POST.get("client_website")
+        client_description = request.POST.get("client_description")
         client_department_name = request.POST.get("department_name")
         client_department_phone = request.POST.get("department_phone")
         client_department_email = request.POST.get("department_email")
@@ -895,11 +896,11 @@ def new_client(request):
 
         if request.POST.get("save") == "save":
             ####Department.objects.create(name=client_department_name, phone=client_department_phone, email=client_department_email)
-            Company.objects.create(
-                name=client_company_name,
-                address=client_company_address,
-                website=client_company_website,
-                desc=client_company_description,
+            Client.objects.create(
+                name=client_name,
+                address=client_address,
+                website=client_website,
+                desc=client_description,
             )
             Contact.objects.create(
                 name=client_contact_name,
@@ -907,14 +908,17 @@ def new_client(request):
                 phone=client_contact_phone,
                 email=client_contact_email,
             )
-            Client.objects.create(name=client_name)
-            print("Success Add New Client!")
-    return render(request, "new_client.html", {"count": count, "username": username})
-
+            print("Successfully Added New Client!")
+    return render(
+        request,
+        "new_client.html",
+        {
+            "count": count,
+            "username": username
+        }
+    )
 
 # Client List View
-
-
 @login_required(login_url="/CPPMS/login/")
 def client_list(request):
     username = request.user.first_name + " " + request.user.last_name
@@ -941,14 +945,11 @@ def client_list(request):
             "count": count,
             "client_filter": client_filter,
             "filter_value": filter_value,
-            "username": username,
-        },
+            "username": username
+        }
     )
 
-
 # Client Details View
-
-
 @login_required(login_url="/CPPMS/login/")
 def client_detail(request, pk=None):
     username = request.user.first_name + " " + request.user.last_name
@@ -969,28 +970,23 @@ def client_detail(request, pk=None):
             "proposal_filter": proposal_filter,
             "client_detail": client_detail,
             "username": username,
-            "proposals": proposals,
-        },
+            "proposals": proposals
+        }
     )
 
-
 # Client Edit View
-
-
 @login_required(login_url="/CPPMS/login/")
 def client_edit(request, pk=None):
     username = request.user.first_name + " " + request.user.last_name
     client_edit = get_object_or_404(Client, pk=pk)
-    companies = Company.objects.all()
     count()
 
     if request.method == "POST":
         client_id = request.POST.get("pk")
-        client_name = request.POST.get("name")
-        client_company_name = request.POST.get("company_name")
-        client_company_address = request.POST.get("company_address")
-        client_company_website = request.POST.get("company_website")
-        client_company_description = request.POST.get("company_description")
+        client_name = request.POST.get("client_name")
+        client_address = request.POST.get("client_address")
+        client_website = request.POST.get("client_website")
+        client_description = request.POST.get("client_description")
         client_department_name = request.POST.get("department_name")
         client_department_phone = request.POST.get("department_phone")
         client_department_email = request.POST.get("department_email")
@@ -1002,7 +998,6 @@ def client_edit(request, pk=None):
         if request.POST.get("save") == "save":
             client_edit = Client.objects.filter(pk=client_id).update(
                 name=client_name,
-                company=client_company_name,
                 contact=client_contact_name,
             )
             print("Sucessfully Updated Client Details!")
@@ -1016,11 +1011,10 @@ def client_edit(request, pk=None):
             "count": count,
             "client_edit": client_edit,
             "username": username,
-            "companies": companies,
-        },
+        }
     )
 
-
+# Word Import View
 @login_required(login_url="/CPPMS/login/")
 def word_proposal(request):
     username = request.user.first_name + " " + request.user.last_name
@@ -1066,11 +1060,11 @@ def word_proposal(request):
             "count": count,
             "uploaded_proposal": uploaded_proposal,
             "word_proposals": word_proposals,
-            "username": username,
-        },
+            "username": username
+        }
     )
 
-
+# Word Detail View
 @login_required(login_url="/CPPMS/login/")
 def word_detail(request, pk=None):
     username = request.user.first_name + " " + request.user.last_name
@@ -1085,9 +1079,9 @@ def word_detail(request, pk=None):
     status = ""
 
     client_name = ""
-    company_desc = ""
-    company_website = ""
-    company_address = ""
+    client_desc = ""
+    client_website = ""
+    client_address = ""
 
     contact_name = ""
     contact_phone = ""
@@ -1122,9 +1116,9 @@ def word_detail(request, pk=None):
         status = request.POST.get("status")
 
         client_name = request.POST.get("client_name")
-        company_desc = request.POST.get("company_desc")
-        company_website = request.POST.get("company_website")
-        company_address = request.POST.get("company_address")
+        client_desc = request.POST.get("client_desc")
+        client_website = request.POST.get("client_website")
+        client_address = request.POST.get("client_address")
 
         contact_name = request.POST.get("contact_name")
         contact_phone = request.POST.get("contact_phone")
@@ -1160,9 +1154,9 @@ def word_detail(request, pk=None):
             status = ""
 
             client_name = extract_word["1"]
-            company_desc = extract_word["2"]
-            company_website = extract_word["4"]
-            company_address = extract_word["3"]
+            client_desc = extract_word["2"]
+            client_website = extract_word["4"]
+            client_address = extract_word["3"]
 
             contact_name = extract_word["5"]
             contact_phone = extract_word["7"]
@@ -1227,9 +1221,9 @@ def word_detail(request, pk=None):
             try:
                 client_table = Client.objects.create(
                     name=client_name,
-                    address=company_address,
-                    website=company_website,
-                    desc=company_desc,
+                    address=client_address,
+                    website=client_website,
+                    desc=client_desc,
                     department=department_table,
                     contact=contact_table,
                 )
@@ -1274,9 +1268,9 @@ def word_detail(request, pk=None):
             "description": description,
             "status": status,
             "client_name": client_name,
-            "company_desc": company_desc,
-            "company_website": company_website,
-            "company_address": company_address,
+            "client_desc": client_desc,
+            "client_website": client_website,
+            "client_address": client_address,
             "contact_name": contact_name,
             "contact_phone": contact_phone,
             "contact_email": contact_email,
@@ -1292,7 +1286,6 @@ def word_detail(request, pk=None):
             "supervisor_phone": supervisor_phone,
             "supervisor_email": supervisor_email,
             "supervisor_title": supervisor_title,
-            "username": username,
-        },
+            "username": username
+        }
     )
-

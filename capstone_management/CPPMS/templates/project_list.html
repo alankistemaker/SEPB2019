@@ -1,4 +1,4 @@
-{% extends "project.html" %} 
+{% extends "project.html" %}
 
 {% block sub-page_content %}
 
@@ -14,65 +14,72 @@
 {% block page_detail_content %}
 
 <div class="row mb-2">
-    <div class="col-3"></div>
-    
+
+    <div class="col-md-1"></div>
+
     <div class="col">
-        <form method="POST" class="form bg-white rounded">
-            {% csrf_token %}
-            <div class="input-group">
-                <input id="txtSearch2" type="text" class="form-control" placeholder="Filter by project_title, project_id, project_category..." name="project_list" value="{{ filter_value }}"/>
-                <div class="input-group-append">
-                    <button class="btn btn-dark" type="submit">Search</button>
+
+        <div class="row mb-2">
+            <div class="col-sm-2"></div>
+            
+            <div class="col">
+                <form method="POST" class="form bg-white rounded">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <input id="txtSearch2" type="text" class="form-control" placeholder="Filter by project_title, project_id, project_category..." name="project_list" value="{{ filter_value }}" />
+                        <div class="input-group-append">
+                            <button class="btn btn-dark" type="submit">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="col-sm-2"></div>
+        </div>
+
+        <div class="row mb-2">
+
+            <div class="col">
+                <div class="table-responsive card shadow-sm">
+                    <table class="table table-bordered table-hover text-center">
+                        <thead>
+                            <tr class="table-primary">
+                                <th scope="col"><strong>PROJECT TITLE</strong></th>
+                                <th scope="col"><strong>PROJECT CATEGORY</strong></th>
+                                <th scope="col"><strong>YEAR</strong></th>
+                                <th scope="col"><strong>UNIT CODE</strong></th>
+                                <th scope="col"><strong>CREATED AT</strong></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <td>Current Projects</td>
+                            {% for project in project_filter %}
+                            <tr scope="row">
+                                <td><a href="project_detail/{{ project.pk }}">{{ project.title }}</a></td>
+                                <td>{{ project.category }}</td>
+                                <td>{{ project.year }}</td>
+                                <td>{{ project.unit }}</td>
+                                <td>{{ project.created_at }}</td>
+                            </tr>
+                            {% endfor %}
+                            <td>Past Projects</td>
+                            {% for project in past_projects %}
+                            <tr scope="row">
+                                <td><a href="project_detail/{{ project.pk }}">{{ project.title }}</a></td>
+                                <td>{{ project.category }}</td>
+                                <td>{{ project.year }}</td>
+                                <td>{{ project.unit }}</td>
+                                <td>{{ project.created_at }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </form>
-    </div>
-    
-    <div class="col-3"></div>
-</div>
-
-<div class="row mb-2">
-
-    <div class="col-1"></div>
-
-    <div class="col">
-        <div class="table-responsive card shadow-sm">
-            <table class="table table-bordered table-hover text-center">
-                <thead>
-                    <tr class="table-primary">
-                        <th scope="col"><strong>PROJECT TITLE</strong></th>
-                        <th scope="col"><strong>PROJECT CATEGORY</strong></th>
-                        <th scope="col"><strong>YEAR</strong></th>
-                        <th scope="col"><strong>UNIT CODE</strong></th>
-                        <th scope="col"><strong>CREATED AT</strong></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <td>Current Projects</td>
-                    {% for project in project_filter %}
-                    <tr scope="row">
-                        <td><a href="project_detail/{{ project.pk }}">{{ project.title }}</a></td>
-                        <td>{{ project.category }}</td>
-                        <td>{{ project.year }}</td>
-                        <td>{{ project.unit }}</td>
-                        <td>{{ project.created_at }}</td>
-                    </tr>
-                    {% endfor %}
-                    <td>Past Projects</td>
-                    {% for project in past_projects %}
-                    <tr scope="row">
-                        <td><a href="project_detail/{{ project.pk }}">{{ project.title }}</a></td>
-                        <td>{{ project.category }}</td>
-                        <td>{{ project.year }}</td>
-                        <td>{{ project.unit }}</td>
-                        <td>{{ project.created_at }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
         </div>
     </div>
-    <div class="col-1"></div>
+
+    <div class="col-md-1"></div>
 </div>
 
 {% endblock %}
