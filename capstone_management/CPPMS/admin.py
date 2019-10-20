@@ -15,6 +15,7 @@ from .models import (
     Project,
     Group,
 )
+
 admin.site.site_header = "CPPMS Administration"
 admin.site.site_title = "CPPMS Administration"
 

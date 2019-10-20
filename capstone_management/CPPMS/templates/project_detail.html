@@ -19,7 +19,11 @@
 
     <div class="col-sm-5">
         <div class="card">
+<<<<<<< HEAD
             <h3 class="card-header">Project Details <a href="project_edit/{{ project_detail.pk }}" class="btn btn-dark" role="button" data-toggle="tooltip" title="Edit"><i class="fa fa-edit" style="font-size:25px"></i></a></h3>
+=======
+            <h1 class="card-header">{{ project_detail.title }} <a href="project_edit/{{ project_detail.pk }}" class="btn btn-dark" role="button" data-toggle="tooltip" title="Edit"><i class="fa fa-edit" style="font-size:25px"></i></a></h1>
+>>>>>>> 3e21a394d568c3535d4adeeafce1095bd8877cf8
 
             <div class="card-body">
 
@@ -27,18 +31,18 @@
 
                     <div class="col">
                         <div class="card">
-                            <h6 class="card-header"><strong>Project Title:</strong></h6>
+                            <div class="card-header"><strong>Unit:</strong></div>
                             <div class="card-body">
-                                <p>{{ project_detail.title }}</p>
+                                <p>{{ project_detail.unit }} - {{ project_detail.year }}</p>
                             </div>
                         </div>
                     </div>
 
                     <div class="col">
                         <div class="card">
-                            <h6 class="card-header"><strong>Group:</strong></h6>
+                            <h6 class="card-header"><strong>Client</strong></h6>
                             <div class="card-body">
-                                <p>{{ project_detail.group }}</p>
+                                <p><a href="client_detail/{{ project_detail.proposal.client.pk }}">{{ project_detail.proposal.client.title }}</a></p>
                             </div>
                         </div>
                     </div>
@@ -49,16 +53,16 @@
 
                     <div class="col">
                         <div class="card">
-                            <div class="card-header"><strong>Unit:</strong></div>
+                            <div class="card-header"><strong>External Supervisor:</strong></div>
                             <div class="card-body">
-                                <p>{{ project_detail.unit }}</p>
+                                <p>{{ project_detail.proposal.external_supervisor }}</p>
                             </div>
                         </div>
                     </div>
 
                     <div class="col">
                         <div class="card">
-                            <h6 class="card-header"><strong>Supervisor:</strong></h6>
+                            <h6 class="card-header"><strong>Internal Supervisor:</strong></h6>
                             <div class="card-body">
                                 <p>{{ project_detail.internal_supervisor }}</p>
                             </div>
@@ -69,23 +73,20 @@
                 <div class="row mb-2">
                     <div class="col">
                         <div class="card">
-                            <h4 class="card-header"><a data-toggle="collapse" href="#collapse1">Details</a></h4>
+                            <h4 class="card-header"><a data-toggle="collapse" href="#collapse1">More Details</a></h4>
                             <div id="collapse1" class="collapse">
                                 <ul class="list-group">
-                                    <li class="list-group-item"><strong>Categorye: </strong>
+                                    <li class="list-group-item"><strong>Created: </strong>
+                                        <p>{{ project_detail.created_at }}</p>
+                                    </li>
+                                    <li class="list-group-item"><strong>Updated: </strong>
+                                        <p>{{ project_detail.updated_at }}</p>
+                                    </li>
+                                    <li class="list-group-item"><strong>Category: </strong>
                                         <p>{{ project_detail.category }}</p>
                                     </li>
-                                    <li class="list-group-item"><strong>Year: </strong>
-                                        <p>{{ project_detail.year }}</p>
-                                    </li>
                                     <li class="list-group-item"><strong>Convenor: </strong>
-                                        <p>{{ project_detail.convenor }}</p>
-                                    </li>
-                                    <li class="list-group-item"><strong>Team Leader: </strong>
-                                        <p></p>
-                                    </li>
-                                    <li class="list-group-item"><strong>Group Size: </strong>
-                                        <p></p>
+                                        <p>TODO</p>
                                     </li>
                                 </ul>
                             </div>
@@ -98,7 +99,11 @@
 
     <div class="col-sm-5">
         <div class="card">
+<<<<<<< HEAD
             <h3 class="card-header">Project Students</h3>
+=======
+            <h1 class="card-header">Group - {{ project_detail.group.title }}</a></h1>
+>>>>>>> 3e21a394d568c3535d4adeeafce1095bd8877cf8
             <div class="card-body">
                 <div class="row mb-2">
 
@@ -108,17 +113,25 @@
                                 <thead>
                                     <tr class="table-primary">
                                         <th scope="col"><strong>Name</strong></th>
-                                        <th scope="col"><strong></strong></th>
+                                        <th scope="col"><strong>Email</strong></th>
                                         <th scope="col"><strong></strong></th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
+                                    {% for student in project_detail.group.students.all %}
                                     <tr scope="row">
+<<<<<<< HEAD
                                         <td></td>
                                         <td></td>
+=======
+                                        <td>{{ student.pk }}</td>
+                                        <td>{{ student.name }}</td>
+                                        <td>{{ student.email }}</td>
+>>>>>>> 3e21a394d568c3535d4adeeafce1095bd8877cf8
                                         <td></td>
                                     </tr>
+                                    {% endfor %}
                                 </tbody>
                             </table>
                         </div>

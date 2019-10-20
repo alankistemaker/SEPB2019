@@ -2,10 +2,8 @@
 
 {% block sub-page_content %}
 
-{% if not messages %}
-<h2>Word-structured Proposal Details</h2>
-{% else %}
-<h2>Word-structured Proposal Details</h2>
+<h2>{{ proposal_detail.title }}</h2>
+{% if messages %}
 {% for message in messages %}<li>{{ message }}</li>{% endfor %}
 {% endif %}
 
