@@ -19,7 +19,7 @@
 
     <div class="col-sm-5">
         <div class="card">
-            <h1 class="card-header">{{ client_detail.title }} <a href="client_edit/{{ client_detail.pk }}" class="btn" role="button" style="color:inherit" data-toggle="tooltip" title="Edit"><i class="fa fa-edit" style="font-size:25px"></i></a></h1>
+            <h3 class="card-header">{{ client_detail.title }} <a href="client_edit/{{ client_detail.pk }}" class="btn" role="button" style="color:inherit" data-toggle="tooltip" title="Edit"><i class="fa fa-edit" style="font-size:25px"></i></a></h3>
             <div class="card-body">
 
                 <div class="row mb-2">
@@ -80,7 +80,11 @@
 
     <div class="col-sm-5">
         <div class="card">
+<<<<<<< HEAD
+            <h3 class="card-header">Client Proposals</h3>
+=======
             <h1 class="card-header">Client's Proposals</h1>
+>>>>>>> 3e21a394d568c3535d4adeeafce1095bd8877cf8
             <div class="card-body">
                 <div class="row mb-2">
 
@@ -89,7 +93,6 @@
                             <table class="table table-bordered table-hover">
                                 <thead>
                                     <tr class="table-primary">
-                                        <th scope="col"><strong>ID</strong></th>
                                         <th scope="col"><strong>TITLE</strong></th>
                                         <th scope="col"><strong>DATE</strong></th>
                                         <th scope="col"><strong>STATUS</strong></th>
@@ -99,8 +102,7 @@
                                 <tbody>
                                     {% for proposal in proposal_filter %}
                                     <tr scope="row">
-                                        <td>{{ proposal.pk }}</td>
-                                        <td><a href="proposal_progress/{{ proposal.pk }}">{{ proposal.title }}</a></td>
+                                        <td><a href="proposal_detail/{{proposal.pk}}">{{ proposal.title }}</td>
                                         <td>{{ proposal.created_at }}</td>
                                         <td>{{ proposal.status }}</td>
                                     </tr>
