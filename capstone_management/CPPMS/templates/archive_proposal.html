@@ -19,7 +19,6 @@
         <div class="table-responsive card shadow-sm">
             <table class="table table-bordered table-hover">
                 <tr class="table-primary">
-                    <th>ID</th>
                     <th>Title</th>
                     <th style="min-width: 120px">Client Name</th>
                     <th>Date</th>
@@ -27,10 +26,9 @@
                 {% for proposal in archive_proposal %}
                 <tr>
                     <td>
-                        <a href="archive_detail/{{ proposal.pk }}">{{ proposal.pk }}</a>
+                        <a href="archive_detail/{{ proposal.pk }}">{{ proposal.title }}</a>
                     </td>
-                    <td>{{ proposal.title }}</td>
-                    <td>{{ proposal.client_name }}</td>
+                    <td><a href="client_detail/{{ proposal.client.pk }}">{{ proposal.client_name }}</td>
                     <td>{{ proposal.created_at }}</td>
                 </tr>
                 {% endfor %}

@@ -3,9 +3,9 @@
 {% block sub-page_content %}
 
 {% if not messages %}
-<h2>Propsal Details</h2>
+<h2>Proposal Details</h2>
 {% else %}
-<h2>Propsal Details</h2>
+<h2>Proposal Details</h2>
 {% for message in messages %}<li>{{ message }}</li>{% endfor %}
 {% endif %}
 
@@ -20,7 +20,7 @@
     <div class="col-5">
         <div class="card">
 
-            <h1 class="card-header">Proposals Details <a href="proposal_edit/{{ proposal_detail.pk }}" class="btn btn-dark" role="button" data-toggle="tooltip" title="Edit"><i class="fa fa-edit" style="font-size:25px"></i></a></h1>
+            <h3 class="card-header">Proposals Details <a href="proposal_edit/{{ proposal_detail.pk }}" class="btn btn-dark" role="button" data-toggle="tooltip" title="Edit"><i class="fa fa-edit" style="font-size:25px"></i></a></h3>
 
             <div class="card-body">
                 <div class="row mb-2">
@@ -192,7 +192,7 @@
 
     <div class="col-5">
         <div class="card">
-            <h1 class="card-header">Proposal Projects</h1>
+            <h3 class="card-header">Proposal Projects</h3>
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col">
@@ -200,7 +200,6 @@
                             <table class="table table-bordered table-hover">
                                 <thead>
                                     <tr class="table-primary">
-                                        <th scope="col"><strong>ID</strong></th>
                                         <th scope="col"><strong>TITLE</strong></th>
                                         <th scope="col"><strong>CATEGORY</strong></th>
                                         <th scope="col"><strong>YEAR</strong></th>
@@ -211,8 +210,7 @@
                                 <tbody>
                                     {% for project in project_filter %}
                                     <tr scope="row">
-                                        <td>{{ project.pk }}</td>
-                                        <td>{{ project.title }}</td>
+                                        <td><a href="project_detail/{{project.pk}}">{{ project.title }}</td>
                                         <td>{{ project.category }}</td>
                                         <td>{{ project.year }}</td>
                                         <td>{{ project.unit }}</td>

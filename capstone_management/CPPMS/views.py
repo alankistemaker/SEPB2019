@@ -435,7 +435,7 @@ def archive_proposal(request):
     return render(request, "archive_proposal.html", {"count":count, "archive_proposal": archive_proposal, "username": username})
 
 @login_required(login_url="/CPPMS/login/")
-def archive_detail(request, pk=None):
+def archive_edit(request, pk=None):
     username = request.user.first_name +' '+ request.user.last_name
     archive_detail = get_object_or_404(Archive_Proposal, pk=pk)
     count()
@@ -488,8 +488,17 @@ def archive_detail(request, pk=None):
             
             return redirect("../../incoming_proposal")
               
-    return render(request, "archive_detail.html", {"count":count, "archive_detail": archive_detail, "username": username})
+    return render(request, "archive_edit.html", {"count":count, "archive_detail": archive_detail, "username": username})
 
+# Archive Details View
+
+@login_required(login_url="/CPPMS/login/")
+def archive_detail(request, pk=None):
+    username = request.user.first_name +' '+ request.user.last_name
+    archive_detail = get_object_or_404(Archive_Proposal, pk=pk)
+    count()
+    
+    return render(request, "archive_detail.html", {"count":count, "archive_detail": archive_detail, "username": username,})
 
 # Project Base View
 

@@ -31,12 +31,13 @@ urlpatterns = [
     
     re_path("proposal_edit/(?P<pk>[_\w\d\-]+)$", views.proposal_edit, name="proposal_edit"),
 
-
     path("proposal/generation_list/(?P<title>[_\w\d\-]+)$", views.generation_list, name="generation_list"),
     
     path("proposal/archive_proposal/", views.archive_proposal, name="archive_proposal"),
     
     re_path("archive_detail/(?P<pk>[_\w\d\-]+)$", views.archive_detail, name="archive_detail"),
+    
+    re_path("archive_edit/(?P<pk>[_\w\d\-]+)$", views.archive_edit, name="archive_edit"),
    
     path("client/", views.client, name="client"),
    
