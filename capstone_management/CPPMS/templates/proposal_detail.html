@@ -6,7 +6,6 @@
 <h2>Proposal Details</h2>
 {% else %}
 <h2>Proposal Details</h2>
-{% if messages %}
 {% for message in messages %}<li>{{ message }}</li>{% endfor %}
 {% endif %}
 
@@ -21,7 +20,15 @@
     <div class="col-5">
         <div class="card">
 
+<<<<<<< HEAD
             <h3 class="card-header">{{ proposal_detail.title }} <a href="proposal_edit/{{ proposal_detail.pk }}" class="btn btn-dark" role="button" data-toggle="tooltip" title="Edit"><i class="fa fa-edit" style="font-size:25px"></i></a></h3>
+=======
+<<<<<<< HEAD
+            <h3 class="card-header">Proposals Details <a href="proposal_edit/{{ proposal_detail.pk }}" class="btn btn-dark" role="button" data-toggle="tooltip" title="Edit"><i class="fa fa-edit" style="font-size:25px"></i></a></h3>
+=======
+            <h1 class="card-header">{{ proposal_detail.title }} <a href="proposal_edit/{{ proposal_detail.pk }}" class="btn btn-dark" role="button" data-toggle="tooltip" title="Edit"><i class="fa fa-edit" style="font-size:25px"></i></a></h1>
+>>>>>>> 3e21a394d568c3535d4adeeafce1095bd8877cf8
+>>>>>>> 4d2dc30101c39b966c7ec7a467285bdd19588d7a
 
             <div class="card-body">
                 <div class="row mb-2">
