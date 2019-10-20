@@ -25,9 +25,36 @@
         </div>
 
         <div class="col-2">
-            <a class="btn" role="button" type="submit" name="save" value="save" data-toggle="tooltip" title="Save"><i class="fa fa-save" style="font-size:25px"></i></a>
-            <a class="btn" role="button" type="submit" name="delete" value="delete" data-toggle="tooltip" title="Delete"><i class="fa fa-trash" style="font-size:25px"></i></a>
+        <button class="btn" role="button" type="submit" name="save" value="save" data-toggle="tooltip" title="Save"><i class="fa fa-save" style="font-size:25px"></i></button>
+            <a class="btn" role="button" type="submit" data-toggle="modal" data-target="#exampleModal" title="Delete"><i class="fa fa-trash" style="font-size:25px"></i></a>
         </div>
+
+
+
+
+
+<div id="exampleModal" tabindex="-1" class="modal fade">
+	<div class="modal-dialog modal-confirm">
+		<div class="modal-content">
+			<div class="modal-header">
+					
+				<h4 class="modal-title">Are you sure?</h4>	
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			</div>
+			<div class="modal-body">
+				<p>Do you really want to delete these Client : {{client_edit.name}}? </p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+			
+<form method="POST">
+    {% csrf_token %}<button  type="submit" name="delete" class="btn btn-danger">Delete</button></form>
+			</div>
+		</div>
+	</div>
+</div> 
+
+
 
         <div class="col-2"></div>
     </div>
