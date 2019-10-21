@@ -1,0 +1,63 @@
+{% extends "proposal.html" %}
+
+{% block sub-page_content %}
+
+{% if not messages %}
+<h2>Import Proposal</h2>
+{% else %}
+<h2>Import Proposal</h2>
+{% for message in messages %}<li>{{ message }}</li>{% endfor %}
+{% endif %}
+
+{% endblock %}
+
+{% block page_detail_content %}
+
+<div class="row mb-2">
+    <div class="col-md-1"></div>
+    
+    <div class="col">
+        <div class="row mb-2">
+            <div class="col">
+                <form class="text-center" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="search-container card shadow-sm pt-3 pl-3">
+                        <p><strong>Upload Word-structured Proposal: </strong>
+                            <input type="file" name="file">
+                            <button type="submit" class="btn btn-primary" name="upload">Upload</button></p>
+                    </div>
+                    {% if uploaded_proposal %}
+                    <div class="search-container card shadow-sm pt-3 pl-3">
+                        <p><strong>Proposal uploaded at: </strong><a href="{{ uploaded_proposal }}" name="uploaded" value="{{ uploaded_proposal }}">{{ uploaded_proposal }}&nbsp;&nbsp;&nbsp;&nbsp;</a></p>
+                    </div>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col">
+                <div class="card table-responsive shadow-sm">
+                    <table class="table table-hover">
+                        <tr class="table-primary">
+                            <th>ID</th>
+                            <th style="min-width: 150px">Proposal Title</th>
+                            <th style="min-width: 150px">Uploaded At</th>
+                        </tr>
+                        {% for proposal in word_proposals %}
+                        <tr>
+                            <td><a href="word_proposal_detail/{{ proposal.pk }}">{{ proposal.pk }}</a></td>
+                            <td><a href="word_proposal_detail/{{ proposal.pk }}">{{ proposal.title }}</a></td>
+                            <td>{{ proposal.created_at }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-1"></div>
+</div>
+
+{% endblock %}

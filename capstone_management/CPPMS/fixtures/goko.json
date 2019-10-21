@@ -1,0 +1,86 @@
+[
+  {
+    "model": "CPPMS.client",
+    "pk": 30,
+    "fields": {
+      "name": "Goko",
+      "website": "https://www.goko.com.au/",
+      "created_at": "2019-07-03T07:08:08-10:00",
+      "updated_at": "2019-08-08T02:19:34-10:00",
+      "address": "55 Kansas Place, Hawthorn, Victoria, Australia",
+      "desc": "Lorem do incididunt quis proident exercitation deserunt culpa cillum fugiat voluptate eiusmod veniam id."
+    }
+  },
+  {
+    "model": "CPPMS.department",
+    "pk": 30,
+    "fields": {
+      "name": "Sales",
+      "created_at": "2013-01-16T08:16:59.844Z",
+      "updated_at": "2013-01-16T08:16:59.844Z",
+
+      "phone": "555-555-555",
+      "email": "sales@goko.com.au"
+    }
+  },
+  {
+    "model": "CPPMS.external_supervisor",
+    "pk": 30,
+    "fields": {
+      "name": "Marco Polo",
+      "created_at": "2013-01-16T08:16:59.844Z",
+      "updated_at": "2013-01-16T08:16:59.844Z",
+      "email": "marco@goko.com.au",
+      "phone": "555-123-032",
+      "title": "Associate Engineer",
+      "department": 30
+    }
+  },
+  {
+    "model": "CPPMS.contact",
+    "pk": 30,
+    "fields": {
+      "name": "Rune Scapio",
+      "created_at": "2013-01-16T08:16:59.844Z",
+      "updated_at": "2013-01-16T08:16:59.844Z",
+      "position": "Selling GF",
+      "phone": "555-124-231",
+      "email": "rscapio@goko.com",
+      "department": 30
+    }
+  },
+  {
+    "model": "CPPMS.proposal",
+    "pk": 2,
+    "fields": {
+      "title": "Rage management solution",
+      "desc": "Software development can cause significant rage when things don't go as planned.  Students will need to use modern development techniques to mitigate these factors.",
+      "status": "Proposal",
+      "spec": "Having a cool head under pressure",
+      "skills": "AI Technologies, Embedded Systems",
+      "env": "C++, Java, Python",
+      "res": "N/A",
+      "created_at": "2013-01-16T08:16:59.844Z",
+      "updated_at": "2013-01-16T08:16:59.844Z",
+      "client": 30,
+      "external_supervisor": 30
+    }
+  },
+  {
+    "model": "CPPMS.proposal",
+    "pk": 3,
+    "fields": {
+      "title": "Smart Parking",
+      "desc": "Create an app that will help you park your car.",
+      "status": "Proposal",
+      "spec": "Mobile App Development, Cloud Computing, Block Chain, AI",
+      "skills": "AI Technologies, Mobile Development",
+      "env": "C++, Java, Python",
+      "res": "N/A",
+      "created_at": "2013-01-16T08:16:59.844Z",
+      "updated_at": "2013-01-16T08:16:59.844Z",
+      "client": 30,
+      "external_supervisor": 30
+    }
+  }
+]

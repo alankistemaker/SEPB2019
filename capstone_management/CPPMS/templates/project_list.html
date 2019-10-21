@@ -1,61 +1,85 @@
-{% extends "project.html" %} {% block sub-page_content %}
-<div
-  class="search-container"
-  style="position:absolute; top:100px; left:15%; height:70px; width:60%; font-family:Segoe UI"
->
-  <form method="POST">
-    {% csrf_token %}
-    <p style="color:#FFFFFF; font-size:24px">
-      <strong>Search: </strong>
-      <input
-        type="text"
-        style="width:70%; font-size:20px"
-        placeholder="Filter by project_title, project_id, project_category..."
-        name="project_list"
-        value="{{ filter_value }}"
-      />
-      <button type="submit">
-        <i class="fas fa-search" style="font-size:20px"></i>
-      </button>
-    </p>
-  </form>
-</div>
+{% extends "project.html" %}
 
-<table
-  border="3"
-  style="position:absolute; top:160px; left:15%; width:85%; font-family:Segoe UI; font-size:16px"
->
-  <tr style="text-align:center; background-color:#C0C0C0">
-    <th style="width:15%"><strong>PROJECT ID</strong></th>
-    <th style="width:35%"><strong>PROJECT TITLE</strong></th>
-    <th style="width:25%"><strong>PROJECT CATEGORY</strong></th>
-    <th style="width:10%"><strong>YEAR</strong></th>
-    <th style="width:15%"><strong>UNIT CODE</strong></th>
-  </tr>
-  <td>Current Projects</td>
-  {% for project in project_filter %}
-  <tr style="text-align:right">
-    <td>
-      <a href="project_detail/{{ project.pk }}">{{ project.pk }}</a>
-    </td>
-    <td>{{ project.title }}</td>
-    <td>{{ project.category }}</td>
-    <td>{{ project.year }}</td>
-    <td>{{ project.unit }}</td>
-  </tr>
-  {% endfor %}
-  <td>Past Projects</td>
-  {% for project in past_projects %}
-  <tr style="text-align:right">
-    <td>
-      <a href="project_detail/{{ project.pk }}">{{ project.pk }}</a>
-    </td>
-    <td>{{ project.title }}</td>
-    <td>{{ project.category }}</td>
-    <td>{{ project.year }}</td>
-    <td>{{ project.unit }}</td>
-  </tr>
-  {% endfor %}
-</table>
+{% block sub-page_content %}
+
+{% if not messages %}
+<h2>Project List</h2>
+{% else %}
+<h2>Project List</h2>
+{% for message in messages %}<li>{{ message }}</li>{% endfor %}
+{% endif %}
+
+{% endblock %}
+
+{% block page_detail_content %}
+
+<div class="row mb-2">
+
+    <div class="col-md-1"></div>
+
+    <div class="col">
+
+        <div class="row mb-2">
+            <div class="col-sm-2"></div>
+            
+            <div class="col">
+                <form method="POST" class="form bg-white rounded">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <input id="txtSearch2" type="text" class="form-control" placeholder="Filter by project_title, project_id, project_category..." name="project_list" value="{{ filter_value }}" />
+                        <div class="input-group-append">
+                            <button class="btn btn-dark" type="submit">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="col-sm-2"></div>
+        </div>
+
+        <div class="row mb-2">
+
+            <div class="col">
+                <div class="table-responsive card shadow-sm">
+                    <table class="table table-bordered table-hover text-center">
+                        <thead>
+                            <tr class="table-primary">
+                                <th scope="col"><strong>PROJECT TITLE</strong></th>
+                                <th scope="col"><strong>PROJECT CATEGORY</strong></th>
+                                <th scope="col"><strong>YEAR</strong></th>
+                                <th scope="col"><strong>UNIT CODE</strong></th>
+                                <th scope="col"><strong>CREATED AT</strong></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <td>Current Projects</td>
+                            {% for project in project_filter %}
+                            <tr scope="row">
+                                <td><a href="project_detail/{{ project.pk }}">{{ project.title }}</a></td>
+                                <td>{{ project.category }}</td>
+                                <td>{{ project.year }}</td>
+                                <td>{{ project.unit }}</td>
+                                <td>{{ project.created_at }}</td>
+                            </tr>
+                            {% endfor %}
+                            <td>Past Projects</td>
+                            {% for project in past_projects %}
+                            <tr scope="row">
+                                <td><a href="project_detail/{{ project.pk }}">{{ project.title }}</a></td>
+                                <td>{{ project.category }}</td>
+                                <td>{{ project.year }}</td>
+                                <td>{{ project.unit }}</td>
+                                <td>{{ project.created_at }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-1"></div>
+</div>
 
 {% endblock %}

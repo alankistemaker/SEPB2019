@@ -1,0 +1,81 @@
+{% extends "proposal.html" %} 
+
+{% block sub-page_content %}
+
+<h2>{{ proposal_detail.title }}</h2>
+{% if messages %}
+{% for message in messages %}<li>{{ message }}</li>{% endfor %}
+{% endif %}
+
+{% endblock %}
+
+{% block page_detail_content %}
+<form method="POST">
+    
+    {% csrf_token %}
+    <div style="position:absolute; left:93%; top:105px; height:70px;">
+
+        {% if not extract %}
+        <button type="submit" name="extract" value="extract"><i class="fa fa-share-square" style="font-size:25px"></i></button>
+        <button type="submit" name="delete" value="delete"><i class="fa fa-trash" style="font-size:25px"></i></button>
+
+        {% elif extract %}
+        <button type="submit" name="save" value="save"><i class="fas fa-save" style="font-size:25px"></i></button>
+        {% endif %}
+    </div>
+
+    <div style="position:absolute; top:170px; left:18%; font-family:Segoe UI; color:#000000; font-size:16px">
+        <h1>Proposal Detail</h1>   
+        <hr />
+        <br />
+
+        {% if not extract %}
+        <p>ID: <input type="text" style="left:45%; width:500px; text-align:right;" name="pk" value="{{ proposal_detail.pk }}"/></p>
+        <p>Title: <input type="text" style="left:45%; width:500px; text-align:right;" name="title" value="{{ proposal_detail.title }}"/></p>
+        <p>File Path: <input type="text" style="left:45%; width:500px; text-align:right;" name="filepath" value="{{ proposal_detail.filepath }}"/></p>
+        <p>Uploaded At: <input type="text" style="left:45%; width:500px; text-align:right;" name="uploaded_at" value=""/></p>
+
+        {% elif extract %}
+        <p>ID:<input type="text" style="left:45%; width:500px; text-align:right;" name="pk" value="{{ proposal_detail.pk }}"/></p>
+        <p>Title:<input type="text" style="left:45%; width:500px; text-align:right;"name="title"value="{{ title }}"/></p>
+        <p>Description:<input type="text"style="left:45%; width:500px; text-align:right;"name="description"value="{{ description }}"/></p>
+        <p>Status:<input type="text"style="left:45%; width:500px; text-align:right;"name="status"value="{{ status }}"/></p>
+        
+        <hr />
+        <br />
+        <p>Client Name:<input type="text"style="left:45%; width:500px; text-align:right;"name="client_name"value="{{ client_name }}"/></p>
+        <p>Company Description:<input type="text"style="left:45%; width:500px; text-align:right;"name="company_desc"value="{{ company_desc }}"/></p>
+        <p>Company Website:<input list="groups"type="text"style="left:45%; width:500px; text-align:right;"name="company_website"value="{{ company_website }}"/></p>
+        <p>Company Address:<input type="text"style="left:45%; width:500px; text-align:right;"name="company_address"value="{{ company_address }}"/></p>
+        
+        <hr />
+        <br />
+        <p>Contact Name:<input type="text"style="left:45%; width:500px; text-align:right;"name="contact_name"value="{{ contact_name }}"/></p>
+        <p>Contact Phone:<input accept=""type="text"style="left:45%; width:500px; text-align:right;"name="contact_phone"value="{{ contact_phone }}"/></p>
+        <p>Contact Email:<input accept=""type="text"style="left:45%; width:500px; text-align:right;"name="contact_email"value="{{ contact_email }}"/></p>
+        <p>Contact Position:<input list="groups"type="text"style="left:45%; width:500px; text-align:right;"name="contact_position"value="{{ contact_position }}"/></p>
+        
+        <hr />
+        <br />
+        <p>Department Name:<input type="text"style="left:45%; width:500px; text-align:right;"name="department_name"value="{{ department_name }}"/></p>
+        <p>Department Phone:<input type="text"style="left:45%; width:500px; text-align:right;"name="department_phone"value="{{ department_phone }}"/></p>
+        <p>Department Email:<input type="text"style="left:45%; width:500px; text-align:right;"name="department_email"value="{{ department_email }}"/></p>
+        
+        <hr />
+        <br />
+        <p>Proposal Specialisation:<input type="text"style="left:45%; width:500px; text-align:right;"name="proposal_specialisation"value="{{ proposal_specialisation }}"/></p>
+        <p>Proposal Skills:<input list="groups"type="text"style="left:45%; width:500px; text-align:right;"name="proposal_skills"value="{{ proposal_skills }}"/></p>
+        <p>Proposal Environment:<input type="text"style="left:45%; width:500px; text-align:right;"name="proposal_environment"value="{{ proposal_environment }}"/></p>
+        <p>Proposal Research:<input type="text"style="left:45%; width:500px; text-align:right;"name="proposal_research"value="{{ proposal_research }}"/></p>
+        
+        <hr />
+        <br />
+        <p>Supervisor Name:<input type="text"style="left:45%; width:500px; text-align:right;"name="supervisor_name"value="{{ supervisor_name }}"/></p>
+        <p>Supervisor Phone:<input type="text"style="left:45%; width:500px; text-align:right;"name="supervisor_phone"value="{{ supervisor_phone }}"/></p>
+        <p>Supervisor Email:<input type="text"style="left:45%; width:500px; text-align:right;"name="supervisor_email"value="{{ supervisor_email }}"/></p>
+        <p>Supervisor Title:<input list="groups"=type="text"style="left:45%; width:500px; text-align:right;"name="supervisor_title"value="{{ supervisor_title }}"/></p>
+    {% endif %}
+    </div>
+</form>
+
+{% endblock %}

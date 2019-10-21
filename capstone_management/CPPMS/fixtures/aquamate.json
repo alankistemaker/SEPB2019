@@ -1,0 +1,110 @@
+[
+  {
+    "model": "CPPMS.client",
+    "pk": 20,
+    "fields": {
+      "name": "Aquamate",
+      "website": "http://www.aquamate.com.au/",
+      "created_at": "2019-01-21T04:51:10-11:00",
+      "updated_at": "2019-09-28T12:35:25-10:00",
+      "address": "2 Macdougal Street, Dandenong, Victoria, Australia",
+      "desc": "Adipisicing magna eiusmod id est reprehenderit ea.",
+      "contact": 20
+    }
+  },
+  {
+    "model": "CPPMS.department",
+    "pk": 20,
+    "fields": {
+      "name": "Logistics",
+      "created_at": "2013-01-16T08:16:59.844Z",
+      "updated_at": "2013-01-16T08:16:59.844Z",
+
+      "phone": "555-555-555",
+      "email": "logistics@aquamate.com.au"
+    }
+  },
+  {
+    "model": "CPPMS.department",
+    "pk": 21,
+    "fields": {
+      "name": "Sales",
+      "created_at": "2013-01-16T08:16:59.844Z",
+      "updated_at": "2013-01-16T08:16:59.844Z",
+
+      "phone": "555-555-555",
+      "email": "sales@aquamate.com.au"
+    }
+  },
+  {
+    "model": "CPPMS.external_supervisor",
+    "pk": 20,
+    "fields": {
+      "name": "William Blake",
+      "created_at": "2013-01-16T08:16:59.844Z",
+      "updated_at": "2013-01-16T08:16:59.844Z",
+      "email": "wblake@peoplepower.com.au",
+      "phone": "555-123-032",
+      "title": "Associate Engineer",
+      "department": 21
+    }
+  },
+  {
+    "model": "CPPMS.contact",
+    "pk": 20,
+    "fields": {
+      "name": "Elvis Presley",
+      "created_at": "2013-01-16T08:16:59.844Z",
+      "updated_at": "2013-01-16T08:16:59.844Z",
+      "position": "King of Rock and Roll",
+      "phone": "555-124-341",
+      "email": "theking@rockandroll.com",
+      "department": 20
+    }
+  },
+  {
+    "model": "CPPMS.proposal",
+    "pk": 1,
+    "fields": {
+      "title": "A novel solution to global warming using cloud based bean technology",
+      "desc": "Students will study the impact of bean cultivation using cloud technologies including AWS.",
+      "status": "Proposal",
+      "spec": "Cloud Technologies",
+      "skills": "",
+      "env": "Java, C++, .Net",
+      "res": "Student will be required to gain some understanding on the production of beans",
+      "created_at": "2013-01-16T08:16:59.844Z",
+      "updated_at": "2013-01-16T08:16:59.844Z",
+      "client": 20,
+      "external_supervisor": 20
+    }
+  },
+  {
+    "model": "CPPMS.project",
+    "pk": 1,
+    "fields": {
+      "title": "Bean Development",
+      "category": "SOFTWARE DEV",
+      "year": "2019",
+      "created_at": "2013-01-16T08:16:59.844Z",
+      "updated_at": "2013-01-16T08:16:59.844Z",
+      "unit": 1,
+      "proposal": 1,
+      "internal_supervisor": 10
+    }
+  },
+  {
+    "model": "CPPMS.project",
+    "pk": 2,
+    "fields": {
+      "title": "Cloud Development",
+      "category": "SOFTWARE DEV",
+      "year": "2019",
+      "created_at": "2013-01-16T08:16:59.844Z",
+      "updated_at": "2013-01-16T08:16:59.844Z",
+      "unit": 1,
+      "proposal": 1,
+      "internal_supervisor": 10
+    }
+  }
+]

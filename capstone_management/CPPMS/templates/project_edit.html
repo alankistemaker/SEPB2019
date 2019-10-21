@@ -1,0 +1,187 @@
+{% extends "project.html" %}
+
+{% block sub-page_content %}
+
+{% if not messages %}
+<h2>Edit Project Details</h2>
+{% else %}
+<h2>Edit Project Details</h2>
+{% for message in messages %}<li>{{ message }}</li>{% endfor %}
+{% endif %}
+
+{% endblock %}
+
+{% block page_detail_content %}
+
+<form method="POST">
+    {% csrf_token %}
+
+    <div class="row mb-2">
+
+        <div class="col-lg-1"></div>
+        <div class="col-md-1"></div>
+        <div class="col-sm-1"></div>
+
+        <div class="col">
+            <div class="card">
+                <h3 class="card-header">{{ project_detail.title }}</h3>
+
+                <div class="card-body">
+
+                    <div class="row mb-2">
+
+                        <div class="col">
+                            <div class="input-group input-group-sm mb-2">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputID">ID:</span>
+                                </div>
+                                <input type="text" class="form-control" aria-label="pk" aria-describedby="inputID" style="text-align:right;" name="pk" value="{{ project_detail.pk }}" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-2">
+
+                        <div class="col">
+                            <div class="input-group input-group-sm mb-2">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputTitle">Project Title:</span>
+                                </div>
+                                <input type="text" class="form-control" aria-label="title" aria-describedby="inputTitle" style="text-align:right;" name="title" value="{{ project_detail.title }}" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-2">
+
+                        <div class="col">
+                            <div class="input-group input-group-sm mb-2">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputCategory">Project Category:</span>
+                                </div>
+                                <input type="text" class="form-control" aria-label="category" aria-describedby="inputCategory" style="text-align:right;" name="category" value="{{ project_detail.category }}" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-2">
+
+                        <div class="col">
+                            <div class="input-group input-group-sm mb-2">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputYear">Year:</span>
+                                </div>
+                                <input type="text" class="form-control" aria-label="year" aria-describedby="inputYear" style="text-align:right;" name="year" value="{{ project_detail.year }}" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-2">
+
+                        <div class="col">
+                            <div class="input-group input-group-sm mb-2">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroup">Group:</span>
+                                </div>
+                                <select class="form-control" aria-label="group" aria-describedby="inputGroup" style="text-align:right;" name="group" value="{{ project_detail.group }}">
+                                    {% for group in groups %}
+                                    <option value={{ group }}>{{ group }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-2">
+
+                        <div class="col">
+                            <div class="input-group input-group-sm mb-2">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputUnit">Unit:</span>
+                                </div>
+                                <select class="form-control" aria-label="unit" aria-describedby="inputUnit" style="text-align:right;" name="unit" value="{{ project_detail.unit }}">
+                                    {% for unit in units %}
+                                    <option value={{ unit.full }}> {{ unit.full }}
+                                        {% endfor %}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-2">
+
+                        <div class="col">
+                            <div class="input-group input-group-sm mb-2">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputConvenor">Convenor:</span>
+                                </div>
+                                <input type="text" class="form-control" aria-label="convenor" aria-describedby="inputConvenor" style="text-align:right;" name="convenor" value="{{ project_detail.convenor }}" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-2">
+
+                        <div class="col">
+                            <div class="input-group input-group-sm mb-2">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputIntSuper">Supervisor:</span>
+                                </div>
+                                <input type="text" class="form-control" aria-label="internal_supervisor" aria-describedby="inputIntSuper" style="text-align:right;" name="internal_supervisor" value="{{ project_detail.internal_supervisor }}" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-2">
+
+                        <div class="col">
+                            <div class="input-group input-group-sm mb-2">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputTeamLead">Team Leader:</span>
+                                </div>
+                                <input type="text" class="form-control" aria-label="teamleader" aria-describedby="inputTeamLead" style="text-align:right;" name="teamleader" value="{{ project_detail.teamleader }}" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-2">
+
+                        <div class="col">
+                            <div class="input-group input-group-sm mb-2">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroupSize">Group Size:</span>
+                                </div>
+                                <input type="text" class="form-control" aria-label="groupsize" aria-describedby="inputGroupSize" style="text-align:right;" name="groupsize" value="{{ project_detail.groupsize }}" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col text-right text-light">
+                            <a class="btn btn-dark" role="button" type="submit" name="save" value="save" data-toggle="tooltip" title="Save '{{ project_detail.title }}'">Save <i class="fa fa-save"></i></a>
+                            <a class="btn btn-dark" role="button" type="submit" name="delete" value="delete" data-toggle="tooltip" title="Delete '{{ project_detail.title }}'">Delete <i class="fa fa-trash"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-1"></div>
+        <div class="col-md-1"></div>
+        <div class="col-lg-1"></div>
+
+    </div>
+</form>
+
+{% endblock %}

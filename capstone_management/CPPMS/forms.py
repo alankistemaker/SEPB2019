@@ -6,8 +6,7 @@ User = get_user_model
 User1 = get_user_model()
 from django.contrib.auth.forms import UserCreationForm
 
-
-# login form
+# Login Form
 class UserLoginForm(forms.Form):
     username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)
@@ -25,11 +24,8 @@ class UserLoginForm(forms.Form):
             if not user.is_active:
                 raise forms.ValidationError("This user is not longer active")
         return super(UserLoginForm, self).clean(*args, **kwargs)
-
-
-# user add
-
-
+    
+# Add User
 class SignUpForm(UserCreationForm):
     first_name = forms.CharField(max_length=30, required=False, help_text="Optional.")
     last_name = forms.CharField(max_length=30, required=False, help_text="Optional.")
@@ -48,7 +44,8 @@ class SignUpForm(UserCreationForm):
             "password2",
         )
 
+
 class UserForm(forms.ModelForm):
     class Meta:
         model = User1
-        fields = ['username', 'first_name', 'last_name', 'email']
+        fields = ["username", "first_name", "last_name", "email"]

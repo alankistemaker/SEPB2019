@@ -3,9 +3,9 @@
 {% block sub-page_content %}
 
 {% if not messages %}
-<h2>New Client</h2>
+<h2>Edit Client Details</h2>
 {% else %}
-<h2>New Client</h2>
+<h2>Edit Client Details</h2>
 {% for message in messages %}<li>{{ message }}</li>{% endfor %}
 {% endif %}
 
@@ -15,6 +15,25 @@
 
 <form method="POST">
     {% csrf_token %}
+    
+    <div id="exampleModal" tabindex="-1" class="modal fade">
+        <div class="modal-dialog modal-confirm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Are you sure?</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Do you really want to delete the Client: {{ client_edit.name }}? </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                    <button type="submit" name="delete" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row mb-2">
 
         <div class="col-lg-1"></div>
@@ -23,152 +42,168 @@
 
         <div class="col">
             <div class="card">
-                <h3 class="card-header">New Client Details</h3>
+                <h3 class="card-header">{{ client_edit.name }}</h3>
 
                 <div class="card-body">
 
                     <div class="row mb-2">
+
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="inputName">Client Name:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="name" aria-describedby="inputName" style="text-align:right;" name="name" value="{{ name }}" />
+                                <input type="text" class="form-control" aria-label="name" aria-describedby="inputName" style="text-align:right;" name="name" value="{{ client_edit.name }}" />
                                 <hr />
                             </div>
                         </div>
+
                     </div>
 
                     <div class="row mb-2">
+
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputCompName">Company Name:</span>
+                                    <span class="input-group-text" id="inputWeb">Client Website:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="company_name" aria-describedby="inputCompName" style="text-align:right;" name="company_name" value="{{ company_name }}" />
+                                <input type="text" class="form-control" aria-label="website" aria-describedby="inputWeb" style="text-align:right;" name="website" value="{{ client_edit.website }}" />
                             </div>
                         </div>
+
                     </div>
 
                     <div class="row mb-2">
+
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputCompWeb">Company Website:</span>
+                                    <span class="input-group-text" id="inputAdd">Client Address:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="company_website" aria-describedby="inputCompWeb" style="text-align:right;" name="company_website" value="{{ company_website }}" />
+                                <input type="text" class="form-control" aria-label="address" aria-describedby="inputAdd" style="text-align:right;" name="address" value="{{ client_edit.address }}" />
                             </div>
                         </div>
+
                     </div>
 
                     <div class="row mb-2">
-                        <div class="col">
-                            <div class="input-group input-group-sm">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputCompAdd">Company Address:</span>
-                                </div>
-                                <input type="text" class="form-control" aria-label="company_address" aria-describedby="inputCompAdd" style="text-align:right;" name="company_address" value="{{ company_address }}" />
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="row">
                         <div class="col">
                             <div class="form-group">
                                 <label for="inputCompDesc" class="input-group-text" id="inputCompDesc">Company Description:</label>
-                                <textarea class="form-control" rows="5" id="inputCompDesc" aria-label="company_description" aria-describedby="inputCompDesc" style="text-align:left;" name="company_description" value="{{ company_description }}"></textarea>
+                                <textarea class="form-control" rows="5" id="inputDesc" aria-label="description" aria-describedby="inputDesc" style="text-align:left;" name="description" value="{{ client_edit.desc }}"></textarea>
                             </div>
                         </div>
+
                     </div>
 
                     <div class="row mb-2">
+
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="inputDepName">Department Name:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="department_name" aria-describedby="inputDepName" style="text-align:right;" name="department_name" value="{{ department_name }}" />
+                                <input type="text" class="form-control" aria-label="department_name" aria-describedby="inputDepName" style="text-align:right;" name="department_name" value="{{ client_edit.department.name }}" />
                             </div>
                         </div>
+
                     </div>
 
                     <div class="row mb-2">
+
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="inputDepPhone">Department Phone:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="department_phone" aria-describedby="inputDepPhone" style="text-align:right;" name="department_phone" value="{{ department_phone }}" />
+                                <input type="text" class="form-control" aria-label="department_phone" aria-describedby="inputDepPhone" style="text-align:right;" name="department_phone" value="{{ client_edit.department.phone }}" />
                             </div>
                         </div>
+
                     </div>
 
                     <div class="row mb-2">
+
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="inputDepEmail">Department Email:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="department_email" aria-describedby="inputDepEmail" style="text-align:right;" name="department_email" value="{{ department_email }}" />
+                                <input type="text" class="form-control" aria-label="department_email" aria-describedby="inputDepEmail" style="text-align:right;" name="department_email" value="{{ client_edit.department.email }}" />
                             </div>
                         </div>
+
                     </div>
 
                     <div class="row mb-2">
+
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="inputContName">Contact Name:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="contact_name" aria-describedby="inputContName" style="text-align:right;" name="contact_name" value="{{ contact_name }}" />
+                                <input type="text" class="form-control" aria-label="contact_name" aria-describedby="inputContName" style="text-align:right;" name="contact_name" value="{{ client_edit.contact.name }}" />
                             </div>
                         </div>
+
                     </div>
 
                     <div class="row mb-2">
+
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="inputContPos">Contact Position:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="contact_position" aria-describedby="inputContPos" style="text-align:right;" name="contact_position" value="{{ contact_position }}" />
+                                <input type="text" class="form-control" aria-label="contact_position" aria-describedby="inputContPos" style="text-align:right;" name="contact_position" value="{{ client_edit.contact.position }}" />
                             </div>
                         </div>
+
                     </div>
 
                     <div class="row mb-2">
+
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="inputContPhone">Contact Phone:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="contact_phone" aria-describedby="inputContPhone" style="text-align:right;" name="contact_phone" value="{{ contact_phone }}" />
+                                <input type="text" class="form-control" aria-label="contact_phone" aria-describedby="inputContPhone" style="text-align:right;" name="contact_phone" value="{{ client_edit.contact.phone }}" />
                             </div>
                         </div>
+
                     </div>
 
                     <div class="row mb-2">
+
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="inputContEmail">Contact Email:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="contact_email" aria-describedby="inputContEmail" style="text-align:right;" name="contact_email" value="{{ contact_email }}" />
+                                <input type="text" class="form-control" aria-label="contact_email" aria-describedby="inputContEmail" style="text-align:right;" name="contact_email" value="{{ client_edit.contact.email }}" />
                             </div>
                         </div>
+
                     </div>
 
                     <div class="row mb-2">
                         <div class="col text-right text-light">
-                            <a class="btn btn-dark" role="button" type="submit" name="save" value="save" data-toggle="tooltip" title="Save New Client">Save <i class="fa fa-save"></i></a>
+                            <a class="btn btn-dark" role="button" type="submit" name="save" value="save" data-toggle="tooltip" title="Save '{{ client_edit.name }}'">Save <i class="fa fa-save"></i></a>
+                            <a class="btn btn-dark" role="button" type="submit" name="delete" data-target="#exampleModal" data-toggle="modal" title="Delete '{{ client_edit.name }}'">Delete <i class="fa fa-trash"></i></a>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
+
         <div class="col-sm-1"></div>
         <div class="col-md-1"></div>
         <div class="col-lg-1"></div>
+
+    </div>
     </div>
 </form>
 

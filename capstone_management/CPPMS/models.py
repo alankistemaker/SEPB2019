@@ -1,43 +1,88 @@
 from django.db import models
 
 # Create your models here.
+
+# Incoming Proposals Model
 class Incoming_Proposal(models.Model):
+    # calling 'Proposals_Incoming.proposals.all()' will return a list of all Proposals_Incoming objects
     proposals = (
         models.Manager()
-    )  # calling 'Proposals_Incoming.proposals.all()' will return a list of all Proposals_Incoming objects
-
-    # Entity Elements
+    )
+    
+    # Name of the Incoming Proposal
     title = models.CharField(max_length=255, default="NO TITLE")
+    
+    # Description of the Incoming Proposal
     description = models.TextField(default="NO DESCRIPTION")
+    
+    # When was the Incoming Proposal created
     created_at = models.DateTimeField(auto_now_add=True)
+    
+    # When was the Incoming Proposal last updated
     updated_at = models.DateTimeField(auto_now=True)
+    
+    # The status of the Incoming Proposal
     status = models.CharField(max_length=50, default="N/A")
-    client_name = models.CharField(max_length=255, default="N/A")
-    company_name = models.CharField(max_length=255, default="N/A")
-    company_desc = models.TextField(default="N/A")
-    company_website = models.CharField(max_length=255, default="N/A")
-    company_address = models.CharField(max_length=255, default="N/A")
 
+    # Name of the Client that uploaded the Incoming Proposal
+    client_name = models.CharField(max_length=255, default="N/A")
+    
+    # Description of the Client
+    client_desc = models.TextField(default="N/A")
+    
+    # The website of the Client
+    client_website = models.CharField(max_length=255, default="N/A")
+    
+    # The address of the Client
+    client_address = models.CharField(max_length=255, default="N/A")
+
+    # The name of the contact of the Client
     contact_name = models.CharField(max_length=255, default="N/A")
+    
+    # The phone number of the contact
     contact_phone = models.CharField(max_length=10, default="N/A")
+    
+    # The email address of the contact
     contact_email = models.CharField(max_length=255, default="N/A")
+    
+    # The position within of the contact
     contact_position = models.CharField(max_length=255, default="N/A")
 
+    # The department of the contact
     department_name = models.CharField(max_length=255, default="N/A")
+    
+    # The phone number of the department
     department_phone = models.CharField(max_length=10, default="N/A")
+    
+    # The email address of the department
     department_email = models.CharField(max_length=255, default="N/A")
 
+    # The specilisations required of the Incoming Proposal
     proposal_specialisation = models.TextField(default="N/A")
+    
+    # The skills required of the Incoming Proposal
     proposal_skills = models.TextField(default="N/A")
+    
+    # The environment the Proposal is to be done in
     proposal_environment = models.TextField(default="N/A")
+    
+    # The research required of the Incoming Proposal
     proposal_research = models.TextField(default="N/A")
 
+    # The name of the person supervising the Proposal
     supervisor_name = models.CharField(max_length=255, default="N/A")
+    
+    # The phone number of the supervisor
     supervisor_phone = models.CharField(max_length=10, default="N/A")
+    
+    # The email address of the supervisor
     supervisor_email = models.CharField(max_length=255, default="N/A")
+    
+    # The title of the supervisor
     supervisor_title = models.CharField(max_length=255, default="N/A")
 
     # OEM Relationships
+    
     pass
 
     # Methods: Proposals_Incoming
@@ -46,18 +91,228 @@ class Incoming_Proposal(models.Model):
     def __str__(self):
         return self.title
 
-
-class Unit(models.Model):
-    title = models.CharField(max_length=128, default="")
-    updated_at = models.DateTimeField(auto_now=True)
+# Archive of Proposals Model
+class Archive_Proposal(models.Model):
+    # Name of the Archived Proposal
+    title = models.CharField(max_length=255, default="NO TITLE")
+    
+    # Description of the Archived Proposal
+    description = models.TextField(default="NO DESCRIPTION")
+    
+    # When was the Archived Proposal created
     created_at = models.DateTimeField(auto_now_add=True)
+    
+    # When was the Archived Proposal last updated
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    # The status of the Archived Proposal
+    status = models.CharField(max_length=50, default="N/A")
 
+    # Name of the Client that uploaded the Archived Proposal
+    client_name = models.CharField(max_length=255, default="N/A")
+    
+    # Description of the Client
+    client_desc = models.TextField(default="N/A")
+    
+    # The website of the Client
+    client_website = models.CharField(max_length=255, default="N/A")
+    
+    # The address of the Client
+    client_address = models.CharField(max_length=255, default="N/A")
+
+    # The name of the contact of the Client
+    contact_name = models.CharField(max_length=255, default="N/A")
+    
+    # The phone number of the contact
+    contact_phone = models.CharField(max_length=10, default="N/A")
+    
+    # The email address of the contact
+    contact_email = models.CharField(max_length=255, default="N/A")
+    
+    # The position of the contact
+    contact_position = models.CharField(max_length=255, default="N/A")
+
+    # The department of the contact
+    department_name = models.CharField(max_length=255, default="N/A")
+    
+    # The phone number of the department
+    department_phone = models.CharField(max_length=10, default="N/A")
+    
+    # The email address of the department
+    department_email = models.CharField(max_length=255, default="N/A")
+
+    # The specilisations required of the Archived Proposal
+    proposal_specialisation = models.TextField(default="N/A")
+    
+    # The skills required of the Archived Proposal
+    proposal_skills = models.TextField(default="N/A")
+    
+    # The environment the Proposal is to be done in
+    proposal_environment = models.TextField(default="N/A")
+    
+    # The research required of the Archived Proposal
+    proposal_research = models.TextField(default="N/A")
+
+    # The name of the person supervising the Proposal
+    supervisor_name = models.CharField(max_length=255, default="N/A")
+    
+    # The phone number of the supervisor
+    supervisor_phone = models.CharField(max_length=10, default="N/A")
+    
+    # The email address of the supervisor
+    supervisor_email = models.CharField(max_length=255, default="N/A")
+    
+    # The title of the supervisor
+    supervisor_title = models.CharField(max_length=255, default="N/A")
+
+    # OEM Relationships
+    
+    pass
+
+    # Return title of proposal
+    def __str__(self):
+        return self.title
+
+# Upoaded Proposals Model
+class Upload_Proposal(models.Model):
+    # Name of the Proposal
+    title = models.CharField(max_length=128, default="")
+    
+    # Where the Proposal is located
+    filepath = models.FileField(null=True, blank=True, default="")
+    
+    # When was the Proposal first uploaded
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    # When was the Proposal that was uploaded last updated
+    updated_at = models.DateTimeField(auto_now=True)
+
+    pass
+
+    def __str__(self):
+        return self.title
+
+# Departments Model
+class Department(models.Model):
+    # Name of the Department
+    name = models.CharField(max_length=128, default="")
+    
+    # When was the Department created
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    # When was the Department last updated
+    updated_at = models.DateTimeField(auto_now=True)
+
+    # The Department's phone number
+    phone = models.CharField(max_length=10, default="00000000")
+    
+    # The Department's email address
+    email = models.CharField(max_length=255, default="")
+
+    # OEM Relationships
+
+    pass
+
+    def __str__(self):
+        return self.name
+
+# Internal Supervisor Model
+class Internal_Supervisor(models.Model):
+    # Name of the Internal Supervisor
+    name = models.CharField(max_length=128, default="")
+    
+    # When was the Internal Supervisor created
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    # When was the Internal Supervisor last updated
+    updated_at = models.DateTimeField(auto_now=True)
+
+    # The Internal Supervisor's email address
+    email = models.CharField(max_length=255, default="")
+    
+    # The Internal Supervisor's phone number
+    phone = models.CharField(max_length=10, default="00000000")
+    
+    # The Internal Supervisor's title
+    title = models.CharField(max_length=255, default="N/A")
+
+    # OEM Relationships
+    
+    # Foreign Key with the Department model
+    department = models.ForeignKey(
+        Department,
+        models.SET_NULL,
+        blank=True,
+        null=True
+    )
+    
+    pass
+
+    def __str__(self):
+        return self.name
+
+# External Supervisor Model
+class External_Supervisor(models.Model):
+    # Name of the External Supervisor
+    name = models.CharField(max_length=128, default="")
+    
+    # When was the External Supervisor created
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    # When was the External Supervisor last updated
+    updated_at = models.DateTimeField(auto_now=True)
+
+    # The External Supervisor's email address
+    email = models.CharField(max_length=255, default="")
+    
+    # The External Supervisor's phone number
+    phone = models.CharField(max_length=10, default="00000000")
+    
+    # The External Supervisor's title
+    title = models.CharField(max_length=255, default="N/A")
+
+    # OEM Relationships
+    
+    # Foreign Key with the Department model
+    department = models.ForeignKey(
+        Department,
+        models.SET_NULL,
+        blank=True,
+        null=True
+    )
+    
+    pass
+
+    def __str__(self):
+        return self.name
+
+# Units Model
+class Unit(models.Model):
+    # Title of the Unit
+    title = models.CharField(max_length=128, default="", unique=True)
+    
+    # When was the Unit created
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    # When was the Unit last updated
+    updated_at = models.DateTimeField(auto_now=True)
+
+    # The Unit's code in Swinburne
     unit_code = models.CharField(max_length=8, default="AAA0001")
+    
+    # The Unit's Canvas code
     BB_unit_code = models.CharField(max_length=8, default="AAA0001")
+    
+    # The Unit's learning outcomes
     ulos = models.TextField(default="")
+    
+    # The Unit's convenor
+    convenor = models.CharField(max_length=128, default="N/A")
+    
     # num_students = models.IntegerField(default=0)
 
     # OEM Relationships
+    
     pass
 
     def __str__(self):
@@ -66,183 +321,249 @@ class Unit(models.Model):
     def full(self):
         return self.unit_code + ": " + self.title
 
-
-class Company(models.Model):
-    name = models.CharField(max_length=128, default="")
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    address = models.CharField(max_length=255, default="")
-    website = models.CharField(max_length=255, default="")
-    desc = models.TextField(default="")
-
-    # OEM Relationships
-    pass
-
-    def __str__(self):
-        return self.name
-
-
-class Department(models.Model):
-    name = models.CharField(max_length=128, default="")
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    phone = models.CharField(max_length=10, default="00000000")
-    email = models.CharField(max_length=255, default="")
-
-    # OEM Relationships
-    company = models.ForeignKey(Company, models.SET_NULL, blank=True, null=True)
-    pass
-
-    def __str__(self):
-        return self.name
-
-
-class Internal_Supervisor(models.Model):
-    name_first = models.CharField(max_length=128, default="")
-    name_last = models.CharField(max_length=128, default="")
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    email = models.CharField(max_length=255, default="")
-
-    # OEM Relationships
-    department = models.ForeignKey(Department, models.SET_NULL, blank=True, null=True)
-    pass
-
-    def __str__(self):
-        return self.name_last + ", " + self.name_first
-
-
-class External_Supervisor(models.Model):
-    name_first = models.CharField(max_length=128, default="")
-    name_last = models.CharField(max_length=128, default="")
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    email = models.CharField(max_length=255, default="")
-    phone = models.IntegerField(default="")
-
-    # OEM Relationships
-    department = models.ForeignKey(Department, models.SET_NULL, blank=True, null=True)
-    pass
-
-    def __str__(self):
-        return self.name_last + " " + self.name_first
-
-
+# Contacts Model
 class Contact(models.Model):
+    # Name of the Contact
     name = models.CharField(max_length=128, default="")
+    
+    # When was the Contact created
     created_at = models.DateTimeField(auto_now_add=True)
+    
+    # When was the Contact last updated
     updated_at = models.DateTimeField(auto_now=True)
 
+    # The Contact's position
     position = models.CharField(max_length=128, default="")
+    
+    # The Contact's phone number
     phone = models.CharField(max_length=10, default="00000000")
+    
+    # The Contact's email address
     email = models.CharField(max_length=255, default="")
 
     # OEM Relationships
-    department = models.ForeignKey(Department, models.SET_NULL, blank=True, null=True)
+    
+    # Foreign Key with the Department model
+    department = models.ForeignKey(
+        Department,
+        models.SET_NULL,
+        blank=True,
+        null=True
+    )
+    
     pass
 
     def __str__(self):
         return self.name
 
-
+    def contact(self):
+        if self.email is not None:
+            return self.email
+        elif self.phone is not None:
+            return self.phone
+        else:
+            return "No contact details exist for this contact"
+        
+# Clients Model
 class Client(models.Model):
+    # Name of the Client
     name = models.CharField(max_length=128, default="")
+    
+    # When was the Client created
     created_at = models.DateTimeField(auto_now_add=True)
+    
+    # When was the Client last updated
     updated_at = models.DateTimeField(auto_now=True)
+
+    # The Client's address
+    address = models.CharField(max_length=255, default="")
+    
+    # The Client's website
+    website = models.CharField(max_length=255, default="")
+    
+    # The description of the Client
+    desc = models.TextField(default="")
 
     # OEM Relationships
-    # company = models.ForeignKey(Company, models.SET_NULL, blank=True, null=True)
-    contact = models.ForeignKey(Contact, models.SET_NULL, blank=True, null=True)
-    # company = models.ForeignKey(Company, models.SET_NULL, blank=True, null=True)
-    department = models.ForeignKey(Department, models.SET_NULL, blank=True, null=True)
+    
+    # Foreign Key with the Contact model
+    contact = models.ForeignKey(
+        Contact,
+        models.SET_NULL,
+        blank=True,
+        null=True
+    )
+    
     pass
 
     def __str__(self):
         return self.name
-
-
+        
+# Proposals Model
 class Proposal(models.Model):
+    # Name of the Proposal
     title = models.CharField(max_length=128, default="")
+    
+    # When was the Proposal created
     created_at = models.DateTimeField(auto_now_add=True)
+    
+    # When was the Proposal last updated
     updated_at = models.DateTimeField(auto_now=True)
 
+    # The description of the Proposal
     desc = models.TextField(default="")
+    
+    # The status of the Proposal
     status = models.CharField(max_length=255, default="")
+    
+    # The specialisations required of the Proposal
     spec = models.TextField(default="")
+    
+    # The skills required of the Proposal
     skills = models.TextField(default="")
+    
+    # The environment the Proposal is to be done in
     env = models.TextField(default="")
+    
+    # The research required of the Proposal
     res = models.TextField(default="")
 
     # OEM Relationships
-    client = models.ForeignKey(Client, models.SET_NULL, blank=True, null=True)
-    supervisors_external = models.ManyToManyField(External_Supervisor)
-    proposal_incoming = models.ForeignKey(
-        Incoming_Proposal, models.SET_NULL, blank=True, null=True
+    
+    # Foreign Key with the Client model
+    client = models.ForeignKey(
+        Client,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True
     )
+    
+    # Foreign Key with the External Supervisor model
+    external_supervisor = models.ForeignKey(
+        External_Supervisor,
+        models.SET_NULL,
+        blank=True,
+        null=True
+    )
+    
+    # Foreign Key with the Incoming Proposal model
+    proposal_incoming = models.ForeignKey(
+        Incoming_Proposal,
+        models.SET_NULL,
+        blank=True,
+        null=True
+    )
+    
     pass
 
     def __str__(self):
         return self.title
 
-
+# Students Model
 class Student(models.Model):
-    name_first = models.CharField(max_length=128, default="")
-    name_last = models.CharField(max_length=128, default="")
+    # Name of the Student
+    name = models.CharField(max_length=128, default="")
+    
+    # When was the Student created
     created_at = models.DateTimeField(auto_now_add=True)
+    
+    # When was the Student last updated
     updated_at = models.DateTimeField(auto_now=True)
+    
+    # Student's Email
     email = models.CharField(max_length=128, default="")
 
     # OEM Relationships
-
+    
     pass
 
     def __str__(self):
-        return self.name_last + " " + self.name_first
+        return self.name
 
-
-class Project(models.Model):
-    title = models.CharField(max_length=128, default="")
+# Groups Model
+class Group(models.Model):
+    # Name of the Group
+    title = models.CharField(max_length=128, default="", unique=True)
+    
+    # When was the Group created
     created_at = models.DateTimeField(auto_now_add=True)
+    
+    # When was the Group last updated
     updated_at = models.DateTimeField(auto_now=True)
-
-    # group_code_canvas = models.CharField(max_length=255, default="")
-    category = models.CharField(max_length=128, default="")
-    year = models.IntegerField(default="0000")
-    # is this a completed, past, project
-    completed = models.BooleanField(default=0)
+    
+    # The Canvas Group code
+    group_code_canvas = models.CharField(max_length=255, default="")
 
     # OEM Relationships
-    unit = models.ForeignKey(Unit, models.SET_NULL, blank=True, null=True)
-    proposal = models.ForeignKey(Proposal, models.SET_NULL, blank=True, null=True)
-    internal_supervisor = models.ForeignKey(
-        Internal_Supervisor, models.SET_NULL, blank=True, null=True
-    )
-    group_members = models.ManyToManyField(
-        to="Student", through="Group", related_name="members"
-    )
+    
+    # Foreign Key with Students model
+    students = models.ManyToManyField(Student)
+    
+    # What's this?
+    # Alan
+    leader = models.IntegerField(default="0")
 
     def __str__(self):
         return self.title
 
-
-class Group(models.Model):
-    name = models.CharField(max_length=128, default="")
+    def size(self):
+        return self.count(students)
+    
+# Projects Model
+class Project(models.Model):
+    # Name of the Project
+    title = models.CharField(max_length=128, default="", unique=True)
+    
+    # When the Project was created
     created_at = models.DateTimeField(auto_now_add=True)
+    
+    # When the Project was last updated
     updated_at = models.DateTimeField(auto_now=True)
-
-    group_code_canvas = models.CharField(max_length=255, default="")
+    
+    category = models.CharField(max_length=128, default="")
+    
+    # What year the Project is running in
+    year = models.IntegerField(default="0000")
+    
+    # Has the Project been completed in the past
+    completed = models.BooleanField(default=0)
+    
+    # group_code_canvas = models.CharField(max_length=255, default="")
 
     # OEM Relationships
-    project = models.ForeignKey(Project, models.SET_NULL, blank=True, null=True)
-    student = models.ForeignKey(Student, models.SET_NULL, blank=True, null=True)
-    ##leader = models.ForeignKey(
-    ##    Student, models.SET_NULL, blank=True, null=True, related_name="group_leader"
-    ##)
+    pass
+    
+    # Foreign Key with the Unit model
+    unit = models.ForeignKey(
+        Unit,
+        models.SET_NULL,
+        blank=True,
+        null=True
+    )
+    
+    # Foreign Key with the Proposal model
+    proposal = models.ForeignKey(
+        Proposal,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True
+    )
+    
+    # Foreign Key with the Internal Supervisor model
+    internal_supervisor = models.ForeignKey(
+        Internal_Supervisor,
+        models.SET_NULL,
+        blank=True,
+        null=True
+    )
+    
+    # Foreign Key with the Group model
+    group = models.ForeignKey(
+        Group,
+        models.SET_NULL,
+        blank=True,
+        null=True
+    )
 
-    def size(self):
-        return self.count(student)
-
+    def __str__(self):
+        return self.title

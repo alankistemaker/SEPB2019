@@ -1,29 +1,122 @@
 {% extends "client.html" %}
 
+{% block sub-page_content %}
+
+{% if not messages %}
+<h2>Client Details</h2>
+{% else %}
+<h2>Client Details</h2>
+{% for message in messages %}<li>{{ message }}</li>{% endfor %}
+{% endif %}
+
+{% endblock %}
+
 {% block page_detail_content %}
-      <form method="POST">{% csrf_token %}
-          <div style="position:absolute; left:93%; top:105px; height:70px;">
-              <button type="submit" name="save" value="save"><i class="fas fa-save" style="font-size:25px"></i></button>
-              <button type="submit" name="delete" value="delete"><i class="fa fa-trash" style="font-size:25px"></i></button>
-          </div>
-    
-          <div style="position:absolute; top:170px; left:18%; font-family:Segoe UI; color:#000000; font-size:16px">
-              <h1>Client Detail</h1>
-              <hr><br>
-              <p>Client ID: <input type="text" style="left:45%; width:500px; text-align:right;" name="pk" value="{{ client_detail.pk }}"></p>
-              <p>Client Name: <input type="text" style="left:45%; width:500px; text-align:right;" name="name" value="{{ client_detail.name }}"></p>
-              <p>Company Name: <input type="text" style="left:45%; width:500px; text-align:right;" name="company_name" value="{{ client_detail.department.company.name }}"></p>
-              <p>Company Address: <input type="text" style="left:45%; width:500px; text-align:right;" name="company_address" value="{{ client_detail.department.company.address }}"></p>
-              <p>Company Website: <input type="text" style="left:45%; width:500px; text-align:right;" name="company_website" value="{{ client_detail.department.company.website }}"></p>
-              <p>Company Description: <input type="text" style="left:45%; width:500px; text-align:right;" name="company_description" value="{{ client_detail.department.company.description }}"></p>
-              <p>Department Name: <input type="text" style="left:45%; width:500px; text-align:right;" name="department_name" value="{{ client_detail.department.name }}"></p>
-              <p>Department Phone: <input type="text" style="left:45%; width:500px; text-align:right;" name="department_phone" value="{{ client_detail.department.phone }}"></p>
-              <p>Department Email: <input type="text" style="left:45%; width:500px; text-align:right;" name="department_email" value="{{ client_detail.department.email }}"></p>
-              <p>Contact Name: <input type="text" style="left:45%; width:500px; text-align:right;" name="contact_name" value="{{ client_detail.contact.name }}"></p>
-              <p>Contact Position: <input type="text" style="left:45%; width:500px; text-align:right;" name="contact_position" value="{{ client_detail.contact.position }}"></p>
-              <p>Contact Phone: <input type="text" style="left:45%; width:500px; text-align:right;" name="contact_phone" value="{{ client_detail.contact.phone }}"></p>
-              <p>Contact Email: <input type="text" style="left:45%; width:500px; text-align:right;" name="contact_email" value="{{ client_detail.contact.email }}"></p>
-          </div>
-      </form>
+
+<div class="row">
+
+    <div class="col-1"></div>
+
+    <div class="col-md-5">
+        <div class="card">
+            <h3 class="card-header">
+                <a class="btn btn-dark" href="client_edit/{{ client_detail.pk }}" role="button" data-toggle="tooltip" title="Edit '{{ client_detail.title }}'">Edit <i class="fa fa-edit"></i></a> {{ client_detail.name }}</h3>
+
+            <div class="card-body">
+
+                <div class="row mb-2">
+
+                    <div class="col">
+                        <div class="card">
+                            <h4 class="card-header"><strong>Client Contact: </strong></h4>
+                            <div class="card-body">
+                                <p><strong>Name:</strong>
+                                <p>{{ client_detail.contact.name }}</p>
+                                <p><strong>Position:</strong></p>
+                                <p>{{ client_detail.contact.position }} - {{ client_detail.contact.department }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card">
+                            <h4 class="card-header"><strong>Contact Details: </strong></h4>
+                            <div class="card-body">
+                                <p><strong>Email: </strong><p>
+                                <p>{{client_detail.contact.email }}</p>
+                                <p><strong>Phone: </strong></p>
+                                <p>{{ client_detail.contact.phone }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row mb-2">
+
+                    <div class="col">
+                        <div class="card">
+                            <h4 class="card-header">
+                                <a data-toggle="collapse" href="#collapse1">{{ client_detail.name }} - Details</a>
+                            </h4>
+                            <div id="collapse1" class="collapse">
+                                <ul class="list-group">
+                                    <li class="list-group-item"><strong>Website: </strong>
+                                        <p>{{ client_detail.website }}</p>
+                                    </li>
+                                    <li class="list-group-item"><strong>Address: </strong>
+                                        <p>{{ client_detail.address }}</p>
+                                    </li>
+                                    <li class="list-group-item"><strong>Description: </strong>
+                                        <p>{{ client_detail.description }}</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-5">
+        <div class="card">
+            <h1 class="card-header">Client's Proposals</h1>
+            <div class="card-body">
+                <div class="row mb-2">
+
+                    <div class="col">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr class="table-primary">
+                                        <th scope="col"><strong>TITLE</strong></th>
+                                        <th scope="col"><strong>DATE</strong></th>
+                                        <th scope="col"><strong>STATUS</strong></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {% for proposal in proposal_filter %}
+                                    <tr scope="row">
+                                        <td><a href="proposal_detail/{{proposal.pk}}">{{ proposal.title }}</a></td>
+                                        <td>{{ proposal.created_at }}</td>
+                                        <td>{{ proposal.status }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="col-1"></div>
+</div>
 
 {% endblock %}

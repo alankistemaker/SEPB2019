@@ -1,120 +1,135 @@
-{% extends "project.html" %} {% block page_detail_content %}
-<form method="POST">
-  {% csrf_token %}
-  <div style="position:absolute; left:93%; top:105px; height:70px;">
-    <button type="submit" name="save" value="save">
-      <i class="fas fa-save" style="font-size:25px"></i>
-    </button>
-    <button type="submit" name="delete" value="delete">
-      <i class="fa fa-trash" style="font-size:25px"></i>
-    </button>
-  </div>
+{% extends "project.html" %}
 
-  <div
-    style="position:absolute; top:170px; left:18%; font-family:Segoe UI; color:#000000; font-size:16px"
-  >
-    <h1>Project Detail</h1>
-    <hr />
-    <br />
-    <p>
-      ID:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="pk"
-        value="{{ project_detail.pk }}"
-      />
-    </p>
-    <p>
-      Name:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="title"
-        value="{{ project_detail.title }}"
-      />
-    </p>
-    <p>
-      Category:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="category"
-        value="{{ project_detail.category }}"
-      />
-    </p>
-    <p>
-      Year:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="year"
-        value="{{ project_detail.year }}"
-      />
-    </p>
-    <p>
-      Group:
-      <input list="groups"
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="group"
-        value="{{ project_detail.group }}"
-      />
-      <datalist id="groups">
-      {% for group in groups %}
-      <option value={{ group }}
-      {% endfor %} 
-    </p>
-    <p>
-      Unit:
-      <input list="units"
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="project_unit"
-        value="{{ project_detail.unit }}"
-      />
-      <datalist id="units">
-        {% for unit in units %}
-        <option value={{unit.full}}>
-        {% endfor %}
-    </p>
-    <p>
-      Convenor:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="convenor"
-        value="{{ project_detail.convenor }}"
-      />
-    </p>
-    <p>
-      Supervisor:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="internal_supervisor"
-        value="{{ project_detail.internal_supervisor }}"
-      />
-    </p>
-    <p>
-      Team Leader:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="teamleader"
-        value="{{ project_detail.teamleader }}"
-      />
-    </p>
-    <p>
-      Group Size:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="groupsize"
-        value="{{ project_detail.groupsize }}"
-      />
-    </p>
-  </div>
-</form>
+{% block sub-page_content %}
+
+{% if not messages %}
+<h2>Project Details</h2>
+{% else %}
+<h2>Project Details</h2>
+{% for message in messages %}<li>{{ message }}</li>{% endfor %}
+{% endif %}
+
+{% endblock %}
+
+{% block page_detail_content %}
+
+<div class="row">
+
+    <div class="col-1"></div>
+
+    <div class="col-md-5">
+        <div class="card">
+            <h3 class="card-header">
+                <a class="btn btn-dark" href="project_edit/{{ project_detail.pk }}" data-toggle="tooltip" title="Edit '{{ project_detail.title }}'">Edit <i class="fa fa-edit"></i></a> {{ project_detail.title }}</h3>
+
+            <div class="card-body">
+
+                <div class="row mb-2">
+
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header"><strong>Unit:</strong></div>
+                            <div class="card-body">
+                                <p>{{ project_detail.unit }} - {{ project_detail.year }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="card">
+                            <h6 class="card-header"><strong>Client</strong></h6>
+                            <div class="card-body">
+                                <p><a href="client_detail/{{ project_detail.proposal.client.pk }}">{{ project_detail.proposal.client.name }}</a></p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row mb-2">
+
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header"><strong>External Supervisor:</strong></div>
+                            <div class="card-body">
+                                <p>{{ project_detail.proposal.external_supervisor }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="card">
+                            <h6 class="card-header"><strong>Internal Supervisor:</strong></h6>
+                            <div class="card-body">
+                                <p>{{ project_detail.internal_supervisor }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col">
+                        <div class="card">
+                            <h4 class="card-header"><a data-toggle="collapse" href="#collapse1">More Details</a></h4>
+                            <div id="collapse1" class="collapse">
+                                <ul class="list-group">
+                                    <li class="list-group-item"><strong>Created: </strong>
+                                        <p>{{ project_detail.created_at }}</p>
+                                    </li>
+                                    <li class="list-group-item"><strong>Updated: </strong>
+                                        <p>{{ project_detail.updated_at }}</p>
+                                    </li>
+                                    <li class="list-group-item"><strong>Category: </strong>
+                                        <p>{{ project_detail.category }}</p>
+                                    </li>
+                                    <li class="list-group-item"><strong>Convenor: </strong>
+                                        <p>TODO</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-5">
+        <div class="card">
+            <h3 class="card-header">Group - {{ project_detail.group.title }}</h3>
+            <div class="card-body">
+                <div class="row mb-2">
+
+                    <div class="col">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover ">
+                                <thead>
+                                    <tr class="table-primary">
+                                        <th scope="col"><strong>Name</strong></th>
+                                        <th scope="col"><strong>Email</strong></th>
+                                        <th scope="col"><strong></strong></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {% for student in project_detail.group.students.all %}
+                                    <tr scope="row">
+                                        <td>{{ student.name }}</td>
+                                        <td>{{ student.email }}</td>
+                                        <td></td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-1"></div>
+</div>
 
 {% endblock %}
