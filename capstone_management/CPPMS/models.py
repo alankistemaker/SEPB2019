@@ -192,6 +192,33 @@ class Upload_Proposal(models.Model):
     def __str__(self):
         return self.title
 
+# Clients Model
+class Client(models.Model):
+    # Name of the Client
+    name = models.CharField(max_length=128, default="", unique=True)
+    
+    # When was the Client created
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    # When was the Client last updated
+    updated_at = models.DateTimeField(auto_now=True)
+
+    # The Client's address
+    address = models.CharField(max_length=255, default="")
+    
+    # The Client's website
+    website = models.CharField(max_length=255, default="")
+    
+    # The description of the Client
+    desc = models.TextField(default="")
+
+    # OEM Relationships
+    
+    pass
+
+    def __str__(self):
+        return self.name
+
 # Departments Model
 class Department(models.Model):
     # Name of the Department
@@ -204,14 +231,18 @@ class Department(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     # The Department's phone number
-    phone = models.CharField(max_length=10, default="00000000")
+    phone = models.CharField(max_length=10, default="00000000", unique=True)
     
     # The Department's email address
     email = models.CharField(max_length=255, default="")
 
     # OEM Relationships
-
-    pass
+    client = models.ForeignKey(
+        Client,
+        models.SET_NULL,
+        blank=True,
+        null=True
+    )
 
     def __str__(self):
         return self.name
@@ -231,7 +262,7 @@ class Internal_Supervisor(models.Model):
     email = models.CharField(max_length=255, default="")
     
     # The Internal Supervisor's phone number
-    phone = models.CharField(max_length=10, default="00000000")
+    phone = models.CharField(max_length=10, default="00000000", unique=True)
     
     # The Internal Supervisor's title
     title = models.CharField(max_length=255, default="N/A")
@@ -263,7 +294,7 @@ class External_Supervisor(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     # The External Supervisor's email address
-    email = models.CharField(max_length=255, default="")
+    email = models.CharField(max_length=255, default="", unique=True)
     
     # The External Supervisor's phone number
     phone = models.CharField(max_length=10, default="00000000")
@@ -339,13 +370,21 @@ class Contact(models.Model):
     phone = models.CharField(max_length=10, default="00000000")
     
     # The Contact's email address
-    email = models.CharField(max_length=255, default="")
+    email = models.CharField(max_length=255, default="", unique=True)
 
     # OEM Relationships
     
     # Foreign Key with the Department model
     department = models.ForeignKey(
         Department,
+        models.SET_NULL,
+        blank=True,
+        null=True
+    )
+
+    # Foreign Key with Client model
+    client = models.ForeignKey(
+        Client,
         models.SET_NULL,
         blank=True,
         null=True
@@ -363,41 +402,6 @@ class Contact(models.Model):
             return self.phone
         else:
             return "No contact details exist for this contact"
-        
-# Clients Model
-class Client(models.Model):
-    # Name of the Client
-    name = models.CharField(max_length=128, default="")
-    
-    # When was the Client created
-    created_at = models.DateTimeField(auto_now_add=True)
-    
-    # When was the Client last updated
-    updated_at = models.DateTimeField(auto_now=True)
-
-    # The Client's address
-    address = models.CharField(max_length=255, default="")
-    
-    # The Client's website
-    website = models.CharField(max_length=255, default="")
-    
-    # The description of the Client
-    desc = models.TextField(default="")
-
-    # OEM Relationships
-    
-    # Foreign Key with the Contact model
-    contact = models.ForeignKey(
-        Contact,
-        models.SET_NULL,
-        blank=True,
-        null=True
-    )
-    
-    pass
-
-    def __str__(self):
-        return self.name
         
 # Proposals Model
 class Proposal(models.Model):
@@ -471,7 +475,7 @@ class Student(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     
     # Student's Email
-    email = models.CharField(max_length=128, default="")
+    email = models.CharField(max_length=128, default="", unique=True)
 
     # OEM Relationships
     
@@ -483,7 +487,7 @@ class Student(models.Model):
 # Groups Model
 class Group(models.Model):
     # Name of the Group
-    title = models.CharField(max_length=128, default="", unique=True)
+    title = models.CharField(max_length=128, default="")
     
     # When was the Group created
     created_at = models.DateTimeField(auto_now_add=True)
@@ -499,8 +503,7 @@ class Group(models.Model):
     # Foreign Key with Students model
     students = models.ManyToManyField(Student)
     
-    # What's this?
-    # Alan
+    # Integer field which contains the primary key of the group leader student
     leader = models.IntegerField(default="0")
 
     def __str__(self):

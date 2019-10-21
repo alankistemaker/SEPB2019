@@ -36,30 +36,123 @@
         <p>Uploaded At: <input type="text" style="left:45%; width:500px; text-align:right;" name="uploaded_at" value=""/></p>
 
         {% elif extract %}
-        <p>ID:<input type="text" style="left:45%; width:500px; text-align:right;" name="pk" value="{{ proposal_detail.pk }}"/></p>
-        <p>Title:<input type="text" style="left:45%; width:500px; text-align:right;"name="title"value="{{ title }}"/></p>
-        <p>Description:<input type="text"style="left:45%; width:500px; text-align:right;"name="description"value="{{ description }}"/></p>
-        <p>Status:<input type="text"style="left:45%; width:500px; text-align:right;"name="status"value="{{ status }}"/></p>
+        <p>ID:
+            <input 
+                type="text" 
+                style="left:45%; width:500px; text-align:right;" 
+                name="pk" 
+                value="{{ proposal_detail.pk }}"/>
+        </p>
+        <p>Title:
+            <input 
+                type="text" 
+                style="left:45%; width:500px; text-align:right;"
+                name="title"
+                value="{{ title }}"/>
+        </p>
+        <p>Description:
+            <input 
+                type="text"
+                style="left:45%; width:500px; text-align:right;"
+                name="description"
+                value="{{ description }}"/>
+        </p>
+        <p>Status:
+            <input 
+                type="text"
+                style="left:45%; width:500px; text-align:right;"
+                name="status"
+                value="{{ status }}"/>
+        </p>
         
         <hr />
         <br />
-        <p>Client Name:<input type="text"style="left:45%; width:500px; text-align:right;"name="client_name"value="{{ client_name }}"/></p>
-        <p>Company Description:<input type="text"style="left:45%; width:500px; text-align:right;"name="company_desc"value="{{ company_desc }}"/></p>
-        <p>Company Website:<input list="groups"type="text"style="left:45%; width:500px; text-align:right;"name="company_website"value="{{ company_website }}"/></p>
-        <p>Company Address:<input type="text"style="left:45%; width:500px; text-align:right;"name="company_address"value="{{ company_address }}"/></p>
+        <p>Client/Company Name:
+            <input 
+                type="text"
+                style="left:45%; width:500px; text-align:right;"
+                name="client_name"
+                value="{{ client_name }}"/>
+        </p>
+        <p>Company Description:
+            <input 
+                type="text"
+                style="left:45%; width:500px; text-align:right;"
+                name="company_desc"
+                value="{{ company_desc }}"/>
+        </p>
+        <p>Company Website:
+            <input 
+                list="groups"
+                type="text"
+                style="left:45%; width:500px; text-align:right;"
+                name="company_website"
+                value="{{ company_website }}"/>
+        </p>
+        <p>Company Address:
+            <input 
+                type="text"
+                style="left:45%; width:500px; text-align:right;"
+                name="company_address"
+                value="{{ company_address }}"/>
+        </p>
+        <hr />
+        <br />
+        <p>Contact Name:
+            <input 
+                type="text"
+                style="left:45%; width:500px; text-align:right;"
+                name="contact_name"
+                value="{{ contact_name }}"/>
+        </p>
+        <p>Contact Phone:
+            <input 
+                accept=""
+                type="text"
+                style="left:45%; width:500px; text-align:right;"
+                name="contact_phone"
+                value="{{ contact_phone }}"/>
+        </p>
+        <p>Contact Email:
+            <input 
+                accept=""
+                type="text"
+                style="left:45%; width:500px; text-align:right;"
+                name="contact_email"
+                value="{{ contact_email }}"/>
+        </p>
+        <p>Contact Position:
+            <input 
+                list="groups"
+                type="text"
+                style="left:45%; width:500px; text-align:right;"
+                name="contact_position"
+                value="{{ contact_position }}"/>
+        </p>
         
         <hr />
         <br />
-        <p>Contact Name:<input type="text"style="left:45%; width:500px; text-align:right;"name="contact_name"value="{{ contact_name }}"/></p>
-        <p>Contact Phone:<input accept=""type="text"style="left:45%; width:500px; text-align:right;"name="contact_phone"value="{{ contact_phone }}"/></p>
-        <p>Contact Email:<input accept=""type="text"style="left:45%; width:500px; text-align:right;"name="contact_email"value="{{ contact_email }}"/></p>
-        <p>Contact Position:<input list="groups"type="text"style="left:45%; width:500px; text-align:right;"name="contact_position"value="{{ contact_position }}"/></p>
-        
-        <hr />
-        <br />
-        <p>Department Name:<input type="text"style="left:45%; width:500px; text-align:right;"name="department_name"value="{{ department_name }}"/></p>
-        <p>Department Phone:<input type="text"style="left:45%; width:500px; text-align:right;"name="department_phone"value="{{ department_phone }}"/></p>
-        <p>Department Email:<input type="text"style="left:45%; width:500px; text-align:right;"name="department_email"value="{{ department_email }}"/></p>
+        <p>Department Name:
+            <input 
+                type="text"
+                style="left:45%; width:500px; text-align:right;"
+                name="department_name"
+                value="{{ department_name }}"/>
+        </p>
+        <p>Department Phone:
+            <input 
+                type="text"
+                style="left:45%; width:500px; text-align:right;"
+                name="department_phone"
+                value="{{ department_phone }}"/>
+        </p>
+        <p>Department Email:
+            <input 
+                type="text"
+                style="left:45%; width:500px; text-align:right;"
+                name="department_email"
+                value="{{ department_email }}"/>
+        </p>
         
         <hr />
         <br />

@@ -538,44 +538,115 @@ def proposal_edit(request, pk=None):
             return redirect("../../")
 
         if "save" in request.POST:
-            external_supervisor_table = External_Supervisor.objects.filter(pk=proposal_detail.external_supervisor.pk).update(
-                name=supervisor_name,
-                email=supervisor_email,
-                phone=supervisor_phone,
-                title=supervisor_title
-            )
+            # update department
+            try:
+                department_table = Department.objects.create(
+                    name = department_name,
+                    phone = department_phone,
+                    email = department_email,
+                )
+                messages.info(
+                    request,
+                    "Department Created: " + department_name
+                )
+            except:
+                department_table = Department.Objects.get(phone=department_phone).update(
+                    name = department_name,
+                    email = department_email,
+                )
+                messages.info(
+                    request,
+                    "Department updated: " + department_name
+                )
+            # update external supervisor
+            try:
+                external_supervisor_table = External_Supervisor.Objects.create(
+                    name = supervisor_name,
+                    email = supervisor_email,
+                    phone = supervisor_phone,
+                    title = supervisor_title,
+                    department = department_table
+                )
+                messages.info(
+                    request,
+                    "External Supervisor Created: " + supervisor_name
+                )
+            except:
+                external_supervisor_table = External_Supervisor.Objects.get(email=supervisor_email).update(
+                    name = supervisor_name,
+                    phone = supervisor_phone,
+                    title = supervisor_title,
+                    department = department_table
+                )
+                messages.info(
+                    request,
+                    "External Supervisor Updated: " + supervisor_name
+                )
+            # update contact
+            try:
+                contact_table = Contact.objects.create(
+                    name = contact_name,
+                    position = contact_position,
+                    phone = contact_phone,
+                    email = contact_email,
+                    department = department_table
+                )
+                messages.info(
+                    request,
+                    "Contact Created: " + contact_name
+                )
+            except:
+                contact_table = Contact.objects.get(email=contact_email).update(
+                    name = contact_name,
+                    position = contact_position,
+                    phone = contact_phone,
+                    department = department_table
+                )
+                messages.info(
+                    request,
+                    "Contact updated: " + contact_name
+                )
             
-            department_table = Department.objects.filter(pk=proposal_detail.client.contact.department.pk).update(
-                name=department_name,
-                phone=department_phone, 
-                email=department_email
-            )
-            
-            contact_table = Contact.objects.filter(pk=proposal_detail.client.contact.pk).update(
-                name=contact_name,
-                phone=contact_phone,
-                email=contact_email,
-                position=contact_position
-            )
-            
-            client_table = Client.objects.filter(pk=proposal_detail.client.pk).update(
-                name=client_name,
-                address=client_address,
-                website=client_website,
-                desc=client_desc
-            )
+            # update client
+            try:
+                client_table = Client.objects.create(
+                    name = client_name,
+                    contact = contact_table
+                )
+                messages.info(
+                    request,
+                    "Client created for proposal"
+                )
+            except:
+                client_table = Client.objects.get(name=client_name).update(
+                    contact = contact_table
+                )
+                messages.info(
+                    request,
+                    "Client updated: " + client_name
+                )
 
-            proposal_detail = Proposal.objects.filter(pk=proposal_detail.pk).update(
-                title=title,
-                desc=description,
-                status=status,
-                spec=proposal_specialisation,
-                skills=proposal_skills,
-                env=proposal_environment,
-                res=proposal_research
-            )
-
-            messages.add_message(request, messages.SUCCESS, "Sucessfully Updated Proposal!")
+            try:
+                Proposal.objects.get(request.proposal).update(
+                    title = title,
+                    desc = description,
+                    status = status,
+                    spec = proposal_specialisation,
+                    skills = proposal_skills,
+                    env = proposal_environment,
+                    res = proposal_research,
+                    client = client_table,
+                    external_supervisor = external_supervisor_table
+                )
+                messages.info(
+                    request,
+                    "Updated Proposal: " + title
+                )
+            except:
+                messages.warning(
+                    request,
+                    "Could not update proposal"
+                )
 
             return redirect("../../")
 
@@ -859,6 +930,17 @@ def project_detail(request, pk=None):
     username = request.user.first_name + " " + request.user.last_name
     project_detail = get_object_or_404(Project, pk=pk)
     count()
+
+    if request.method == "POST":
+        group_title = request.POST.get("group_title")
+        group = Group.objects.create(
+            title=group_title,
+        )
+        project = Project.objects.get(project_detail.pk)
+        project.group = group
+
+
+        return redirect("project_detail", pk=project_detail.pk)
 
     return render(
         request,
@@ -1231,15 +1313,53 @@ def word_detail(request, pk=None):
                 )
             except:
                 external_supervisor_table = External_Supervisor.objects.get(
-                    name=supervisor_name
+                    email=supervisor_email
                 )
-            # Department table
+                messages.warning(
+                    request,
+                    "External Supervisor already exists!"
+                )
+
+            # Client Table
             try:
-                department_table = Department.objects.create(
-                    name=department_name, phone=department_phone, email=department_email
+                client_table = Client.objects.create(
+                    name=client_name,
+                    address=client_address,
+                    website=client_website,
+                    desc=client_desc,
+                )
+                messages.info(
+                    request,
+                    "Client created: " + client_name
                 )
             except:
-                department_table = Department.objects.get(name=department_name)
+                client_table = Client.objects.get(name=client_name).update(
+                    address=client_address,
+                    website=client_website,
+                    desc=client_desc,
+                )
+                messages.warning(
+                    request,
+                    "Client updated: " + client_name
+                )
+            # Department Table
+            try:
+                department_table = Department.objects.create(
+                    name=department_name,
+                    phone=department_phone,
+                    email=department_email,
+                    client=client_table
+                )
+                messages.info(
+                    "Department added: " + department_name + " @ " + client_table.name
+                )
+            except:
+                department_table = Department.objects.get(phone=department_phone)
+                messages.warning(
+                    request,
+                    "Department already exists"
+                )
+            
             # Contact table
             try:
                 contact_table = Contact.objects.create(
@@ -1249,44 +1369,40 @@ def word_detail(request, pk=None):
                     email=contact_email,
                     department=department_table,
                 )
-            except:
-                contact_table = Contact.objects.get(name=contact_name)
-                contact_table.department = department_table
-            # Client table
-            try:
-                client_table = Client.objects.create(
-                    name=client_name,
-                    address=client_address,
-                    website=client_website,
-                    desc=client_desc,
-                    department=department_table,
-                    contact=contact_table,
+                messages.info(
+                    request,
+                    "Contact added: " + contact_name
                 )
             except:
-                client_table = Client.objects.get(name=client_name)
-                client_table.department = department_table
-                client_table.contact = contact_table
+                contact_table = Contact.objects.get(email=contact_email)
+                contact_table.department = department_table
+                messages.warning(
+                    request,
+                    "Contact already exists!"
+                )
+
             # Proposal table
-            proposal_table = Proposal.objects.create(
-                title=title,
-                desc=description,
-                status=status,
-                spec=proposal_specialisation,
-                skills=proposal_skills,
-                env=proposal_environment,
-                res=proposal_research,
-                client=client_table,
-                external_supervisor=external_supervisor_table,
-            )
-            messages.add_message(
-                request, messages.INFO, "Success! Updated Project Detail!"
+            try:
+                proposal_table = Proposal.objects.create(
+                    title=title,
+                    desc=description,
+                    status=status,
+                    spec=proposal_specialisation,
+                    skills=proposal_skills,
+                    env=proposal_environment,
+                    res=proposal_research,
+                    client=client_table,
+                    external_supervisor=external_supervisor_table,
+                )   
+                messages.INFO(
+                    request, 
+                    "Proposal Created: " + title
             )
 
             proposal_detail = Upload_Proposal.objects.filter(pk=proposal_detail.pk).delete()
             #### os.remove(full_path)
-            messages.add_message(
+            messages.info(
                 request,
-                messages.INFO,
                 "Sucess Save/Update Word-structured Proposal Detail!",
             )
 
