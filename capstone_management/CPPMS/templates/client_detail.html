@@ -27,23 +27,28 @@
 
                     <div class="col">
                         <div class="card">
-                            <h4 class="card-header"><strong>Client Contact: </strong></h4>
+                            <h4 class="card-header"><strong>Client Contact:</strong></h4>
                             <div class="card-body">
-                                <p><strong>Name:</strong>
-                                <p>{{ client_detail.contact.name }}</p>
-                                <p><strong>Position:</strong></p>
-                                <p>{{ client_detail.contact.position }} - {{ client_detail.contact.department }}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card">
-                            <h4 class="card-header"><strong>Contact Details: </strong></h4>
-                            <div class="card-body">
-                                <p><strong>Email: </strong><p>
-                                <p>{{client_detail.contact.email }}</p>
-                                <p><strong>Phone: </strong></p>
-                                <p>{{ client_detail.contact.phone }}</p>
+                                <div class="row mb-2">
+                                    <div class="col">
+                                        <p><strong>Name:</strong></p>
+                                        <p>{{ client_detail.contact.name }}</p>
+                                    </div>
+                                    <div class="col">
+                                        <p><strong>Position:</strong></p>
+                                        <p>{{ client_detail.contact.position }} - {{ client_detail.contact.department }}</p>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col">
+                                        <p><strong>Email:</strong></p>
+                                        <p>{{client_detail.contact.email }}</p>
+                                    </div>
+                                    <div class="col">
+                                        <p><strong>Phone:</strong></p>
+                                        <p>{{ client_detail.contact.phone }}</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -86,7 +91,7 @@
 
     <div class="col-md-5">
         <div class="card">
-            <h1 class="card-header">Client's Proposals</h1>
+            <h3 class="card-header">Client's Proposals</h3>
             <div class="card-body">
                 <div class="row mb-2">
 
@@ -116,7 +121,7 @@
 
                 </div>
             </div>
-            
+
         </div>
     </div>
 

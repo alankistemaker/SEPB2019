@@ -24,47 +24,34 @@
             <div class="card-body">
 
                 <div class="row mb-2">
-
                     <div class="col">
                         <div class="card">
-                            <div class="card-header"><strong>Unit:</strong></div>
                             <div class="card-body">
-                                <p>{{ project_detail.unit }} - {{ project_detail.year }}</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="card">
-                            <h6 class="card-header"><strong>Client</strong></h6>
-                            <div class="card-body">
-                                <p><a href="client_detail/{{ project_detail.proposal.client.pk }}">{{ project_detail.proposal.client.name }}</a></p>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="row mb-2">
-
-                    <div class="col">
-                        <div class="card">
-                            <div class="card-header"><strong>External Supervisor:</strong></div>
-                            <div class="card-body">
-                                <p>{{ project_detail.proposal.external_supervisor }}</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="card">
-                            <h6 class="card-header"><strong>Internal Supervisor:</strong></h6>
-                            <div class="card-body">
-                                <p>{{ project_detail.internal_supervisor }}</p>
+                                <div class="row mb-2">
+                                    <div class="col">
+                                        <p><strong>Unit:</strong></p>
+                                        <p>{{ project_detail.unit }} - {{ project_detail.year }}</p>
+                                    </div>
+                                    <div class="col">
+                                        <p><strong>Client:</strong></p>
+                                        <p><a href="client_detail/{{ project_detail.proposal.client.pk }}">{{ project_detail.proposal.client.name }}</a></p>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col">
+                                        <p><strong>External Supervisor:</strong></p>
+                                        <p>{{ project_detail.proposal.external_supervisor }}</p>
+                                    </div>
+                                    <div class="col">
+                                        <p><strong>Internal Supervisor:</strong></p>
+                                        <p>{{ project_detail.internal_supervisor }}</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
 
                 <div class="row mb-2">
                     <div class="col">
@@ -72,17 +59,17 @@
                             <h4 class="card-header"><a data-toggle="collapse" href="#collapse1">More Details</a></h4>
                             <div id="collapse1" class="collapse">
                                 <ul class="list-group">
-                                    <li class="list-group-item"><strong>Created: </strong>
-                                        <p>{{ project_detail.created_at }}</p>
-                                    </li>
-                                    <li class="list-group-item"><strong>Updated: </strong>
-                                        <p>{{ project_detail.updated_at }}</p>
-                                    </li>
                                     <li class="list-group-item"><strong>Category: </strong>
                                         <p>{{ project_detail.category }}</p>
                                     </li>
                                     <li class="list-group-item"><strong>Convenor: </strong>
                                         <p>TODO</p>
+                                    </li>
+                                    <li class="list-group-item"><strong>Created: </strong>
+                                        <p>{{ project_detail.created_at }}</p>
+                                    </li>
+                                    <li class="list-group-item"><strong>Updated: </strong>
+                                        <p>{{ project_detail.updated_at }}</p>
                                     </li>
                                 </ul>
                             </div>
