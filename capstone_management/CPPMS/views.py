@@ -994,14 +994,18 @@ def client_edit(request, pk=None):
         client_contact_position = request.POST.get("contact_position")
         client_contact_phone = request.POST.get("contact_phone")
         client_contact_email = request.POST.get("contact_email")
-
-        if request.POST.get("save") == "save":
+        print(client_name)
+    
+    if request.method=='POST' and 'save' in request.POST:
             client_edit = Client.objects.filter(pk=client_id).update(
                 name=client_name,
                 contact=client_contact_name,
+
             )
+            
             print("Sucessfully Updated Client Details!")
-        elif request.POST.get("delete") == "delete":
+    if request.method=='POST' and 'delete' in request.POST:
+            print (client_id)
             client_edit = Client.objects.filter(pk=client_id).delete()
             print("Sucessfully Deleted Client Details!")
     return render(
