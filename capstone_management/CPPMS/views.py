@@ -375,7 +375,7 @@ def proposal_extract(request, pk=None):
             ).delete()
 
             messages.add_message(
-                request, messages.INFO, "Sucess Delete This Incoming Proposal!"
+                request, messages.INFO, "Sucessfully Deleted This Incoming Proposal!"
             )
 
             return redirect("../../incoming_proposal")
@@ -498,7 +498,6 @@ def proposal_edit(request, pk=None):
     count()
 
     if request.method == "POST":
-        proposal_id = request.POST.get("pk")
         title = request.POST.get("title")
         description = request.POST.get("description")
         status = request.POST.get("status")
@@ -528,7 +527,7 @@ def proposal_edit(request, pk=None):
         supervisor_title = request.POST.get("supervisor_title")
 
         if "delete" in request.POST:
-            proposal_detail = Proposal.objects.filter(pk=proposal_id).delete()
+            proposal_detail = Proposal.objects.filter(pk=proposal_detail.pk).delete()
             messages.add_message(request, messages.INFO, "Sucess Delete This Proposal!")
 
             return redirect("../../proposal_list")
@@ -556,7 +555,7 @@ def proposal_edit(request, pk=None):
                 contact=contact_table,
             )
 
-            proposal_detail = Proposal.objects.filter(pk=proposal_id).update(
+            proposal_detail = Proposal.objects.filter(pk=proposal_detail.pk).update(
                 title=title,
                 desc=description,
                 status=status,
@@ -569,7 +568,7 @@ def proposal_edit(request, pk=None):
             )
 
             messages.add_message(
-                request, messages.INFO, "Sucess Update Project Detail!"
+                request, messages.success, "Sucess Update Project Detail!"
             )
 
             return redirect("../../proposal_list")
@@ -639,7 +638,6 @@ def archive_edit(request, pk=None):
     count()
 
     if request.method == "POST":
-        proposal_id = request.POST.get("pk")
         title = request.POST.get("title")
         description = request.POST.get("description")
         status = request.POST.get("status")
@@ -669,7 +667,7 @@ def archive_edit(request, pk=None):
         supervisor_title = request.POST.get("supervisor_title")
 
         if "delete" in request.POST:
-            archive_detail = Archive_Proposal.objects.filter(pk=proposal_id).delete()
+            archive_detail = Archive_Proposal.objects.filter(pk=archive_detail.pk).delete()
             messages.add_message(
                 request, messages.INFO, "Sucess Delete This Proposal Forever!"
             )
@@ -701,10 +699,10 @@ def archive_edit(request, pk=None):
                 supervisor_email=supervisor_email,
                 supervisor_title=supervisor_title,
             )
-            archive_detail = Archive_Proposal.objects.filter(pk=proposal_id).delete()
+            archive_detail = Archive_Proposal.objects.filter(pk=archive_detail.pk).delete()
 
             messages.add_message(
-                request, messages.INFO, "Sucess Unarchive This Proposal!"
+                request, messages.INFO, "Sucessfully Unarchived This Proposal!"
             )
 
             return redirect("../../incoming_proposal")
@@ -791,7 +789,6 @@ def project_edit(request, pk=None):
     count()
 
     if request.method == "POST":
-        project_id = request.POST.get("pk")
         project_title = request.POST.get("title")
         project_category = request.POST.get("category")
         project_year = request.POST.get("year")
@@ -820,7 +817,7 @@ def project_edit(request, pk=None):
             ).update(
                 email=supervisor_email, phone=supervisor_phone, title=supervisor_title
             )
-            project_detail = Project.objects.filter(pk=project_id).update(
+            project_detail = Project.objects.filter(pk=project_detail.pk).update(
                 title=project_title,
                 category=project_category,
                 year=project_year,
@@ -834,7 +831,7 @@ def project_edit(request, pk=None):
             return redirect("../../project_list")
 
         if "delete" in request.POST:
-            project_detail = Project.objects.filter(pk=project_id).delete()
+            project_detail = Project.objects.filter(pk=project_detail.pk).delete()
             messages.add_message(
                 request, messages.INFO, "Sucess Delete Project Detail!"
             )
@@ -863,7 +860,11 @@ def project_detail(request, pk=None):
     return render(
         request,
         "project_detail.html",
-        {"count": count, "project_detail": project_detail, "username": username},
+        {
+            "count": count, 
+            "project_detail": project_detail, 
+            "username": username
+        },
     )
 
 # Base Client View
@@ -881,7 +882,6 @@ def new_client(request):
     count()
 
     if request.method == "POST":
-        client_id = request.POST.get("pk")
         client_name = request.POST.get("client_name")
         client_address = request.POST.get("client_address")
         client_website = request.POST.get("client_website")
@@ -894,8 +894,7 @@ def new_client(request):
         client_contact_phone = request.POST.get("contact_phone")
         client_contact_email = request.POST.get("contact_email")
 
-        if request.POST.get("save") == "save":
-            ####Department.objects.create(name=client_department_name, phone=client_department_phone, email=client_department_email)
+        if "save" in request.POST:
             Client.objects.create(
                 name=client_name,
                 address=client_address,
@@ -909,6 +908,7 @@ def new_client(request):
                 email=client_contact_email,
             )
             print("Successfully Added New Client!")
+            
     return render(
         request,
         "new_client.html",
@@ -982,7 +982,6 @@ def client_edit(request, pk=None):
     count()
 
     if request.method == "POST":
-        client_id = request.POST.get("pk")
         client_name = request.POST.get("client_name")
         client_address = request.POST.get("client_address")
         client_website = request.POST.get("client_website")
@@ -996,16 +995,16 @@ def client_edit(request, pk=None):
         client_contact_email = request.POST.get("contact_email")
         print(client_name)
     
-    if request.method=='POST' and 'save' in request.POST:
-            client_edit = Client.objects.filter(pk=client_id).update(
+        if "save" in request.POST:
+            client_edit = Client.objects.filter(pk=client_edit.pk).update(
                 name=client_name,
                 contact=client_contact_name,
 
             )
-            messages.success(request, "Sucessfully Updated Client Details!")
-    if request.method=='POST' and 'delete' in request.POST:
+            messages.add_message(request, "Sucessfully Updated Client Details!")
+        if "delete" in request.POST:
             print (client_id)
-            client_edit = Client.objects.filter(pk=client_id).delete()
+            client_edit = Client.objects.filter(pk=client_edit.pk).delete()
             print("Sucessfully Deleted Client Details!")
             
     return render(
@@ -1184,7 +1183,7 @@ def word_detail(request, pk=None):
             extract = True
 
         if "delete" in request.POST:
-            proposal_detail = Upload_Proposal.objects.filter(pk=proposal_id).delete()
+            proposal_detail = Upload_Proposal.objects.filter(pk=proposal_detail.pk).delete()
             os.remove(full_path)
 
             return redirect("../../word_proposal")
@@ -1251,7 +1250,7 @@ def word_detail(request, pk=None):
                 request, messages.INFO, "Success! Updated Project Detail!"
             )
 
-            proposal_detail = Upload_Proposal.objects.filter(pk=proposal_id).delete()
+            proposal_detail = Upload_Proposal.objects.filter(pk=proposal_detail.pk).delete()
             #### os.remove(full_path)
             messages.add_message(
                 request,
