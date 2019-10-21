@@ -1,4 +1,4 @@
-{% extends "client.html" %} 
+{% extends "client.html" %}
 
 {% block sub-page_content %}
 
@@ -14,56 +14,65 @@
 {% block page_detail_content %}
 
 <div class="row mb-2">
-    <div class="col-3"></div>
+
+    <div class="col-md-1"></div>
+
     <div class="col">
-        <form method="POST" class="form bg-white rounded">
-            {% csrf_token %}
-            <div class="input-group">
-                <input id="txtSearch" type="text" class="form-control" placeholder="Filter by client id, client name..." name="client_list" value="{{ filter_value }}"/>
-                <div class="input-group-append">
-                    <button class="btn btn-dark" type="submit">Search</button>
+
+        <div class="row mb-2">
+            <div class="col-sm-2"></div>
+            
+            <div class="col">
+                <form method="POST" class="form bg-white rounded">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <input id="txtSearch" type="text" class="form-control" placeholder="Filter by client id, client name..." name="client_list" value="{{ filter_value }}" />
+                        <div class="input-group-append">
+                            <button class="btn btn-dark" type="submit">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="col-sm-2"></div>
+        </div>
+
+        <div class="row mb-2">
+
+            <div class="col">
+                <div class="table-responsive card shadow-sm">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr class="table-primary">
+                                <th scope="col"><strong>CLIENT</strong></th>
+                                <th scope="col"><strong>ADDED</strong></th>
+                                <th scope="col"><strong>UPDATED</strong></th>
+                                <th scope="col"><strong>CONTACT NAME</strong></th>
+                                <th scope="col"><strong>DEPARTMENT</strong></th>
+                                <th scope="col"><strong>CONTACT</strong></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for client in client_filter %}
+                            <tr scope="row">
+                                <td><a href="client_detail/{{client.pk}}">{{ client.name }}</a></td>
+                                <td>{{ client.created_at }}</td>
+                                <td>{{ client.updated_at }}</td>
+                                <td>{{ client.contact }}</td>
+                                <td>{{ client.contact.department }}</td>
+                                <td>{{ client.contact.contact }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </form>
-    </div>
-    <div class="col-3"></div>
-</div>
-    
-<div class="row">
 
-    <div class="col-1"></div>
-
-    <div class="col">
-        <div class="table-responsive card shadow-sm">
-            <table class="table table-bordered table-hover">
-                <thead>
-                    <tr class="table-primary">
-                        <th scope="col"><strong>CLIENT</strong></th>
-                        <th scope="col"><strong>ADDED</strong></th>
-                        <th scope="col"><strong>UPDATED</strong></th>
-                        <th scope="col"><strong>CONTACT NAME</strong></th>
-                        <th scope="col"><strong>DEPARTMENT</strong></th>
-                        <th scope="col"><strong>CONTACT</strong></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for client in client_filter %}
-                    <tr scope="row">
-                        <td><a href="client_detail/{{client.pk}}">{{ client.title }}</a></td>
-                        <td>{{ client.created_at }}</td>
-                        <td>{{ client.updated_at }}</td>
-                        <td>{{ client.contact }}</td>
-                        <td>{{ client.contact.department }}</td>
-                        <td>{{ client.contact.contact }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
         </div>
     </div>
 
-    <div class="col-1"></div>
-
+    <div class="col-md-1"></div>
+    
 </div>
 
 {% endblock %}

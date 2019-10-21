@@ -2,8 +2,10 @@
 
 {% block sub-page_content %}
 
+{% if not messages %}
 <h2>Proposal Details</h2>
-{% if messages %}
+{% else %}
+<h2>Proposal Details</h2>
 {% for message in messages %}<li>{{ message }}</li>{% endfor %}
 {% endif %}
 
@@ -15,11 +17,11 @@
 
     <div class="col-1"></div>
 
-    <div class="col-5">
+    <div class="col-md-5">
         <div class="card">
 
-            <h1 class="card-header">{{ proposal_detail.title }}<a href="proposal_edit/{{ proposal_detail.pk }}" class="btn btn-dark" role="button" data-toggle="tooltip" title="Edit"><i class="fa fa-edit" style="font-size:25px"></i></a></h1>
-
+            <h3 class="card-header">
+                <a class="btn btn-dark" href="proposal_edit/{{ proposal_detail.pk }}" role="button" data-toggle="tooltip" title="Edit '{{ proposal_detail.title }}'">Edit <i class="fa fa-edit"></i></a> {{ proposal_detail.title }}</h3>
             <div class="card-body">
                 <div class="row mb-2">
 
@@ -67,20 +69,20 @@
                 <div class="row mb-2">
                     <div class="col">
                         <div class="card">
-                            <h4 class="card-header"><a data-toggle="collapse" href="#collapse4">More Details</a></h4>
+                            <h4 class="card-header"><a data-toggle="collapse" href="#collapse4">Additional Details</a></h4>
                             <div id="collapse4" class="collapse">
                                 <ul class="list-group">
                                     <li class="list-group-item"><strong>Specialisation: </strong>
-                                        <p>{{ proposal_detail.proposal_specialisation }}</p>
+                                        <p>{{ proposal_detail.spec }}</p>
                                     </li>
                                     <li class="list-group-item"><strong>Skills: </strong>
-                                        <p>{{ proposal_detail.proposal_skills }}</p>
+                                        <p>{{ proposal_detail.skills }}</p>
                                     </li>
                                     <li class="list-group-item"><strong>Environment: </strong>
-                                        <p>{{ proposal_detail.proposal_environment }}</p>
+                                        <p>{{ proposal_detail.env }}</p>
                                     </li>
                                     <li class="list-group-item"><strong>Research: </strong>
-                                        <p>{{ proposal_detail.proposal_research }}</p>
+                                        <p>{{ proposal_detail.res }}</p>
                                     </li>
                                 </ul>
                             </div>
@@ -91,20 +93,20 @@
                 <div class="row mb-2">
                     <div class="col">
                         <div class="card">
-                            <h4 class="card-header"><a data-toggle="collapse" href="#collapse1">Client - {{ proposal_detail.client.title }}</a></h4>
+                            <h4 class="card-header"><a data-toggle="collapse" href="#collapse1">Client - {{ proposal_detail.client.name }}</a></h4>
                             <div id="collapse1" class="collapse">
                                 <ul class="list-group">
                                     <li class="list-group-item"><strong>Client: </strong>
-                                        <p>{{ proposal_detail.client.title }}</p>
+                                        <p>{{ proposal_detail.client.name }}</p>
                                     </li>
                                     <li class="list-group-item"><strong>Description: </strong>
-                                        <p>{{ proposal_detail.client.company.desc }}</p>
+                                        <p>{{ proposal_detail.client.desc }}</p>
                                     </li>
                                     <li class="list-group-item"><strong>Website: </strong>
-                                        <p>{{ proposal_detail.client.company.website }}</p>
+                                        <p>{{ proposal_detail.client.website }}</p>
                                     </li>
                                     <li class="list-group-item"><strong>Address: </strong>
-                                        <p>{{ proposal_detail.client.company.address }}</p>
+                                        <p>{{ proposal_detail.client.address }}</p>
                                     </li>
                                     <li class="list-group-item"><strong>Contact: </strong>
                                         <p>{{ proposal_detail.client.contact.name }}</p>
@@ -142,13 +144,6 @@
                                      <li class="list-group-item"><strong>Department: </strong>
                                         <p>{{ proposal_detail.external_supervisor.department.name }}</p>
                                     </li>
-                                    <li class="list-group-item"><strong>Department Email: </strong>
-                                        <p>{{ proposal_detail.external_supervisor.department.email }}</p>
-                                    </li>
-                                    <li class="list-group-item"><strong>Department Phone: </strong>
-                                        <p>{{ proposal_detail.external_supervisor.department.phone }}</p>
-                                    </li>
-                                    
                                 </ul>
                             </div>
                         </div>
@@ -158,9 +153,9 @@
         </div>
     </div>
 
-    <div class="col-5">
+    <div class="col-md-5">
         <div class="card">
-            <h1 class="card-header">Proposal Projects</h1>
+            <h3 class="card-header">Proposal Projects</h3>
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col">
@@ -168,7 +163,6 @@
                             <table class="table table-bordered table-hover">
                                 <thead>
                                     <tr class="table-primary">
-                                        <th scope="col"><strong>ID</strong></th>
                                         <th scope="col"><strong>TITLE</strong></th>
                                         <th scope="col"><strong>CATEGORY</strong></th>
                                         <th scope="col"><strong>YEAR</strong></th>
@@ -179,8 +173,7 @@
                                 <tbody>
                                     {% for project in project_filter %}
                                     <tr scope="row">
-                                        <td>{{ project.pk }}</td>
-                                        <td>{{ project.title }}</td>
+                                        <td><a href="project_detail/{{project.pk}}">{{ project.title }}</a></td>
                                         <td>{{ project.category }}</td>
                                         <td>{{ project.year }}</td>
                                         <td>{{ project.unit }}</td>

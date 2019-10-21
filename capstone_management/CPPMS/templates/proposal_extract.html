@@ -64,8 +64,22 @@
     </p>
     <hr />
     <br />
+    <h2>Company</h2>
     <p>
-      Client Name:
+      Suggested Company
+      <input list="suggested_companies"
+        type="text"
+        style="left:45%; width:500px; text-align:right;"
+        name="suggested_company_list"
+        value="{{ suggested_company.name }}"
+      />
+      <datalist id="suggested_companies">
+      {% for company in suggested_companies %}
+      <option value={{ company.name }}
+      {% endfor %}
+    </p>
+    <p>
+      Company Name:
       <input
         type="text"
         style="left:45%; width:500px; text-align:right;"
@@ -102,6 +116,37 @@
     </p>
     <hr />
     <br />
+    <h3>Department</h3>
+    <p>
+      Department Name:
+      <input
+        type="text"
+        style="left:45%; width:500px; text-align:right;"
+        name="department_name"
+        value="{{ proposal_extract.department_name }}"
+      />
+    </p>
+    <p>
+      Department Phone:
+      <input
+        type="text"
+        style="left:45%; width:500px; text-align:right;"
+        name="department_phone"
+        value="{{ proposal_extract.department_phone }}"
+      />
+    </p>
+    <p>
+      Department Email:
+      <input
+        type="text"
+        style="left:45%; width:500px; text-align:right;"
+        name="department_email"
+        value="{{ proposal_extract.department_email }}"
+      />
+    </p>
+    <hr />
+    <br />
+    <h2>Contact</h2>
     <p>
       Contact Name:
       <input
@@ -136,35 +181,6 @@
         style="left:45%; width:500px; text-align:right;"
         name="contact_position"
         value="{{ proposal_extract.contact_position }}"
-      />
-    </p>
-    <hr />
-    <br />
-    <p>
-      Department Name:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="department_name"
-        value="{{ proposal_extract.department_name }}"
-      />
-    </p>
-    <p>
-      Department Phone:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="department_phone"
-        value="{{ proposal_extract.department_phone }}"
-      />
-    </p>
-    <p>
-      Department Email:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="department_email"
-        value="{{ proposal_extract.department_email }}"
       />
     </p>
     <hr />

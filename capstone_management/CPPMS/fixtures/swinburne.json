@@ -1,14 +1,15 @@
 [
   {
-    "model": "CPPMS.Company",
+    "model": "CPPMS.client",
     "pk": 1,
     "fields": {
-      "name": "Swinburne University of Technology",
-      "website": "http://www.swinburne.edu.au/",
-      "created_at": "2013-01-16T08:16:59.844Z",
-      "updated_at": "2013-01-16T08:16:59.844Z",
-      "address": "John Street, Hawthorn, Victroria, Australia",
-      "desc": "University"
+        "name": "Swinburne University of Technology",
+        "website": "http://www.swinburne.edu.au/",
+        "created_at": "2013-01-16T08:16:59.844Z",
+        "updated_at": "2013-01-16T08:16:59.844Z",
+        "address": "John Street, Hawthorn, Victroria, Australia",
+        "desc": "University",
+        "contact": 30 
     }
   },
   {
@@ -20,8 +21,7 @@
       "updated_at": "2013-01-16T08:16:59.844Z",
 
       "phone": "555-653-482",
-      "email": "fset@swin.edu.au",
-      "company": 1
+      "email": "fset@swin.edu.au"
     }
   },
   {
@@ -33,12 +33,11 @@
       "updated_at": "2013-01-16T08:16:59.844Z",
 
       "phone": "555-653-542",
-      "email": "FBL@swin.edu.au",
-      "company": 1
+      "email": "FBL@swin.edu.au"
     }
   },
   {
-    "model": "CPPMS.Internal_supervisor",
+    "model": "CPPMS.internal_supervisor",
     "pk": 10,
     "fields": {
       "name": "Tracey McCloud",
@@ -50,7 +49,7 @@
     }
   },
   {
-    "model": "CPPMS.Internal_supervisor",
+    "model": "CPPMS.internal_supervisor",
     "pk": 11,
     "fields": {
       "name": "Jun Han",

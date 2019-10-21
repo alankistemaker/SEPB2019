@@ -14,22 +14,19 @@
 {% block page_detail_content %} 
 
 <div class="row mb-2">
-    <div class="col-1"></div>
+    <div class="col-md-1"></div>
+    
     <div class="col">
         <div class="table-responsive card shadow-sm">
             <table class="table table-bordered table-hover">
                 <tr class="table-primary">
-                    <th>ID</th>
-                    <th>Title</th>
-                    <th style="min-width: 120px">Client Name</th>
-                    <th>Date</th>
+                    <th scope="col">TITLE</th>
+                    <th scope="col">CLIENT NAME</th>
+                    <th scope="col">DATE</th>
                 </tr>
                 {% for proposal in archive_proposal %}
-                <tr>
-                    <td>
-                        <a href="archive_detail/{{ proposal.pk }}">{{ proposal.pk }}</a>
-                    </td>
-                    <td>{{ proposal.title }}</td>
+                <tr scope="row">
+                    <td><a href="archive_detail/{{ proposal.pk }}">{{ proposal.title }}</a></td>
                     <td>{{ proposal.client_name }}</td>
                     <td>{{ proposal.created_at }}</td>
                 </tr>
@@ -37,7 +34,8 @@
             </table>
         </div>
     </div>
-    <div class="col-1"></div>
+    
+    <div class="col-md-1"></div>
 </div>        
 
 {% endblock %}

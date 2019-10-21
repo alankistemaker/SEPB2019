@@ -17,8 +17,9 @@
 
     <div class="col-1"></div>
 
-    <div class="col-sm-5">
+    <div class="col-md-5">
         <div class="card">
+<<<<<<< HEAD
             <h1 class="card-header">{{ project_detail.title }} 
                 <a 
                     href="project_edit/{{ project_detail.pk }}" 
@@ -32,6 +33,10 @@
                     </i>
                 </a>
             </h1>
+=======
+            <h3 class="card-header">
+                <a class="btn btn-dark" href="project_edit/{{ project_detail.pk }}" data-toggle="tooltip" title="Edit '{{ project_detail.title }}'">Edit <i class="fa fa-edit"></i></a> {{ project_detail.title }}</h3>
+>>>>>>> master
 
             <div class="card-body">
 
@@ -50,7 +55,7 @@
                         <div class="card">
                             <h6 class="card-header"><strong>Client</strong></h6>
                             <div class="card-body">
-                                <p><a href="client_detail/{{ project_detail.proposal.client.pk }}">{{ project_detail.proposal.client.title }}</a></p>
+                                <p><a href="client_detail/{{ project_detail.proposal.client.pk }}">{{ project_detail.proposal.client.name }}</a></p>
                             </div>
                         </div>
                     </div>
@@ -105,8 +110,9 @@
         </div>
     </div>
 
-    <div class="col-sm-5">
+    <div class="col-md-5">
         <div class="card">
+<<<<<<< HEAD
             <h1 class="card-header">Group - {{ project_detail.group.title }} 
                 <button 
                     type="button"
@@ -152,6 +158,9 @@
                 </div>
             </div>
 
+=======
+            <h3 class="card-header">Group - {{ project_detail.group.title }}</h3>
+>>>>>>> master
             <div class="card-body">
                 <div class="row mb-2">
 
@@ -160,7 +169,6 @@
                             <table class="table table-bordered table-hover ">
                                 <thead>
                                     <tr class="table-primary">
-                                        <th scope="col"><strong>ID</strong></th>
                                         <th scope="col"><strong>Name</strong></th>
                                         <th scope="col"><strong>Email</strong></th>
                                         <th scope="col"><strong></strong></th>
@@ -170,7 +178,6 @@
                                 <tbody>
                                     {% for student in project_detail.group.students.all %}
                                     <tr scope="row">
-                                        <td>{{ student.pk }}</td>
                                         <td>{{ student.name }}</td>
                                         <td>{{ student.email }}</td>
                                         <td></td>

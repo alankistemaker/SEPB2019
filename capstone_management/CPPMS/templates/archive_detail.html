@@ -1,4 +1,4 @@
-{% extends "proposal.html" %} 
+{% extends "proposal.html" %}
 
 {% block sub-page_content %}
 
@@ -13,241 +13,218 @@
 
 {% block page_detail_content %}
 
-<form method="POST">
-  {% csrf_token %}
-  <div style="position:absolute; left:93%; top:105px; height:70px;">
-    <button type="submit" name="unarchive" value="unarchive">
-      <i class="fa fa-window-restore" style="font-size:25px"></i>
-    </button>
-    <button type="submit" name="delete" value="delete">
-      <i class="fa fa-trash" style="font-size:25px"></i>
-    </button>
-  </div>
+<div class="row">
 
-  <div
-    style="position:absolute; top:170px; left:18%; font-family:Segoe UI; color:#000000; font-size:16px"
-  >
-    <h1>Proposal Detail</h1>   
-    <hr />
-    <br />
-    <p>
-      ID:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="pk"
-        value="{{ archive_detail.pk }}"
-      />
-    </p>
-    <p>
-      Title:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="title"
-        value="{{ archive_detail.title }}"
-      />
-    </p>
-    <p>
-      Description:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="description"
-        value="{{ archive_detail.description }}"
-      />
-    </p>
-    <p>
-      Status:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="status"
-        value="{{ archive_detail.status }}"
-      />
-    </p>
-    <hr />
-    <br />
-    <p>
-      Client Name:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="client_name"
-        value="{{ archive_detail.client.name }}"
-      />
-    </p>
-    <p>
-      Company Description:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="company_desc"
-        value="{{ archive_detail.client.desc }}"
-      />
-    </p>
-    <p>
-      Company Website:
-      <input list="groups"
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="company_website"
-        value="{{ archive_detail.client.website }}"
-      />
-    </p>
-    <p>
-      Company Address:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="company_address"
-        value="{{ archive_detail.client.address }}"
-      />
-    </p>
-    <hr />
-    <br />
-    <p>
-      Contact Name:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="contact_name"
-        value="{{ archive_detail.client.contact.name }}"
-      />
-    </p>
-    <p>
-      Contact Phone:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="contact_phone"
-        value="{{ archive_detail.client.contact.phone }}"
-      />
-    </p>
-    <p>
-      Contact Email:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="contact_email"
-        value="{{ archive_detail.client.contact.email }}"
-      />
-    </p>
-    <p>
-      Contact Position:
-      <input list="groups"
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="contact_position"
-        value="{{ archive_detail.client.contact.position }}"
-      />
-    </p>
-    <hr />
-    <br />
-    <p>
-      Department Name:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="department_name"
-        value="{{ archive_detail.client.department.name }}"
-      />
-    </p>
-    <p>
-      Department Phone:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="department_phone"
-        value="{{ archive_detail.client.department.phone }}"
-      />
-    </p>
-    <p>
-      Department Email:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="department_email"
-        value="{{ archive_detail.client.department.email }}"
-      />
-    </p>
-    <hr />
-    <br />
-    <p>
-      Proposal Specialisation:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="proposal_specialisation"
-        value="{{ archive_detail.spec }}"
-      />
-    </p>
-    <p>
-      Proposal Skills:
-      <input list="groups"
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="proposal_skills"
-        value="{{ archive_detail.skills }}"
-      />
-    </p>
-    <p>
-      Proposal Environment:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="proposal_environment"
-        value="{{ archive_detail.env }}"
-      />
-    </p>
-     <p>
-      Proposal Research:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="proposal_research"
-        value="{{ archive_detail.res }}"
-      />
-    </p>
-    <hr />
-    <br />
-    <p>
-      Supervisor Name:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="supervisor_name"
-        value="{{ archive_detail.supervisors_external.name }}"
-      />
-    </p>
-    <p>
-      Supervisor Phone:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="supervisor_phone"
-        value="{{ archive_detail.supervisors_external.phone }}"
-      />
-    </p>
-    <p>
-      Supervisor Email:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="supervisor_email"
-        value="{{ archive_detail.supervisors_external.email }}"
-      />
-    </p>
-    <p>
-      Supervisor Title:
-      <input list="groups"
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="supervisor_title"
-        value="{{ archive_detail.supervisors_external.title }}"
-      />
-    </p>
-  </div>
-</form>
+    <div class="col-1"></div>
+
+    <div class="col-5">
+        <div class="card">
+
+            <h3 class="card-header">
+                Archived Proposals Details
+                <a class="btn btn-dark" href="proposal_edit/{{ archive_detail.pk }}" role="button" data-toggle="tooltip" title="Edit">Edit <i class="fa fa-edit"></i></a> {{ archive_detail.title }}</h3>
+
+            <div class="card-body">
+                <div class="row mb-2">
+
+                    <div class="col">
+                        <div class="card">
+                            <h6 class="card-header"><strong>Proposal Title:</strong></h6>
+                            <div class="card-body">
+                                <p>{{ archive_detail.title }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="card">
+                            <h6 class="card-header"><strong>Status:</strong></h6>
+                            <div class="card-body">
+                                <p>{{ archive_detail.status }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+
+                    <div class="col">
+                        <div class="card">
+                            <h6 class="card-header"><strong>Date Created:</strong></h6>
+                            <div class="card-body">
+                                <p>{{ archive_detail.created_at }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="card">
+                            <h6 class="card-header"><strong>Date Last Updated:</strong></h6>
+                            <div class="card-body">
+                                <p>{{ archive_detail.updated_at }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col">
+                        <div class="card">
+                            <h4 class="card-header"><a data-toggle="collapse" href="#collapse1">Client Details</a></h4>
+                            <div id="collapse1" class="collapse">
+                                <ul class="list-group">
+                                    <li class="list-group-item"><strong>Client: </strong>
+                                        <p>{{ archive_detail.client.name }}</p>
+                                    </li>
+                                    <li class="list-group-item"><strong>Description: </strong>
+                                        <p>{{ archive_detail.client.desc }}</p>
+                                    </li>
+                                    <li class="list-group-item"><strong>Website: </strong>
+                                        <p>{{ archive_detail.client.website }}</p>
+                                    </li>
+                                    <li class="list-group-item"><strong>Address: </strong>
+                                        <p>{{ archive_detail.client.address }}</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col">
+                        <div class="card">
+                            <h4 class="card-header"><a data-toggle="collapse" href="#collapse2">Contact Details</a></h4>
+                            <div id="collapse2" class="collapse">
+                                <ul class="list-group">
+                                    <li class="list-group-item"><strong>Contact: </strong>
+                                        <p>{{ archive_detail.client.contact.name }}</p>
+                                    </li>
+                                    <li class="list-group-item"><strong>Email: </strong>
+                                        <p>{{ archive_detail.client.contact.email }}</p>
+                                    </li>
+                                    <li class="list-group-item"><strong>Phone: </strong>
+                                        <p>{{ archive_detail.client.contact.phone }}</p>
+                                    </li>
+                                    <li class="list-group-item"><strong>Position: </strong>
+                                        <p>{{ archive_detail.client.contact.position }}</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col">
+                        <div class="card">
+                            <h4 class="card-header"><a data-toggle="collapse" href="#collapse3">Department Details</a></h4>
+                            <div id="collapse3" class="collapse">
+                                <ul class="list-group">
+                                    <li class="list-group-item"><strong>Department: </strong>
+                                        <p>{{ archive_detail.client.department.name }}</p>
+                                    </li>
+                                    <li class="list-group-item"><strong>Email: </strong>
+                                        <p>{{ archive_detail.client.department.email }}</p>
+                                    </li>
+                                    <li class="list-group-item"><strong>Phone: </strong>
+                                        <p>{{ archive_detail.client.department.phone }}</p>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col">
+                        <div class="card">
+                            <h4 class="card-header"><a data-toggle="collapse" href="#collapse4">Proposal Details</a></h4>
+                            <div id="collapse4" class="collapse">
+                                <ul class="list-group">
+                                    <li class="list-group-item"><strong>Specialisation: </strong>
+                                        <p>{{ archive_detail.proposal_specialisation }}</p>
+                                    </li>
+                                    <li class="list-group-item"><strong>Skills: </strong>
+                                        <p>{{ archive_detail.proposal_skills }}</p>
+                                    </li>
+                                    <li class="list-group-item"><strong>Environment: </strong>
+                                        <p>{{ archive_detail.proposal_environment }}</p>
+                                    </li>
+                                    <li class="list-group-item"><strong>Research: </strong>
+                                        <p>{{ archive_detail.proposal_research }}</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col">
+                        <div class="card">
+                            <h4 class="card-header"><a data-toggle="collapse" href="#collapse5">{{ proposal_detail.external_supervisor.name }} - External Supervisor</a></h4>
+                            <div id="collapse5" class="collapse">
+                                <ul class="list-group">
+                                    <li class="list-group-item"><strong>Title: </strong>
+                                        <p>{{ archive_detail.external_supervisor.title }}</p>
+                                    </li>
+                                    <li class="list-group-item"><strong>Email: </strong>
+                                        <p>{{ archive_detail.external_supervisor.email }}</p>
+                                    </li>
+                                    <li class="list-group-item"><strong>Phone: </strong>
+                                        <p>{{ archive_detail.external_supervisor.phone }}</p>
+                                    </li>
+                                    <li class="list-group-item"><strong>Department: </strong>
+                                        <p>{{ archive_detail.external_supervisor.department.name }}</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-5">
+        <div class="card">
+            <h3 class="card-header">Archived Proposal Projects</h3>
+            <div class="card-body">
+                <div class="row mb-2">
+                    <div class="col">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr class="table-primary">
+                                        <th scope="col"><strong>TITLE</strong></th>
+                                        <th scope="col"><strong>CATEGORY</strong></th>
+                                        <th scope="col"><strong>YEAR</strong></th>
+                                        <th scope="col"><strong>UNIT</strong></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {% for project in project_filter %}
+                                    <tr scope="row">
+                                        <td><a href="project_detail/{{project.pk}}">{{ project.title }}</a></td>
+                                        <td>{{ project.category }}</td>
+                                        <td>{{ project.year }}</td>
+                                        <td>{{ project.unit }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-1"></div>
+</div>
 
 {% endblock %}
