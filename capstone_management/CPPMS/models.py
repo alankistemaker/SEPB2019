@@ -105,7 +105,7 @@ class Company(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    address = models.CharField(max_length=255, default="")
+    address = models.CharField(max_length=255, default="", unique=True)
     website = models.CharField(max_length=255, default="")
     desc = models.TextField(default="")
 
@@ -121,7 +121,7 @@ class Department(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    phone = models.CharField(max_length=10, default="00000000")
+    phone = models.CharField(max_length=10, default="00000000", unique=True)
     email = models.CharField(max_length=255, default="")
 
     company = models.ForeignKey(Company, models.SET_NULL, blank=True, null=True)
@@ -138,7 +138,7 @@ class Internal_Supervisor(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     email = models.CharField(max_length=255, default="")
-    phone = models.CharField(max_length=10, default="00000000")
+    phone = models.CharField(max_length=10, default="00000000", unique=True)
     title = models.CharField(max_length=255, default="N/A")
 
     # OEM Relationships
@@ -154,7 +154,7 @@ class External_Supervisor(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    email = models.CharField(max_length=255, default="")
+    email = models.CharField(max_length=255, default="", unique=True)
     phone = models.CharField(max_length=10, default="00000000")
     title = models.CharField(max_length=255, default="N/A")
 
@@ -167,7 +167,7 @@ class External_Supervisor(models.Model):
 
 
 class Unit(models.Model):
-    title = models.CharField(max_length=128, default="", unique=True)
+    title = models.CharField(max_length=128, default="")
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -188,13 +188,13 @@ class Unit(models.Model):
 
 
 class Contact(models.Model):
-    name = models.CharField(max_length=128, default="", unique=True)
+    name = models.CharField(max_length=128, default="")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     position = models.CharField(max_length=128, default="")
     phone = models.CharField(max_length=10, default="00000000")
-    email = models.CharField(max_length=255, default="")
+    email = models.CharField(max_length=255, default="", unique=True)
 
     # OEM Relationships
     department = models.ForeignKey(Department, models.SET_NULL, blank=True, null=True)
@@ -213,7 +213,7 @@ class Contact(models.Model):
 
 
 class Client(models.Model):
-    name = models.CharField(max_length=128, default="")
+    name = models.CharField(max_length=128, default="", unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -228,16 +228,26 @@ class Client(models.Model):
     pass
 
     def title(self):
-        if self.company.name is not None:
-            return self.company.name
-        elif self.contact.name is not None:
-            return self.contact.name
+        if self.company is not None:
+            if self.company.name is not None:
+                return self.company.name
+        elif self.contact is not None:
+            if self.contact.name is not None:
+                return self.contact.name
         else:
             return "Client name unavailable"
 
+    def makeName(self):
+        if self.company is not None:
+            if self.contact is not None:
+                try:
+                    self.name = self.company.name + "_" + self.contact.name
+                except:
+                    self.name = "Somethings gone very wrong" + self.pk
+
 
 class Proposal(models.Model):
-    title = models.CharField(max_length=128, default="")
+    title = models.CharField(max_length=128, default="None Given")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -266,7 +276,7 @@ class Student(models.Model):
     name = models.CharField(max_length=128, default="")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    email = models.CharField(max_length=128, default="")
+    email = models.CharField(max_length=128, default="", unique=True)
 
     # OEM Relationships
 
@@ -274,6 +284,7 @@ class Student(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class Group(models.Model):
     title = models.CharField(max_length=128, default="")
@@ -291,6 +302,7 @@ class Group(models.Model):
 
     def size(self):
         return self.count(students)
+
 
 class Project(models.Model):
     title = models.CharField(max_length=128, default="", unique=True)
@@ -317,7 +329,4 @@ class Project(models.Model):
 
     def __str__(self):
         return self.title
-
-
-
 

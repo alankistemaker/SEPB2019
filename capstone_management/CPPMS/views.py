@@ -493,7 +493,7 @@ def proposal_edit(request, pk=None):
         description = request.POST.get("description")
         status = request.POST.get("status")
 
-        client_name = request.POST.get("client_name")
+        company_name = request.POST.get("client_name")
         company_desc = request.POST.get("company_desc")
         company_website = request.POST.get("company_website")
         company_address = request.POST.get("company_address")
@@ -519,48 +519,152 @@ def proposal_edit(request, pk=None):
 
         if "delete" in request.POST:
             proposal_detail = Proposal.objects.filter(pk=proposal_id).delete()
-            messages.add_message(request, messages.INFO, "Sucess Delete This Proposal!")
+            messages.add_message(request, messages.INFO, "Proposal Deleted!")
 
             return redirect("../../proposal_list")
 
         if "save" in request.POST:
-            external_supervisor_table = External_Supervisor.objects.filter(
-                name=supervisor_name
-            ).update(
-                email=supervisor_email, phone=supervisor_phone, title=supervisor_title
-            )
-            department_table = Department.objects.filter(name=department_name).update(
-                phone=department_phone, email=department_email
-            )
-            contact_table = Contact.objects.filter(name=contact_name).update(
-                position=contact_position,
-                phone=contact_phone,
-                email=contact_email,
-                department=department_table,
-            )
-            client_table = Client.objects.filter(name=client_name).update(
-                address=company_address,
-                website=company_website,
-                desc=company_desc,
-                department=department_table,
-                contact=contact_table,
-            )
+            # update company
+            try:
+                company_table = Company.Objects.create(
+                    name=company_name,
+                    address=company_address,
+                    website=company_website,
+                    desc=company_desc
+                )
+                messages.info(
+                    request,
+                    "Added company: " + company_name
+                )
+            except:
+                company_table = Company.Objects.get(address=company_address).update(
+                    name = company_name,
+                    website = company_website,
+                    desc = company_desc
+                )
+                messages.info(
+                    request,
+                    "Updated company: " + company_name
+                )
 
-            proposal_detail = Proposal.objects.filter(pk=proposal_id).update(
-                title=title,
-                desc=description,
-                status=status,
-                spec=proposal_specialisation,
-                skills=proposal_skills,
-                env=proposal_environment,
-                res=proposal_research,
-                client=client_table,
-                supervisors_external=external_supervisor_table,
-            )
+            # update department
+            try:
+                department_table = Department.objects.create(
+                    name = department_name,
+                    phone = department_phone,
+                    email = department_email,
+                    company = company_table
+                )
+                messages.info(
+                    request,
+                    "Department Created: " + department_name
+                )
+            except:
+                department_table = Department.Objects.get(phone=department_phone).update(
+                    name = department_name,
+                    email = department_email,
+                    company = company_table
+                )
+                messages.info(
+                    request,
+                    "Department updated: " + department_name
+                )
+            # update external supervisor
+            try:
+                external_supervisor_table = External_Supervisor.Objects.create(
+                    name = supervisor_name,
+                    email = supervisor_email,
+                    phone = supervisor_phone,
+                    title = supervisor_title,
+                    department = department_table
+                )
+                messages.info(
+                    request,
+                    "External Supervisor Created: " + supervisor_name
+                )
+            except:
+                external_supervisor_table = External_Supervisor.Objects.get(email=supervisor_email).update(
+                    name = supervisor_name,
+                    phone = supervisor_phone,
+                    title = supervisor_title,
+                    department = department_table
+                )
+                messages.info(
+                    request,
+                    "External Supervisor Updated: " + supervisor_name
+                )
+            # update contact
+            try:
+                contact_table = Contact.objects.create(
+                    name = contact_name,
+                    position = contact_position,
+                    phone = contact_phone,
+                    email = contact_email,
+                    department = department_table
+                )
+                messages.info(
+                    request,
+                    "Contact Created: " + contact_name
+                )
+            except:
+                contact_table = Contact.objects.get(email=contact_email).update(
+                    name = contact_name,
+                    position = contact_position,
+                    phone = contact_phone,
+                    department = department_table
+                )
+                messages.info(
+                    request,
+                    "Contact updated: " + contact_name
+                )
+            
+            # update client
+            try:
+                client_title = company_name + "_" + contact_name
+            except:
+                client_title = "New Client"
 
-            messages.add_message(
-                request, messages.INFO, "Sucess Update Project Detail!"
-            )
+            try:
+                client_table = Client.objects.create(
+                    name = client_title,
+                    company = company_table,
+                    contact = contact_table
+                )
+                messages.info(
+                    request,
+                    "Client created for proposal"
+                )
+            except:
+                client_table = Client.objects.get(name=client_title).update(
+                    company = company_table,
+                    contact = contact_table
+                )
+                messages.info(
+                    request,
+                    "Client updated: " + client_title
+                )
+
+            try:
+                Proposal.objects.get(request.proposal).update(
+                    title = title,
+                    desc = description,
+                    status = status,
+                    spec = proposal_specialisation,
+                    skills = proposal_skills,
+                    env = proposal_environment,
+                    res = proposal_research,
+                    client = client_table,
+                    external_supervisor = external_supervisor_table
+                )
+                messages.info(
+                    request,
+                    "Updated Proposal: " + title
+                )
+            except:
+                messages.warning(
+                    request,
+                    "Could not update proposal"
+                )
 
             return redirect("../../proposal_list")
 
@@ -833,6 +937,17 @@ def project_detail(request, pk=None):
     project_detail = get_object_or_404(Project, pk=pk)
     count()
 
+    if request.method == "POST":
+        group_title = request.POST.get("group_title")
+        group = Group.objects.create(
+            title=group_title,
+        )
+        project = Project.objects.get(project_detail.pk)
+        project.group = group
+
+
+        return redirect("project_detail", pk=project_detail.pk)
+
     return render(
         request,
         "project_detail.html",
@@ -1059,7 +1174,7 @@ def word_detail(request, pk=None):
     description = ""
     status = ""
 
-    client_name = ""
+    company_name = ""
     company_desc = ""
     company_website = ""
     company_address = ""
@@ -1096,7 +1211,7 @@ def word_detail(request, pk=None):
         description = request.POST.get("description")
         status = request.POST.get("status")
 
-        client_name = request.POST.get("client_name")
+        company_name = request.POST.get("client_name")
         company_desc = request.POST.get("company_desc")
         company_website = request.POST.get("company_website")
         company_address = request.POST.get("company_address")
@@ -1134,7 +1249,7 @@ def word_detail(request, pk=None):
             description = extract_word["17"]
             status = ""
 
-            client_name = extract_word["1"]
+            company_name = extract_word["1"]
             company_desc = extract_word["2"]
             company_website = extract_word["4"]
             company_address = extract_word["3"]
@@ -1177,15 +1292,41 @@ def word_detail(request, pk=None):
                 )
             except:
                 external_supervisor_table = External_Supervisor.objects.get(
-                    name=supervisor_name
+                    email=supervisor_email
                 )
-            # Department table
+                messages.warning(
+                    request,
+                    "External Supervisor already exists!"
+                )
+            # Company table
             try:
-                department_table = Department.objects.create(
-                    name=department_name, phone=department_phone, email=department_email
+                company_table = Company.objects.create(
+                    name=company_name, 
+                    address=company_address, 
+                    website=company_website,
+                    desc=company_desc
                 )
             except:
-                department_table = Department.objects.get(name=department_name)
+                company_table = Company.objects.get(address=company_address)
+                messages.warning(
+                    request,
+                    "Company already exists!"
+                )
+            # Department Table
+            try:
+                department_table = Department.objects.create(
+                    name=department_name,
+                    phone=department_phone,
+                    email=department_email,
+                    company=company_table
+                )
+            except:
+                department_table = Department.objects.get(phone=department_phone)
+                messages.warning(
+                    request,
+                    "Department already exists"
+                )
+            
             # Contact table
             try:
                 contact_table = Contact.objects.create(
@@ -1196,22 +1337,32 @@ def word_detail(request, pk=None):
                     department=department_table,
                 )
             except:
-                contact_table = Contact.objects.get(name=contact_name)
+                contact_table = Contact.objects.get(email=contact_email)
                 contact_table.department = department_table
+                messages.warning(
+                    request,
+                    "Contact already exists!"
+                )
             # Client table
             try:
                 client_table = Client.objects.create(
-                    name=client_name,
-                    address=company_address,
-                    website=company_website,
-                    desc=company_desc,
-                    department=department_table,
+                    #address=company_address,
+                    #website=company_website,
+                    #desc=company_desc,
+                    company=company_table,
                     contact=contact_table,
                 )
+                client_table.makeName
             except:
-                client_table = Client.objects.get(name=client_name)
-                client_table.department = department_table
+                client_title = company_table.name + "_" + contact_table.name
+                client_table = Client.objects.get(name=client_title)
+                client_table.company = company_table
                 client_table.contact = contact_table
+                messages.warning(
+                    request,
+                    "Client already exists"
+                )
+
             # Proposal table
             proposal_table = Proposal.objects.create(
                 title=title,
@@ -1248,7 +1399,7 @@ def word_detail(request, pk=None):
             "title": title,
             "description": description,
             "status": status,
-            "client_name": client_name,
+            "client_name": company_name,
             "company_desc": company_desc,
             "company_website": company_website,
             "company_address": company_address,

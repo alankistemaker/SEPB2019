@@ -45,7 +45,8 @@
       "email": "tmccloud@swin.edu.au",
       "created_at": "2013-01-16T08:16:59.844Z",
       "updated_at": "2013-01-16T08:16:59.844Z",
-      "department": 10
+      "department": 10,
+      "phone": "555-839-234"
     }
   },
   {
@@ -56,7 +57,8 @@
       "email": "jhan@swin.edu.au",
       "created_at": "2013-01-16T08:16:59.844Z",
       "updated_at": "2013-01-16T08:16:59.844Z",
-      "department": 11
+      "department": 11,
+      "phone": "555-234-234"
     }
   },
   {
