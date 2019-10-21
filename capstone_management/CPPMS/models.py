@@ -499,8 +499,7 @@ class Group(models.Model):
     # Foreign Key with Students model
     students = models.ManyToManyField(Student)
     
-    # What's this?
-    # Alan
+    # Integer field which contains the primary key of the group leader student
     leader = models.IntegerField(default="0")
 
     def __str__(self):
