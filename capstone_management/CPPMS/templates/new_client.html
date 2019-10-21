@@ -31,10 +31,9 @@
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputName">Client Name:</span>
+                                    <span class="input-group-text" id="client_name">Client Name:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="name" aria-describedby="inputName" style="text-align:right;" name="name" value="{{ name }}" />
-                                <hr />
+                                <input type="text" class="form-control" aria-label="client_name" aria-describedby="client_name" style="text-align:right;" name="client_name" value="{{ client_name }}" />
                             </div>
                         </div>
                     </div>
@@ -43,9 +42,9 @@
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputCompName">Company Name:</span>
+                                    <span class="input-group-text" id="client_website">Company Website:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="company_name" aria-describedby="inputCompName" style="text-align:right;" name="company_name" value="{{ company_name }}" />
+                                <input type="text" class="form-control" aria-label="client_website" aria-describedby="client_website" style="text-align:right;" name="client_website" value="{{ client_website }}" />
                             </div>
                         </div>
                     </div>
@@ -54,20 +53,9 @@
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputCompWeb">Company Website:</span>
+                                    <span class="input-group-text" id="client_address">Company Address:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="company_website" aria-describedby="inputCompWeb" style="text-align:right;" name="company_website" value="{{ company_website }}" />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row mb-2">
-                        <div class="col">
-                            <div class="input-group input-group-sm">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputCompAdd">Company Address:</span>
-                                </div>
-                                <input type="text" class="form-control" aria-label="company_address" aria-describedby="inputCompAdd" style="text-align:right;" name="company_address" value="{{ company_address }}" />
+                                <input type="text" class="form-control" aria-label="client_address" aria-describedby="client_address" style="text-align:right;" name="client_address" value="{{ client_address }}" />
                             </div>
                         </div>
                     </div>
@@ -75,8 +63,8 @@
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
-                                <label for="inputCompDesc" class="input-group-text" id="inputCompDesc">Company Description:</label>
-                                <textarea class="form-control" rows="5" id="inputCompDesc" aria-label="company_description" aria-describedby="inputCompDesc" style="text-align:left;" name="company_description" value="{{ company_description }}"></textarea>
+                                <label for="inputCompDesc" class="input-group-text" id="client_description">Company Description:</label>
+                                <textarea class="form-control" rows="5" id="client_description" aria-label="client_description" aria-describedby="inputCompDesc" style="text-align:left;" name="client_description" value="{{ client_description }}"></textarea>
                             </div>
                         </div>
                     </div>
@@ -85,9 +73,9 @@
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputDepName">Department Name:</span>
+                                    <span class="input-group-text" id="department_name">Department Name:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="department_name" aria-describedby="inputDepName" style="text-align:right;" name="department_name" value="{{ department_name }}" />
+                                <input type="text" class="form-control" aria-label="department_name" aria-describedby="department_name" style="text-align:right;" name="department_name" value="{{ department_name }}" />
                             </div>
                         </div>
                     </div>
@@ -96,9 +84,9 @@
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputDepPhone">Department Phone:</span>
+                                    <span class="input-group-text" id="department_phone">Department Phone:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="department_phone" aria-describedby="inputDepPhone" style="text-align:right;" name="department_phone" value="{{ department_phone }}" />
+                                <input type="text" class="form-control" aria-label="client_department_phone" aria-describedby="department_phone" style="text-align:right;" name="department_phone" value="{{ department_phone }}" />
                             </div>
                         </div>
                     </div>
@@ -107,9 +95,9 @@
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputDepEmail">Department Email:</span>
+                                    <span class="input-group-text" id="department_email">Department Email:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="department_email" aria-describedby="inputDepEmail" style="text-align:right;" name="department_email" value="{{ department_email }}" />
+                                <input type="text" class="form-control" aria-label="department_email" aria-describedby="department_email" style="text-align:right;" name="department_email" value="{{ department_email }}" />
                             </div>
                         </div>
                     </div>
@@ -118,9 +106,9 @@
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputContName">Contact Name:</span>
+                                    <span class="input-group-text" id="client_contact_name">Contact Name:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="contact_name" aria-describedby="inputContName" style="text-align:right;" name="contact_name" value="{{ contact_name }}" />
+                                <input type="text" class="form-control" aria-label="contact_name" aria-describedby="contact_name" style="text-align:right;" name="contact_name" value="{{ contact_name }}" />
                             </div>
                         </div>
                     </div>
@@ -129,9 +117,9 @@
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputContPos">Contact Position:</span>
+                                    <span class="input-group-text" id="contact_position">Contact Position:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="contact_position" aria-describedby="inputContPos" style="text-align:right;" name="contact_position" value="{{ contact_position }}" />
+                                <input type="text" class="form-control" aria-label="contact_position" aria-describedby="contact_position" style="text-align:right;" name="contact_position" value="{{ contact_position }}" />
                             </div>
                         </div>
                     </div>
@@ -140,9 +128,9 @@
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputContPhone">Contact Phone:</span>
+                                    <span class="input-group-text" id="contact_phone">Contact Phone:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="contact_phone" aria-describedby="inputContPhone" style="text-align:right;" name="contact_phone" value="{{ contact_phone }}" />
+                                <input type="text" class="form-control" aria-label="contact_phone" aria-describedby="contact_phone" style="text-align:right;" name="contact_phone" value="{{ contact_phone }}" />
                             </div>
                         </div>
                     </div>
@@ -151,16 +139,16 @@
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputContEmail">Contact Email:</span>
+                                    <span class="input-group-text" id="contact_email">Contact Email:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="contact_email" aria-describedby="inputContEmail" style="text-align:right;" name="contact_email" value="{{ contact_email }}" />
+                                <input type="text" class="form-control" aria-label="contact_email" aria-describedby="contact_email" style="text-align:right;" name="contact_email" value="{{ contact_email }}" />
                             </div>
                         </div>
                     </div>
 
                     <div class="row mb-2">
                         <div class="col text-right text-light">
-                            <a class="btn btn-dark" role="button" type="submit" name="save" value="save" data-toggle="tooltip" title="Save New Client">Save <i class="fa fa-save"></i></a>
+                            <button class="btn btn-dark" type="submit" value="save" name="save">Save <i class="fa fa-save"></i></button>
                         </div>
                     </div>
                 </div>

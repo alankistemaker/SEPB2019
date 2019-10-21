@@ -495,6 +495,10 @@ def proposal_detail(request, pk=None):
 def proposal_edit(request, pk=None):
     username = request.user.first_name + " " + request.user.last_name
     proposal_detail = get_object_or_404(Proposal, pk=pk)
+    external_supervisor_table = ""
+    department_table = ""
+    contact_table = ""
+    client_table = ""
     count()
 
     if request.method == "POST":
@@ -528,31 +532,37 @@ def proposal_edit(request, pk=None):
 
         if "delete" in request.POST:
             proposal_detail = Proposal.objects.filter(pk=proposal_detail.pk).delete()
-            messages.add_message(request, messages.INFO, "Sucess Delete This Proposal!")
+            
+            messages.add_message(request, messages.INFO, "Sucessfully Deleted This Proposal!")
 
-            return redirect("../../proposal_list")
+            return redirect("../../")
 
         if "save" in request.POST:
-            external_supervisor_table = External_Supervisor.objects.filter(
-                name=supervisor_name
-            ).update(
-                email=supervisor_email, phone=supervisor_phone, title=supervisor_title
+            external_supervisor_table = External_Supervisor.objects.filter(pk=proposal_detail.external_supervisor.pk).update(
+                name=supervisor_name,
+                email=supervisor_email,
+                phone=supervisor_phone,
+                title=supervisor_title
             )
-            department_table = Department.objects.filter(name=department_name).update(
-                phone=department_phone, email=department_email
+            
+            department_table = Department.objects.filter(pk=proposal_detail.client.contact.department.pk).update(
+                name=department_name,
+                phone=department_phone, 
+                email=department_email
             )
-            contact_table = Contact.objects.filter(name=contact_name).update(
-                position=contact_position,
+            
+            contact_table = Contact.objects.filter(pk=proposal_detail.client.contact.pk).update(
+                name=contact_name,
                 phone=contact_phone,
                 email=contact_email,
-                department=department_table,
+                position=contact_position
             )
-            client_table = Client.objects.filter(name=client_name).update(
+            
+            client_table = Client.objects.filter(pk=proposal_detail.client.pk).update(
+                name=client_name,
                 address=client_address,
                 website=client_website,
-                desc=client_desc,
-                department=department_table,
-                contact=contact_table,
+                desc=client_desc
             )
 
             proposal_detail = Proposal.objects.filter(pk=proposal_detail.pk).update(
@@ -562,16 +572,12 @@ def proposal_edit(request, pk=None):
                 spec=proposal_specialisation,
                 skills=proposal_skills,
                 env=proposal_environment,
-                res=proposal_research,
-                client=client_table,
-                supervisors_external=external_supervisor_table,
+                res=proposal_research
             )
 
-            messages.add_message(
-                request, messages.success, "Sucess Update Project Detail!"
-            )
+            messages.add_message(request, messages.SUCCESS, "Sucessfully Updated Proposal!")
 
-            return redirect("../../proposal_list")
+            return redirect("../../")
 
     return render(
         request,
@@ -668,11 +674,9 @@ def archive_edit(request, pk=None):
 
         if "delete" in request.POST:
             archive_detail = Archive_Proposal.objects.filter(pk=archive_detail.pk).delete()
-            messages.add_message(
-                request, messages.INFO, "Sucess Delete This Proposal Forever!"
-            )
+            messages.add_message(request, messages.INFO, "Sucess Delete This Proposal Forever!")
 
-            return redirect("../../archive_proposal")
+            return redirect("../../")
 
         if "unarchive" in request.POST:
             incoming_proposal = Incoming_Proposal.proposals.create(
@@ -701,11 +705,9 @@ def archive_edit(request, pk=None):
             )
             archive_detail = Archive_Proposal.objects.filter(pk=archive_detail.pk).delete()
 
-            messages.add_message(
-                request, messages.INFO, "Sucessfully Unarchived This Proposal!"
-            )
+            messages.add_message(request, messages.INFO, "Sucessfully Unarchived This Proposal!")
 
-            return redirect("../../incoming_proposal")
+            return redirect("../../")
               
     return render(
         request,
@@ -812,31 +814,32 @@ def project_edit(request, pk=None):
             ####else:
             ####    Group.objects.create(name=project_groupname)
 
-            internal_supervisor_table = Internal_Supervisor.objects.filter(
-                name=supervisor_name
-            ).update(
-                email=supervisor_email, phone=supervisor_phone, title=supervisor_title
+            internal_supervisor_table = Internal_Supervisor.objects.filter(pk=project_detail.internal_supervisor.pk).update(
+                name=supervisor_name,
+                title=supervisor_title,
+                email=supervisor_email,
+                phone=supervisor_phone
             )
+            
             project_detail = Project.objects.filter(pk=project_detail.pk).update(
                 title=project_title,
                 category=project_category,
                 year=project_year,
-                completed=project_completed,
-                internal_supervisor=internal_supervisor_table,
+                completed=project_completed
             )
+            
             messages.add_message(
-                request, messages.INFO, "Sucess Update Project Detail!"
+                request, messages.INFO, "Sucessfully Updated Project Detail!"
             )
 
-            return redirect("../../project_list")
+            return redirect("../../")
 
         if "delete" in request.POST:
             project_detail = Project.objects.filter(pk=project_detail.pk).delete()
-            messages.add_message(
-                request, messages.INFO, "Sucess Delete Project Detail!"
-            )
+            
+            messages.add_message(request, messages.INFO, "Sucessfully Deleted Project!")
 
-            return redirect("../../project_list")
+            return redirect("../../")
 
     return render(
         request,
@@ -895,19 +898,29 @@ def new_client(request):
         client_contact_email = request.POST.get("contact_email")
 
         if "save" in request.POST:
-            Client.objects.create(
+            new_client = Client.objects.create(
                 name=client_name,
                 address=client_address,
                 website=client_website,
-                desc=client_description,
+                desc=client_description
             )
-            Contact.objects.create(
+            
+            department_table = Department.objects.create(
+                name=client_department_name,
+                phone=client_department_phone,
+                email=client_department_email
+            )
+            
+            contact_table = Contact.objects.create(
                 name=client_contact_name,
                 position=client_contact_position,
                 phone=client_contact_phone,
                 email=client_contact_email,
+                department=department_table
             )
-            print("Successfully Added New Client!")
+            
+            messages.add_message(request, messages.SUCCESS, "Successfully Added New Client!")
+            return redirect("../../")
             
     return render(
         request,
@@ -993,19 +1006,38 @@ def client_edit(request, pk=None):
         client_contact_position = request.POST.get("contact_position")
         client_contact_phone = request.POST.get("contact_phone")
         client_contact_email = request.POST.get("contact_email")
-        print(client_name)
     
         if "save" in request.POST:
+            contact_table = Contact.objects.filter(pk=client_edit.contact.pk).update(
+                name=client_contact_name,
+                position=client_contact_position,
+                phone=client_contact_phone,
+                email=client_contact_email
+            )
+            
+            department_table = Department.objects.filter(pk=client_edit.contact.department.pk).update(
+                name=client_department_name,
+                phone=client_department_phone,
+                email=client_department_email
+            )
+            
             client_edit = Client.objects.filter(pk=client_edit.pk).update(
                 name=client_name,
-                contact=client_contact_name,
-
+                address=client_address,
+                website=client_website,
+                desc=client_description
             )
-            messages.add_message(request, "Sucessfully Updated Client Details!")
+
+            messages.add_message(request, messages.SUCCESS, "Sucessfully Updated Client Details!")
+            
+            return redirect("../../")
+            
         if "delete" in request.POST:
-            print (client_id)
             client_edit = Client.objects.filter(pk=client_edit.pk).delete()
-            print("Sucessfully Deleted Client Details!")
+            
+            messages.add_message(request, messages.SUCCESS, "Sucessfully Deleted Client Details!")
+            
+            return redirect("../../")
             
     return render(
         request,
