@@ -1170,6 +1170,7 @@ def word_proposal(request):
             messages.add_message(request, messages.INFO, "No file upload")
 
     word_proposals = Upload_Proposal.objects.all()
+    
     return render(
         request,
         "word_proposal.html",
@@ -1300,7 +1301,7 @@ def word_detail(request, pk=None):
             proposal_detail = Upload_Proposal.objects.filter(pk=proposal_detail.pk).delete()
             os.remove(full_path)
 
-            return redirect("../../word_proposal")
+            return redirect("../../")
 
         if "save" in request.POST:
             # External Supervisor table
@@ -1397,46 +1398,47 @@ def word_detail(request, pk=None):
                 messages.INFO(
                     request, 
                     "Proposal Created: " + title
-            )
-
-            proposal_detail = Upload_Proposal.objects.filter(pk=proposal_detail.pk).delete()
-            #### os.remove(full_path)
-            messages.info(
-                request,
-                "Sucess Save/Update Word-structured Proposal Detail!",
-            )
-
-            return redirect("../../proposal_list")
-
-    return render(
-        request,
-        "word_detail.html",
-        {
-            "count": count,
-            "proposal_detail": proposal_detail,
-            "extract": extract,
-            "title": title,
-            "description": description,
-            "status": status,
-            "client_name": client_name,
-            "client_desc": client_desc,
-            "client_website": client_website,
-            "client_address": client_address,
-            "contact_name": contact_name,
-            "contact_phone": contact_phone,
-            "contact_email": contact_email,
-            "contact_position": contact_position,
-            "department_name": department_name,
-            "department_phone": department_phone,
-            "department_email": department_email,
-            "proposal_specialisation": proposal_specialisation,
-            "proposal_skills": proposal_skills,
-            "proposal_environment": proposal_environment,
-            "proposal_research": proposal_research,
-            "supervisor_name": supervisor_name,
-            "supervisor_phone": supervisor_phone,
-            "supervisor_email": supervisor_email,
-            "supervisor_title": supervisor_title,
-            "username": username
-        }
-    )
+                )
+                
+                proposal_detail=Upload_Proposal.objects.filter(pk=proposal_detail.pk).delete()
+                #### os.remove(full_path)
+                messages.add_message(request,"Sucess Save/Update Word-structured Proposal Detail!")
+                
+            except:
+                proposal_table = Proposal.objects.get(title=proposal_title)
+                proposal_table.client = client_table
+                proposal_table.external_supervisor = external_supervisor_table
+                messages.warning(
+                    request,
+                    "Proposal already exists!"
+                )
+                                    
+        return render(request, "word_detail.html",
+                      {
+                          "count": count,
+                          "proposal_detail": proposal_detail,
+                          "extract": extract,
+                          "title": title,
+                          "description": description,
+                          "status": status,
+                          "client_desc": client_desc,
+                          "client_website": client_website,
+                          "client_address": client_address,
+                          "contact_name": contact_name,
+                          "contact_phone": contact_phone,
+                          "contact_email": contact_email,
+                          "contact_position": contact_position,
+                          "department_name": department_name,
+                          "department_phone": department_phone,
+                          "department_email": department_email,
+                          "proposal_specialisation": proposal_specialisation,
+                          "proposal_skills": proposal_skills,
+                          "proposal_environment": proposal_environment,
+                          "proposal_research": proposal_research,
+                          "supervisor_name": supervisor_name,
+                          "supervisor_phone": supervisor_phone,
+                          "supervisor_email": supervisor_email,
+                          "supervisor_title": supervisor_title,
+                          "username": username
+                      }
+                     )
