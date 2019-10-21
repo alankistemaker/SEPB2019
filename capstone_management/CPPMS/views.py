@@ -1002,12 +1002,12 @@ def client_edit(request, pk=None):
                 contact=client_contact_name,
 
             )
-            
-            print("Sucessfully Updated Client Details!")
+            messages.success(request, "Sucessfully Updated Client Details!")
     if request.method=='POST' and 'delete' in request.POST:
             print (client_id)
             client_edit = Client.objects.filter(pk=client_id).delete()
             print("Sucessfully Deleted Client Details!")
+            
     return render(
         request,
         "client_edit.html",

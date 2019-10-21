@@ -15,6 +15,25 @@
 
 <form method="POST">
     {% csrf_token %}
+    
+    <div id="deleteModal" tabindex="-1" class="modal fade">
+        <div class="modal-dialog modal-confirm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Are you sure?</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Do you really want to delete the Proposal: {{ proposal_detail.title }}? </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                    <button type="submit" name="delete" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <div class="row mb-2">
 
         <div class="col-lg-1"></div>
@@ -329,7 +348,7 @@
                     <div class="row mb-2">
                         <div class="col text-right text-light">
                             <a class="btn btn-dark" role="button" type="submit" name="save" value="save" data-toggle="tooltip" title="Save '{{ proposal_detail.title }}'">Save <i class="fa fa-save"></i></a>
-                            <a class="btn btn-dark" role="button" type="submit" name="delete" value="delete" data-toggle="tooltip" title="Delete '{{ proposal_detail.title }}'">Delete <i class="fa fa-trash"></i></a>
+                            <a class="btn btn-dark" role="button" type="submit" name="delete" data-target="#deleteModal" data-toggle="modal" title="Delete '{{ proposal_detail.title }}'">Delete <i class="fa fa-trash"></i></a>
                         </div>
                     </div>
                 </div>

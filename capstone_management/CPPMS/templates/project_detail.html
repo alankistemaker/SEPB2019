@@ -19,8 +19,7 @@
 
     <div class="col-md-5">
         <div class="card">
-            <h3 class="card-header">
-                <a class="btn btn-dark" href="project_edit/{{ project_detail.pk }}" data-toggle="tooltip" title="Edit '{{ project_detail.title }}'">Edit <i class="fa fa-edit"></i></a> {{ project_detail.title }}</h3>
+            <h3 class="card-header">{{ project_detail.title }}</h3>
 
             <div class="card-body">
 
@@ -90,13 +89,18 @@
                         </div>
                     </div>
                 </div>
+                <div class="row mb-2">
+                    <div class="col text-right">
+                        <a class="btn btn-dark" href="project_edit/{{ project_detail.pk }}" data-toggle="tooltip" title="Edit '{{ project_detail.title }}'">Edit <i class="fa fa-edit"></i></a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <div class="col-md-5">
         <div class="card">
-            <h3 class="card-header">Group - {{ project_detail.group.title }}</h3>
+            <h3 class="card-header">Group: {{ project_detail.group.title }}</h3>
             <div class="card-body">
                 <div class="row mb-2">
 
@@ -105,9 +109,8 @@
                             <table class="table table-bordered table-hover ">
                                 <thead>
                                     <tr class="table-primary">
-                                        <th scope="col"><strong>Name</strong></th>
-                                        <th scope="col"><strong>Email</strong></th>
-                                        <th scope="col"><strong></strong></th>
+                                        <th scope="col"><strong>NAME</strong></th>
+                                        <th scope="col"><strong>EMAIL</strong></th>
                                     </tr>
                                 </thead>
 
@@ -116,7 +119,6 @@
                                     <tr scope="row">
                                         <td>{{ student.name }}</td>
                                         <td>{{ student.email }}</td>
-                                        <td></td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>

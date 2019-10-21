@@ -2,11 +2,15 @@
 
 {% block sub-page_content %}
 
-{% if not messages %}
 <h2>Edit Client Details</h2>
-{% else %}
-<h2>Edit Client Details</h2>
-{% for message in messages %}<li>{{ message }}</li>{% endfor %}
+
+{% if messages %}
+
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}></li>
+    {% endfor %}
+</ul>
 {% endif %}
 
 {% endblock %}
@@ -15,8 +19,8 @@
 
 <form method="POST">
     {% csrf_token %}
-    
-    <div id="exampleModal" tabindex="-1" class="modal fade">
+
+    <div id="deleteModal" tabindex="-1" class="modal fade">
         <div class="modal-dialog modal-confirm">
             <div class="modal-content">
                 <div class="modal-header">
@@ -191,7 +195,7 @@
                     <div class="row mb-2">
                         <div class="col text-right text-light">
                             <a class="btn btn-dark" role="button" type="submit" name="save" value="save" data-toggle="tooltip" title="Save '{{ client_edit.name }}'">Save <i class="fa fa-save"></i></a>
-                            <a class="btn btn-dark" role="button" type="submit" name="delete" data-target="#exampleModal" data-toggle="modal" title="Delete '{{ client_edit.name }}'">Delete <i class="fa fa-trash"></i></a>
+                            <a class="btn btn-dark" role="button" type="submit" name="delete" data-target="#deleteModal" data-toggle="modal" title="Delete '{{ client_edit.name }}'">Delete <i class="fa fa-trash"></i></a>
                         </div>
                     </div>
 
