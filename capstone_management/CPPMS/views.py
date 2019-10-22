@@ -1368,7 +1368,12 @@ def word_detail(request, pk=None):
                     request, 
                     "Proposal Created: " + title
             )
-
+            except:
+                messages.INFO(
+                    request,
+                    "Could not create proposal"
+                )
+                
             proposal_detail = Upload_Proposal.objects.filter(pk=proposal_id).delete()
             #### os.remove(full_path)
             messages.info(

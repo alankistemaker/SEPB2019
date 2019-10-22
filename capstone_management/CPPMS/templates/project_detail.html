@@ -19,24 +19,15 @@
 
     <div class="col-md-5">
         <div class="card">
-<<<<<<< HEAD
-            <h1 class="card-header">{{ project_detail.title }} 
+            <h2 class="card-header">
                 <a 
-                    href="project_edit/{{ project_detail.pk }}" 
                     class="btn btn-dark" 
-                    role="button" 
+                    href="project_edit/{{ project_detail.pk }}" 
                     data-toggle="tooltip" 
-                    title="Edit">
-                    <i 
-                        class="fa fa-edit" 
-                        style="font-size:25px">
-                    </i>
-                </a>
-            </h1>
-=======
-            <h3 class="card-header">
-                <a class="btn btn-dark" href="project_edit/{{ project_detail.pk }}" data-toggle="tooltip" title="Edit '{{ project_detail.title }}'">Edit <i class="fa fa-edit"></i></a> {{ project_detail.title }}</h3>
->>>>>>> master
+                    title="Edit '{{ project_detail.title }}'">
+                    Edit 
+                    <i class="fa fa-edit"></i>
+                </a> {{ project_detail.title }}</h3>
 
             <div class="card-body">
 
@@ -112,7 +103,6 @@
 
     <div class="col-md-5">
         <div class="card">
-<<<<<<< HEAD
             <h1 class="card-header">Group - {{ project_detail.group.title }} 
                 <button 
                     type="button"
@@ -158,9 +148,6 @@
                 </div>
             </div>
 
-=======
-            <h3 class="card-header">Group - {{ project_detail.group.title }}</h3>
->>>>>>> master
             <div class="card-body">
                 <div class="row mb-2">
 
