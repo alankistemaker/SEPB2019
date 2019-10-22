@@ -30,7 +30,9 @@ def count():
     count_web = Incoming_Proposal.proposals.all().count()
     count_word = Upload_Proposal.objects.all().count()
     count_all = count_web + count_word
-    count = [count_web, count_word, count_all]
+    count_all_proposal = Proposal.objects.all().count()
+    count_all_client = Client.objects.all().count()
+    count = [count_web, count_word, count_all,count_all_proposal,count_all_client]
     return count
 
 # Search Views
@@ -197,14 +199,25 @@ def profile_edit(request, template_name="profile_edit.html"):
 @login_required(login_url="/CPPMS/login/")
 def index(request):
     username = request.user.first_name + " " + request.user.last_name
+    last_login = request.user.last_login
+    login_user = request.user.username
+    print (last_login)
     count()
+    projects = Project.objects.all()
+    projects_count = Project.objects.all().count()
+    projects_ren = list(range(0,projects_count))
+    
 
     return render(
         request,
-        "index.html",
+        "index2.html",
         {
             "count": count,
-            "username": username
+            "username": username,
+            "projects":projects,
+            "projects_ren":projects_ren,
+            "last_login":last_login,
+            "login_user":login_user 
         }
     )
 
@@ -1223,7 +1236,7 @@ def word_detail(request, pk=None):
     if request.method == "POST":
         # when extract is False
         proposal_id = request.POST.get("pk")
-        proposal_title = request.POST.get("title")
+        proposal_title = request.POST.get("titLast Namele")
         proposal_filepath = request.POST.get("filepath")
         proposal_uploaded = request.POST.get("uploaded_at")
         full_path = os.path.join(settings.MEDIA_ROOT, proposal_title)

@@ -1,0 +1,25 @@
+{% extends "index2.html" %}
+
+{% block index_page_content %}
+
+<div class="row bg-light border rounded mt-2 mb-2 shadow-sm">
+    <div class="col-12 mt-2">
+        <div class="text-secondary text-center">
+            <!--Page title-->
+            {% block sub-page_content %}
+
+            {% endblock %}
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <!--Main content-->
+        {% block page_detail_content %}
+
+        {% endblock %}
+    </div>
+</div>
+    
+{% endblock %}
