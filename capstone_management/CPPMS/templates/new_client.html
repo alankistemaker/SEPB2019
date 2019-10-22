@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block page_detail_content %}
-
+ {% load widget_tweaks %}
 <form method="POST">
     {% csrf_token %}
     <div class="row mb-2">
@@ -33,7 +33,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="client_name">Client Name:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="client_name" aria-describedby="client_name" style="text-align:right;" name="client_name" value="{{ client_name }}" />
+                                <input type="text" class="form-control" aria-label="client_name" aria-describedby="client_name" style="text-align:right;" name="client_name" value="{{ client_name }} " />
                             </div>
                         </div>
                     </div>
