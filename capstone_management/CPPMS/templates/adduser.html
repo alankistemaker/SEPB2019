@@ -19,7 +19,7 @@
                     {% for field in form %}
                     <div>
                         {{ field.label_tag }}
-                        {{ field }}
+                        {{ field | add_class:'form-control' }}
                         {% if field.help_text %}
                         <small style="color: grey">
                             {{ field.help_text }}
