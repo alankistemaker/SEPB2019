@@ -97,6 +97,9 @@ def logout_view(request):
 # Login View
 def login_view(request):
     form = UserLoginForm(request.POST or None)
+    
+    title = "Login"
+    
     if form.is_valid():
         username = form.cleaned_data.get("username")
         password = form.cleaned_data.get("password")
@@ -112,7 +115,8 @@ def login_view(request):
         request,
         "login.html",
         {
-            "form": form
+            "form": form,
+            "title":title
         }
     )
 
@@ -121,6 +125,7 @@ def login_view(request):
 def change_password(request):
     username = request.user.first_name + " " + request.user.last_name
     count()
+    title = "Change Password"
 
     if request.method == "POST":
         form = PasswordChangeForm(request.user, request.POST)
@@ -140,7 +145,8 @@ def change_password(request):
         {
             "count": count,
             "form": form,
-            "username": username
+            "username": username,
+            "title":title
         }
     )
 
@@ -149,6 +155,7 @@ def change_password(request):
 def Adduser(request):
     username = request.user.first_name + " " + request.user.last_name
     count()
+    title = "Add User"
 
     if request.method == "POST":
         form = SignUpForm(request.POST)
@@ -168,7 +175,8 @@ def Adduser(request):
         {
             "count": count,
             "form": form,
-            "username": username
+            "username": username,
+            "title":title
         }
     )
 
@@ -177,6 +185,8 @@ def Adduser(request):
 def profile_edit(request, template_name="profile_edit.html"):
     username = request.user.first_name + " " + request.user.last_name
     count()
+    
+    title = "Profile Edit"
 
     if request.method == "POST":
         form = UserForm(data=request.POST, instance=request.user)
@@ -195,7 +205,8 @@ def profile_edit(request, template_name="profile_edit.html"):
         {
             "count": count,
             "form": form,
-            "username": username
+            "username": username,
+            "title":title
         }
     )
 
@@ -207,6 +218,7 @@ def index(request):
     login_user = request.user.username
     print (last_login)
     count()
+    title = "Home"
     projects = Project.objects.all()
     projects_count = Project.objects.all().count()
     projects_ren = list(range(0,projects_count))
@@ -214,14 +226,15 @@ def index(request):
 
     return render(
         request,
-        "index2.html",
+        "home.html",
         {
             "count": count,
             "username": username,
             "projects":projects,
             "projects_ren":projects_ren,
             "last_login":last_login,
-            "login_user":login_user 
+            "login_user":login_user,
+            "title":title
         }
     )
 
@@ -246,6 +259,7 @@ def incoming_proposal(request):
     username = request.user.first_name + " " + request.user.last_name
     web_proposal = Incoming_Proposal.proposals.all()
     count()
+    title = "Incoming Proposals"
 
     return render(
         request,
@@ -253,7 +267,8 @@ def incoming_proposal(request):
         {
             "count": count,
             "web_proposal": web_proposal,
-            "username": username
+            "username": username,
+            "title":title
         }
     )
 
@@ -263,6 +278,7 @@ def proposal_extract(request, pk=None):
     username = request.user.first_name + " " + request.user.last_name
     proposal_extract = get_object_or_404(Incoming_Proposal, pk=pk)
     count()
+    title = "Proposal Extract"
 
     if request.method == "POST":
         title = request.POST.get("title")
@@ -362,7 +378,7 @@ def proposal_extract(request, pk=None):
                 request, messages.INFO, "Sucess Delete This Incoming Proposal!"
             )
 
-            return redirect("../../proposal_list")
+            return redirect("proposal_list")
         
         if "delete" in request.POST:
             archive_proposal = Archive_Proposal.objects.create(
@@ -404,7 +420,8 @@ def proposal_extract(request, pk=None):
         {
             "count": count,
             "proposal_extract": proposal_extract,
-            "username": username
+            "username": username,
+            "title":title
         }
     )
 
@@ -413,6 +430,7 @@ def proposal_extract(request, pk=None):
 def proposal_list(request):
     username = request.user.first_name + " " + request.user.last_name
     count()
+    title = "List of Proposals"
 
     if request.method == "POST":
         filter_value = request.POST.get("proposal_list")
@@ -435,7 +453,8 @@ def proposal_list(request):
             "count": count,
             "proposal_filter": proposal_filter,
             "filter_value": filter_value,
-            "username": username
+            "username": username,
+            "title":title
         }
     )
 
@@ -446,6 +465,7 @@ def proposal_progress(request, pk=None):
     proposal_progress = get_object_or_404(Proposal, pk=pk)
     count()
     project_title = ""
+    title = "Proposal Progress"
 
     if request.method == "POST":
         project_title = request.POST.get("title")
@@ -478,7 +498,8 @@ def proposal_progress(request, pk=None):
         {
             "count": count,
             "proposal_progress": proposal_progress,
-            "username": username
+            "username": username,
+            "title":title
         }
     )
 
@@ -489,6 +510,7 @@ def proposal_detail(request, pk=None):
     proposal_detail = get_object_or_404(Proposal, pk=pk)
     projects = Project.objects.all()
     count()
+    title = "Details of " + proposal_detail.title
 
     filter_value = proposal_detail.pk
     
@@ -506,7 +528,8 @@ def proposal_detail(request, pk=None):
             "count": count,
             "proposal_detail": proposal_detail,
             "username": username,
-            "project_filter": project_filter
+            "project_filter": project_filter,
+            "title":title
         }
     )
 
@@ -520,6 +543,8 @@ def proposal_edit(request, pk=None):
     contact_table = ""
     client_table = ""
     count()
+    title = "Editing " + proposal_detail.title
+    
 
     if request.method == "POST":
         title = request.POST.get("title")
@@ -687,7 +712,8 @@ def proposal_edit(request, pk=None):
         {
             "count": count,
             "proposal_detail": proposal_detail,
-            "username": username
+            "username": username,
+            "title":title
         }
     )
 
@@ -696,6 +722,7 @@ def proposal_edit(request, pk=None):
 def generation_list(request, title=None):
     username = request.user.first_name + " " + request.user.last_name
     count()
+    title = "Generation List"
 
     if request.method == "POST":
         filter_value = request.POST.get("generation_list")
@@ -717,7 +744,8 @@ def generation_list(request, title=None):
             "count": count,
             "generation_filter": generation_filter,
             "filter_value": filter_value,
-            "username": username
+            "username": username,
+            "title":title
         }
     )
 
@@ -727,6 +755,7 @@ def archive_proposal(request):
     username = request.user.first_name + " " + request.user.last_name
     archive_proposal = Archive_Proposal.objects.all()
     count()
+    title = "Archive of Proposals"
 
     return render(
         request,
@@ -734,7 +763,8 @@ def archive_proposal(request):
         {
             "count": count,
             "archive_proposal": archive_proposal,
-            "username": username
+            "username": username,
+            "title":title
         }
     )
 
@@ -744,6 +774,7 @@ def archive_edit(request, pk=None):
     username = request.user.first_name +' '+ request.user.last_name
     archive_detail = get_object_or_404(Archive_Proposal, pk=pk)
     count()
+    title = "Editing " + archive_detail.title
 
     if request.method == "POST":
         title = request.POST.get("title")
@@ -817,7 +848,8 @@ def archive_edit(request, pk=None):
         {
             "count":count,
             "archive_detail": archive_detail,
-            "username": username
+            "username": username,
+            "title":title
         }
     )
 
@@ -834,6 +866,7 @@ def project(request):
 def project_list(request):
     username = request.user.first_name + " " + request.user.last_name
     count()
+    title = "List of Projects"
 
     if request.method == "POST":
         filter_value = request.POST.get("project_list")
@@ -862,7 +895,8 @@ def project_list(request):
             "project_filter": project_filter,
             "filter_value": filter_value,
             "past_projects": past_projects,
-            "username": username
+            "username": username,
+            "title":title
         }
     )
 
@@ -874,6 +908,7 @@ def project_edit(request, pk=None):
     units = Unit.objects.all()
     groups = Group.objects.all()
     count()
+    title = "Editing " + project_detail.title
 
     if request.method == "POST":
         project_title = request.POST.get("title")
@@ -979,7 +1014,8 @@ def project_edit(request, pk=None):
             "project_detail": project_detail,
             "units": units,
             "groups": groups,
-            "username": username
+            "username": username,
+            "title":title
         }
     )
 
@@ -989,6 +1025,7 @@ def project_detail(request, pk=None):
     username = request.user.first_name + " " + request.user.last_name
     project_detail = get_object_or_404(Project, pk=pk)
     count()
+    title = "Details of " + project_detail.title
 
     if request.method == "POST":
         group_title = request.POST.get("group_title")
@@ -1007,7 +1044,8 @@ def project_detail(request, pk=None):
         {
             "count": count, 
             "project_detail": project_detail, 
-            "username": username
+            "username": username,
+            "title":title
         },
     )
 
@@ -1024,6 +1062,7 @@ def client(request):
 def new_client(request):
     username = request.user.first_name + " " + request.user.last_name
     count()
+    title = "New Client"
 
     if request.method == "POST":
         client_name = request.POST.get("client_name")
@@ -1068,7 +1107,8 @@ def new_client(request):
         "new_client.html",
         {
             "count": count,
-            "username": username
+            "username": username,
+            "title":title
         }
     )
 
@@ -1077,6 +1117,7 @@ def new_client(request):
 def client_list(request):
     username = request.user.first_name + " " + request.user.last_name
     count()
+    title = "List of Clients"
 
     if request.method == "POST":
         filter_value = request.POST.get("client_list")
@@ -1099,7 +1140,8 @@ def client_list(request):
             "count": count,
             "client_filter": client_filter,
             "filter_value": filter_value,
-            "username": username
+            "username": username,
+            "title":title
         }
     )
 
@@ -1110,6 +1152,7 @@ def client_detail(request, pk=None):
     client_detail = get_object_or_404(Client, pk=pk)
     proposals = Proposal.objects.all()
     count()
+    title = "Details of " + client_detail.name
 
     filter_value = client_detail.pk
 
@@ -1124,7 +1167,8 @@ def client_detail(request, pk=None):
             "proposal_filter": proposal_filter,
             "client_detail": client_detail,
             "username": username,
-            "proposals": proposals
+            "proposals": proposals,
+            "title":title
         }
     )
 
@@ -1134,6 +1178,7 @@ def client_edit(request, pk=None):
     username = request.user.first_name + " " + request.user.last_name
     client_edit = get_object_or_404(Client, pk=pk)
     count()
+    title = "Editing " + client_edit.name
 
     if request.method == "POST":
         client_name = request.POST.get("client_name")
@@ -1187,6 +1232,7 @@ def client_edit(request, pk=None):
             "count": count,
             "client_edit": client_edit,
             "username": username,
+            "title":title
         }
     )
 
@@ -1199,6 +1245,7 @@ def word_proposal(request):
     existing_proposal = list(queryset_proposal)
     exist = False
     count()
+    title = "List of uploaded Proposals"
 
     if "upload" in request.POST:
         try:
@@ -1237,7 +1284,8 @@ def word_proposal(request):
             "count": count,
             "uploaded_proposal": uploaded_proposal,
             "word_proposals": word_proposals,
-            "username": username
+            "username": username,
+            "title":title
         }
     )
 
@@ -1247,6 +1295,7 @@ def word_detail(request, pk=None):
     username = request.user.first_name + " " + request.user.last_name
     proposal_detail = get_object_or_404(Upload_Proposal, pk=pk)
     count()
+    title = "Details of uploaded Proposal " + proposal_detail.title
     extract = False
     extract_word = {}
 
@@ -1509,6 +1558,7 @@ def word_detail(request, pk=None):
             "supervisor_phone": supervisor_phone,
             "supervisor_email": supervisor_email,
             "supervisor_title": supervisor_title,
-            "username": username
+            "username": username,
+            "title":title
         }
                      )
