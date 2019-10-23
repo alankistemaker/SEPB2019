@@ -95,12 +95,6 @@ urlpatterns = [
     ),
     
     re_path(
-        "archive_detail/(?P<pk>[_\w\d\-]+)$",
-        views.archive_detail,
-        name="archive_detail"
-    ),
-    
-    re_path(
         "archive_edit/(?P<pk>[_\w\d\-]+)$",
         views.archive_edit,
         name="archive_edit"

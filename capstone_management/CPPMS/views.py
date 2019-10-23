@@ -265,7 +265,6 @@ def proposal_extract(request, pk=None):
     count()
 
     if request.method == "POST":
-        proposal_id = request.POST.get("pk")
         title = request.POST.get("title")
         description = request.POST.get("description")
         status = request.POST.get("status")
@@ -301,12 +300,14 @@ def proposal_extract(request, pk=None):
                     name=supervisor_name,
                     email=supervisor_email,
                     phone=supervisor_phone,
-                    title=supervisor_title,
+                    title=supervisor_title
                 )
+                
             except:
                 external_supervisor_table = External_Supervisor.objects.get(
                     name=supervisor_name
                 )
+                
             # Department table
             try:
                 department_table = Department.objects.create(
@@ -314,6 +315,7 @@ def proposal_extract(request, pk=None):
                 )
             except:
                 department_table = Department.objects.get(name=department_name)
+                
             # Contact table
             try:
                 contact_table = Contact.objects.create(
@@ -361,7 +363,8 @@ def proposal_extract(request, pk=None):
             )
 
             return redirect("../../proposal_list")
-        elif "delete" in request.POST:
+        
+        if "delete" in request.POST:
             archive_proposal = Archive_Proposal.objects.create(
                 title=title,
                 description=description,
@@ -386,15 +389,14 @@ def proposal_extract(request, pk=None):
                 supervisor_email=supervisor_email,
                 supervisor_title=supervisor_title
             )
-            proposal_extract = Incoming_Proposal.proposals.filter(
-                pk=proposal_id
-            ).delete()
+            
+            proposal_extract = Incoming_Proposal.proposals.filter(pk=proposal_extract.pk).delete()
 
             messages.add_message(
                 request, messages.INFO, "Sucessfully Deleted This Incoming Proposal!"
             )
 
-            return redirect("../../incoming_proposal")
+            return redirect("incoming_proposal")
 
     return render(
         request,
@@ -776,7 +778,7 @@ def archive_edit(request, pk=None):
             archive_detail = Archive_Proposal.objects.filter(pk=archive_detail.pk).delete()
             messages.add_message(request, messages.INFO, "Sucess Delete This Proposal Forever!")
 
-            return redirect("../../")
+            return redirect("archive_proposal")
 
         if "unarchive" in request.POST:
             incoming_proposal = Incoming_Proposal.proposals.create(
@@ -807,28 +809,11 @@ def archive_edit(request, pk=None):
 
             messages.add_message(request, messages.INFO, "Sucessfully Unarchived This Proposal!")
 
-            return redirect("../../")
+            return redirect("archive_proposal")
               
     return render(
         request,
         "archive_edit.html",
-        {
-            "count":count,
-            "archive_detail": archive_detail,
-            "username": username
-        }
-    )
-
-# Archive Details View
-@login_required(login_url="/CPPMS/login/")
-def archive_detail(request, pk=None):
-    username = request.user.first_name +' '+ request.user.last_name
-    archive_detail = get_object_or_404(Archive_Proposal, pk=pk)
-    count()
-    
-    return render(
-        request,
-        "archive_detail.html",
         {
             "count":count,
             "archive_detail": archive_detail,

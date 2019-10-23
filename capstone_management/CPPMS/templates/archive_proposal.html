@@ -26,7 +26,7 @@
                 </tr>
                 {% for proposal in archive_proposal %}
                 <tr scope="row">
-                    <td><a href="archive_detail/{{ proposal.pk }}">{{ proposal.title }}</a></td>
+                    <td><a href="archive_edit/{{ proposal.pk }}">{{ proposal.title }}</a></td>
                     <td>{{ proposal.client_name }}</td>
                     <td>{{ proposal.created_at }}</td>
                 </tr>
