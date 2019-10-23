@@ -18,51 +18,51 @@
     <div class="col-1"></div>
 
     <div class="col-md-5">
-        <div class="card">
-            <h3 class="card-header">{{ client_detail.name }}</h3>
+        <div class="row">
+            <div class="card">
+                <h3 class="card-header">{{ client_detail.name }}</h3>
 
-            <div class="card-body">
+                <div class="card-body">
 
-                <div class="row mb-2">
+                    <div class="row mb-2">
 
-                    <div class="col">
-                        <div class="card">
-                            <h4 class="card-header"><strong>Client Contact:</strong></h4>
-                            <div class="card-body">
-                                <div class="row mb-2">
-                                    <div class="col">
-                                        <p><strong>Name:</strong></p>
-                                        <p>{{ client_detail.contact.name }}</p>
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row mb-2">
+                                        <div class="col">
+                                            <p><strong>Website:</strong></p>
+                                            <a href="{{ client_detail.website }}"/>{{ client_detail.website }}</a>
+                                        </div>
+                                        <div class="col">
+                                            <p><strong>Address:</strong></p>
+                                            <p>{{ client_detail.address }}</p>
+                                        </div>
                                     </div>
-                                    <div class="col">
-                                        <p><strong>Position:</strong></p>
-                                        <p>{{ client_detail.contact.position }} - {{ client_detail.contact.department }}</p>
-                                    </div>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col">
-                                        <p><strong>Email:</strong></p>
-                                        <p>{{client_detail.contact.email }}</p>
-                                    </div>
-                                    <div class="col">
-                                        <p><strong>Phone:</strong></p>
-                                        <p>{{ client_detail.contact.phone }}</p>
+                                    <div class="row mb-1">
+                                        <div class="col">
+                                            <p><strong>Description:</strong></p>
+                                            <p>{{ client_detail.description }}</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
-
-                <div class="row mb-2">
-
+            </div>    
+        </div>
+            <div class="row">
+        <div class="card">
+            <div class="row mb-2">
+                <h3 class="card-header">Departments</h3>
                     <div class="col">
-                        <div class="card">
+                        {% for department in client_departments %}
+                        <div class="card mb-2">
                             <h4 class="card-header">
-                                <a data-toggle="collapse" href="#collapse1">{{ client_detail.name }} - Details</a>
+                                <a data-toggle="collapse" href="#{{ department.name }}">{{ department.name }}</a>
                             </h4>
-                            <div id="collapse1" class="collapse">
+                            <div id="{{ department.name }}" class="collapse">
                                 <ul class="list-group">
                                     <li class="list-group-item"><strong>Website: </strong>
                                         <p>{{ client_detail.website }}</p>
@@ -76,8 +76,11 @@
                                 </ul>
                             </div>
                         </div>
+                        
+                        {% endfor %}
                     </div>
 
+                </div>
                 </div>
 
                 <div class="row mb-2">
@@ -85,7 +88,7 @@
                         <a class="btn btn-dark" href="client_edit/{{ client_detail.pk }}" role="button" data-toggle="tooltip" title="Edit '{{ client_detail.name }}'">Edit <i class="fa fa-edit"></i></a>
                     </div>
                 </div>
-            </div>
+        </div>
         </div>
     </div>
 
