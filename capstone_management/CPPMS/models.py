@@ -241,7 +241,8 @@ class Department(models.Model):
         Client,
         models.SET_NULL,
         blank=True,
-        null=True
+        null=True,
+        related_name="departments"
     )
 
     def __str__(self):
@@ -379,29 +380,14 @@ class Contact(models.Model):
         Department,
         models.SET_NULL,
         blank=True,
-        null=True
-    )
-
-    # Foreign Key with Client model
-    client = models.ForeignKey(
-        Client,
-        models.SET_NULL,
-        blank=True,
-        null=True
+        null=True,
+        related_name='contacts'
     )
     
     pass
 
     def __str__(self):
         return self.name
-
-    def contact(self):
-        if self.email is not None:
-            return self.email
-        elif self.phone is not None:
-            return self.phone
-        else:
-            return "No contact details exist for this contact"
         
 # Proposals Model
 class Proposal(models.Model):
@@ -439,7 +425,8 @@ class Proposal(models.Model):
         Client,
         on_delete=models.CASCADE,
         blank=True,
-        null=True
+        null=True,
+        related_name="proposals"
     )
     
     # Foreign Key with the External Supervisor model
@@ -447,7 +434,8 @@ class Proposal(models.Model):
         External_Supervisor,
         models.SET_NULL,
         blank=True,
-        null=True
+        null=True,
+        related_name="proposals"
     )
     
     # Foreign Key with the Incoming Proposal model
@@ -456,6 +444,15 @@ class Proposal(models.Model):
         models.SET_NULL,
         blank=True,
         null=True
+    )
+
+    # Foreign Key with contact model
+    contact = models.ForeignKey(
+        Contact,
+        models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name="proposals"
     )
     
     pass

@@ -3,12 +3,12 @@
     "model": "CPPMS.client",
     "pk": 1,
     "fields": {
-        "name": "Swinburne University of Technology",
-        "website": "http://www.swinburne.edu.au/",
-        "created_at": "2013-01-16T08:16:59.844Z",
-        "updated_at": "2013-01-16T08:16:59.844Z",
-        "address": "John Street, Hawthorn, Victroria, Australia",
-        "desc": "University"
+      "name": "Swinburne University of Technology",
+      "website": "http://www.swinburne.edu.au/",
+      "created_at": "2013-01-16T08:16:59.844Z",
+      "updated_at": "2013-01-16T08:16:59.844Z",
+      "address": "John Street, Hawthorn, Victroria, Australia",
+      "desc": "University"
     }
   },
   {
@@ -18,9 +18,9 @@
       "name": "Faculty of Science, Engineering and Technology",
       "created_at": "2013-01-16T08:16:59.844Z",
       "updated_at": "2013-01-16T08:16:59.844Z",
-
       "phone": "555-653-482",
-      "email": "fset@swin.edu.au"
+      "email": "fset@swin.edu.au",
+      "client": 1
     }
   },
   {
@@ -30,7 +30,7 @@
       "name": "Faculty of Business and Law",
       "created_at": "2013-01-16T08:16:59.844Z",
       "updated_at": "2013-01-16T08:16:59.844Z",
-
+      "client": 1,
       "phone": "555-653-542",
       "email": "FBL@swin.edu.au"
     }

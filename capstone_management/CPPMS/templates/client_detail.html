@@ -1,100 +1,110 @@
 {% extends "client.html" %}
-
+​
 {% block sub-page_content %}
-
+​
 {% if not messages %}
 <h2>Client Details</h2>
 {% else %}
 <h2>Client Details</h2>
 {% for message in messages %}<li>{{ message }}</li>{% endfor %}
 {% endif %}
-
+​
 {% endblock %}
-
+​
 {% block page_detail_content %}
-
+​
 <div class="row">
-
+​
     <div class="col-1"></div>
-
+​
     <div class="col-md-5">
-        <div class="card">
-            <h3 class="card-header">{{ client_detail.name }}</h3>
-
-            <div class="card-body">
-
-                <div class="row mb-2">
-
-                    <div class="col">
-                        <div class="card">
-                            <h4 class="card-header"><strong>Client Contact:</strong></h4>
-                            <div class="card-body">
-                                <div class="row mb-2">
-                                    <div class="col">
-                                        <p><strong>Name:</strong></p>
-                                        <p>{{ client_detail.contact.name }}</p>
-                                    </div>
-                                    <div class="col">
-                                        <p><strong>Position:</strong></p>
-                                        <p>{{ client_detail.contact.position }} - {{ client_detail.contact.department }}</p>
-                                    </div>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col">
-                                        <p><strong>Email:</strong></p>
-                                        <p>{{client_detail.contact.email }}</p>
-                                    </div>
-                                    <div class="col">
-                                        <p><strong>Phone:</strong></p>
-                                        <p>{{ client_detail.contact.phone }}</p>
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <h3 class="card-header">{{ client_detail.name }}</h3>
+​
+                    <div class="card-body">
+​
+                        <div class="row mb-2">
+​
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row mb-2">
+                                            <div class="col">
+                                                <p><strong>Website:</strong></p>
+                                                <a href="{{ client_detail.website }}">{{ client_detail.website }}</a>
+                                            </div>
+                                            <div class="col">
+                                                <p><strong>Address:</strong></p>
+                                                <p>{{ client_detail.address }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-1">
+                                            <div class="col">
+                                                <p><strong>Description:</strong></p>
+                                                <p>{{ client_detail.description }}</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                </div>
-
-                <div class="row mb-2">
-
-                    <div class="col">
-                        <div class="card">
-                            <h4 class="card-header">
-                                <a data-toggle="collapse" href="#collapse1">{{ client_detail.name }} - Details</a>
-                            </h4>
-                            <div id="collapse1" class="collapse">
-                                <ul class="list-group">
-                                    <li class="list-group-item"><strong>Website: </strong>
-                                        <p>{{ client_detail.website }}</p>
-                                    </li>
-                                    <li class="list-group-item"><strong>Address: </strong>
-                                        <p>{{ client_detail.address }}</p>
-                                    </li>
-                                    <li class="list-group-item"><strong>Description: </strong>
-                                        <p>{{ client_detail.description }}</p>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="row mb-2">
-                    <div class="col text-right">
-                        <a class="btn btn-dark" href="client_edit/{{ client_detail.pk }}" role="button" data-toggle="tooltip" title="Edit '{{ client_detail.name }}'">Edit <i class="fa fa-edit"></i></a>
                     </div>
                 </div>
             </div>
         </div>
+​
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <h3 class="card-header">Departments</h3>
+                    <div class="card-body">
+                        {% for department in client_departments %}
+                        <div class="row mb-2">
+                            <div class="col">
+                                <div class="card">
+                                    <h4 class="card-header"><a data-toggle="collapse" href="#collapse_{{ forloop.counter }}">{{ department.name }}</a></h4>
+                                    <div id="collapse_{{ forloop.counter }}" class="collapse">
+                                        <ul class="list-group">
+                                            <li class="list-group-item"><strong>Phone: </strong>
+                                                <p>{{ department.phone }}</p>
+                                            </li>
+                                            <li class="list-group-item"><strong>Email: </strong>
+                                                <p>{{ department.email }}</p>
+                                            </li>
+                                            {% for contact in department.contacts.all %}
+                                            <li class="list-group-item"><h5>Contact:</h5>
+                                                <p><strong>Name: </strong>{{ contact.name }}</p>
+                                                <p><strong>Email: </strong>{{ contact.email }}</p>
+                                                <p><strong>Phone: </strong>{{ contact.phone }}</p>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+​
+​
+        <div class="row mb-2">
+            <div class="col text-right">
+                <a class="btn btn-dark" href="client_edit/{{ client_detail.pk }}" role="button" data-toggle="tooltip" title="Edit '{{ client_detail.name }}'">Edit <i class="fa fa-edit"></i></a>
+            </div>
+        </div>
     </div>
-
+​
     <div class="col-md-5">
         <div class="card">
             <h3 class="card-header">Client's Proposals</h3>
             <div class="card-body">
                 <div class="row mb-2">
-
+​
                     <div class="col">
                         <div class="table-responsive">
                             <table class="table table-bordered table-hover">
@@ -105,7 +115,7 @@
                                         <th scope="col"><strong>STATUS</strong></th>
                                     </tr>
                                 </thead>
-
+​
                                 <tbody>
                                     {% for proposal in proposal_filter %}
                                     <tr scope="row">
@@ -118,14 +128,14 @@
                             </table>
                         </div>
                     </div>
-
+​
                 </div>
             </div>
-
+​
         </div>
     </div>
-
+​
     <div class="col-1"></div>
 </div>
-
+​
 {% endblock %}

@@ -18,7 +18,8 @@
       "name": "Logistics",
       "created_at": "2013-01-16T08:16:59.844Z",
       "updated_at": "2013-01-16T08:16:59.844Z",
-      "phone": "555-435-555",
+      "client": 20,
+      "phone": "555-555-432",
       "email": "logistics@aquamate.com.au"
     }
   },
@@ -29,7 +30,8 @@
       "name": "Sales",
       "created_at": "2013-01-16T08:16:59.844Z",
       "updated_at": "2013-01-16T08:16:59.844Z",
-      "phone": "555-234-555",
+      "client": 20,
+      "phone": "555-555-453",
       "email": "sales@aquamate.com.au"
     }
   },
