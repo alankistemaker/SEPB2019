@@ -1,0 +1,30 @@
+[
+  {
+    "model": "CPPMS.Incoming_Proposal",
+    "pk": 1,
+    "fields": {
+      "title": "Raptor detection system",
+      "description": "The client want's to streamline the process of wrangling raptors",
+      "created_at": "2013-01-16T08:16:59.844Z",
+      "updated_at": "2013-01-16T08:16:59.844Z",
+      "status": "Uncommitted proposal",
+      "client_name": "RaptorTech Co",
+      "client_desc": "We make raptors, and watermelons I guess",
+      "client_website": "http://www.raptortech.com.au",
+      "client_address": "5000 Raptor Way, Pakenham, Victoria, Australia",
+      "contact_name": "Charles Bronson",
+      "contact_phone": "1800-784-293",
+      "contact_email": "cbronson@raptortech.com.au",
+      "contact_position": "Raptor Wrangler",
+      "department_name": "Raptor Wrangling",
+      "proposal_specialisation": "C++, Java, Python",
+      "proposal_skills": "Programming, Wound management",
+      "proposal_environment": "Outdoors",
+      "proposal_research": "The team will have to research handling of raptors",
+      "supervisor_name": "Marlon Brando",
+      "supervisor_phone": "555-322-554",
+      "supervisor_email": "mbrando@raptotech.com.au",
+      "supervisor_title": "Raptor supervisor"
+    }
+  }
+]
