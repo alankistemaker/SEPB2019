@@ -907,33 +907,65 @@ def project_edit(request, pk=None):
             ####    project_groupname.project = project_detail
             ####else:
             ####    Group.objects.create(name=project_groupname)
-
-            internal_supervisor_table = Internal_Supervisor.objects.filter(pk=project_detail.internal_supervisor.pk).update(
-                name=supervisor_name,
-                title=supervisor_title,
-                email=supervisor_email,
-                phone=supervisor_phone
-            )
             
-            project_detail = Project.objects.filter(pk=project_detail.pk).update(
-                title=project_title,
-                category=project_category,
-                year=project_year,
-                completed=project_completed
-            )
+            try:
+                internal_supervisor_table = Internal_Supervisor.objects.create(
+                    name = supervisor_name,
+                    title = supervisor_title,
+                    email = supervisor_email,
+                    phone = supervisor_phone
+                )
+                
+                messages.warning(
+                    request,
+                    "Internal Supervisor Created: "
+                )
+                
+            except:
+                internal_supervisor_table = Internal_Supervisor.objects.filter(name=supervisor_name).update(
+                    title = supervisor_title,
+                    email = supervisor_email,
+                    phone = supervisor_phone
+                )
+                
+                messages.warning(
+                    request,
+                    "Supervisor Updated: " + supervisor_name
+                )
+                
+            try:
+                project_detail = Project.objects.create(
+                    title = project_title,
+                    category = project_category,
+                    year = project_year,
+                    completed = project_completed,
+                    internal_supervisor = internal_supervisor_table
+                )
+            except:
+                project_detail = Project.objects.filter(pk=project_detail.pk).update(
+                    title = project_title,
+                    category = project_category,
+                    year = project_year,
+                    completed = project_completed,
+                    internal_supervisor = internal_supervisor_table
+                )
             
-            messages.add_message(
-                request, messages.INFO, "Sucessfully Updated Project Detail!"
-            )
-
-            return redirect("../../")
+                messages.INFO(
+                    request,
+                    "Updated Project:" + project_title
+                )
+                
+                return redirect("project_list")
 
         if "delete" in request.POST:
             project_detail = Project.objects.filter(pk=project_detail.pk).delete()
             
-            messages.add_message(request, messages.INFO, "Sucessfully Deleted Project!")
+            messages.warning(
+                    request,
+                    "Project deleted!"
+            )
 
-            return redirect("../../")
+            return redirect("project_list")
 
     return render(
         request,
@@ -1135,14 +1167,14 @@ def client_edit(request, pk=None):
 
             messages.add_message(request, messages.SUCCESS, "Sucessfully Updated Client Details!")
             
-            return redirect("../../")
+            return redirect("client_list")
             
         if "delete" in request.POST:
             client_edit = Client.objects.filter(pk=client_edit.pk).delete()
             
             messages.add_message(request, messages.SUCCESS, "Sucessfully Deleted Client Details!")
             
-            return redirect("../../")
+            return redirect("client_list")
             
     return render(
         request,

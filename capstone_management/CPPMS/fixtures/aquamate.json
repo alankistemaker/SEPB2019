@@ -8,8 +8,7 @@
       "created_at": "2019-01-21T04:51:10-11:00",
       "updated_at": "2019-09-28T12:35:25-10:00",
       "address": "2 Macdougal Street, Dandenong, Victoria, Australia",
-      "desc": "Adipisicing magna eiusmod id est reprehenderit ea.",
-      "contact": 20
+      "desc": "Adipisicing magna eiusmod id est reprehenderit ea."
     }
   },
   {
@@ -19,15 +18,8 @@
       "name": "Logistics",
       "created_at": "2013-01-16T08:16:59.844Z",
       "updated_at": "2013-01-16T08:16:59.844Z",
-
-<<<<<<< HEAD
-      "phone": "555-555-543",
-      "email": "logistics@aquamate.com.au",
-      "company": 2
-=======
-      "phone": "555-555-555",
+      "phone": "555-435-555",
       "email": "logistics@aquamate.com.au"
->>>>>>> master
     }
   },
   {
@@ -37,15 +29,8 @@
       "name": "Sales",
       "created_at": "2013-01-16T08:16:59.844Z",
       "updated_at": "2013-01-16T08:16:59.844Z",
-
-<<<<<<< HEAD
-      "phone": "555-555-234",
-      "email": "sales@aquamate.com.au",
-      "company": 2
-=======
-      "phone": "555-555-555",
+      "phone": "555-234-555",
       "email": "sales@aquamate.com.au"
->>>>>>> master
     }
   },
   {
