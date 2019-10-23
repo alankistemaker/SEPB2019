@@ -839,19 +839,16 @@ def project_list(request):
     else:
         filter_value = ""
 
-    project_list = Project.objects.all()
     if filter_value:
-        project_filter = project_list.filter(
+        project_filter = Project.objects.filter(
             Q(pk__icontains=filter_value)
             | Q(title__icontains=filter_value)
             | Q(category__icontains=filter_value)
-            | Q(completed=False)
         )
-
-        past_projects = project_filter.filter(completed=True)
     else:
-        project_filter = project_list.all()
-        past_projects = project_list.filter(completed=True)
+        project_filter = Project.objects.all()
+        
+    past_projects = Project.objects.filter(completed=True)
 
     return render(
         request,
@@ -1070,6 +1067,8 @@ def client_detail(request, pk=None):
     if filter_value:
         proposal_filter = proposals.filter(client_id=filter_value)
 
+    client_departments = Department.objects.filter(client=client_detail)
+
     return render(
         request,
         "client_detail.html",
@@ -1077,6 +1076,7 @@ def client_detail(request, pk=None):
             "count": count,
             "proposal_filter": proposal_filter,
             "client_detail": client_detail,
+            "client_departments": client_departments,
             "username": username,
             "proposals": proposals
         }
@@ -1132,7 +1132,42 @@ def client_edit(request, pk=None):
             
             messages.add_message(request, messages.SUCCESS, "Sucessfully Deleted Client Details!")
             
-            return redirect("../../")
+            return redirect("client_list")
+        
+        if "delete_department" in request.POST:
+            try:
+                edit_department = Department.objects.filter(pk=request.POST.get("delete_department")).delete()
+            except:
+                messages.warning(
+                    request,
+                    "Department doesnt exist! " + request.POST.get("delete_department")
+                )
+            return redirect("client_edit", client_edit.pk)
+
+        if "edit_department" in request.POST:
+            try:
+                edit_department = Department.objects.get(pk=request.edit_department)
+            except:
+                messages.warning(
+                    request,
+                    "Could not update department"
+                )
+            return redirect("client_edit", client_edit.pk)
+
+        if "create_department" in request.POST:
+            try:
+                new_department = Department.objects.create(
+                    name=request.POST.get("create_department_name"),
+                    phone=request.POST.get("create_department_phone"),
+                    email=request.POST.get("create_department_email"),
+                    client=client_edit
+                )
+            except:
+                messages.warning(
+                    request,
+                    "Could not create new department"
+                )
+            return redirect("client_edit", client_edit.pk)
             
     return render(
         request,
