@@ -30,7 +30,9 @@ def count():
     count_web = Incoming_Proposal.proposals.all().count()
     count_word = Upload_Proposal.objects.all().count()
     count_all = count_web + count_word
-    count = [count_web, count_word, count_all]
+    count_all_proposal = Proposal.objects.all().count()
+    count_all_client = Client.objects.all().count()
+    count = [count_web, count_word, count_all,count_all_proposal,count_all_client]
     return count
 
 # Search Views
@@ -197,14 +199,25 @@ def profile_edit(request, template_name="profile_edit.html"):
 @login_required(login_url="/CPPMS/login/")
 def index(request):
     username = request.user.first_name + " " + request.user.last_name
+    last_login = request.user.last_login
+    login_user = request.user.username
+    print (last_login)
     count()
+    projects = Project.objects.all()
+    projects_count = Project.objects.all().count()
+    projects_ren = list(range(0,projects_count))
+    
 
     return render(
         request,
-        "index.html",
+        "index2.html",
         {
             "count": count,
-            "username": username
+            "username": username,
+            "projects":projects,
+            "projects_ren":projects_ren,
+            "last_login":last_login,
+            "login_user":login_user 
         }
     )
 
@@ -375,7 +388,7 @@ def proposal_extract(request, pk=None):
             ).delete()
 
             messages.add_message(
-                request, messages.INFO, "Sucess Delete This Incoming Proposal!"
+                request, messages.INFO, "Sucessfully Deleted This Incoming Proposal!"
             )
 
             return redirect("../../incoming_proposal")
@@ -495,10 +508,13 @@ def proposal_detail(request, pk=None):
 def proposal_edit(request, pk=None):
     username = request.user.first_name + " " + request.user.last_name
     proposal_detail = get_object_or_404(Proposal, pk=pk)
+    external_supervisor_table = ""
+    department_table = ""
+    contact_table = ""
+    client_table = ""
     count()
 
     if request.method == "POST":
-        proposal_id = request.POST.get("pk")
         title = request.POST.get("title")
         description = request.POST.get("description")
         status = request.POST.get("status")
@@ -528,10 +544,11 @@ def proposal_edit(request, pk=None):
         supervisor_title = request.POST.get("supervisor_title")
 
         if "delete" in request.POST:
-            proposal_detail = Proposal.objects.filter(pk=proposal_id).delete()
-            messages.add_message(request, messages.INFO, "Proposal Deleted!")
+            proposal_detail = Proposal.objects.filter(pk=proposal_detail.pk).delete()
+            
+            messages.add_message(request, messages.INFO, "Sucessfully Deleted This Proposal!")
 
-            return redirect("../../proposal_list")
+            return redirect("../../")
 
         if "save" in request.POST:
             # update department
@@ -644,7 +661,7 @@ def proposal_edit(request, pk=None):
                     "Could not update proposal"
                 )
 
-            return redirect("../../proposal_list")
+            return redirect("../../")
 
     return render(
         request,
@@ -711,7 +728,6 @@ def archive_edit(request, pk=None):
     count()
 
     if request.method == "POST":
-        proposal_id = request.POST.get("pk")
         title = request.POST.get("title")
         description = request.POST.get("description")
         status = request.POST.get("status")
@@ -741,12 +757,10 @@ def archive_edit(request, pk=None):
         supervisor_title = request.POST.get("supervisor_title")
 
         if "delete" in request.POST:
-            archive_detail = Archive_Proposal.objects.filter(pk=proposal_id).delete()
-            messages.add_message(
-                request, messages.INFO, "Sucess Delete This Proposal Forever!"
-            )
+            archive_detail = Archive_Proposal.objects.filter(pk=archive_detail.pk).delete()
+            messages.add_message(request, messages.INFO, "Sucess Delete This Proposal Forever!")
 
-            return redirect("../../archive_proposal")
+            return redirect("../../")
 
         if "unarchive" in request.POST:
             incoming_proposal = Incoming_Proposal.proposals.create(
@@ -773,13 +787,11 @@ def archive_edit(request, pk=None):
                 supervisor_email=supervisor_email,
                 supervisor_title=supervisor_title,
             )
-            archive_detail = Archive_Proposal.objects.filter(pk=proposal_id).delete()
+            archive_detail = Archive_Proposal.objects.filter(pk=archive_detail.pk).delete()
 
-            messages.add_message(
-                request, messages.INFO, "Sucess Unarchive This Proposal!"
-            )
+            messages.add_message(request, messages.INFO, "Sucessfully Unarchived This Proposal!")
 
-            return redirect("../../incoming_proposal")
+            return redirect("../../")
               
     return render(
         request,
@@ -863,7 +875,6 @@ def project_edit(request, pk=None):
     count()
 
     if request.method == "POST":
-        project_id = request.POST.get("pk")
         project_title = request.POST.get("title")
         project_category = request.POST.get("category")
         project_year = request.POST.get("year")
@@ -887,31 +898,32 @@ def project_edit(request, pk=None):
             ####else:
             ####    Group.objects.create(name=project_groupname)
 
-            internal_supervisor_table = Internal_Supervisor.objects.filter(
-                name=supervisor_name
-            ).update(
-                email=supervisor_email, phone=supervisor_phone, title=supervisor_title
+            internal_supervisor_table = Internal_Supervisor.objects.filter(pk=project_detail.internal_supervisor.pk).update(
+                name=supervisor_name,
+                title=supervisor_title,
+                email=supervisor_email,
+                phone=supervisor_phone
             )
-            project_detail = Project.objects.filter(pk=project_id).update(
+            
+            project_detail = Project.objects.filter(pk=project_detail.pk).update(
                 title=project_title,
                 category=project_category,
                 year=project_year,
-                completed=project_completed,
-                internal_supervisor=internal_supervisor_table,
+                completed=project_completed
             )
+            
             messages.add_message(
-                request, messages.INFO, "Sucess Update Project Detail!"
+                request, messages.INFO, "Sucessfully Updated Project Detail!"
             )
 
-            return redirect("../../project_list")
+            return redirect("../../")
 
         if "delete" in request.POST:
-            project_detail = Project.objects.filter(pk=project_id).delete()
-            messages.add_message(
-                request, messages.INFO, "Sucess Delete Project Detail!"
-            )
+            project_detail = Project.objects.filter(pk=project_detail.pk).delete()
+            
+            messages.add_message(request, messages.INFO, "Sucessfully Deleted Project!")
 
-            return redirect("../../project_list")
+            return redirect("../../")
 
     return render(
         request,
@@ -946,7 +958,11 @@ def project_detail(request, pk=None):
     return render(
         request,
         "project_detail.html",
-        {"count": count, "project_detail": project_detail, "username": username},
+        {
+            "count": count, 
+            "project_detail": project_detail, 
+            "username": username
+        },
     )
 
 # Base Client View
@@ -964,7 +980,6 @@ def new_client(request):
     count()
 
     if request.method == "POST":
-        client_id = request.POST.get("pk")
         client_name = request.POST.get("client_name")
         client_address = request.POST.get("client_address")
         client_website = request.POST.get("client_website")
@@ -977,21 +992,31 @@ def new_client(request):
         client_contact_phone = request.POST.get("contact_phone")
         client_contact_email = request.POST.get("contact_email")
 
-        if request.POST.get("save") == "save":
-            ####Department.objects.create(name=client_department_name, phone=client_department_phone, email=client_department_email)
-            Client.objects.create(
+        if "save" in request.POST:
+            new_client = Client.objects.create(
                 name=client_name,
                 address=client_address,
                 website=client_website,
-                desc=client_description,
+                desc=client_description
             )
-            Contact.objects.create(
+            
+            department_table = Department.objects.create(
+                name=client_department_name,
+                phone=client_department_phone,
+                email=client_department_email
+            )
+            
+            contact_table = Contact.objects.create(
                 name=client_contact_name,
                 position=client_contact_position,
                 phone=client_contact_phone,
                 email=client_contact_email,
+                department=department_table
             )
-            print("Successfully Added New Client!")
+            
+            messages.add_message(request, messages.SUCCESS, "Successfully Added New Client!")
+            return redirect("../../")
+            
     return render(
         request,
         "new_client.html",
@@ -1065,7 +1090,6 @@ def client_edit(request, pk=None):
     count()
 
     if request.method == "POST":
-        client_id = request.POST.get("pk")
         client_name = request.POST.get("client_name")
         client_address = request.POST.get("client_address")
         client_website = request.POST.get("client_website")
@@ -1077,20 +1101,39 @@ def client_edit(request, pk=None):
         client_contact_position = request.POST.get("contact_position")
         client_contact_phone = request.POST.get("contact_phone")
         client_contact_email = request.POST.get("contact_email")
-        print(client_name)
     
-    if request.method=='POST' and 'save' in request.POST:
-            client_edit = Client.objects.filter(pk=client_id).update(
-                name=client_name,
-                contact=client_contact_name,
-
+        if "save" in request.POST:
+            contact_table = Contact.objects.filter(pk=client_edit.contact.pk).update(
+                name=client_contact_name,
+                position=client_contact_position,
+                phone=client_contact_phone,
+                email=client_contact_email
             )
             
-            print("Sucessfully Updated Client Details!")
-    if request.method=='POST' and 'delete' in request.POST:
-            print (client_id)
-            client_edit = Client.objects.filter(pk=client_id).delete()
-            print("Sucessfully Deleted Client Details!")
+            department_table = Department.objects.filter(pk=client_edit.contact.department.pk).update(
+                name=client_department_name,
+                phone=client_department_phone,
+                email=client_department_email
+            )
+            
+            client_edit = Client.objects.filter(pk=client_edit.pk).update(
+                name=client_name,
+                address=client_address,
+                website=client_website,
+                desc=client_description
+            )
+
+            messages.add_message(request, messages.SUCCESS, "Sucessfully Updated Client Details!")
+            
+            return redirect("../../")
+            
+        if "delete" in request.POST:
+            client_edit = Client.objects.filter(pk=client_edit.pk).delete()
+            
+            messages.add_message(request, messages.SUCCESS, "Sucessfully Deleted Client Details!")
+            
+            return redirect("../../")
+            
     return render(
         request,
         "client_edit.html",
@@ -1140,6 +1183,7 @@ def word_proposal(request):
             messages.add_message(request, messages.INFO, "No file upload")
 
     word_proposals = Upload_Proposal.objects.all()
+    
     return render(
         request,
         "word_proposal.html",
@@ -1192,7 +1236,7 @@ def word_detail(request, pk=None):
     if request.method == "POST":
         # when extract is False
         proposal_id = request.POST.get("pk")
-        proposal_title = request.POST.get("title")
+        proposal_title = request.POST.get("titLast Namele")
         proposal_filepath = request.POST.get("filepath")
         proposal_uploaded = request.POST.get("uploaded_at")
         full_path = os.path.join(settings.MEDIA_ROOT, proposal_title)
@@ -1267,10 +1311,10 @@ def word_detail(request, pk=None):
             extract = True
 
         if "delete" in request.POST:
-            proposal_detail = Upload_Proposal.objects.filter(pk=proposal_id).delete()
+            proposal_detail = Upload_Proposal.objects.filter(pk=proposal_detail.pk).delete()
             os.remove(full_path)
 
-            return redirect("../../word_proposal")
+            return redirect("../../")
 
         if "save" in request.POST:
             # External Supervisor table
@@ -1367,51 +1411,47 @@ def word_detail(request, pk=None):
                 messages.INFO(
                     request, 
                     "Proposal Created: " + title
-            )
-            except:
-                messages.INFO(
-                    request,
-                    "Could not create proposal"
                 )
                 
-            proposal_detail = Upload_Proposal.objects.filter(pk=proposal_id).delete()
-            #### os.remove(full_path)
-            messages.info(
-                request,
-                "Sucess Save/Update Word-structured Proposal Detail!",
-            )
-
-            return redirect("../../proposal_list")
-
-    return render(
-        request,
-        "word_detail.html",
-        {
-            "count": count,
-            "proposal_detail": proposal_detail,
-            "extract": extract,
-            "title": title,
-            "description": description,
-            "status": status,
-            "client_name": client_name,
-            "client_desc": client_desc,
-            "client_website": client_website,
-            "client_address": client_address,
-            "contact_name": contact_name,
-            "contact_phone": contact_phone,
-            "contact_email": contact_email,
-            "contact_position": contact_position,
-            "department_name": department_name,
-            "department_phone": department_phone,
-            "department_email": department_email,
-            "proposal_specialisation": proposal_specialisation,
-            "proposal_skills": proposal_skills,
-            "proposal_environment": proposal_environment,
-            "proposal_research": proposal_research,
-            "supervisor_name": supervisor_name,
-            "supervisor_phone": supervisor_phone,
-            "supervisor_email": supervisor_email,
-            "supervisor_title": supervisor_title,
-            "username": username
-        }
-    )
+                proposal_detail=Upload_Proposal.objects.filter(pk=proposal_detail.pk).delete()
+                #### os.remove(full_path)
+                messages.add_message(request,"Sucess Save/Update Word-structured Proposal Detail!")
+                
+            except:
+                proposal_table = Proposal.objects.get(title=proposal_title)
+                proposal_table.client = client_table
+                proposal_table.external_supervisor = external_supervisor_table
+                messages.warning(
+                    request,
+                    "Proposal already exists!"
+                )
+                                    
+        return render(request, "word_detail.html",
+                      {
+                          "count": count,
+                          "proposal_detail": proposal_detail,
+                          "extract": extract,
+                          "title": title,
+                          "description": description,
+                          "status": status,
+                          "client_desc": client_desc,
+                          "client_website": client_website,
+                          "client_address": client_address,
+                          "contact_name": contact_name,
+                          "contact_phone": contact_phone,
+                          "contact_email": contact_email,
+                          "contact_position": contact_position,
+                          "department_name": department_name,
+                          "department_phone": department_phone,
+                          "department_email": department_email,
+                          "proposal_specialisation": proposal_specialisation,
+                          "proposal_skills": proposal_skills,
+                          "proposal_environment": proposal_environment,
+                          "proposal_research": proposal_research,
+                          "supervisor_name": supervisor_name,
+                          "supervisor_phone": supervisor_phone,
+                          "supervisor_email": supervisor_email,
+                          "supervisor_title": supervisor_title,
+                          "username": username
+                      }
+                     )

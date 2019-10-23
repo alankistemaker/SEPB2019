@@ -15,6 +15,25 @@
 
 <form method="POST">
     {% csrf_token %}
+    
+    <div id="deleteModal" tabindex="-1" class="modal fade">
+        <div class="modal-dialog modal-confirm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Are you sure?</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Do you really want to delete the Proposal: {{ proposal_detail.title }}? </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" role="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                    <button type="submit" role="button" name="delete" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <div class="row mb-2">
 
         <div class="col-lg-1"></div>
@@ -32,9 +51,9 @@
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputTitle">Title:</span>
+                                    <span class="input-group-text" id="title">Title:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="title" aria-describedby="inputTitle" style="text-align:right;" name="title" value="{{ proposal_detail.title }}" />
+                                <input type="text" class="form-control" aria-label="title" aria-describedby="title" style="text-align:right;" name="title" value="{{ proposal_detail.title }}" />
                             </div>
                         </div>
 
@@ -45,9 +64,9 @@
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputDescription">Description:</span>
+                                    <span class="input-group-text" id="description">Description:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="description" aria-describedby="inputDescription" style="text-align:right;" name="description" value="{{ proposal_detail.description }}" />
+                                <input type="text" class="form-control" aria-label="description" aria-describedby="description" style="text-align:right;" name="description" value="{{ proposal_detail.description }}" />
                             </div>
                         </div>
 
@@ -58,9 +77,9 @@
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputYear">Status:</span>
+                                    <span class="input-group-text" id="status">Status:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="status" aria-describedby="inputStatus" style="text-align:right;" name="status" value="{{ proposal_detail.status }}" />
+                                <input type="text" class="form-control" aria-label="status" aria-describedby="status" style="text-align:right;" name="status" value="{{ proposal_detail.status }}" />
                             </div>
                         </div>
 
@@ -71,9 +90,9 @@
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputClientName">Client Name:</span>
+                                    <span class="input-group-text" id="client_name">Client Name:</span>
                                 </div>
-                                <input class="form-control" aria-label="cliname" aria-describedby="inputClientName" style="text-align:right;" name="cliname" value="{{ proposal_detail.client.name }}" />
+                                <input class="form-control" aria-label="client_name" aria-describedby="client_name" style="text-align:right;" name="client_name" value="{{ proposal_detail.client.name }}" />
                             </div>
                         </div>
 
@@ -84,9 +103,9 @@
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputCompDesc">Company Description:</span>
+                                    <span class="input-group-text" id="client_desc">Company Description:</span>
                                 </div>
-                                <input class="form-control" aria-label="compdesc" aria-describedby="inputCompDesc" style="text-align:right;" name="compdesc" value="{{ proposal_detail.client.company.description }}" />
+                                <input class="form-control" aria-label="client_desc" aria-describedby="client_desc" style="text-align:right;" name="client_desc" value="{{ proposal_detail.client.description }}" />
                             </div>
                         </div>
 
@@ -97,9 +116,9 @@
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputCompWebs">Company Website:</span>
+                                    <span class="input-group-text" id="client_website">Company Website:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="compwebs" aria-describedby="inputCompWebs" style="text-align:right;" name="compwebs" value="{{ proposal_detail.client.company.website }}" />
+                                <input type="text" class="form-control" aria-label="client_website" aria-describedby="client_website" style="text-align:right;" name="client_website" value="{{ proposal_detail.client.website }}" />
                             </div>
                         </div>
 
@@ -110,9 +129,9 @@
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputCompAddr">Company Address:</span>
+                                    <span class="input-group-text" id="client_address">Company Address:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="compaddr" aria-describedby="inputCompAddr" style="text-align:right;" name="compaddr" value="{{ proposal_detail.client.company.address }}" />
+                                <input type="text" class="form-control" aria-label="client_address" aria-describedby="client_address" style="text-align:right;" name="client_address" value="{{ proposal_detail.client.address }}" />
                             </div>
                         </div>
 
@@ -123,9 +142,9 @@
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputContNam">Contact Name:</span>
+                                    <span class="input-group-text" id="contact_name">Contact Name:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="contname" aria-describedby="inputContName" style="text-align:right;" name="contname" value="{{ proposal_detail.client.contact.name }}" />
+                                <input type="text" class="form-control" aria-label="contact_name" aria-describedby="contact_name" style="text-align:right;" name="contact_name" value="{{ proposal_detail.client.contact.name }}" />
                             </div>
                         </div>
 
@@ -136,9 +155,9 @@
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputContPhon">Contact Phone:</span>
+                                    <span class="input-group-text" id="contact_phone">Contact Phone:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="contphon" aria-describedby="inputContPhon" style="text-align:right;" name="contphon" value="{{ proposal_detail.client.contact.phone }}" />
+                                <input type="text" class="form-control" aria-label="contact_phone" aria-describedby="contact_phone" style="text-align:right;" name="contact_phone" value="{{ proposal_detail.client.contact.phone }}" />
                             </div>
                         </div>
 
@@ -149,9 +168,9 @@
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputContEmai">Contact Email:</span>
+                                    <span class="input-group-text" id="contact_email">Contact Email:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="contemai" aria-describedby="inputContEmai" style="text-align:right;" name="contemai" value="{{ proposal_detail.client.contact.email }}" />
+                                <input type="text" class="form-control" aria-label="contact_email" aria-describedby="contact_email" style="text-align:right;" name="contact_email" value="{{ proposal_detail.client.contact.email }}" />
                             </div>
                         </div>
 
@@ -162,9 +181,9 @@
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputContPosi">Contact Position:</span>
+                                    <span class="input-group-text" id="contact_position">Contact Position:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="contposi" aria-describedby="inputContPosi" style="text-align:right;" name="contposi" value="{{ proposal_detail.client.contact.position }}" />
+                                <input type="text" class="form-control" aria-label="contact_position" aria-describedby="contact_position" style="text-align:right;" name="contact_position" value="{{ proposal_detail.client.contact.position }}" />
                             </div>
                         </div>
 
@@ -175,9 +194,9 @@
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputDepName">Department Name:</span>
+                                    <span class="input-group-text" id="department_name">Department Name:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="depname" aria-describedby="inputDepName" style="text-align:right;" name="depname" value="{{ proposal_detail.client.department.name }}" />
+                                <input type="text" class="form-control" aria-label="department_name" aria-describedby="department_name" style="text-align:right;" name="department_name" value="{{ proposal_detail.client.department.name }}" />
                             </div>
                         </div>
 
@@ -188,9 +207,9 @@
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputDepPhone">Department Phone:</span>
+                                    <span class="input-group-text" id="department_phone">Department Phone:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="depphone" aria-describedby="inputDepPhone" style="text-align:right;" name="depphone" value="{{ proposal_detail.client.department.phone }}" />
+                                <input type="text" class="form-control" aria-label="department_phone" aria-describedby="department_phone" style="text-align:right;" name="department_phone" value="{{ proposal_detail.client.department.phone }}" />
                             </div>
                         </div>
 
@@ -201,9 +220,9 @@
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputDepEmail">Department Email:</span>
+                                    <span class="input-group-text" id="department_email">Department Email:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="depemail" aria-describedby="inputDepEmail" style="text-align:right;" name="depemail" value="{{ proposal_detail.client.department.email }}" />
+                                <input type="text" class="form-control" aria-label="department_email" aria-describedby="inputDepEmail" style="text-align:right;" name="department_email" value="{{ proposal_detail.client.department.email }}" />
                             </div>
                         </div>
 
@@ -214,9 +233,9 @@
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputSpec">Proposal Specialisation:</span>
+                                    <span class="input-group-text" id="proposal_specialisation">Proposal Specialisation:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="spec" aria-describedby="inputSpec" style="text-align:right;" name="spec" value="{{ proposal_detail.spec }}" />
+                                <input type="text" class="form-control" aria-label="proposal_specialisation" aria-describedby="proposal_specialisation" style="text-align:right;" name="proposal_specialisation" value="{{ proposal_detail.spec }}" />
                             </div>
                         </div>
 
@@ -227,9 +246,9 @@
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputSkills">Proposal Skills:</span>
+                                    <span class="input-group-text" id="proposal_skills">Proposal Skills:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="skills" aria-describedby="inputSkills" style="text-align:right;" name="skills" value="{{ proposal_detail.proposal_skills }}" />
+                                <input type="text" class="form-control" aria-label="proposal_skills" aria-describedby="proposal_skills" style="text-align:right;" name="proposal_skills" value="{{ proposal_detail.proposal_skills }}" />
                             </div>
                         </div>
 
@@ -240,9 +259,9 @@
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputEnviro">Proposal Environment:</span>
+                                    <span class="input-group-text" id="proposal_environment">Proposal Environment:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="enviro" aria-describedby="inputEnviro" style="text-align:right;" name="enviro" value="{{ proposal_detail.proposal_environment }}" />
+                                <input type="text" class="form-control" aria-label="proposal_environment" aria-describedby="proposal_environment" style="text-align:right;" name="proposal_environment" value="{{ proposal_detail.proposal_environment }}" />
                             </div>
                         </div>
 
@@ -253,9 +272,9 @@
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputResearch">Proposal Research:</span>
+                                    <span class="input-group-text" id="proposal_research">Proposal Research:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="research" aria-describedby="inputResearch" style="text-align:right;" name="research" value="{{ proposal_detail.proposal_research }}" />
+                                <input type="text" class="form-control" aria-label="proposal_research" aria-describedby="proposal_research" style="text-align:right;" name="proposal_research" value="{{ proposal_detail.proposal_research }}" />
                             </div>
                         </div>
 
@@ -266,9 +285,9 @@
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputGroupSize">Contact Position:</span>
+                                    <span class="input-group-text" id="supervisor_name">Supervisor Name:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="contposi" aria-describedby="inputContPosi" style="text-align:right;" name="contposi" value="{{ proposal_detail.client.contact.position }}" />
+                                <input type="text" class="form-control" aria-label="supervisor_name" aria-describedby="supervisor_name" style="text-align:right;" name="supervisor_name" value="{{ proposal_detail.external_supervisor.name }}" />
                             </div>
                         </div>
 
@@ -279,9 +298,9 @@
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputSupName">Supervisor Name:</span>
+                                    <span class="input-group-text" id="supervisor_phone">Supervisor Phone:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="supname" aria-describedby="inputSupName" style="text-align:right;" name="supname" value="{{ proposal_detail.supervisor.name }}" />
+                                <input type="text" class="form-control" aria-label="supervisor_phone" aria-describedby="supervisor_phone" style="text-align:right;" name="supervisor_phone" value="{{ proposal_detail.external_supervisor.phone }}" />
                             </div>
                         </div>
 
@@ -292,9 +311,9 @@
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputSupPhone">Supervisor Phone:</span>
+                                    <span class="input-group-text" id="supervisor_email">Supervisor Email:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="supphone" aria-describedby="inputSupPhone" style="text-align:right;" name="supphone" value="{{ proposal_detail.supervisor.phone }}" />
+                                <input type="text" class="form-control" aria-label="supervisor_email" aria-describedby="supervisor_email" style="text-align:right;" name="supervisor_email" value="{{ proposal_detail.external_supervisor.email }}" />
                             </div>
                         </div>
 
@@ -305,22 +324,9 @@
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputSupEmail">Supervisor Email:</span>
+                                    <span class="input-group-text" id="supervisor_title">Supervisor Title:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="supemail" aria-describedby="inputSupEmail" style="text-align:right;" name="supemail" value="{{ proposal_detail.supervisor.email }}" />
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="row mb-2">
-
-                        <div class="col">
-                            <div class="input-group input-group-sm">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputSupTitle">Supervisor Title:</span>
-                                </div>
-                                <input type="text" class="form-control" aria-label="suptitle" aria-describedby="inputSupTitle" style="text-align:right;" name="suptitle" value="{{ proposal_detail.supervisor.title }}" />
+                                <input type="text" class="form-control" aria-label="supervisor_title" aria-describedby="supervisor_title" style="text-align:right;" name="supervisor_title" value="{{ proposal_detail.external_supervisor.title }}" />
                             </div>
                         </div>
 
@@ -328,8 +334,8 @@
 
                     <div class="row mb-2">
                         <div class="col text-right text-light">
-                            <a class="btn btn-dark" role="button" type="submit" name="save" value="save" data-toggle="tooltip" title="Save '{{ proposal_detail.title }}'">Save <i class="fa fa-save"></i></a>
-                            <a class="btn btn-dark" role="button" type="submit" name="delete" value="delete" data-toggle="tooltip" title="Delete '{{ proposal_detail.title }}'">Delete <i class="fa fa-trash"></i></a>
+                            <button class="btn btn-dark" type="submit" role="button" name="save" value="save" data-toggle="tooltip" title="Save '{{ proposal_detail.title }}'">Save <i class="fa fa-save"></i></button>
+                            <button class="btn btn-dark" type="button" role="button" name="delete" data-target="#deleteModal" data-toggle="modal" title="Delete '{{ proposal_detail.title }}'">Delete <i class="fa fa-trash"></i></button>
                         </div>
                     </div>
                 </div>
