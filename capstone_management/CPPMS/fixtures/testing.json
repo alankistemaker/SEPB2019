@@ -1,0 +1,32 @@
+[
+    {
+        "model": "CPPMS.Incoming_Proposal",
+        "pk": 1,
+        "fields": {
+            "title" : "Proposal 1",
+            "description" : "sample 1",
+            "status" : "incomplete",
+            "client_name" : "Swinburne",
+            "client_desc" : "technology school",
+            "client_website" : "www.swin.edu.au",
+            "client_address" : "Hawthorn, Melbourne 3122",
+            "contact_name" : "Ron Bartels",
+            "contact_phone" : "1234",
+            "contact_email" : "ron@swin.edu.au",
+            "contact_position" : "project manager",
+            "department_name" : "FSET",
+            "department_phone" : "1235",
+            "department_email" : "fset@swin.edu.au",
+            "proposal_specialisation" : "managing projects, proposals, clients",
+            "proposal_skills" : "web development",
+            "proposal_environment" : "Django, AWS",
+            "proposal_research" : "no",
+            "supervisor_name" : "Jun Han",
+            "supervisor_phone" : "2345",
+            "supervisor_email" : "jun@swin.edu.au",
+            "supervisor_title" : "Prof",
+            "created_at": "2019-01-10T05:19:12-11:00",
+            "updated_at": "2019-06-02T07:07:25-10:00"
+        }
+    }
+]

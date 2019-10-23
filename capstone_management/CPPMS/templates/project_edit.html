@@ -51,9 +51,9 @@
                         <div class="col">
                             <div class="input-group input-group-sm mb-2">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputID">ID:</span>
+                                    <span class="input-group-text" id="pk">ID:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="pk" aria-describedby="inputID" style="text-align:right;" name="pk" value="{{ project_detail.pk }}" />
+                                <input type="text" class="form-control" aria-label="pk" aria-describedby="pk" style="text-align:right;" name="pk" value="{{ project_detail.pk }}" />
                             </div>
                         </div>
 
@@ -64,9 +64,9 @@
                         <div class="col">
                             <div class="input-group input-group-sm mb-2">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputTitle">Project Title:</span>
+                                    <span class="input-group-text" id="title">Project Title:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="title" aria-describedby="inputTitle" style="text-align:right;" name="title" value="{{ project_detail.title }}" />
+                                <input type="text" class="form-control" aria-label="title" aria-describedby="title" style="text-align:right;" name="title" value="{{ project_detail.title }}" />
                             </div>
                         </div>
 
@@ -77,9 +77,9 @@
                         <div class="col">
                             <div class="input-group input-group-sm mb-2">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputCategory">Project Category:</span>
+                                    <span class="input-group-text" id="category">Project Category:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="category" aria-describedby="inputCategory" style="text-align:right;" name="category" value="{{ project_detail.category }}" />
+                                <input type="text" class="form-control" aria-label="category" aria-describedby="category" style="text-align:right;" name="category" value="{{ project_detail.category }}" />
                             </div>
                         </div>
 
@@ -90,9 +90,9 @@
                         <div class="col">
                             <div class="input-group input-group-sm mb-2">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputYear">Year:</span>
+                                    <span class="input-group-text" id="year">Year:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="year" aria-describedby="inputYear" style="text-align:right;" name="year" value="{{ project_detail.year }}" />
+                                <input type="text" class="form-control" aria-label="year" aria-describedby="year" style="text-align:right;" name="year" value="{{ project_detail.year }}" />
                             </div>
                         </div>
 
@@ -103,9 +103,9 @@
                         <div class="col">
                             <div class="input-group input-group-sm mb-2">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputGroup">Group:</span>
+                                    <span class="input-group-text" id="group">Group:</span>
                                 </div>
-                                <select class="form-control" aria-label="group" aria-describedby="inputGroup" style="text-align:right;" name="group" value="{{ project_detail.group }}">
+                                <select class="form-control" aria-label="group" aria-describedby="group" style="text-align:right;" name="group" value="{{ project_detail.group }}">
                                     {% for group in groups %}
                                     <option value={{ group }}>{{ group }}</option>
                                     {% endfor %}
@@ -120,9 +120,9 @@
                         <div class="col">
                             <div class="input-group input-group-sm mb-2">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputUnit">Unit:</span>
+                                    <span class="input-group-text" id="unit">Unit:</span>
                                 </div>
-                                <select class="form-control" aria-label="unit" aria-describedby="inputUnit" style="text-align:right;" name="unit" value="{{ project_detail.unit }}">
+                                <select class="form-control" aria-label="unit" aria-describedby="unit" style="text-align:right;" name="unit" value="{{ project_detail.unit }}">
                                     {% for unit in units %}
                                     <option value={{ unit.full }}> {{ unit.full }}
                                         {% endfor %}
@@ -138,48 +138,48 @@
                         <div class="col">
                             <div class="input-group input-group-sm mb-2">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputConvenor">Convenor:</span>
+                                    <span class="input-group-text" id="supervisor_name">Supervisor Name:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="convenor" aria-describedby="inputConvenor" style="text-align:right;" name="convenor" value="{{ project_detail.convenor }}" />
+                                <input type="text" class="form-control" aria-label="supervisor_name" aria-describedby="supervisor_name" style="text-align:right;" name="supervisor_name" value="{{ project_detail.internal_supervisor.name }}" />
                             </div>
                         </div>
 
                     </div>
-
+                    
                     <div class="row mb-2">
 
                         <div class="col">
                             <div class="input-group input-group-sm mb-2">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputIntSuper">Supervisor:</span>
+                                    <span class="input-group-text" id="supervisor_phone">Supervisor Phone:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="internal_supervisor" aria-describedby="inputIntSuper" style="text-align:right;" name="internal_supervisor" value="{{ project_detail.internal_supervisor }}" />
+                                <input type="text" class="form-control" aria-label="supervisor_phone" aria-describedby="supervisor_phone" style="text-align:right;" name="supervisor_phone" value="{{ project_detail.internal_supervisor.phone }}" />
                             </div>
                         </div>
 
                     </div>
-
+                    
                     <div class="row mb-2">
 
                         <div class="col">
                             <div class="input-group input-group-sm mb-2">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputTeamLead">Team Leader:</span>
+                                    <span class="input-group-text" id="supervisor_email">Supervisor Email:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="teamleader" aria-describedby="inputTeamLead" style="text-align:right;" name="teamleader" value="{{ project_detail.teamleader }}" />
+                                <input type="text" class="form-control" aria-label="supervisor_email" aria-describedby="supervisor_email" style="text-align:right;" name="supervisor_email" value="{{ project_detail.internal_supervisor.email }}" />
                             </div>
                         </div>
 
                     </div>
-
+                    
                     <div class="row mb-2">
 
                         <div class="col">
                             <div class="input-group input-group-sm mb-2">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputGroupSize">Group Size:</span>
+                                    <span class="input-group-text" id="supervisor_title">Supervisor Title:</span>
                                 </div>
-                                <input type="text" class="form-control" aria-label="groupsize" aria-describedby="inputGroupSize" style="text-align:right;" name="groupsize" value="{{ project_detail.groupsize }}" />
+                                <input type="text" class="form-control" aria-label="supervisor_title" aria-describedby="supervisor_title" style="text-align:right;" name="supervisor_title" value="{{ project_detail.internal_supervisor.title }}" />
                             </div>
                         </div>
 

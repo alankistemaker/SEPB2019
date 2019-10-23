@@ -25,6 +25,8 @@ from django.http import HttpResponse
 import json
 
 # Create your views here.
+
+# This counts the number of incoming and uploaded proposals, it is active in each view.
 def count():
     count = []
     count_web = Incoming_Proposal.proposals.all().count()
@@ -35,7 +37,7 @@ def count():
     count = [count_web, count_word, count_all,count_all_proposal,count_all_client]
     return count
 
-# Search Views
+# Search autocomplete view, the small dropdown when entering a search is this.
 def autocompleteModel(request):
     if request.is_ajax():
         q = request.GET.get("term", "").capitalize()
@@ -51,6 +53,7 @@ def autocompleteModel(request):
     mimetype = "application/json"
     return HttpResponse(data, mimetype)
 
+# Search autocomplete view, the small dropdown when entering a search is this.
 def autocompleteModel2(request):
     if request.is_ajax():
         q = request.GET.get("term", "").capitalize()
@@ -70,6 +73,7 @@ def autocompleteModel2(request):
     mimetype = "application/json"
     return HttpResponse(data, mimetype)
 
+# Search autocomplete view, the small dropdown when entering a search is this.
 def autocompleteModel3(request):
     if request.is_ajax():
         q = request.GET.get("term", "").capitalize()
@@ -236,7 +240,7 @@ def proposal(request):
         }
     )
 
-# Incoming Proposals List View
+# Lists all Incoming Proposals
 @login_required(login_url="/CPPMS/login/")
 def incoming_proposal(request):
     username = request.user.first_name + " " + request.user.last_name
@@ -381,7 +385,7 @@ def proposal_extract(request, pk=None):
                 supervisor_name=supervisor_name,
                 supervisor_phone=supervisor_phone,
                 supervisor_email=supervisor_email,
-                supervisor_title=supervisor_title,
+                supervisor_title=supervisor_title
             )
             proposal_extract = Incoming_Proposal.proposals.filter(
                 pk=proposal_id
@@ -403,7 +407,7 @@ def proposal_extract(request, pk=None):
         }
     )
 
-# Proposal List View
+# List of all Proposals
 @login_required(login_url="/CPPMS/login/")
 def proposal_list(request):
     username = request.user.first_name + " " + request.user.last_name
@@ -415,12 +419,14 @@ def proposal_list(request):
         filter_value = ""
 
     proposal_list = Proposal.objects.all()
+    
     if filter_value:
         proposal_filter = proposal_list.filter(
             Q(pk__icontains=filter_value) | Q(title__icontains=filter_value)
         )
     else:
         proposal_filter = proposal_list.all()
+        
     return render(
         request,
         "proposal_list.html",
@@ -909,24 +915,29 @@ def project_edit(request, pk=None):
             ####    Group.objects.create(name=project_groupname)
             
             try:
-                internal_supervisor_table = Internal_Supervisor.objects.create(
+                Internal_Supervisor.objects.create(
                     name = supervisor_name,
                     title = supervisor_title,
                     email = supervisor_email,
                     phone = supervisor_phone
                 )
                 
+                internal_supervisor_table = Internal_Supervisor.objects.get(pk=project_detail.internal_supervisor.pk)
+                
                 messages.warning(
                     request,
-                    "Internal Supervisor Created: "
+                    "Internal Supervisor Created: " + supervisor_name
                 )
                 
             except:
-                internal_supervisor_table = Internal_Supervisor.objects.filter(name=supervisor_name).update(
+                Internal_Supervisor.objects.filter(pk=project_detail.internal_supervisor.pk).update(
+                    name = supervisor_name,
                     title = supervisor_title,
                     email = supervisor_email,
                     phone = supervisor_phone
                 )
+                
+                internal_supervisor_table = Internal_Supervisor.objects.get(pk=project_detail.internal_supervisor.pk)
                 
                 messages.warning(
                     request,
@@ -938,21 +949,29 @@ def project_edit(request, pk=None):
                     title = project_title,
                     category = project_category,
                     year = project_year,
-                    completed = project_completed,
+                    #completed = project_completed,
                     internal_supervisor = internal_supervisor_table
                 )
+                
+                messages.warning(
+                    request,
+                    "Project Updated: " + supervisor_name
+                )
+                
+                return redirect("project_list")
+            
             except:
                 project_detail = Project.objects.filter(pk=project_detail.pk).update(
                     title = project_title,
                     category = project_category,
                     year = project_year,
-                    completed = project_completed,
+                    #completed = project_completed,
                     internal_supervisor = internal_supervisor_table
                 )
             
-                messages.INFO(
+                messages.warning(
                     request,
-                    "Updated Project:" + project_title
+                    "Updated Project: " + project_title
                 )
                 
                 return redirect("project_list")
