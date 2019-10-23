@@ -333,7 +333,6 @@ def proposal_extract(request, pk=None):
                     address=client_address,
                     website=client_website,
                     desc=client_desc,
-                    contact=contact_table,
                 )
             except:
                 client_table = Client.objects.get(name=client_name)
@@ -348,7 +347,7 @@ def proposal_extract(request, pk=None):
                 env=proposal_environment,
                 res=proposal_research,
                 client=client_table,
-                supervisors_external=external_supervisor_table,
+                external_supervisor=external_supervisor_table,
             )
             messages.add_message(
                 request, messages.INFO, "Sucess Update Project Detail!"
@@ -617,6 +616,7 @@ def proposal_edit(request, pk=None):
                     "External Supervisor Created: " + supervisor_name
                 )
             except:
+                    
                 external_supervisor_table = External_Supervisor.objects.filter(email=supervisor_email).update(
                     name = supervisor_name,
                     phone = supervisor_phone,
