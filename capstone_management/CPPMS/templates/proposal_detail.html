@@ -20,50 +20,39 @@
     <div class="col-md-5">
         <div class="card">
 
-            <h3 class="card-header">
-                <a class="btn btn-dark" href="proposal_edit/{{ proposal_detail.pk }}" role="button" data-toggle="tooltip" title="Edit '{{ proposal_detail.title }}'">Edit <i class="fa fa-edit"></i></a> {{ proposal_detail.title }}</h3>
+            <h3 class="card-header">{{ proposal_detail.title }}</h3>
             <div class="card-body">
                 <div class="row mb-2">
-
                     <div class="col">
                         <div class="card">
-                            <h6 class="card-header"><strong>Proposal Title:</strong></h6>
                             <div class="card-body">
-                                <p>{{ proposal_detail.title }}</p>
+                                <div class="row mb-2">
+
+                                    <div class="col">
+                                        <p><strong>Status:</strong></p>
+                                        <p>{{ proposal_detail.status }}</p>
+                                    </div>
+                                    
+                                    <div class="col">
+                                        <p><strong>Client:</strong></p>
+                                        <p><a href="client_detail/{{ proposal_detail.client.pk }}">{{ proposal_detail.client.name }}</a></p>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-2">
+
+                                    <div class="col">
+                                        <p><strong>Date Created:</strong></p>
+                                        <p>{{ proposal_detail.created_at }}</p>
+                                    </div>
+                                    <div class="col">
+                                        <p><strong>Date Last Updated:</strong></p>
+                                        <p>{{ proposal_detail.updated_at }}</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-
-                    <div class="col">
-                        <div class="card">
-                            <h6 class="card-header"><strong>Status:</strong></h6>
-                            <div class="card-body">
-                                <p>{{ proposal_detail.status }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mb-2">
-
-                    <div class="col">
-                        <div class="card">
-                            <h6 class="card-header"><strong>Date Created:</strong></h6>
-                            <div class="card-body">
-                                <p>{{ proposal_detail.created_at }}</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="card">
-                            <h6 class="card-header"><strong>Date Last Updated:</strong></h6>
-                            <div class="card-body">
-                                <p>{{ proposal_detail.updated_at }}</p>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
 
                 <div class="row mb-2">
@@ -141,12 +130,17 @@
                                     <li class="list-group-item"><strong>Phone: </strong>
                                         <p>{{ proposal_detail.external_supervisor.phone }}</p>
                                     </li>
-                                     <li class="list-group-item"><strong>Department: </strong>
+                                    <li class="list-group-item"><strong>Department: </strong>
                                         <p>{{ proposal_detail.external_supervisor.department.name }}</p>
                                     </li>
                                 </ul>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col text-right">
+                        <a class="btn btn-dark" href="proposal_edit/{{ proposal_detail.pk }}" role="button" data-toggle="tooltip" title="Edit '{{ proposal_detail.title }}'">Edit <i class="fa fa-edit"></i></a>
                     </div>
                 </div>
             </div>
