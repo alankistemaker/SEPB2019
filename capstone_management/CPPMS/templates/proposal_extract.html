@@ -1,265 +1,368 @@
-{% extends "proposal.html" %} 
+{% extends "proposal.html" %}
+
 {% block sub-page_content %}
-  {% if not messages %}
-    <h2>Extract Proposal</h2>
-  {% else %}
-    <h2>Extract Proposal</h2>
-    {% for message in messages %}<li>{{ message }}</li>{% endfor %}
-  {% endif %}
+
+<h2>View Proposal Details</h2>
+
+{% if messages %}
+
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}></li>
+    {% endfor %}
+</ul>
+{% endif %}
+
 {% endblock %}
 
 {% block page_detail_content %}
-<form method="POST">
-  {% csrf_token %}
-  <div style="position:absolute; left:93%; top:105px; height:70px;">
-    <button type="submit" name="save" value="save">
-      <i class="fas fa-save" style="font-size:25px"></i>
-    </button>
-    <button type="submit" name="delete" value="delete">
-      <i class="fa fa-archive" style="font-size:25px"></i>
-    </button>
-  </div>
 
-  <div
-    style="position:absolute; top:170px; left:18%; font-family:Segoe UI; color:#000000; font-size:16px"
-  >
-    <h1>Extract data for Incoming Proposal</h1>   
-    <hr />
-    <br />
-    <p>
-      ID:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="pk"
-        value="{{ proposal_extract.pk }}"
-      />
-    </p>
-    <p>
-      Title:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="title"
-        value="{{ proposal_extract.title }}"
-      />
-    </p>
-    <p>
-      Description:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="description"
-        value="{{ proposal_extract.description }}"
-      />
-    </p>
-    <p>
-      Status:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="status"
-        value="{{ proposal_extract.status }}"
-      />
-    </p>
-    <hr />
-    <br />
-    <h2>Company</h2>
-    <p>
-      Suggested Company
-      <input list="suggested_companies"
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="suggested_company_list"
-        value="{{ suggested_company.name }}"
-      />
-      <datalist id="suggested_companies">
-      {% for company in suggested_companies %}
-      <option value={{ company.name }}
-      {% endfor %}
-    </p>
-    <p>
-      Company Name:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="client_name"
-        value="{{ proposal_extract.client_name }}"
-      />
-    </p>
-    <p>
-      Company Description:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="company_desc"
-        value="{{ proposal_extract.company_desc }}"
-      />
-    </p>
-    <p>
-      Company Website:
-      <input list="groups"
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="company_website"
-        value="{{ proposal_extract.company_website }}"
-      />
-    </p>
-    <p>
-      Company Address:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="company_address"
-        value="{{ proposal_extract.company_address }}"
-      />
-    </p>
-    <hr />
-    <br />
-    <h3>Department</h3>
-    <p>
-      Department Name:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="department_name"
-        value="{{ proposal_extract.department_name }}"
-      />
-    </p>
-    <p>
-      Department Phone:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="department_phone"
-        value="{{ proposal_extract.department_phone }}"
-      />
-    </p>
-    <p>
-      Department Email:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="department_email"
-        value="{{ proposal_extract.department_email }}"
-      />
-    </p>
-    <hr />
-    <br />
-    <h2>Contact</h2>
-    <p>
-      Contact Name:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="contact_name"
-        value="{{ proposal_extract.contact_name }}"
-      />
-    </p>
-    <p>
-      Contact Phone:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="contact_phone"
-        value="{{ proposal_extract.contact_phone }}"
-      />
-    </p>
-    <p>
-      Contact Email:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="contact_email"
-        value="{{ proposal_extract.contact_email }}"
-      />
-    </p>
-    <p>
-      Contact Position:
-      <input list="groups"
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="contact_position"
-        value="{{ proposal_extract.contact_position }}"
-      />
-    </p>
-    <hr />
-    <br />
-    <p>
-      Proposal Specialisation:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="proposal_specialisation"
-        value="{{ proposal_extract.proposal_specialisation }}"
-      />
-    </p>
-    <p>
-      Proposal Skills:
-      <input list="groups"
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="proposal_skills"
-        value="{{ proposal_extract.proposal_skills }}"
-      />
-    </p>
-    <p>
-      Proposal Environment:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="proposal_environment"
-        value="{{ proposal_extract.proposal_environment }}"
-      />
-    </p>
-     <p>
-      Proposal Research:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="proposal_research"
-        value="{{ proposal_extract.proposal_research }}"
-      />
-    </p>
-    <hr />
-    <br />
-    <p>
-      Supervisor Name:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="supervisor_name"
-        value="{{ proposal_extract.supervisor_name }}"
-      />
-    </p>
-    <p>
-      Supervisor Phone:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="supervisor_phone"
-        value="{{ proposal_extract.supervisor_phone }}"
-      />
-    </p>
-    <p>
-      Supervisor Email:
-      <input
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="supervisor_email"
-        value="{{ proposal_extract.supervisor_email }}"
-      />
-    </p>
-    <p>
-      Supervisor Title:
-      <input list="groups"
-        type="text"
-        style="left:45%; width:500px; text-align:right;"
-        name="supervisor_title"
-        value="{{ proposal_extract.supervisor_title }}"
-      />
-    </p>
-  </div>
+<form method="POST">
+    {% csrf_token %}
+
+    <div class="modal" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="deleteModalLongTitle">Are you sure?</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Do you really want to delete the Proposal: {{ proposal_extract.title }}? </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                    <button type="submit" name="delete" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-2">
+
+        <div class="col-lg-1"></div>
+        <div class="col-md-1"></div>
+        <div class="col-sm-1"></div>
+
+        <div class="col">
+            <div class="card">
+                <h3 class="card-header">{{ client_edit.name }}</h3>
+
+                <div class="card-body">
+                
+                    <div class="row mb-2">
+
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputTitle">Title:</span>
+                                </div>
+                                <input type="text" class="form-control" aria-label="title" aria-describedby="inputTitle" style="text-align:right;" name="title" value="{{ proposal_extract.title }}" />
+                                <hr />
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <div class="row mb-2">
+
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputDesc">Description:</span>
+                                </div>
+                                <input type="text" class="form-control" aria-label="description" aria-describedby="inputDesc" style="text-align:right;" name="description" value="{{ proposal_extract.description }}" />
+                                <hr />
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <div class="row mb-2">
+
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputStatus">Status:</span>
+                                </div>
+                                <input type="text" class="form-control" aria-label="status" aria-describedby="inputStatus" style="text-align:right;" name="status" value="{{ proposal_extract.status }}" />
+                                <hr />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-2">
+
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputClientName">Client Name:</span>
+                                </div>
+                                <input type="text" class="form-control" aria-label="client_name" aria-describedby="inputClientName" style="text-align:right;" name="client_name" value="{{ proposal_extract.client_name }}" />
+                                <hr />
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <div class="row mb-2">
+
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputClientDesc">Client Description:</span>
+                                </div>
+                                <input type="text" class="form-control" aria-label="client_desc" aria-describedby="inputClientDesc" style="text-align:right;" name="client_desc" value="{{ proposal_extract.client_desc }}" />
+                                <hr />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-2">
+
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputClientWeb">Client Website:</span>
+                                </div>
+                                <input type="text" class="form-control" aria-label="client_website" aria-describedby="inputClientWeb" style="text-align:right;" name="client_website" value="{{ proposal_extract.client_website }}" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-2">
+
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputClientAdd">Client Address:</span>
+                                </div>
+                                <input type="text" class="form-control" aria-label="client_address" aria-describedby="inputClientAdd" style="text-align:right;" name="client_address" value="{{ proposal_extract.client_address }}" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-2">
+
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputDepName">Department Name:</span>
+                                </div>
+                                <input type="text" class="form-control" aria-label="department_name" aria-describedby="inputDepName" style="text-align:right;" name="department_name" value="{{ proposal_extract.department_name }}" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-2">
+
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputDepPhone">Department Phone:</span>
+                                </div>
+                                <input type="text" class="form-control" aria-label="department_phone" aria-describedby="inputDepPhone" style="text-align:right;" name="department_phone" value="{{ proposal_extract.department_phone }}" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-2">
+
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputDepEmail">Department Email:</span>
+                                </div>
+                                <input type="text" class="form-control" aria-label="department_email" aria-describedby="inputDepEmail" style="text-align:right;" name="department_email" value="{{ proposal_extract.department_email }}" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-2">
+
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputContName">Contact Name:</span>
+                                </div>
+                                <input type="text" class="form-control" aria-label="contact_name" aria-describedby="inputContName" style="text-align:right;" name="contact_name" value="{{ proposal_extract.contact_name }}" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-2">
+
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputContPos">Contact Position:</span>
+                                </div>
+                                <input type="text" class="form-control" aria-label="contact_position" aria-describedby="inputContPos" style="text-align:right;" name="contact_position" value="{{ proposal_extract.contact_position }}" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-2">
+
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputContPhone">Contact Phone:</span>
+                                </div>
+                                <input type="text" class="form-control" aria-label="contact_phone" aria-describedby="inputContPhone" style="text-align:right;" name="contact_phone" value="{{ proposal_extract.contact_phone }}" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-2">
+
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputContEmail">Contact Email:</span>
+                                </div>
+                                <input type="text" class="form-control" aria-label="contact_email" aria-describedby="inputContEmail" style="text-align:right;" name="contact_email" value="{{ proposal_extract.contact_email }}" />
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <div class="row mb-2">
+
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputProposalSpec">Proposal Specialisation:</span>
+                                </div>
+                                <input type="text" class="form-control" aria-label="proposal_specialisation" aria-describedby="inputProposalSpec" style="text-align:right;" name="proposal_specialisation" value="{{ proposal_extract.proposal_specialisation }}" />
+                                <hr />
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <div class="row mb-2">
+
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputProposalSkills">Proposal Skills:</span>
+                                </div>
+                                <input type="text" class="form-control" aria-label="proposal_skills" aria-describedby="inputProposalSkills" style="text-align:right;" name="proposal_skills" value="{{ proposal_extract.proposal_skills }}" />
+                                <hr />
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <div class="row mb-2">
+
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputProposalEnv">Proposal Environment:</span>
+                                </div>
+                                <input type="text" class="form-control" aria-label="proposal_environment" aria-describedby="inputProposalEnv" style="text-align:right;" name="proposal_environment" value="{{ proposal_extract.proposal_environment }}" />
+                                <hr />
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <div class="row mb-2">
+
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputProposalRes">Proposal Research:</span>
+                                </div>
+                                <input type="text" class="form-control" aria-label="proposal_research" aria-describedby="inputProposalRes" style="text-align:right;" name="proposal_research" value="{{ proposal_extract.proposal_research }}" />
+                                <hr />
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <div class="row mb-2">
+
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputSupervisorName">Supervisor Name:</span>
+                                </div>
+                                <input type="text" class="form-control" aria-label="supervisor_name" aria-describedby="inputSupervisorName" style="text-align:right;" name="supervisor_name" value="{{ proposal_extract.supervisor_name }}" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-2">
+
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputSupervisorTitle">Supervisor Title:</span>
+                                </div>
+                                <input type="text" class="form-control" aria-label="supervisor_title" aria-describedby="inputSupervisorTitle" style="text-align:right;" name="contact_position" value="{{ proposal_extract.supervisor_title }}" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-2">
+
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputSupervisorPhone">Supervisor Phone:</span>
+                                </div>
+                                <input type="text" class="form-control" aria-label="supervisor_phone" aria-describedby="inputSupervisorPhone" style="text-align:right;" name="supervisor_phone" value="{{ proposal_extract.supervisor_phone }}" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-2">
+
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputSupervisorEmail">Supervisor Email:</span>
+                                </div>
+                                <input type="text" class="form-control" aria-label="supervisor_email" aria-describedby="inputSupervisorEmail" style="text-align:right;" name="supervisor_email" value="{{ proposal_extract.supervisor_email }}" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col text-right text-light">
+                            <button class="btn btn-dark" type="submit" role="button" name="save" value="save" data-toggle="tooltip" title="Save '{{ proposal_extract.title }}'">Save <i class="fa fa-save"></i></button>
+                            <button class="btn btn-dark" type="button" role="button" data-target="#deleteModal" data-toggle="modal" title="Delete '{{ proposal_extract.title }}'">Delete <i class="fa fa-trash"></i></button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-1"></div>
+        <div class="col-md-1"></div>
+        <div class="col-lg-1"></div>
+
+    </div>
 </form>
 
 {% endblock %}
