@@ -18,15 +18,8 @@
       "name": "Sales",
       "created_at": "2013-01-16T08:16:59.844Z",
       "updated_at": "2013-01-16T08:16:59.844Z",
-
-<<<<<<< HEAD
-      "phone": "555-555-567",
-      "email": "sales@goko.com.au",
-      "company": 3
-=======
       "phone": "555-555-555",
       "email": "sales@goko.com.au"
->>>>>>> master
     }
   },
   {

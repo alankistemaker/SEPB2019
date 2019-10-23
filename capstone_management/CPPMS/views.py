@@ -1313,7 +1313,7 @@ def word_detail(request, pk=None):
         if "delete" in request.POST:
             proposal_detail = Upload_Proposal.objects.filter(pk=proposal_detail.pk).delete()
             os.remove(full_path)
-
+            
             return redirect("../../")
 
         if "save" in request.POST:
@@ -1323,39 +1323,19 @@ def word_detail(request, pk=None):
                     name=supervisor_name,
                     email=supervisor_email,
                     phone=supervisor_phone,
-                    title=supervisor_title,
+                    title=supervisor_title
                 )
+                
             except:
                 external_supervisor_table = External_Supervisor.objects.get(
                     email=supervisor_email
                 )
+                
                 messages.warning(
                     request,
                     "External Supervisor already exists!"
                 )
 
-            # Client Table
-            try:
-                client_table = Client.objects.create(
-                    name=client_name,
-                    address=client_address,
-                    website=client_website,
-                    desc=client_desc,
-                )
-                messages.info(
-                    request,
-                    "Client created: " + client_name
-                )
-            except:
-                client_table = Client.objects.get(name=client_name).update(
-                    address=client_address,
-                    website=client_website,
-                    desc=client_desc,
-                )
-                messages.warning(
-                    request,
-                    "Client updated: " + client_name
-                )
             # Department Table
             try:
                 department_table = Department.objects.create(
@@ -1364,14 +1344,36 @@ def word_detail(request, pk=None):
                     email=department_email,
                     client=client_table
                 )
+                
                 messages.info(
                     "Department added: " + department_name + " @ " + client_table.name
                 )
+                
             except:
                 department_table = Department.objects.get(phone=department_phone)
                 messages.warning(
                     request,
                     "Department already exists"
+                )
+                
+            # Client Table
+            try:
+                client_table = Client.objects.create(
+                    name=client_name,
+                    address=client_address,
+                    website=client_website,
+                    desc=client_desc
+                )
+                messages.info(
+                    request,
+                    "Client created: " + client_name
+                )
+                
+            except:
+                client_table = Client.objects.get(name=client_name)
+                messages.warning(
+                    request,
+                    "Client already exists!"
                 )
             
             # Contact table
@@ -1381,20 +1383,23 @@ def word_detail(request, pk=None):
                     position=contact_position,
                     phone=contact_phone,
                     email=contact_email,
-                    department=department_table,
+                    client=client_table,
+                    department=department_table
                 )
                 messages.info(
                     request,
                     "Contact added: " + contact_name
                 )
+                
             except:
                 contact_table = Contact.objects.get(email=contact_email)
                 contact_table.department = department_table
+                contact_table.client = client_table
                 messages.warning(
                     request,
                     "Contact already exists!"
                 )
-
+                
             # Proposal table
             try:
                 proposal_table = Proposal.objects.create(
@@ -1406,17 +1411,16 @@ def word_detail(request, pk=None):
                     env=proposal_environment,
                     res=proposal_research,
                     client=client_table,
-                    external_supervisor=external_supervisor_table,
+                    external_supervisor=external_supervisor_table
                 )   
                 messages.INFO(
                     request, 
                     "Proposal Created: " + title
                 )
-                
                 proposal_detail=Upload_Proposal.objects.filter(pk=proposal_detail.pk).delete()
                 #### os.remove(full_path)
                 messages.add_message(request,"Sucess Save/Update Word-structured Proposal Detail!")
-                
+                                
             except:
                 proposal_table = Proposal.objects.get(title=proposal_title)
                 proposal_table.client = client_table
@@ -1425,33 +1429,34 @@ def word_detail(request, pk=None):
                     request,
                     "Proposal already exists!"
                 )
-                                    
-        return render(request, "word_detail.html",
-                      {
-                          "count": count,
-                          "proposal_detail": proposal_detail,
-                          "extract": extract,
-                          "title": title,
-                          "description": description,
-                          "status": status,
-                          "client_desc": client_desc,
-                          "client_website": client_website,
-                          "client_address": client_address,
-                          "contact_name": contact_name,
-                          "contact_phone": contact_phone,
-                          "contact_email": contact_email,
-                          "contact_position": contact_position,
-                          "department_name": department_name,
-                          "department_phone": department_phone,
-                          "department_email": department_email,
-                          "proposal_specialisation": proposal_specialisation,
-                          "proposal_skills": proposal_skills,
-                          "proposal_environment": proposal_environment,
-                          "proposal_research": proposal_research,
-                          "supervisor_name": supervisor_name,
-                          "supervisor_phone": supervisor_phone,
-                          "supervisor_email": supervisor_email,
-                          "supervisor_title": supervisor_title,
-                          "username": username
-                      }
+
+    return render(
+        request, "word_detail.html",
+        {
+            "count": count,
+            "proposal_detail": proposal_detail,
+            "extract": extract,
+            "title": title,
+            "description": description,
+            "status": status,
+            "client_desc": client_desc,
+            "client_website": client_website,
+            "client_address": client_address,
+            "contact_name": contact_name,
+            "contact_phone": contact_phone,
+            "contact_email": contact_email,
+            "contact_position": contact_position,
+            "department_name": department_name,
+            "department_phone": department_phone,
+            "department_email": department_email,
+            "proposal_specialisation": proposal_specialisation,
+            "proposal_skills": proposal_skills,
+            "proposal_environment": proposal_environment,
+            "proposal_research": proposal_research,
+            "supervisor_name": supervisor_name,
+            "supervisor_phone": supervisor_phone,
+            "supervisor_email": supervisor_email,
+            "supervisor_title": supervisor_title,
+            "username": username
+        }
                      )

@@ -22,7 +22,7 @@
 
         <div class="row mb-2">
             <div class="col-sm-2"></div>
-            
+
             <div class="col">
                 <form method="POST" class="form bg-white rounded">
                     {% csrf_token %}
@@ -34,7 +34,7 @@
                     </div>
                 </form>
             </div>
-            
+
             <div class="col-sm-2"></div>
         </div>
 
@@ -65,68 +65,12 @@
                             </tr>
                             {% endfor %}
                         </tbody>
-
-        
-
-
-
-
-
                     </table>
                 </div>
             </div>
-
         </div>
-        <section>
-            <div class="section-body">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card">
-                    <div class="card-head style-primary">
-                        <header>All Products Data</header>
-                        <div class="tools">
-                            <a class="btn btn-icon-toggle btn-collapse"><i class="fa fa-angle-down"></i></a>
-                            <a class="btn btn-icon-toggle btn-close"><i class="md md-close"></i></a>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table id="datatable2" class="table order-column hover">
-                                <thead>
-                                    <tr>
-                                        <th scope="col"><strong>CLIENT</strong></th>
-                                        <th scope="col"><strong>ADDED</strong></th>
-                                        <th scope="col"><strong>UPDATED</strong></th>
-                                        <th scope="col"><strong>CONTACT NAME</strong></th>
-                                        <th scope="col"><strong>DEPARTMENT</strong></th>
-                                        <th scope="col"><strong>CONTACT</strong></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for client in client_filter %}
-                                        <tr class="gradeX">
-                                            <td><a href="client_detail/{{client.pk}}">{{ client.name }}</a></td>
-                                            <td>{{ client.created_at }}</td>
-                                            <td>{{ client.updated_at }}</td>
-                                            <td>{{ client.contact }}</td>
-                                            <td>{{ client.contact.department }}</td>
-                                            <td>{{ client.contact.contact }}</td>
-                                        </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div><!--end .table-responsive -->
-                    </div>   
-                </div>       
-            </div><!--end .col -->
-        </div></div>
-</section>
-
-
     </div>
-
     <div class="col-md-1"></div>
-    
 </div>
 
 {% endblock %}
