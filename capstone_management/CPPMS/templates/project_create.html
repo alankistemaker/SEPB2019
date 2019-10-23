@@ -1,0 +1,39 @@
+{% extends "project.html" %}
+
+{% block sub-page_content %}
+<h2>Project Details</h2>
+{% if messages %}
+{% for message in messages %}<li>{{ message }}</li>{% endfor %}
+{% endif %}
+
+{% endblock %}
+
+{% block page_detail_content %}
+
+<form method="POST">
+    {% csrf_token %}
+
+    <div class="row mb-2">
+        
+        <div class="col-lg-1"></div>
+        <div class="col-md-1"></div>
+        <div class="col-sm-1"></div>
+
+        <div class="col">
+            <div class="card">
+                <h3 class="card-header">New Project</h3>
+                <div class="card-body">
+                    <div class="row mb-2">
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="label_project_title">Project Name:</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

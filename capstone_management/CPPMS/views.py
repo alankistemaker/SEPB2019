@@ -861,6 +861,25 @@ def project(request):
 
     return render(request, "project.html", {"count": count, "username": username})
 
+# Create Project View
+@login_required(login_url="/CPPMS/login/")
+def project_create(request, pk=None):
+    username = request.user.first_name + " " + request.user.last_name
+    count()
+    proposal_detail = get_object_or_404(Proposal, pk=pk)
+    units = Unit.objects.all()
+    groups = Group.objects.all()
+    title = "New Project"
+    return render(
+        request,
+        "project_create.html",
+        {
+            "count": count,
+            "proposal_detail": proposal_detail,
+            "title": title
+        }
+    )
+
 # Project List View
 @login_required(login_url="/CPPMS/login/")
 def project_list(request):
@@ -1228,10 +1247,14 @@ def client_edit(request, pk=None):
         if "delete_department" in request.POST:
             try:
                 edit_department = Department.objects.filter(pk=request.POST.get("delete_department")).delete()
+                messages.info(
+                    request,
+                    "Deleted department %s" % edit_department
+                )
             except:
                 messages.warning(
                     request,
-                    "Department doesnt exist! " + request.POST.get("delete_department")
+                    "Department doesnt exist! "
                 )
             return redirect("client_edit", client_edit.pk)
 
@@ -1252,12 +1275,19 @@ def client_edit(request, pk=None):
             return redirect("client_edit", client_edit.pk)
 
         if "create_department" in request.POST:
+            create_department_name = request.POST.get("create_department_name")
+            create_department_phone = request.POST.get("create_department_phone")
+            create_department_email = request.POST.get("create_department_email")
             try:
                 new_department = Department.objects.create(
-                    name=request.POST.get("create_department_name"),
-                    phone=request.POST.get("create_department_phone"),
-                    email=request.POST.get("create_department_email"),
+                    name=create_department_name,
+                    phone=create_department_phone,
+                    email=create_department_email,
                     client=client_edit
+                )
+                messages.info(
+                    request,
+                    "Created new department for %s: %s!" % client_edit.name % new_department.name
                 )
             except:
                 messages.warning(

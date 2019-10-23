@@ -149,7 +149,10 @@
 
     <div class="col-md-5">
         <div class="card">
-            <h3 class="card-header">Proposal Projects</h3>
+            <h3 
+                class="card-header">Proposal Projects
+                <a class="btn btn-dark" href="project_create/{{ proposal_detail.pk }}" role="button" data-toggle="tooltip" title="Create '{{ proposal_detail.title }}'">Create <i class="fa fa-edit"></i></a>
+            </h3>
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col">
