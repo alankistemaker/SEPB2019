@@ -31,6 +31,8 @@ urlpatterns = [
         name="proposal_extract",
     ),
     path("proposal/proposal_list/", views.proposal_list, name="proposal_list"),
+    path("proposal/proposal_status/", views.proposal_status, name="proposal_status"),
+    path("proposal/proposal_status_edit/<int:tid>/", views.Proposal_Status_Edit, name="proposal_status_Edit"),
     path("proposal_progress/", views.proposal_progress, name="proposal_progress"),
     re_path(
         "proposal_detail/(?P<pk>[_\w\d\-]+)$",

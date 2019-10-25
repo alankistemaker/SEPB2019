@@ -4,7 +4,8 @@ from django.contrib.auth import authenticate, get_user_model, login, logout
 
 User = get_user_model
 User1 = get_user_model()
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm 
+from .models import Proposal_Status
 
 # Login Form
 class UserLoginForm(forms.Form):
@@ -49,3 +50,9 @@ class UserForm(forms.ModelForm):
     class Meta:
         model = User1
         fields = ["username", "first_name", "last_name", "email"]
+
+
+class ProposalStatusForm(ModelForm):
+    class Meta:
+        model = Proposal_Status
+        fields ='__all__'

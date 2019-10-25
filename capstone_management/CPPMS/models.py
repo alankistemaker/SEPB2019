@@ -567,3 +567,24 @@ class Project(models.Model):
 
     def __str__(self):
         return self.title
+
+class Proposal_Status(models.Model):
+
+    proposal = models.ForeignKey(
+        Proposal,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True
+    )
+
+    STATUS= (
+        ('0', 'NO'),
+        ('1', 'YES'),
+        ('2','N/A'),
+    )
+
+    is_recieved_from_Client = models.CharField(max_length=1,choices=STATUS,default='2')
+    is_allocated_to_Unit = models.CharField(max_length=1,choices=STATUS,default='2')
+    is_allocated_to_Student_Team = models.CharField(max_length=1,choices=STATUS,default='2')
+    is_allocated_to_Supervisor = models.CharField(max_length=1,choices=STATUS,default='2')
+    is_generated_to_Project = models.CharField(max_length=1,choices=STATUS,default='2')

@@ -13,6 +13,7 @@ from .models import (
     Student,
     Project,
     Group,
+    Proposal_Status,
 )
 
 admin.site.site_header = "CPPMS Administration"
@@ -30,3 +31,4 @@ admin.site.register(Proposal)
 admin.site.register(Student)
 admin.site.register(Project)
 admin.site.register(Group)
+admin.site.register(Proposal_Status)

@@ -457,12 +457,61 @@ def proposal_list(request):
             "title":title
         }
     )
+@login_required(login_url="/CPPMS/login/")
+def proposal_status(request):
+    username = request.user.first_name + " " + request.user.last_name
+    count()
+    title = "Status of Proposals"
+
+    if request.method == "POST":
+        filter_value = request.POST.get("proposal_list")
+    else:
+        filter_value = ""
+
+    proposal_status = Proposal_Status.objects.all()
+    
+
+        
+    return render(
+        request,
+        "proposal_status.html",
+        {
+            "count": count,
+            "proposal_status":proposal_status,
+            "username": username,
+            "title":title
+        }
+    )
+@login_required(login_url="/CPPMS/login/")
+def Proposal_Status_Edit(request,tid=None):
+    username = request.user.first_name + " " + request.user.last_name
+    count()
+    title = "Status of Proposals"
+
+    query1 = get_object_or_404(Proposal,pk=tid)
+    item = Proposal_Status(Proposal,proposal=query1)
+    form =ProposalStatusForm(request.POST or None,instance=item)
+    if form.is_valid():
+        status = form.save(commit=False)
+        status.save()
+        return redirect("/CPPMS/proposal/proposal_status/")
+    else:
+        form = ProposalStatusForm(instance=item)
+
+    context = {
+            "form":form,
+            "count": count,
+            "proposal_status":proposal_status,
+            "username": username,
+            "title":title
+                }
+    return render(request, 'proposal_status_edit.html',context)
 
 # Proposal Progress View
 @login_required(login_url="/CPPMS/login/")
 def proposal_progress(request, pk=None):
     username = request.user.first_name + " " + request.user.last_name
-    proposal_progress = get_object_or_404(Proposal, pk=pk)
+    proposal_progress = get_object_or_404(Proposal, pk=1)
     count()
     project_title = ""
     title = "Proposal Progress"

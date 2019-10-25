@@ -1,0 +1,68 @@
+{% extends "proposal.html" %}
+
+{% load widget_tweaks %}
+{% block sub-page_content %}
+
+{% if not messages %}
+<h2>Proposal Status</h2>
+{% else %}
+<h2>Proposal Status</h2>
+{% for message in messages %}<li>{{ message }}</li>{% endfor %}
+{% endif %}
+
+{% endblock %}
+
+{% block page_detail_content %}
+
+<div class="row mb-2">
+
+    <div class="col-md-1"></div>
+
+    <div class="col">
+
+        <div class="row mb-2">
+            <div class="col-sm-2"></div>
+
+
+
+            <div class="col-sm-2"></div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col">
+
+
+                    <form class="form" method="post">
+                            {% csrf_token %}
+                            {% for field in form %}
+                            <p>
+                                {{ field.label_tag }}<br />
+                                {{ field  | add_class:'form-control' }}
+                                {% if field.help_text %}
+                                <small style="color: grey">{{ field.help_text }}</small>
+                                {% endif %}
+                                {% for error in field.errors %}
+                                <p style="color: red">{{ error }}</p>
+                                {% endfor %}
+                            {% endfor %}
+                            <br>
+                            <button type="submit" class="btn btn-flat btn-primary ink-reaction">Apply</button>
+                        </form>
+
+
+
+
+               
+                
+            </div>
+
+
+
+
+        </div>
+    </div>
+
+    <div class="col-md-1"></div>
+</div>
+
+{% endblock %}
