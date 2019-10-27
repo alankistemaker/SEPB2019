@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, get_user_model, login, logout
 
 User = get_user_model
 User1 = get_user_model()
-from django.contrib.auth.forms import UserCreationForm 
+from django.contrib.auth.forms import UserCreationForm
 from .models import Proposal_Status
 
 # Login Form
@@ -25,7 +25,8 @@ class UserLoginForm(forms.Form):
             if not user.is_active:
                 raise forms.ValidationError("This user is not longer active")
         return super(UserLoginForm, self).clean(*args, **kwargs)
-    
+
+
 # Add User
 class SignUpForm(UserCreationForm):
     first_name = forms.CharField(max_length=30, required=False, help_text="Optional.")
@@ -55,4 +56,5 @@ class UserForm(forms.ModelForm):
 class ProposalStatusForm(ModelForm):
     class Meta:
         model = Proposal_Status
-        fields ='__all__'
+        fields = "__all__"
+

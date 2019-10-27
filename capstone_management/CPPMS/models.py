@@ -1,7 +1,5 @@
 from django.db import models
 
-# Create your models here.
-
 # Incoming Proposals Model
 class Incoming_Proposal(models.Model):
     # calling 'Proposals_Incoming.proposals.all()' will return a list of all Proposals_Incoming objects

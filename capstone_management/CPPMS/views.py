@@ -457,6 +457,7 @@ def proposal_list(request):
             "title":title
         }
     )
+
 @login_required(login_url="/CPPMS/login/")
 def proposal_status(request):
     username = request.user.first_name + " " + request.user.last_name
@@ -482,6 +483,7 @@ def proposal_status(request):
             "title":title
         }
     )
+
 @login_required(login_url="/CPPMS/login/")
 def Proposal_Status_Edit(request,tid=None):
     username = request.user.first_name + " " + request.user.last_name
@@ -916,16 +918,125 @@ def project_create(request, pk=None):
     username = request.user.first_name + " " + request.user.last_name
     count()
     proposal_detail = get_object_or_404(Proposal, pk=pk)
+    
     units = Unit.objects.all()
     groups = Group.objects.all()
-    title = "New Project"
+    students = Student.objects.all()
+
+    # create 'none' objects
+    project_group = None
+    project_internal_supervisor = None
+    project_unit = None
+
+    page_title = "New Project"
+
+    if request.method == "POST":
+        # get fields from request
+        project_title = request.POST.get("project_title")
+        project_category = request.POST.get("project_category")
+        project_year = request.POST.get("project_year")
+
+        # create 'internal_supervisor' from modal
+        try:
+            project_internal_supervisor = Internal_Supervisor.objects.create(
+                # TODO
+                # create a supervisor
+            )
+            messages.info(
+                request,
+                "Created new internal supervisor"
+            )
+        except:
+            project_internal_supervisor = Internal_Supervisor.objects.filter(
+                # TODO
+                # filter by unique field
+            )
+            messages.warning(
+                request,
+                "Existing internal supervisor found"
+            )
+
+        # create 'unit' from modal
+        if "create_unit" in request.POST:
+            try:
+                project_unit = Unit.objects.create(
+                    # TODO
+                    # create a unit
+                )
+                messages.info(
+                    request,
+                    "Created new unit"
+                )
+            except:
+                project_unit = Unit.objects.filter(
+                    # TODO
+                    # find existing unit
+                )
+                messages.warning(
+                    request,
+                    "Existing unit found"
+                )
+
+        # create 'group' from modal
+        if "create_group" in request.POST:
+            try:
+                project_group = Group.objects.create(
+                    # TODO
+                    # create a group
+                )
+                messages.info(
+                    request,
+                    "Created new group"
+                )
+            except:
+                project_group = Group.objects.filter(
+                    # TODO
+                    # find exisisting group
+                )
+                messages.warning(
+                    request,
+                    "Existing group found"
+                )
+        
+        if "create_project" in request.POST:
+            try:
+                # create project
+                new_project = Project.objects.create(
+                    title=project_title,
+                    category=project_category,
+                    year=project_year,
+                    completed=False,
+                )
+                messages.info(
+                    request,
+                    "Created new project"
+                )
+
+                if project_unit is not None:
+                    new_project.unit = project_unit
+
+                if project_internal_supervisor is not None:
+                    new_project.Internal_Supervisor = project_internal_supervisor
+
+                if project_group is not None:
+                    new_project.group = project_group
+            except:
+                messages.error(
+                    request,
+                    "Could not create project from proposal"
+                )
+
+        
     return render(
         request,
         "project_create.html",
         {
             "count": count,
             "proposal_detail": proposal_detail,
-            "title": title
+            "title": page_title,
+            "project_unit": project_unit,
+            "project_internal_supervisor": project_internal_supervisor,
+
         }
     )
 
