@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, get_user_model, login, logout
 
 User = get_user_model
 User1 = get_user_model()
+
 from django.contrib.auth.forms import UserCreationForm
 from .models import *
 
@@ -46,18 +47,15 @@ class SignUpForm(UserCreationForm):
             "password2",
         )
 
-
 class UserForm(forms.ModelForm):
     class Meta:
         model = User1
         fields = ["username", "first_name", "last_name", "email"]
 
-
 class ProposalStatusForm(ModelForm):
     class Meta:
         model = Proposal_Status
         fields = "__all__"
-
 
 class GroupForm(ModelForm):
     class Meta:
@@ -65,20 +63,17 @@ class GroupForm(ModelForm):
         fields = "__all__"
         exclude = ["created_at", "updated_at"]
 
-
 class StudentForm(ModelForm):
     class Meta:
         model = Student
         fields = "__all__"
         exclude = ["created_at", "updated_at"]
 
-
 class InternalSupervisorForm(ModelForm):
     class Meta:
         model = Internal_Supervisor
         fields = "__all__"
         exclude = ["created_at", "updated_at"]
-
 
 class UnitForm(ModelForm):
     class Meta:
@@ -93,14 +88,17 @@ class UnitForm(ModelForm):
             "convenor": "Unit Convenor",
         }
 
-
 class ProjectForm(ModelForm):
     class Meta:
         model = Project
         fields = ["title", "category", "year"]
 
-
 class DepartmentForm(ModelForm):
     class Meta:
         model = Department
         fields = "__all__"
+
+class ProposalStageCreateForm(ModelForm):
+    class Meta:
+        model = Proposal_Stage
+        fields ='__all__'

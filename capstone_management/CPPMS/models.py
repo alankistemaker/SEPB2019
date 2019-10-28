@@ -586,3 +586,23 @@ class Proposal_Status(models.Model):
     is_allocated_to_Student_Team = models.CharField(max_length=1,choices=STATUS,default='2')
     is_allocated_to_Supervisor = models.CharField(max_length=1,choices=STATUS,default='2')
     is_generated_to_Project = models.CharField(max_length=1,choices=STATUS,default='2')
+
+class Proposal_Stage(models.Model):
+    stage_name = models.CharField(max_length=128, default="")
+    STATUS= (
+        ('0', 'OPEN'),
+        ('1', 'Pending'),
+        ('2', 'Done'),
+        ('3','N/A'),
+    )
+    status = models.CharField(max_length=1,choices=STATUS,default='0')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    proposal = models.ForeignKey(
+        Proposal,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True
+    )
+
+

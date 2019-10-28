@@ -69,6 +69,11 @@ urlpatterns = [
         views.proposal_progress,
         name="proposal_progress"
     ),
+    path(
+        "proposal/proposal_status_e/<int:tid>/",
+        views.proposal_status_e,
+        name="proposal_status_e"
+    ),
     re_path(
         "proposal_detail/(?P<pk>[_\w\d\-]+)$",
         views.proposal_detail,
@@ -184,4 +189,9 @@ urlpatterns = [
         views.autocompleteModel3, 
         name="autocompleteModel3"
     ),
+    path(
+        "proposal_stage_create/", 
+        views.Proposal_Stage_Create,
+        name="proposal_stage_create"
+    )
 ]

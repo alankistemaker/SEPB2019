@@ -56,6 +56,8 @@
                                 <td>{{ proposal.created_at }}</td>
                                 <td>
                                     <a class="btn" role="button" type="submit" name="proposal" value="proposal" data-toggle="tooltip" title="Proposal" href="proposal_progress/{{ proposal.pk }}">Progress</a>
+                                    <a class="btn" role="button" type="submit" name="project" value="project" data-toggle="tooltip" title="Project" href="{% url 'generation_list' title=proposal.title %}">Generation</a>
+                                    <a class="btn" role="button" type="submit" name="proposal_stage" value="proposal_stage" data-toggle="tooltip" title="Proposal_stage" href="/CPPMS/proposal/proposal_status_e/{{ proposal.pk }}">Stages</a>
                                 </td>
                                 <td>{{ proposal.client }}</td>
                             </tr>
