@@ -55,11 +55,6 @@ urlpatterns = [
          name="proposal_list"
     ),
     path(
-        "proposal/proposal_status/",
-        views.proposal_status,
-        name="proposal_status"
-    ),
-    path(
         "proposal/proposal_status_edit/<int:tid>/",
         views.Proposal_Status_Edit,
         name="proposal_status_Edit"
@@ -70,7 +65,7 @@ urlpatterns = [
         name="proposal_progress"
     ),
     path(
-        "proposal/proposal_status_e/<int:tid>/",
+        "proposal/proposal_status_e/",
         views.proposal_status_e,
         name="proposal_status_e"
     ),
