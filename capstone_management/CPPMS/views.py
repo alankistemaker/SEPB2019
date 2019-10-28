@@ -458,18 +458,17 @@ def proposal_list(request):
         }
     )
 @login_required(login_url="/CPPMS/login/")
-def proposal_status(request):
+def proposal_status_e(request,tid=None):
     username = request.user.first_name + " " + request.user.last_name
     count()
-    title = "Status of Proposals"
+    title = "Stages of Proposal" 
+    query1 = get_object_or_404(Proposal,pk=tid)
+    #Pro_Stage = get_object_or_404(Proposal_Stage,proposal=query1)
+    #
 
-    if request.method == "POST":
-        filter_value = request.POST.get("proposal_list")
-    else:
-        filter_value = ""
-
-    proposal_status = Proposal_Status.objects.all()
-    
+    #item = Proposal_Status(Proposal,proposal=query1)
+    #Pro_Stage =filter_object_or_404(Proposal_Stage,proposal=query1)
+    Pro_Stage=Proposal_Stage.objects.filter(proposal=query1)
 
         
     return render(
@@ -477,7 +476,7 @@ def proposal_status(request):
         "proposal_status.html",
         {
             "count": count,
-            "proposal_status":proposal_status,
+            "Pro_Stage":Pro_Stage,
             "username": username,
             "title":title
         }
