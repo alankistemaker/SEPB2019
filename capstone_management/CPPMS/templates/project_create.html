@@ -8,30 +8,9 @@
 
 {% endblock %}
 
+{% load widget_tweaks %}
+
 {% block page_detail_content %}
-
-<form method="POST">
-    {% csrf_token %}
-
-    <div class="modal fade" id="add_internal_supervisor_modal" tabindex="-1" role="dialog" aria-lablledby="add_internal_supervisor_modal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centred">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Add Internal Supervisor</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="submit" name="add_internal_supervisor_modal_button" value="create_internal_supervisor" class="btn btn-success">Save</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <div class="row mb-2">
         
@@ -39,123 +18,24 @@
         <div class="col-md-1"></div>
         <div class="col-sm-1"></div>
 
-        <div class="col">
-            <div class="card mb-1">
-                <h3 class="card-header">New Project</h3>
-                <div class="card-body">
-                    <div class="row mb-2">
+        <form method="post" novalidate>
+            {% csrf_token %}
+            <div class="col">
+                <div class="card">
+                    <h3 class="card-header">New Project</h3>
 
-                        <div class="col">
-                            <div class="input-group input-group-sm">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="label_project_title">Project Name:</span>
-                                </div>
-                                <input type="text" class="form-control" aria-lable="name" aria-describedby="project_name" style="text-align:right;" name="project_name" value="{{ proposal_detail.title }}"/>
-                                <hr />
-                            </div>
-                        </div>
-
+                    {% include "form_templates/card_body_form.html" with form=project_form %}
+                    
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
-
-                    <div class="row mb-2">
-                        <div class="col">
-                            <div class="input-group input-group-sm">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="label_project_title">Project Category:</span>
-                                </div>
-                                <input type="text" class="form-control" aria-lable="input_project_category" aria-describedby="input_project_category" style="text-align:right;" name="project_category" value=""/>
-                                <hr />
-                            </div>
-                        </div>
-                        
-                    </div>
-
-                    <div class="row mb-2">
-                        <div class="col">
-                            <div class="input-group input-group-sm">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="label_project_title">Project Year:</span>
-                                </div>
-                                <input type="number" class="form-control" aria-lable="input_project_year" aria-describedby="input_project_year" style="text-align:right;" name="project_year" value="2020"/>
-                                <hr />
-                            </div>
-                        </div>
-                        
-                    </div>
-
+                
                 </div>
             </div>
-
-            <div class="card">
-                <h5 
-                    class="card-header">Internal Supervisor
-                    <button class="btn btn-dark" type="button" role="button" data-target="#add_internal_supervisor_modal" data-toggle="modal" title="Add internal supervisor to project">Add</button>
-                </h5>
-                <div class="card-body" hidden>
-                    <div class="row mb-2">
-
-                        <div class="col">
-                            <div class="input-group input-group-sm">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="label_project_title">Supervisor Name:</span>
-                                </div>
-                                <input type="search" class="form-control" aria-lable="name" aria-describedby="project_name" style="text-align:right;" name="project_internal_supervisor" value="{{ project_internal_supervisor.name }}"/>
-                                <hr />
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="row mb-2">
-                        <div class="col">
-                            <div class="input-group input-group-sm">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="label_internal_supervisor_email">Supervisor Email:</span>
-                                </div>
-                                <input type="text" class="form-control" aria-lable="input_project_category" aria-describedby="input_project_category" style="text-align:right;" name="project_category" value=""/>
-                                <hr />
-                            </div>
-                        </div>
-                        
-                    </div>
-
-                    <div class="row mb-2">
-                        <div class="col">
-                            <div class="input-group input-group-sm">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="label_project_title">Project Year:</span>
-                                </div>
-                                <input type="number" class="form-control" aria-lable="input_project_year" aria-describedby="input_project_year" style="text-align:right;" name="project_year" value="2020"/>
-                                <hr />
-                            </div>
-                        </div>
-                        
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="card">
-                <h5
-                    class="card-header">Unit
-                    <button class="btn btn-dark" type="button" role="button" data-target="#add_unit_modal" data-toggle="modal" title="Add unit to project">Add</button>
-                </h5>
-                <div class="card-body" hidden>
-                </div>
-            </div>
-            <div class="card">
-                <h5
-                    class="card-header">Group
-                    <button class="btn btn-dark" type="button" role="button" data-target="#add_group_modal" data-toggle="modal" title="Add group to project">Add</button>
-                </h5>
-                <div class="card-body" hidden>
-                </div>
-            </div>
-        </div>
+        </form>
 
         <div class="col-sm-1"></div>
         <div class="col-md-1"></div>
         <div class="col-lg-1"></div>
     </div>
-</form>
 {% endblock %}

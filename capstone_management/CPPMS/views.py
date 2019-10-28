@@ -8,6 +8,7 @@ from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 from docx import Document
 from io import StringIO
+import logging
 import os
 
 from django.contrib.auth import (
@@ -18,7 +19,7 @@ from django.contrib.auth import (
     update_session_auth_hash,
 )
 from django.contrib.auth.decorators import login_required
-from .forms import UserLoginForm, SignUpForm, UserForm
+from .forms import *
 from django.contrib import messages
 from django.contrib.auth.forms import PasswordChangeForm
 from django.http import HttpResponse
@@ -572,10 +573,18 @@ def proposal_detail(request, pk=None):
     else:
         project_filter = project_list.all()
 
+    project_form = ProjectForm()
+
+    if request.method == "POST":
+        form_project = ProjectForm(request.POST)
+        new_project = form_project.save()
+        new_project.proposal = proposal_detail
+
     return render(
         request,
         "proposal_detail.html",
         {
+            "project_form": project_form,
             "count": count,
             "proposal_detail": proposal_detail,
             "username": username,
@@ -918,125 +927,29 @@ def project_create(request, pk=None):
     username = request.user.first_name + " " + request.user.last_name
     count()
     proposal_detail = get_object_or_404(Proposal, pk=pk)
-    
-    units = Unit.objects.all()
-    groups = Group.objects.all()
-    students = Student.objects.all()
-
-    # create 'none' objects
-    project_group = None
-    project_internal_supervisor = None
-    project_unit = None
 
     page_title = "New Project"
+    project_form = ProjectForm()
 
     if request.method == "POST":
-        # get fields from request
-        project_title = request.POST.get("project_title")
-        project_category = request.POST.get("project_category")
-        project_year = request.POST.get("project_year")
+        form_data = ProjectForm(request.POST)
+        new_project = form_data.save()
+        new_project.proposal = proposal_detail
+        new_project_group = Group.objects.create(
+            name="New Group"
+        )
+        new_project.group = new_project_group
 
-        # create 'internal_supervisor' from modal
-        try:
-            project_internal_supervisor = Internal_Supervisor.objects.create(
-                # TODO
-                # create a supervisor
-            )
-            messages.info(
-                request,
-                "Created new internal supervisor"
-            )
-        except:
-            project_internal_supervisor = Internal_Supervisor.objects.filter(
-                # TODO
-                # filter by unique field
-            )
-            messages.warning(
-                request,
-                "Existing internal supervisor found"
-            )
+        return redirect("project_edit", new_project.pk)
 
-        # create 'unit' from modal
-        if "create_unit" in request.POST:
-            try:
-                project_unit = Unit.objects.create(
-                    # TODO
-                    # create a unit
-                )
-                messages.info(
-                    request,
-                    "Created new unit"
-                )
-            except:
-                project_unit = Unit.objects.filter(
-                    # TODO
-                    # find existing unit
-                )
-                messages.warning(
-                    request,
-                    "Existing unit found"
-                )
-
-        # create 'group' from modal
-        if "create_group" in request.POST:
-            try:
-                project_group = Group.objects.create(
-                    # TODO
-                    # create a group
-                )
-                messages.info(
-                    request,
-                    "Created new group"
-                )
-            except:
-                project_group = Group.objects.filter(
-                    # TODO
-                    # find exisisting group
-                )
-                messages.warning(
-                    request,
-                    "Existing group found"
-                )
-        
-        if "create_project" in request.POST:
-            try:
-                # create project
-                new_project = Project.objects.create(
-                    title=project_title,
-                    category=project_category,
-                    year=project_year,
-                    completed=False,
-                )
-                messages.info(
-                    request,
-                    "Created new project"
-                )
-
-                if project_unit is not None:
-                    new_project.unit = project_unit
-
-                if project_internal_supervisor is not None:
-                    new_project.Internal_Supervisor = project_internal_supervisor
-
-                if project_group is not None:
-                    new_project.group = project_group
-            except:
-                messages.error(
-                    request,
-                    "Could not create project from proposal"
-                )
-
-        
     return render(
         request,
         "project_create.html",
         {
+            "project_form": project_form,
             "count": count,
             "proposal_detail": proposal_detail,
             "title": page_title,
-            "project_unit": project_unit,
-            "project_internal_supervisor": project_internal_supervisor,
-
         }
     )
 
@@ -1083,109 +996,103 @@ def project_edit(request, pk=None):
     project_detail = get_object_or_404(Project, pk=pk)
     units = Unit.objects.all()
     groups = Group.objects.all()
+    students = Student.objects.all()
     count()
     title = "Editing " + project_detail.title
 
+    # pass associated objects to forms if they exist
+    if project_detail.internal_supervisor is not None:
+        internal_supervisor_form = InternalSupervisorForm(instance=project_detail.internal_supervisor)
+    else:
+        internal_supervisor_form = InternalSupervisorForm()
+    
+    if project_detail.group is not None:
+        group_form = GroupForm(instance=project_detail.group)
+    else:
+        group_form = GroupForm()
+    
+    if project_detail.unit is not None:
+        unit_form = UnitForm(instance=project_detail.unit)
+    else:
+        unit_form = UnitForm()
+
+    project_form = ProjectForm(instance=project_detail)
+
     if request.method == "POST":
-        project_title = request.POST.get("title")
-        project_category = request.POST.get("category")
-        project_year = request.POST.get("year")
-        project_completed = request.POST.get("completed")
-        project_groupname = request.POST.get("group")
-        project_unit = request.POST.get("unit")
+        # if the group button triggered the post request
+        if "edit_group" in request.POST:
+            # check the project for a group
+            if project_detail.group is not None:
+                # if a group exists, attach it to the form (update)
+                edit_group = GroupForm(request.POST, instance=project_detail.group)
+            else:
+                # if no group exists, create fresh form (create)
+                edit_group = GroupForm(request.POST)
 
-        supervisor_name = request.POST.get("supervisor_name")
-        supervisor_title = request.POST.get("supervisor_title")
-        supervisor_email = request.POST.get("supervisor_email")
-        supervisor_phone = request.POST.get("supervisor_phone")
-
-        proposal_title = request.POST.get("proposal_title")
-
-        # project_teamleader = request.POST.get("teamleader")
-        # project_groupsize = request.POST.get("groupsize")
-
-        if "save" in request.POST:
-            ####if Group.objects.filter(pk=project_groupname.pk):
-            ####    project_groupname.project = project_detail
-            ####else:
-            ####    Group.objects.create(name=project_groupname)
+            # assign form data to a group object
+            group = edit_group.save()
+            # assign group to project
+            project_detail.group = group
+            # save the project
+            project_detail.save()
+            # update messages
+            messages.info(
+                    request,
+                    "Group updated"
+                )
+            # refresh page
+            return redirect("project_edit", project_detail.pk)
+        
+        # if the internal supervisor button triggered the post request
+        if 'edit_internal_supervisor' in request.POST:
+            if project_detail.internal_supervisor is not None:
+                edit_internal_supervisor = InternalSupervisorForm(request.POST, instance=project_detail.internal_supervisor)
+            else:
+                edit_internal_supervisor = InternalSupervisorForm(request.POST)
             
-            try:
-                Internal_Supervisor.objects.create(
-                    name = supervisor_name,
-                    title = supervisor_title,
-                    email = supervisor_email,
-                    phone = supervisor_phone
-                )
-                
-                internal_supervisor_table = Internal_Supervisor.objects.get(pk=project_detail.internal_supervisor.pk)
-                
-                messages.warning(
-                    request,
-                    "Internal Supervisor Created: " + supervisor_name
-                )
-                
-            except:
-                Internal_Supervisor.objects.filter(pk=project_detail.internal_supervisor.pk).update(
-                    name = supervisor_name,
-                    title = supervisor_title,
-                    email = supervisor_email,
-                    phone = supervisor_phone
-                )
-                
-                internal_supervisor_table = Internal_Supervisor.objects.get(pk=project_detail.internal_supervisor.pk)
-                
-                messages.warning(
-                    request,
-                    "Supervisor Updated: " + supervisor_name
-                )
-                
-            try:
-                project_detail = Project.objects.create(
-                    title = project_title,
-                    category = project_category,
-                    year = project_year,
-                    #completed = project_completed,
-                    internal_supervisor = internal_supervisor_table
-                )
-                
-                messages.warning(
-                    request,
-                    "Project Updated: " + supervisor_name
-                )
-                
-                return redirect("project_list")
-            
-            except:
-                project_detail = Project.objects.filter(pk=project_detail.pk).update(
-                    title = project_title,
-                    category = project_category,
-                    year = project_year,
-                    #completed = project_completed,
-                    internal_supervisor = internal_supervisor_table
-                )
-            
-                messages.warning(
-                    request,
-                    "Updated Project: " + project_title
-                )
-                
-                return redirect("project_list")
-
-        if "delete" in request.POST:
-            project_detail = Project.objects.filter(pk=project_detail.pk).delete()
-            
-            messages.warning(
-                    request,
-                    "Project deleted!"
+            internal_supervisor = edit_internal_supervisor.save()
+            project_detail.internal_supervisor = internal_supervisor
+            project_detail.save()
+            messages.info(
+                request,
+                "Internal Supervisor updated"
             )
+            return redirect("project_edit", project_detail.pk)
 
-            return redirect("project_list")
+        # if the unit button triggered the post request
+        if "edit_unit" in request.POST:
+            if project_detail.unit is not None:
+                edit_unit = UnitForm(request.POST, instance=project_detail.unit)
+            else:
+                edit_unit = UnitForm(request.POST)
+
+            unit = edit_unit.save()
+            project_detail.unit = unit     
+            project_detail.save()  
+            messages.info(
+                    request,
+                    "Unit updated"
+                )
+            return redirect("project_edit", project_detail.pk)
+        
+        # if the project button triggered the post request
+        if "edit_project" in request.POST:
+            edit_project = ProjectForm(request.POST, instance=project_detail)
+            project_detail = edit_project.save()
+            messages.info(
+                request,
+                "Project updated"
+            )
+                
 
     return render(
         request,
         "project_edit.html",
         {
+            "internal_supervisor_form": internal_supervisor_form,
+            "group_form": group_form,
+            "project_form": project_form,
+            "unit_form": unit_form,
             "count": count,
             "project_detail": project_detail,
             "units": units,
@@ -1455,11 +1362,12 @@ def client_edit(request, pk=None):
                     "Could not create new department"
                 )
             return redirect("client_edit", client_edit.pk)
-            
+    department_form = DepartmentForm()        
     return render(
         request,
         "client_edit.html",
         {
+            "department_form": department_form,
             "count": count,
             "client_edit": client_edit,
             "username": username,

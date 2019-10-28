@@ -56,7 +56,6 @@
                                 <td>{{ proposal.created_at }}</td>
                                 <td style="text-align:center">
                                     <a class="btn" role="button" type="submit" name="proposal" value="proposal" data-toggle="tooltip" title="Proposal" href="proposal_detail/{{ proposal.pk }}">Details</a>
-                                    <a class="btn" role="button" type="submit" name="project" value="project" data-toggle="tooltip" title="Project" href="{% url 'generation_list' title=proposal.title %}">Generation</a>
                                 </td>
                                 <td>{{ proposal.client }}</td>
                             </tr>

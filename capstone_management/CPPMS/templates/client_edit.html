@@ -51,41 +51,7 @@
                 </div>
                 <div class="modal-body">
                     
-                    <div class="row mb-2">
-                        <div class="col">
-                            <div class="input-group input-group-sm">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="create_department_name_label">Department Name:</span>
-                                </div>
-                                <input type="text" class="form-control" aria-label="name" aria-describedby="input_department_name" style="text-align:right;" name="create_department_name" value="" />
-                                <hr />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row mb-2">
-                        <div class="col">
-                            <div class="input-group input-group-sm">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="create_department_phone_label">Department Phone:</span>
-                                </div>
-                                <input type="text" class="form-control" aria-label="name" aria-describedby="input_department_phone" style="text-align:right;" name="create_department_phone" value="" />
-                                <hr />
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="row mb-2">
-                        <div class="col">
-                            <div class="input-group input-group-sm">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="create_department_email_label">Department Email:</span>
-                                </div>
-                                <input type="text" class="form-control" aria-label="name" aria-describedby="input_department_email" style="text-align:right;" name="create_department_email" value="" />
-                                <hr />
-                            </div>
-                        </div>
-                    </div>
+                    {% include "form_templates/modal_body_form.html" with form=department_form %}
 
                 </div>
                 <div class="modal-footer">

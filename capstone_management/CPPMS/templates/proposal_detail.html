@@ -2,12 +2,8 @@
 
 {% block sub-page_content %}
 
-{% if not messages %}
-<h2>Proposal Details</h2>
-{% else %}
 <h2>Proposal Details</h2>
 {% for message in messages %}<li>{{ message }}</li>{% endfor %}
-{% endif %}
 
 {% endblock %}
 
@@ -151,7 +147,7 @@
         <div class="card">
             <h3 
                 class="card-header">Proposal Projects
-                <a class="btn btn-dark" href="project_create/{{ proposal_detail.pk }}" role="button" data-toggle="tooltip" title="Create '{{ proposal_detail.title }}'">Create <i class="fa fa-edit"></i></a>
+                <a class="btn btn-dark" role="button" type="submit" name="new_project" data-toggle="tooltip" href="project_create/{{ proposal_detail.pk }}">New Project</a>
             </h3>
             <div class="card-body">
                 <div class="row mb-2">

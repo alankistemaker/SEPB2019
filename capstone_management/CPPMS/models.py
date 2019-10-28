@@ -369,7 +369,7 @@ class Contact(models.Model):
     phone = models.CharField(max_length=10, default="00000000")
     
     # The Contact's email address
-    email = models.CharField(max_length=255, default="", unique=True)
+    email = models.EmailField(max_length=255, default="", unique=True)
 
     # OEM Relationships
     
@@ -470,7 +470,7 @@ class Student(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     
     # Student's Email
-    email = models.CharField(max_length=128, default="", unique=True)
+    email = models.EmailField(max_length=128, default="", unique=True)
 
     # OEM Relationships
     

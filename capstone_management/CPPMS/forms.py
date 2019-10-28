@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, get_user_model, login, logout
 User = get_user_model
 User1 = get_user_model()
 from django.contrib.auth.forms import UserCreationForm
-from .models import Proposal_Status
+from .models import *
 
 # Login Form
 class UserLoginForm(forms.Form):
@@ -58,3 +58,49 @@ class ProposalStatusForm(ModelForm):
         model = Proposal_Status
         fields = "__all__"
 
+
+class GroupForm(ModelForm):
+    class Meta:
+        model = Group
+        fields = "__all__"
+        exclude = ["created_at", "updated_at"]
+
+
+class StudentForm(ModelForm):
+    class Meta:
+        model = Student
+        fields = "__all__"
+        exclude = ["created_at", "updated_at"]
+
+
+class InternalSupervisorForm(ModelForm):
+    class Meta:
+        model = Internal_Supervisor
+        fields = "__all__"
+        exclude = ["created_at", "updated_at"]
+
+
+class UnitForm(ModelForm):
+    class Meta:
+        model = Unit
+        fields = "__all__"
+        exclude = ["created_at", "updated_at"]
+        labels = {
+            "title": "Unit Title",
+            "unit_code": "Unit Code",
+            "BB_unit_code": "Blackboard Unit Code",
+            "ulos": "Unit Learning Outcomes",
+            "convenor": "Unit Convenor",
+        }
+
+
+class ProjectForm(ModelForm):
+    class Meta:
+        model = Project
+        fields = ["title", "category", "year"]
+
+
+class DepartmentForm(ModelForm):
+    class Meta:
+        model = Department
+        fields = "__all__"

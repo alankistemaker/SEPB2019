@@ -2,19 +2,12 @@
 
 {% block sub-page_content %}
 
-{% if not messages %}
-<h2>Edit Project Details</h2>
-{% else %}
 <h2>Edit Project Details</h2>
 {% for message in messages %}<li>{{ message }}</li>{% endfor %}
-{% endif %}
 
 {% endblock %}
 
 {% block page_detail_content %}
-
-<form method="POST">
-    {% csrf_token %}
     
     <div id="deleteModal" tabindex="-1" class="modal fade">
         <div class="modal-dialog modal-confirm">
@@ -41,158 +34,59 @@
         <div class="col-sm-1"></div>
 
         <div class="col">
+            
+            <form method='POST'>
+            {% csrf_token %}
             <div class="card">
                 <h3 class="card-header">{{ project_detail.title }}</h3>
+                
+                {% include "form_templates/card_body_form.html" with form=project_form %}
 
-                <div class="card-body">
-
-                    <div class="row mb-2">
-
-                        <div class="col">
-                            <div class="input-group input-group-sm mb-2">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="pk">ID:</span>
-                                </div>
-                                <input type="text" class="form-control" aria-label="pk" aria-describedby="pk" style="text-align:right;" name="pk" value="{{ project_detail.pk }}" />
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="row mb-2">
-
-                        <div class="col">
-                            <div class="input-group input-group-sm mb-2">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="title">Project Title:</span>
-                                </div>
-                                <input type="text" class="form-control" aria-label="title" aria-describedby="title" style="text-align:right;" name="title" value="{{ project_detail.title }}" />
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="row mb-2">
-
-                        <div class="col">
-                            <div class="input-group input-group-sm mb-2">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="category">Project Category:</span>
-                                </div>
-                                <input type="text" class="form-control" aria-label="category" aria-describedby="category" style="text-align:right;" name="category" value="{{ project_detail.category }}" />
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="row mb-2">
-
-                        <div class="col">
-                            <div class="input-group input-group-sm mb-2">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="year">Year:</span>
-                                </div>
-                                <input type="text" class="form-control" aria-label="year" aria-describedby="year" style="text-align:right;" name="year" value="{{ project_detail.year }}" />
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="row mb-2">
-
-                        <div class="col">
-                            <div class="input-group input-group-sm mb-2">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="group">Group:</span>
-                                </div>
-                                <select class="form-control" aria-label="group" aria-describedby="group" style="text-align:right;" name="group" value="{{ project_detail.group }}">
-                                    {% for group in groups %}
-                                    <option value={{ group }}>{{ group }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="row mb-2">
-
-                        <div class="col">
-                            <div class="input-group input-group-sm mb-2">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="unit">Unit:</span>
-                                </div>
-                                <select class="form-control" aria-label="unit" aria-describedby="unit" style="text-align:right;" name="unit" value="{{ project_detail.unit }}">
-                                    {% for unit in units %}
-                                    <option value={{ unit.full }}> {{ unit.full }}
-                                        {% endfor %}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="row mb-2">
-
-                        <div class="col">
-                            <div class="input-group input-group-sm mb-2">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="supervisor_name">Supervisor Name:</span>
-                                </div>
-                                <input type="text" class="form-control" aria-label="supervisor_name" aria-describedby="supervisor_name" style="text-align:right;" name="supervisor_name" value="{{ project_detail.internal_supervisor.name }}" />
-                            </div>
-                        </div>
-
-                    </div>
-                    
-                    <div class="row mb-2">
-
-                        <div class="col">
-                            <div class="input-group input-group-sm mb-2">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="supervisor_phone">Supervisor Phone:</span>
-                                </div>
-                                <input type="text" class="form-control" aria-label="supervisor_phone" aria-describedby="supervisor_phone" style="text-align:right;" name="supervisor_phone" value="{{ project_detail.internal_supervisor.phone }}" />
-                            </div>
-                        </div>
-
-                    </div>
-                    
-                    <div class="row mb-2">
-
-                        <div class="col">
-                            <div class="input-group input-group-sm mb-2">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="supervisor_email">Supervisor Email:</span>
-                                </div>
-                                <input type="text" class="form-control" aria-label="supervisor_email" aria-describedby="supervisor_email" style="text-align:right;" name="supervisor_email" value="{{ project_detail.internal_supervisor.email }}" />
-                            </div>
-                        </div>
-
-                    </div>
-                    
-                    <div class="row mb-2">
-
-                        <div class="col">
-                            <div class="input-group input-group-sm mb-2">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="supervisor_title">Supervisor Title:</span>
-                                </div>
-                                <input type="text" class="form-control" aria-label="supervisor_title" aria-describedby="supervisor_title" style="text-align:right;" name="supervisor_title" value="{{ project_detail.internal_supervisor.title }}" />
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="row mb-2">
-                        <div class="col text-right text-light">
-                            <button class="btn btn-dark" type="submit" role="button" name="save" value="save" data-toggle="tooltip" title="Save '{{ project_detail.title }}'">Save <i class="fa fa-save"></i></button>
-                            <button class="btn btn-dark" type="button" name="delete" role="button" data-target="#deleteModal" data-toggle="modal" title="Delete '{{ project_detail.title }}'">Delete <i class="fa fa-trash"></i></button>
-                        </div>
-                    </div>
+                <div class="card-footer">
+                    <button type="submit" name="edit_project" value="edit_project" class="btn btn-primary">Submit</button>
                 </div>
             </div>
+            </form>
+
+            <form method='POST'>
+            {% csrf_token %}
+            <div class="card">
+                <h3 class="card-header">Internal Supervisor</h3>
+                
+                {% include "form_templates/card_body_form.html" with form=internal_supervisor_form %}
+                    
+                <div class="card-footer">
+                    <button type="submit" name="edit_internal_supervisor" value="edit_internal_supervisor" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+            </form>
+
+            <form method='POST'>
+            {% csrf_token %}
+            <div class="card">
+                <h3 class="card-header">Group</h3>
+                
+                {% include "form_templates/card_body_form.html" with form=group_form %}
+                    
+                <div class="card-footer">
+                    <button type="submit" name="edit_group" value="edit_group" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+            </form>
+
+            <form method='POST'>
+            {% csrf_token %}
+            <div class="card">
+                <h3 class="card-header">Unit</h3>
+                
+                {% include "form_templates/card_body_form.html" with form=unit_form %}
+                    
+                <div class="card-footer">
+                    <button type="submit" name="edit_unit" value="edit_unit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+            </form>
+
         </div>
 
         <div class="col-sm-1"></div>
@@ -200,6 +94,5 @@
         <div class="col-lg-1"></div>
 
     </div>
-</form>
 
 {% endblock %}
