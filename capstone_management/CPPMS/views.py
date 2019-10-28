@@ -507,6 +507,31 @@ def Proposal_Status_Edit(request,tid=None):
                 }
     return render(request, 'proposal_status_edit.html',context)
 
+
+@login_required(login_url="/CPPMS/login/")
+def Proposal_Stage_Create(request):
+    username = request.user.first_name + " " + request.user.last_name
+    count()
+    title = "Create proposal stages"
+    if request.method == "POST":
+        form = ProposalStageCreateForm(request.POST)
+        if form.is_valid():
+            item = form.save(commit=False)
+            item.save()
+            form = ProposalStageCreateForm()
+            context = {
+            "form":form,
+            "count": count,
+            "username": username,
+            "title":title
+                }
+            return render(request,'proposal_stage_create.html',context)
+    else:
+        form = ProposalStageCreateForm()
+    return render(request,'proposal_stage_create.html',{"form":form,'username':username})
+
+
+
 # Proposal Progress View
 @login_required(login_url="/CPPMS/login/")
 def proposal_progress(request, pk=None):

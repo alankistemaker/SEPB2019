@@ -81,4 +81,5 @@ urlpatterns = [
     path("ajax_calls/search/", views.autocompleteModel, name="autocompleteModel"),
     path("ajax_calls/search2/", views.autocompleteModel2, name="autocompleteModel2"),
     path("ajax_calls/search3/", views.autocompleteModel3, name="autocompleteModel3"),
+    path("proposal_stage_create/", views.Proposal_Stage_Create, name="proposal_stage_create"),
 ]
