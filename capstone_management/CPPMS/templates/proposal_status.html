@@ -3,10 +3,8 @@
 {% block sub-page_content %}
 
 {% if not messages %}
-<h2>Proposal Status</h2>
 <h2>Proposal Stage - {{Pro_Stage.0.proposal.title}}</h2>
 {% else %}
-<h2>Proposal Status</h2>
 <h2>Proposal Stage -{{Pro_Stage.0.proposal.title}} </h2>
 {% for message in messages %}<li>{{ message }}</li>{% endfor %}
 {% endif %}

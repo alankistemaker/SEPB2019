@@ -54,20 +54,20 @@ urlpatterns = [
          views.proposal_list,
          name="proposal_list"
     ),
-    path(
-        "proposal/proposal_status_edit/<int:tid>/",
-        views.Proposal_Status_Edit,
-        name="proposal_status_Edit"
+    re_path(
+        "proposal/proposal_status_edit/(?P<pk>[_\w\d\-]+)$",
+        views.proposal_status_edit,
+        name="proposal_status_edit"
     ),
     re_path(
         "proposal_progress/(?P<pk>[_\w\d\-]+)$",
         views.proposal_progress,
         name="proposal_progress"
     ),
-    path(
-        "proposal/proposal_status_e/",
-        views.proposal_status_e,
-        name="proposal_status_e"
+    re_path(
+        "proposal_status/(?P<pk>[_\w\d\-]+)$",
+        views.proposal_status,
+        name="proposal_status"
     ),
     re_path(
         "proposal_detail/(?P<pk>[_\w\d\-]+)$",
@@ -186,7 +186,7 @@ urlpatterns = [
     ),
     path(
         "proposal_stage_create/", 
-        views.Proposal_Stage_Create,
+        views.proposal_stage_create,
         name="proposal_stage_create"
     )
 ]

@@ -460,11 +460,11 @@ def proposal_list(request):
     )
 
 @login_required(login_url="/CPPMS/login/")
-def proposal_status_e(request,tid=None):
+def proposal_status(request,pk=None):
     username = request.user.first_name + " " + request.user.last_name
     count()
     title = "Stages of Proposal" 
-    query1 = get_object_or_404(Proposal,pk=tid)
+    query1 = get_object_or_404(Proposal,pk=pk)
     #Pro_Stage = get_object_or_404(Proposal_Stage,proposal=query1)
     #
 
@@ -485,18 +485,18 @@ def proposal_status_e(request,tid=None):
     )
 
 @login_required(login_url="/CPPMS/login/")
-def Proposal_Status_Edit(request,tid=None):
+def proposal_status_edit(request,pk=None):
     username = request.user.first_name + " " + request.user.last_name
     count()
     title = "Status of Proposals"
 
-    query1 = get_object_or_404(Proposal,pk=tid)
+    query1 = get_object_or_404(Proposal,pk=pk)
     item = Proposal_Status(Proposal,proposal=query1)
     form =ProposalStatusForm(request.POST or None,instance=item)
     if form.is_valid():
         status = form.save(commit=False)
         status.save()
-        return redirect("/CPPMS/proposal/proposal_status/")
+        return redirect("proposal_list.html")
     else:
         form = ProposalStatusForm(instance=item)
 
@@ -511,7 +511,7 @@ def Proposal_Status_Edit(request,tid=None):
 
 
 @login_required(login_url="/CPPMS/login/")
-def Proposal_Stage_Create(request):
+def proposal_stage_create(request):
     username = request.user.first_name + " " + request.user.last_name
     count()
     title = "Create proposal stages"
@@ -566,7 +566,7 @@ def proposal_progress(request, pk=None):
             )
             messages.add_message(request, messages.INFO, "Sucess create a new project")
 
-            return redirect("../../../project/project_list")
+            return redirect("project_list.html")
 
     return render(
         request,
