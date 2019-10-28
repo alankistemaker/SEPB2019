@@ -458,18 +458,17 @@ def proposal_list(request):
         }
     )
 @login_required(login_url="/CPPMS/login/")
-def proposal_status(request):
+def proposal_status_e(request,tid=None):
     username = request.user.first_name + " " + request.user.last_name
     count()
-    title = "Status of Proposals"
+    title = "Stages of Proposal" 
+    query1 = get_object_or_404(Proposal,pk=tid)
+    #Pro_Stage = get_object_or_404(Proposal_Stage,proposal=query1)
+    #
 
-    if request.method == "POST":
-        filter_value = request.POST.get("proposal_list")
-    else:
-        filter_value = ""
-
-    proposal_status = Proposal_Status.objects.all()
-    
+    #item = Proposal_Status(Proposal,proposal=query1)
+    #Pro_Stage =filter_object_or_404(Proposal_Stage,proposal=query1)
+    Pro_Stage=Proposal_Stage.objects.filter(proposal=query1)
 
         
     return render(
@@ -477,7 +476,7 @@ def proposal_status(request):
         "proposal_status.html",
         {
             "count": count,
-            "proposal_status":proposal_status,
+            "Pro_Stage":Pro_Stage,
             "username": username,
             "title":title
         }
@@ -506,6 +505,31 @@ def Proposal_Status_Edit(request,tid=None):
             "title":title
                 }
     return render(request, 'proposal_status_edit.html',context)
+
+
+@login_required(login_url="/CPPMS/login/")
+def Proposal_Stage_Create(request):
+    username = request.user.first_name + " " + request.user.last_name
+    count()
+    title = "Create proposal stages"
+    if request.method == "POST":
+        form = ProposalStageCreateForm(request.POST)
+        if form.is_valid():
+            item = form.save(commit=False)
+            item.save()
+            form = ProposalStageCreateForm()
+            context = {
+            "form":form,
+            "count": count,
+            "username": username,
+            "title":title
+                }
+            return render(request,'proposal_stage_create.html',context)
+    else:
+        form = ProposalStageCreateForm()
+    return render(request,'proposal_stage_create.html',{"form":form,'username':username})
+
+
 
 # Proposal Progress View
 @login_required(login_url="/CPPMS/login/")

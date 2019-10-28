@@ -1,0 +1,47 @@
+{% extends "index.html" %}
+
+{% load widget_tweaks %}
+{% load staticfiles %}
+
+{% block index_page_content %}
+<div class="container-fluid">
+    <div class="row mt-2">
+        <div class="col-lg-1"></div>
+        <div class="col-md-1"></div>
+        <div class="col-sm-1"></div>
+        
+        <div class="col">
+            <div class="card">
+                <h1 class="card-header style-primary">Create Propsal stages</h1>
+                <div class="card-body">
+                    <form class="form" method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                    <div>
+                        {{ field.label_tag }}
+                        {{ field | add_class:'form-control' }}
+                        {% if field.help_text %}
+                        <small style="color: grey">
+                            {{ field.help_text }}
+                        </small>
+                        {% endif %}
+                        {% for error in field.errors %}
+                        <p style="color: red">
+                            {{ error }}
+                        </p>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                    <br>
+                    <button type="submit" class="btn btn-flat btn-primary ink-reaction">Apply</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-1"></div>
+        <div class="col-md-1"></div>
+        <div class="col-lg-1"></div>
+    </div>
+</div>
+
+{% endblock %}

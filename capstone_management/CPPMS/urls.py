@@ -31,7 +31,7 @@ urlpatterns = [
         name="proposal_extract",
     ),
     path("proposal/proposal_list/", views.proposal_list, name="proposal_list"),
-    path("proposal/proposal_status/", views.proposal_status, name="proposal_status"),
+    path("proposal/proposal_status_e/<int:tid>/", views.proposal_status_e, name="proposal_status_e"),
     path("proposal/proposal_status_edit/<int:tid>/", views.Proposal_Status_Edit, name="proposal_status_Edit"),
     path("proposal_progress/", views.proposal_progress, name="proposal_progress"),
     re_path(
@@ -81,4 +81,5 @@ urlpatterns = [
     path("ajax_calls/search/", views.autocompleteModel, name="autocompleteModel"),
     path("ajax_calls/search2/", views.autocompleteModel2, name="autocompleteModel2"),
     path("ajax_calls/search3/", views.autocompleteModel3, name="autocompleteModel3"),
+    path("proposal_stage_create/", views.Proposal_Stage_Create, name="proposal_stage_create"),
 ]
