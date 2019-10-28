@@ -8,91 +8,104 @@
 {% endblock %}
 
 {% block page_detail_content %}
-    
-    <div id="deleteModal" tabindex="-1" class="modal fade">
-        <div class="modal-dialog modal-confirm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Are you sure?</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <p>Do you really want to delete the Project: {{ project_detail.title }}? </p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
-                    <button type="submit" name="delete" class="btn btn-danger">Delete</button>
-                </div>
+
+<div id="deleteModal" tabindex="-1" class="modal fade">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Are you sure?</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Do you really want to delete the Project: {{ project_detail.title }}? </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                <button type="submit" name="delete" class="btn btn-danger">Delete</button>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="row mb-2">
+<div class="row mb-2">
 
-        <div class="col-lg-1"></div>
-        <div class="col-md-1"></div>
-        <div class="col-sm-1"></div>
+    <div class="col-lg-1"></div>
+    <div class="col-md-1"></div>
+    <div class="col-sm-1"></div>
 
-        <div class="col">
-            
-            <form method='POST'>
-            {% csrf_token %}
-            <div class="card">
-                <h3 class="card-header">{{ project_detail.title }}</h3>
-                
-                {% include "form_templates/card_body_form.html" with form=project_form %}
+    <div class="col">
 
-                <div class="card-footer">
-                    <button type="submit" name="edit_project" value="edit_project" class="btn btn-primary">Submit</button>
-                </div>
+        <div class="row mb-2">
+            <div class="col">
+                <form method='POST'>
+                    {% csrf_token %}
+                    <div class="card">
+                        <h3 class="card-header">{{ project_detail.title }}</h3>
+
+                        {% include "form_templates/card_body_form.html" with form=project_form %}
+
+                        <div class="card-footer">
+                            <button type="submit" name="edit_project" value="edit_project" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-            </form>
+        </div>
+        <div class="row mb-2">
+            <div class="col">
+                <form method='POST'>
+                    {% csrf_token %}
+                    <div class="card">
+                        <h3 class="card-header">Internal Supervisor</h3>
 
-            <form method='POST'>
-            {% csrf_token %}
-            <div class="card">
-                <h3 class="card-header">Internal Supervisor</h3>
-                
-                {% include "form_templates/card_body_form.html" with form=internal_supervisor_form %}
-                    
-                <div class="card-footer">
-                    <button type="submit" name="edit_internal_supervisor" value="edit_internal_supervisor" class="btn btn-primary">Submit</button>
-                </div>
+                        {% include "form_templates/card_body_form.html" with form=internal_supervisor_form %}
+
+                        <div class="card-footer">
+                            <button type="submit" name="edit_internal_supervisor" value="edit_internal_supervisor" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-            </form>
+        </div>
+        <div class="row mb-2">
+            <div class="col">
+                <form method='POST'>
+                    {% csrf_token %}
+                    <div class="card">
+                        <h3 class="card-header">Group</h3>
 
-            <form method='POST'>
-            {% csrf_token %}
-            <div class="card">
-                <h3 class="card-header">Group</h3>
-                
-                {% include "form_templates/card_body_form.html" with form=group_form %}
-                    
-                <div class="card-footer">
-                    <button type="submit" name="edit_group" value="edit_group" class="btn btn-primary">Submit</button>
-                </div>
+                        {% include "form_templates/card_body_form.html" with form=group_form %}
+
+                        <div class="card-footer">
+                            <button type="submit" name="edit_group" value="edit_group" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-            </form>
+        </div>
+        <div class="row mb-2">
+            <div class="col">
+                <form method='POST'>
+                    {% csrf_token %}
+                    <div class="card">
+                        <h3 class="card-header">Unit</h3>
 
-            <form method='POST'>
-            {% csrf_token %}
-            <div class="card">
-                <h3 class="card-header">Unit</h3>
-                
-                {% include "form_templates/card_body_form.html" with form=unit_form %}
-                    
-                <div class="card-footer">
-                    <button type="submit" name="edit_unit" value="edit_unit" class="btn btn-primary">Submit</button>
-                </div>
+                        {% include "form_templates/card_body_form.html" with form=unit_form %}
+
+                        <div class="card-footer">
+                            <button type="submit" name="edit_unit" value="edit_unit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-            </form>
-
         </div>
 
-        <div class="col-sm-1"></div>
-        <div class="col-md-1"></div>
-        <div class="col-lg-1"></div>
-
     </div>
+
+    <div class="col-sm-1"></div>
+    <div class="col-md-1"></div>
+    <div class="col-lg-1"></div>
+
+</div>
 
 {% endblock %}

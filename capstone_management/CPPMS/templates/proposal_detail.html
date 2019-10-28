@@ -14,139 +14,142 @@
     <div class="col-1"></div>
 
     <div class="col-md-5">
-        <div class="card">
+        <div class="row mb-2">
+            <div class="col">
+                <div class="card">
+                    <h3 class="card-header">{{ proposal_detail.title }}</h3>
+                    <div class="card-body">
+                        <div class="row mb-2">
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row mb-2">
 
-            <h3 class="card-header">{{ proposal_detail.title }}</h3>
-            <div class="card-body">
-                <div class="row mb-2">
-                    <div class="col">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row mb-2">
+                                            <div class="col">
+                                                <p><strong>Status:</strong></p>
+                                                <p>{{ proposal_detail.status }}</p>
+                                            </div>
 
-                                    <div class="col">
-                                        <p><strong>Status:</strong></p>
-                                        <p>{{ proposal_detail.status }}</p>
-                                    </div>
-                                    
-                                    <div class="col">
-                                        <p><strong>Client:</strong></p>
-                                        <p><a href="client_detail/{{ proposal_detail.client.pk }}">{{ proposal_detail.client.name }}</a></p>
+                                            <div class="col">
+                                                <p><strong>Client:</strong></p>
+                                                <p><a href="client_detail/{{ proposal_detail.client.pk }}">{{ proposal_detail.client.name }}</a></p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-2">
+
+                                            <div class="col">
+                                                <p><strong>Date Created:</strong></p>
+                                                <p>{{ proposal_detail.created_at }}</p>
+                                            </div>
+                                            <div class="col">
+                                                <p><strong>Date Last Updated:</strong></p>
+                                                <p>{{ proposal_detail.updated_at }}</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-
-                                <div class="row mb-2">
-
-                                    <div class="col">
-                                        <p><strong>Date Created:</strong></p>
-                                        <p>{{ proposal_detail.created_at }}</p>
-                                    </div>
-                                    <div class="col">
-                                        <p><strong>Date Last Updated:</strong></p>
-                                        <p>{{ proposal_detail.updated_at }}</p>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <div class="row mb-2">
-                    <div class="col">
-                        <div class="card">
-                            <h4 class="card-header"><a data-toggle="collapse" href="#collapse4">Additional Details</a></h4>
-                            <div id="collapse4" class="collapse">
-                                <ul class="list-group">
-                                    <li class="list-group-item"><strong>Specialisation: </strong>
-                                        <p>{{ proposal_detail.spec }}</p>
-                                    </li>
-                                    <li class="list-group-item"><strong>Skills: </strong>
-                                        <p>{{ proposal_detail.skills }}</p>
-                                    </li>
-                                    <li class="list-group-item"><strong>Environment: </strong>
-                                        <p>{{ proposal_detail.env }}</p>
-                                    </li>
-                                    <li class="list-group-item"><strong>Research: </strong>
-                                        <p>{{ proposal_detail.res }}</p>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+        <div class="row mb-2">
+            <div class="col">
+                <div class="card">
+                    <h4 class="card-header"><a data-toggle="collapse" href="#collapse4">Additional Details</a></h4>
+                    <div id="collapse4" class="collapse">
+                        <ul class="list-group">
+                            <li class="list-group-item"><strong>Specialisation: </strong>
+                                <p>{{ proposal_detail.spec }}</p>
+                            </li>
+                            <li class="list-group-item"><strong>Skills: </strong>
+                                <p>{{ proposal_detail.skills }}</p>
+                            </li>
+                            <li class="list-group-item"><strong>Environment: </strong>
+                                <p>{{ proposal_detail.env }}</p>
+                            </li>
+                            <li class="list-group-item"><strong>Research: </strong>
+                                <p>{{ proposal_detail.res }}</p>
+                            </li>
+                        </ul>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <div class="row mb-2">
-                    <div class="col">
-                        <div class="card">
-                            <h4 class="card-header"><a data-toggle="collapse" href="#collapse1">Client - {{ proposal_detail.client.name }}</a></h4>
-                            <div id="collapse1" class="collapse">
-                                <ul class="list-group">
-                                    <li class="list-group-item"><strong>Client: </strong>
-                                        <p>{{ proposal_detail.client.name }}</p>
-                                    </li>
-                                    <li class="list-group-item"><strong>Description: </strong>
-                                        <p>{{ proposal_detail.client.desc }}</p>
-                                    </li>
-                                    <li class="list-group-item"><strong>Website: </strong>
-                                        <p>{{ proposal_detail.client.website }}</p>
-                                    </li>
-                                    <li class="list-group-item"><strong>Address: </strong>
-                                        <p>{{ proposal_detail.client.address }}</p>
-                                    </li>
-                                    <li class="list-group-item"><strong>Contact: </strong>
-                                        <p>{{ proposal_detail.contact.name }}</p>
-                                    </li>
-                                    <li class="list-group-item"><strong>Email: </strong>
-                                        <p>{{ proposal_detail.contact.email }}</p>
-                                    </li>
-                                    <li class="list-group-item"><strong>Phone: </strong>
-                                        <p>{{ proposal_detail.contact.phone }}</p>
-                                    </li>
-                                    <li class="list-group-item"><strong>Position: </strong>
-                                        <p>{{ proposal_detail.contact.position }}</p>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+        <div class="row mb-2">
+            <div class="col">
+                <div class="card">
+                    <h4 class="card-header"><a data-toggle="collapse" href="#collapse1">Client - {{ proposal_detail.client.name }}</a></h4>
+                    <div id="collapse1" class="collapse">
+                        <ul class="list-group">
+                            <li class="list-group-item"><strong>Client: </strong>
+                                <p>{{ proposal_detail.client.name }}</p>
+                            </li>
+                            <li class="list-group-item"><strong>Description: </strong>
+                                <p>{{ proposal_detail.client.desc }}</p>
+                            </li>
+                            <li class="list-group-item"><strong>Website: </strong>
+                                <p>{{ proposal_detail.client.website }}</p>
+                            </li>
+                            <li class="list-group-item"><strong>Address: </strong>
+                                <p>{{ proposal_detail.client.address }}</p>
+                            </li>
+                            <li class="list-group-item"><strong>Contact: </strong>
+                                <p>{{ proposal_detail.contact.name }}</p>
+                            </li>
+                            <li class="list-group-item"><strong>Email: </strong>
+                                <p>{{ proposal_detail.contact.email }}</p>
+                            </li>
+                            <li class="list-group-item"><strong>Phone: </strong>
+                                <p>{{ proposal_detail.contact.phone }}</p>
+                            </li>
+                            <li class="list-group-item"><strong>Position: </strong>
+                                <p>{{ proposal_detail.contact.position }}</p>
+                            </li>
+                        </ul>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <div class="row mb-2">
-                    <div class="col">
-                        <div class="card">
-                            <h4 class="card-header"><a data-toggle="collapse" href="#collapse5">{{ proposal_detail.external_supervisor.name }} - External Supervisor</a></h4>
-                            <div id="collapse5" class="collapse">
-                                <ul class="list-group">
-                                    <li class="list-group-item"><strong>Title: </strong>
-                                        <p>{{ proposal_detail.external_supervisor.title }}</p>
-                                    </li>
-                                    <li class="list-group-item"><strong>Email: </strong>
-                                        <p>{{ proposal_detail.external_supervisor.email }}</p>
-                                    </li>
-                                    <li class="list-group-item"><strong>Phone: </strong>
-                                        <p>{{ proposal_detail.external_supervisor.phone }}</p>
-                                    </li>
-                                    <li class="list-group-item"><strong>Department: </strong>
-                                        <p>{{ proposal_detail.external_supervisor.department.name }}</p>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+        <div class="row mb-2">
+            <div class="col">
+                <div class="card">
+                    <h4 class="card-header"><a data-toggle="collapse" href="#collapse5">{{ proposal_detail.external_supervisor.name }} - External Supervisor</a></h4>
+                    <div id="collapse5" class="collapse">
+                        <ul class="list-group">
+                            <li class="list-group-item"><strong>Title: </strong>
+                                <p>{{ proposal_detail.external_supervisor.title }}</p>
+                            </li>
+                            <li class="list-group-item"><strong>Email: </strong>
+                                <p>{{ proposal_detail.external_supervisor.email }}</p>
+                            </li>
+                            <li class="list-group-item"><strong>Phone: </strong>
+                                <p>{{ proposal_detail.external_supervisor.phone }}</p>
+                            </li>
+                            <li class="list-group-item"><strong>Department: </strong>
+                                <p>{{ proposal_detail.external_supervisor.department.name }}</p>
+                            </li>
+                        </ul>
                     </div>
                 </div>
-                <div class="row mb-2">
-                    <div class="col text-right">
-                        <a class="btn btn-dark" href="proposal_edit/{{ proposal_detail.pk }}" role="button" data-toggle="tooltip" title="Edit '{{ proposal_detail.title }}'">Edit <i class="fa fa-edit"></i></a>
-                    </div>
-                </div>
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col text-right">
+                <a class="btn btn-dark" href="proposal_edit/{{ proposal_detail.pk }}" role="button" data-toggle="tooltip" title="Edit '{{ proposal_detail.title }}'">Edit <i class="fa fa-edit"></i></a>
             </div>
         </div>
     </div>
 
     <div class="col-md-5">
         <div class="card">
-            <h3 
-                class="card-header">Proposal Projects
+            <h3 class="card-header">Proposal Projects
                 <a class="btn btn-dark" role="button" type="submit" name="new_project" data-toggle="tooltip" href="project_create/{{ proposal_detail.pk }}">New Project</a>
             </h3>
             <div class="card-body">

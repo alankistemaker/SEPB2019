@@ -514,7 +514,7 @@ def Proposal_Status_Edit(request,tid=None):
 @login_required(login_url="/CPPMS/login/")
 def proposal_progress(request, pk=None):
     username = request.user.first_name + " " + request.user.last_name
-    proposal_progress = get_object_or_404(Proposal, pk=1)
+    proposal_progress = get_object_or_404(Proposal, pk=pk)
     count()
     project_title = ""
     title = "Proposal Progress"

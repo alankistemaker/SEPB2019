@@ -41,21 +41,21 @@
             <div class="col">
                 <div class="table-responsive card shadow-sm">
                     <table class="table table-bordered table-hover">
-                        <thead>
-                            <tr class="table-primary">
-                                <th scope="col"><strong>TITLE</strong></th>
-                                <th scope="col"><strong>DATE</strong></th>
-                                <th scope="col"><strong>NOTE</strong></th>
-                                <th scope="col"><strong>CLIENT</strong></th>
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col"><strong>Title</strong></th>
+                                <th scope="col"><strong>Date</strong></th>
+                                <th scope="col"><strong>Details</strong></th>
+                                <th scope="col"><strong>Client</strong></th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for proposal in proposal_filter %}
                             <tr scope="row">
-                                <td><a href="proposal_progress/{{ proposal.pk }}">{{ proposal.title }}</a></td>
+                                <td><a href="proposal_detail/{{ proposal.pk }}">{{ proposal.title }}</a></td>
                                 <td>{{ proposal.created_at }}</td>
-                                <td style="text-align:center">
-                                    <a class="btn" role="button" type="submit" name="proposal" value="proposal" data-toggle="tooltip" title="Proposal" href="proposal_detail/{{ proposal.pk }}">Details</a>
+                                <td>
+                                    <a class="btn" role="button" type="submit" name="proposal" value="proposal" data-toggle="tooltip" title="Proposal" href="proposal_progress/{{ proposal.pk }}">Progress</a>
                                 </td>
                                 <td>{{ proposal.client }}</td>
                             </tr>

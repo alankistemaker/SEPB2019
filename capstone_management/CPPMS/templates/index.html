@@ -14,20 +14,20 @@
         <div class="navbar-nav">
 
             <div class="nav-item dropdown m-1">
-                <button class="btn dropdown-toggle" id="proposal_li" data-toggle="dropdown" href="{% url 'incoming_proposal' %}">
+                <button class="btn btn-light dropdown-toggle" id="proposal_li" data-toggle="dropdown" href="{% url 'incoming_proposal' %}">
                     <strong>Proposals</strong>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
                     <a class="dropdown-item" href="{% url 'incoming_proposal' %}">Incoming Proposals <span class="badge badge-secondary" href="{% url 'proposal_list' %}">{{ count.0 }}</span></a>
                     <a class="dropdown-item" href="{% url 'word_proposal' %}">Import Proposal <span class="badge badge-secondary" href="{% url 'proposal_list' %}">{{ count.1 }}</span></a>
                     <a class="dropdown-item" href="{% url 'proposal_list' %}">Proposal List</a>
-                    <a class="dropdown-item" href="{% url 'proposal_status' %}">Proposal Progress</a>
+                    <a class="dropdown-item" href="{% url 'proposal_status' %}">Proposal Status</a>
                     <a class="dropdown-item" href="{% url 'archive_proposal' %}">Archived Proposals</a>
                 </div>
             </div>
 
             <div class="nav-item dropdown m-1">
-                <button class="btn dropdown-toggle" id="project_li" data-toggle="dropdown" href="{% url 'project_list' %}">
+                <button class="btn btn-light dropdown-toggle" id="project_li" data-toggle="dropdown" href="{% url 'project_list' %}">
                     <strong>Projects</strong>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
@@ -36,7 +36,7 @@
             </div>
 
             <div class="nav-item dropdown m-1">
-                <button class="btn dropdown-toggle" id="client_li" data-toggle="dropdown" href="{% url 'client_list' %}">
+                <button class="btn btn-light dropdown-toggle" id="client_li" data-toggle="dropdown" href="{% url 'client_list' %}">
                     <strong>Clients</strong>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
@@ -46,11 +46,11 @@
             </div>
 
             <li class="nav-item m-1">
-                <a class="btn btn-light" href="{% url 'proposal_list' %}"><strong>{{ count.2 }}</strong></a>
+                <a class="btn btn-light" href="{% url 'incoming_proposal' %}"><strong>{{ count.2 }}</strong></a>
             </li>
 
             <div class="nav-item dropdown m-1">
-                <button class="btn dropdown-toggle" data-toggle="dropdown" id="user_li"><i class="fas fa-user-circle"></i></button>
+                <button class="btn btn-light dropdown-toggle " data-toggle="dropdown" id="user_li"><i class="fas fa-user-circle"></i></button>
                 <div class="dropdown-menu dropdown-menu-right">
                     <a class="dropdown-item" href="{% url 'change_pw' %}">Change Password</a>
                     <a class="dropdown-item" href="{% url 'adduser' %}">Add New User</a>

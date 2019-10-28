@@ -41,16 +41,15 @@
         <div class="row mb-2">
 
             <div class="col">
-                <div class="table-responsive card shadow-sm">
+                <div class="table-responsive-sm card shadow-sm">
                     <table class="table table-bordered table-hover">
-                        <thead>
-                            <tr class="table-primary">
-                                <th scope="col"><strong>CLIENT</strong></th>
-                                <th scope="col"><strong>ADDED</strong></th>
-                                <th scope="col"><strong>UPDATED</strong></th>
-                                <th scope="col"><strong>CONTACT NAME</strong></th>
-                                <th scope="col"><strong>DEPARTMENTS</strong></th>
-                                <th scope="col"><strong>CONTACT</strong></th>
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col"><strong>Client</strong></th>
+                                <th scope="col"><strong>Added</strong></th>
+                                <th scope="col"><strong>Updated</strong></th>
+                                <th scope="col"><strong>Contact</strong></th>
+                                <th scope="col"><strong>Departments</strong></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -62,10 +61,9 @@
                                 <td>{{ client.contact }}</td>
                                 <td>
                                     {% for department in client.departments.all %}
-                                        <p>{{ department.name }}</p>
+                                    - {{ department.name }} <br/>
                                     {% endfor %}
                                 </td>
-                                <td>{{ client.contact.contact }}</td>
                             </tr>
                             {% endfor %}
                         </tbody>

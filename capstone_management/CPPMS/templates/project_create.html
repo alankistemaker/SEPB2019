@@ -11,31 +11,30 @@
 {% load widget_tweaks %}
 
 {% block page_detail_content %}
-
+<form method="post" novalidate>
     <div class="row mb-2">
-        
+
         <div class="col-lg-1"></div>
         <div class="col-md-1"></div>
         <div class="col-sm-1"></div>
 
-        <form method="post" novalidate>
-            {% csrf_token %}
-            <div class="col">
-                <div class="card">
-                    <h3 class="card-header">New Project</h3>
+        {% csrf_token %}
+        <div class="col">
+            <div class="card">
+                <h3 class="card-header">New Project</h3>
 
-                    {% include "form_templates/card_body_form.html" with form=project_form %}
-                    
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
-                
+                {% include "form_templates/card_body_form.html" with form=project_form %}
+
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
+
             </div>
-        </form>
+        </div>
 
         <div class="col-sm-1"></div>
         <div class="col-md-1"></div>
         <div class="col-lg-1"></div>
     </div>
+</form>
 {% endblock %}
