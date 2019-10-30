@@ -22,9 +22,24 @@
             {% csrf_token %}
             <div class="col">
                 <div class="card">
-                    <h3 class="card-header">New Project</h3>
+                    <h3 class="card-header">Create New Project For: {{ proposal_detail.title }}</h3>
 
                     {% include "form_templates/card_body_form.html" with form=project_form %}
+
+                    <div class="card-body">                    
+                        
+                            <div class="row">
+                                <div class="col">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Group Name</span>
+                                        </div>
+                                        <input type="text" class="form-control" name="group_name" id="group_name" style="text-align:right">
+                                        <hr />
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
                     
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary">Submit</button>

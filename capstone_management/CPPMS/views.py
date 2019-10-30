@@ -933,19 +933,29 @@ def project_create(request, pk=None):
 
     if request.method == "POST":
         form_data = ProjectForm(request.POST)
-        new_project = form_data.save()
-        new_project.proposal = proposal_detail
-        new_project_group = Group.objects.create(
-            name="New Group"
-        )
-        new_project.group = new_project_group
+        if form_data.is_valid():
+            new_project = form_data.save()
+            new_project.proposal = proposal_detail
+            new_group = Group.objects.create(
+            title="New Group"
+            )   
+            new_project.group = new_group
+            new_project.save()
+            return redirect("project_edit", new_project.pk)
+        else:
+            project_form = form_data
 
-        return redirect("project_edit", new_project.pk)
+    internal_supervisor_list = InternalSupervisorListForm()
+    student_list = StudentListForm()
+    unit_list = UnitListForm()
 
     return render(
         request,
         "project_create.html",
         {
+            "internal_supervisor_list": internal_supervisor_list,
+            "student_list": student_list,
+            "unit_list": unit_list,
             "project_form": project_form,
             "count": count,
             "proposal_detail": proposal_detail,
@@ -997,106 +1007,31 @@ def project_edit(request, pk=None):
     units = Unit.objects.all()
     groups = Group.objects.all()
     students = Student.objects.all()
+    internal_supervisors = Internal_Supervisor.objects.all()
     count()
     title = "Editing " + project_detail.title
-
-    # pass associated objects to forms if they exist
-    if project_detail.internal_supervisor is not None:
-        internal_supervisor_form = InternalSupervisorForm(instance=project_detail.internal_supervisor)
-    else:
-        internal_supervisor_form = InternalSupervisorForm()
-    
-    if project_detail.group is not None:
-        group_form = GroupForm(instance=project_detail.group)
-    else:
-        group_form = GroupForm()
-    
-    if project_detail.unit is not None:
-        unit_form = UnitForm(instance=project_detail.unit)
-    else:
-        unit_form = UnitForm()
 
     project_form = ProjectForm(instance=project_detail)
 
     if request.method == "POST":
         # if the group button triggered the post request
-        if "edit_group" in request.POST:
-            # check the project for a group
-            if project_detail.group is not None:
-                # if a group exists, attach it to the form (update)
-                edit_group = GroupForm(request.POST, instance=project_detail.group)
-            else:
-                # if no group exists, create fresh form (create)
-                edit_group = GroupForm(request.POST)
-
-            # assign form data to a group object
-            group = edit_group.save()
-            # assign group to project
-            project_detail.group = group
-            # save the project
-            project_detail.save()
-            # update messages
-            messages.info(
-                    request,
-                    "Group updated"
-                )
-            # refresh page
-            return redirect("project_edit", project_detail.pk)
-        
-        # if the internal supervisor button triggered the post request
-        if 'edit_internal_supervisor' in request.POST:
-            if project_detail.internal_supervisor is not None:
-                edit_internal_supervisor = InternalSupervisorForm(request.POST, instance=project_detail.internal_supervisor)
-            else:
-                edit_internal_supervisor = InternalSupervisorForm(request.POST)
-            
-            internal_supervisor = edit_internal_supervisor.save()
-            project_detail.internal_supervisor = internal_supervisor
-            project_detail.save()
-            messages.info(
-                request,
-                "Internal Supervisor updated"
-            )
-            return redirect("project_edit", project_detail.pk)
-
-        # if the unit button triggered the post request
-        if "edit_unit" in request.POST:
-            if project_detail.unit is not None:
-                edit_unit = UnitForm(request.POST, instance=project_detail.unit)
-            else:
-                edit_unit = UnitForm(request.POST)
-
-            unit = edit_unit.save()
-            project_detail.unit = unit     
-            project_detail.save()  
-            messages.info(
-                    request,
-                    "Unit updated"
-                )
-            return redirect("project_edit", project_detail.pk)
-        
-        # if the project button triggered the post request
-        if "edit_project" in request.POST:
-            edit_project = ProjectForm(request.POST, instance=project_detail)
+        edit_project = ProjectForm(request.POST, instance=project_detail)
+        if edit_project.is_valid():
             project_detail = edit_project.save()
-            messages.info(
-                request,
-                "Project updated"
-            )
-                
+        else:
+            project_form = edit_project                
 
     return render(
         request,
         "project_edit.html",
         {
-            "internal_supervisor_form": internal_supervisor_form,
-            "group_form": group_form,
             "project_form": project_form,
-            "unit_form": unit_form,
             "count": count,
             "project_detail": project_detail,
+            "internal_supervisors": internal_supervisors,
             "units": units,
             "groups": groups,
+            "students": students,
             "username": username,
             "title":title
         }
@@ -1701,3 +1636,123 @@ def word_detail(request, pk=None):
             "title":title
         }
                      )
+
+@login_required(login_url="/CPPMS/login/")
+def create_student(request):
+    count()
+    student_form = StudentForm()
+
+    if request.method == "POST":
+        new_student = StudentForm(request.POST)
+        if new_student.is_valid():
+            new_student.save()
+        else:
+            student_form = new_student
+        
+    return render(
+        request, "create_student.html",
+        {
+            "student_form": student_form,
+            "count": count,
+        }
+    )
+
+@login_required(login_url="/CPPMS/login/")
+def create_internal_supervisor(request):
+    count()
+    internal_supervisor_form = InternalSupervisorForm()
+
+    if request.method == "POST":
+        new_internal_supervisor = InternalSupervisorForm(request.POST)
+        if new_internal_supervisor.is_valid():
+            new_internal_supervisor.save()
+        else:
+            internal_supervisor_form = new_internal_supervisor
+
+    return render(
+        request, "create_internal_supervisor.html",
+        {
+            "count": count,
+            "internal_supervisor_form": internal_supervisor_form
+        }
+    )
+
+@login_required(login_url="/CPPMS/login/")
+def create_unit(request):
+    count()
+    unit_form = UnitForm()
+
+    if request.method == "POST":
+        new_unit = UnitForm(request.POST)
+        if new_unit.is_valid():
+            new_unit = new_unit.save()
+        else:
+            unit_form = new_unit
+
+    return render(
+        request, "create_unit.html",
+        {
+            "unit_form": unit_form,
+            "count": count,
+        }
+    )
+
+@login_required(login_url="/CPPMS/login/")
+def edit_student(request, pk=None):
+    count()
+    student_form = StudentForm()
+
+    if request.method == "POST":
+        new_student = StudentForm(request.POST)
+        if new_student.is_valid():
+            new_student.save()
+        else:
+            student_form = new_student
+        
+    return render(
+        request, "create_student.html",
+        {
+            "student_form": student_form,
+            "count": count,
+        }
+    )
+
+@login_required(login_url="/CPPMS/login/")
+def edit_internal_supervisor(request, pk=None):
+    count()
+    internal_supervisor_form = InternalSupervisorForm()
+
+    if request.method == "POST":
+        new_internal_supervisor = InternalSupervisorForm(request.POST)
+        if new_internal_supervisor.is_valid():
+            new_internal_supervisor.save()
+        else:
+            internal_supervisor_form = new_internal_supervisor
+
+    return render(
+        request, "create_internal_supervisor.html",
+        {
+            "internal_supervisor_form": internal_supervisor_form,
+            "count": count
+        }
+    )
+
+@login_required(login_url="/CPPMS/login/")
+def edit_unit(request, pk=None):
+    count()
+    unit_form = UnitForm()
+
+    if request.method == "POST":
+        new_unit = UnitForm(request.POST)
+        if new_unit.is_valid():
+            new_unit = new_unit.save()
+        else:
+            unit_form = new_unit
+
+    return render(
+        request, "create_unit.html",
+        {
+            "unit_form": unit_form,
+            "count": count
+        }
+    )

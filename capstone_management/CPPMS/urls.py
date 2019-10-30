@@ -32,7 +32,11 @@ urlpatterns = [
     ),
     path("proposal/proposal_list/", views.proposal_list, name="proposal_list"),
     path("proposal/proposal_status/", views.proposal_status, name="proposal_status"),
-    path("proposal/proposal_status_edit/<int:tid>/", views.Proposal_Status_Edit, name="proposal_status_Edit"),
+    path(
+        "proposal/proposal_status_edit/<int:tid>/",
+        views.Proposal_Status_Edit,
+        name="proposal_status_Edit",
+    ),
     path("proposal_progress/", views.proposal_progress, name="proposal_progress"),
     re_path(
         "proposal_detail/(?P<pk>[_\w\d\-]+)$",
@@ -81,4 +85,20 @@ urlpatterns = [
     path("ajax_calls/search/", views.autocompleteModel, name="autocompleteModel"),
     path("ajax_calls/search2/", views.autocompleteModel2, name="autocompleteModel2"),
     path("ajax_calls/search3/", views.autocompleteModel3, name="autocompleteModel3"),
+    path("create_student/", views.create_student, name="create_student"),
+    path("create_unit/", views.create_unit, name="create_unit"),
+    path(
+        "create_internal_supervisor/",
+        views.create_internal_supervisor,
+        name="create_internal_supervisor",
+    ),
+    re_path("edit_unit/(?P<pk>[_\w\d\-]+)$", views.edit_unit, name="edit_unit"),
+    re_path(
+        "edit_internal_supervisor/(?P<pk>[_\w\d\-]+)$",
+        views.edit_internal_supervisor,
+        name="edit_internal_supervisor",
+    ),
+    re_path(
+        "edit_student/(?P<pk>[_\w\d\-]+)$", views.edit_student, name="edit_student"
+    ),
 ]
