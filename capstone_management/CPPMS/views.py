@@ -42,12 +42,11 @@ def count():
 def autocompleteModel(request):
     if request.is_ajax():
         q = request.GET.get("term", "").capitalize()
-        search_qs = Client.objects.filter(Q(pk__icontains=q) | Q(name__startswith=q))
+        search_qs = Proposal.objects.filter(Q(pk__icontains=q) | Q(title__icontains=q))
         results = []
         print(q)
         for r in search_qs:
-            results.append(r.name)
-
+            results.append(r.title)
         data = json.dumps(results)
     else:
         data = "fail"
@@ -545,16 +544,16 @@ def proposal_stage_create(request):
             item = form.save(commit=False)
             item.save()
             form = ProposalStageCreateForm()
-            context = {
+    else:
+        form = ProposalStageCreateForm()
+        
+    context = {
             "form":form,
             "count": count,
             "username": username,
             "title":title
                 }
-            return render(request,'proposal_stage_create.html',context)
-    else:
-        form = ProposalStageCreateForm()
-    return render(request,'proposal_stage_create.html',{"form":form,'username':username})
+    return render(request,'proposal_stage_create.html',context)
 
 # Proposal Detail View
 @login_required(login_url="/CPPMS/login/")
@@ -782,37 +781,6 @@ def proposal_edit(request, pk=None):
         }
     )
 
-# Project Generation View
-@login_required(login_url="/CPPMS/login/")
-def generation_list(request, title=None):
-    username = request.user.first_name + " " + request.user.last_name
-    count()
-    title = "Generation List"
-
-    if request.method == "POST":
-        filter_value = request.POST.get("generation_list")
-    else:
-        filter_value = ""
-
-    generation_list = Project.objects.filter(proposal__title=title)
-    if filter_value:
-        generation_filter = generation_list.filter(
-            Q(pk__icontains=filter_value) | Q(title__icontains=filter_value)
-        )
-    else:
-        generation_filter = generation_list.all()
-
-    return render(
-        request,
-        "generation_list.html",
-        {
-            "count": count,
-            "generation_filter": generation_filter,
-            "filter_value": filter_value,
-            "username": username,
-            "title":title
-        }
-    )
 
 # Archive Proposal View
 @login_required(login_url="/CPPMS/login/")

@@ -75,11 +75,6 @@ urlpatterns = [
         name="proposal_edit"
     ),
     path(
-        "proposal/generation_list/(?P<title>[_\w\d\-]+)$",
-        views.generation_list,
-        name="generation_list"
-    ),
-    path(
         "proposal/archive_proposal/",
         views.archive_proposal,
         name="archive_proposal"
