@@ -118,3 +118,9 @@ class InternalSupervisorListForm(forms.Form):
 
 class UnitListForm(forms.Form):
     units = forms.ModelChoiceField(queryset=Unit.objects.all().order_by("unit_code"))
+        fields ='__all__'
+
+class ProposalStageCreateForm(ModelForm):
+    class Meta:
+        model = Proposal_Stage
+        fields ='__all__'

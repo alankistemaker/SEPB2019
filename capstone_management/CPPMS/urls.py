@@ -31,12 +31,8 @@ urlpatterns = [
         name="proposal_extract",
     ),
     path("proposal/proposal_list/", views.proposal_list, name="proposal_list"),
-    path("proposal/proposal_status/", views.proposal_status, name="proposal_status"),
-    path(
-        "proposal/proposal_status_edit/<int:tid>/",
-        views.Proposal_Status_Edit,
-        name="proposal_status_Edit",
-    ),
+    path("proposal/proposal_status_e/<int:tid>/", views.proposal_status_e, name="proposal_status_e"),
+    path("proposal/proposal_status_edit/<int:tid>/", views.Proposal_Status_Edit, name="proposal_status_Edit"),
     path("proposal_progress/", views.proposal_progress, name="proposal_progress"),
     re_path(
         "proposal_detail/(?P<pk>[_\w\d\-]+)$",
@@ -101,4 +97,5 @@ urlpatterns = [
     re_path(
         "edit_student/(?P<pk>[_\w\d\-]+)$", views.edit_student, name="edit_student"
     ),
+    path("proposal_stage_create/", views.Proposal_Stage_Create, name="proposal_stage_create")
 ]
