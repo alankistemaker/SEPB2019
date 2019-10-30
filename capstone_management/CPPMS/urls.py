@@ -55,19 +55,14 @@ urlpatterns = [
          name="proposal_list"
     ),
     re_path(
-        "proposal/proposal_status_edit/(?P<pk>[_\w\d\-]+)$",
-        views.proposal_status_edit,
-        name="proposal_status_edit"
-    ),
-    re_path(
-        "proposal_progress/(?P<pk>[_\w\d\-]+)$",
-        views.proposal_progress,
-        name="proposal_progress"
-    ),
-    re_path(
         "proposal_status/(?P<pk>[_\w\d\-]+)$",
         views.proposal_status,
         name="proposal_status"
+    ),
+    path(
+        "proposal/proposal_status_edit/(?P<pk>[_\w\d\-]+)$",
+        views.proposal_status_edit,
+        name="proposal_status_edit",
     ),
     re_path(
         "proposal_detail/(?P<pk>[_\w\d\-]+)$",
@@ -188,5 +183,33 @@ urlpatterns = [
         "proposal_stage_create/", 
         views.proposal_stage_create,
         name="proposal_stage_create"
+    ),
+    path(
+        "create_student/",
+        views.create_student,
+        name="create_student"
+    ),
+    path(
+        "create_unit/",
+        views.create_unit,
+        name="create_unit"
+    ),
+    path(
+        "create_internal_supervisor/",
+        views.create_internal_supervisor,
+        name="create_internal_supervisor",
+    ),
+    re_path(
+        "edit_unit/(?P<pk>[_\w\d\-]+)$",
+        views.edit_unit,
+        name="edit_unit"
+    ),
+    re_path(
+        "edit_internal_supervisor/(?P<pk>[_\w\d\-]+)$",
+        views.edit_internal_supervisor,
+        name="edit_internal_supervisor",
+    ),
+    re_path(
+        "edit_student/(?P<pk>[_\w\d\-]+)$", views.edit_student, name="edit_student"
     )
 ]

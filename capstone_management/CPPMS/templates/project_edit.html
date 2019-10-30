@@ -34,78 +34,197 @@
     <div class="col-sm-1"></div>
 
     <div class="col">
-
         <div class="row mb-2">
-            <div class="col">
-                <form method='POST'>
-                    {% csrf_token %}
-                    <div class="card">
-                        <h3 class="card-header">{{ project_detail.title }}</h3>
+            <form method='POST'>
+                {% csrf_token %}
+                <div class="card">
+                    <h3 class="card-header">{{ project_detail.title }}</h3>
 
-                        {% include "form_templates/card_body_form.html" with form=project_form %}
+                    {% include "form_templates/card_body_form.html" with form=project_form %}
 
-                        <div class="card-footer">
-                            <button type="submit" name="edit_project" value="edit_project" class="btn btn-primary">Submit</button>
-                        </div>
+                    <div class="card-footer">
+                        <button type="submit" name="edit_project" value="edit_project" class="btn btn-primary">Submit</button>
                     </div>
-                </form>
+                </div>
+
+                <div class="card">
+                    {% if project_detail.internal_supervisor is not None %}
+                    <h5 class="card-header">
+                        <a data-toggle="collapse" href="#collapse1">
+                            Internal Supervisor - {{ project_detail.internal_supervisor.name }}
+                        </a>
+                    </h5>
+                    <div id="collapse1" class="collapse">
+                        <ul class="list-group">
+                            <li class="list-group-item">Name:
+                                <p>{{ project_detail.internal_supervisor.name }}</p>
+                            </li>
+                            <li class="list-group-item">Email:
+                                <p>{{ project_detail.internal_supervisor.email }}</p>
+                            </li>
+                            <li class="list-group-item">Department:
+                                <p>{{ project_detail.internal_supervisor.department }}</p>
+                            </li>
+                            <li class='list-group-item'>
+                                <a class="btn btn-primary" role="button">Edit</a>
+                                <a class="btn btn-primary" role="button">Remove</a>
+                            </li>
+                        </ul>
+
+                    </div>
+
+                    {% else %}
+                    <h5 class="card-header">
+                        <a data-toggle="collapse" href="#supervisor_collapse">
+                            Add Internal Supervisor
+                        </a>
+                    </h5>
+                    <div class="collapse" id="supervisor_collapse">
+                        <input type="text" list="internal_supervisors" name="internal_supervisor">
+                        <datalist id="internal_supervisors">
+                            {% for internal_supervisor in internal_supervisors %}
+                            <option value="{{ internal_supervisor }}">
+                                {% endfor %}
+                        </datalist>
+                        <a class="btn btn-primary" role="button" data-toggle="tooltip" href="{% url 'create_internal_supervisor' %}">New Internal Supervisor</a>
+                    </div>
+                    {% endif %}
+                </div>
+
+
+                <div class="card">
+                    {% if project_detail.unit is not None %}
+                    <h5 class="card-header">
+                        <a data-toggle="collapse" href="#collapse2">
+                            {{ project_detail.unit.title }} - Unit
+                        </a>
+                    </h5>
+                    <div id="collapse2" class="collapse">
+                        <ul class="list-group">
+                            <li class="list-group-item">Title:
+                                <p>{{ project_detail.unit.title }}</p>
+                            </li>
+                            <li class="list-group-item">Convenor:
+                                <p>{{ project_detail.unit.convenor }}</p>
+                            </li>
+                            <li class='list-group-item'>
+                                <a class="btn btn-primary" role="button">Edit</a>
+                                <a class="btn btn-primary" role="button">Remove</a>
+                            </li>
+                        </ul>
+
+                    </div>
+                    {% else %}
+                    <h5 class="card-header">
+                        <a data-toggle="collapse" href="#unit_collapse">
+                            Add Unit
+                        </a>
+                    </h5>
+                    <div class="collapse" id="unit_collapse">
+                        <input type="text" list="units" name="units">
+                        <datalist id="units">
+                            {% for unit in units %}
+                            <option value="{{ unit.full }}">
+                                {% endfor %}
+                        </datalist>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="card">
+                    {% if project_detail.group is not None %}
+                    <h5 class="card-header">
+                        <a data-toggle="collapse" href="#collapse3">
+                            Group - {{ project_detail.group.title }}
+                        </a>
+                    </h5>
+                    <div class="collapse" id="collapse3">
+
+                        <div class="table-responsive card shadow-sm">
+                            <table class="table table-bordered table-hover text-center">
+                                <thead>
+                                    <tr class="table-primary">
+                                        <th scope="col"><strong>ID</strong></th>
+                                        <th scope="col"><strong>Name</strong></th>
+                                        <th scope="col"><strong>Email</strong></th>
+                                        <th scope="col"><strong>Options</strong></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for student in project_detail.group.students.all %}
+                                    <tr scope="row">
+                                        <td>{{ student.pk }}</td>
+                                        <td>{{ student.name }}</td>
+                                        <td>{{ student.email }}</td>
+                                        <td>
+                                            <a class="btn btn-primary" role="button">Edit</a>
+
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+
+                            <input type="text" list="student_list" name="students">
+                            <datalist id="student_list">
+                                {% for student in students %}
+                                <option value="{{ student.name }}">
+                                    {% endfor %}
+                            </datalist>
+                            <a class="btn btn-primary" role="button" data-toggle="tooltip" href="create_student/">Add Student</a>
+                        </div>
+                        <div class="row">
+                            <a class="btn btn-primary" role="button" data-toggle="tooltip" href="create_student/">New Student</a>
+                        </div>
+
+                    </div>
+                    {% else %}
+                    <h5 class="card-header">
+                        <a data-toggle="collapse" href="#group_collapse">
+                            Add Group
+                        </a>
+                    </h5>
+                    <div class="collapse" id="group_collapse">
+                        <input type="text" list="groups" name="groups">
+                        <datalist id="groups">
+                            {% for group in groups %}
+                            <option value="{{ group }}">
+                                {% endfor %}
+                        </datalist>
+                        <a class="btn btn-primary" role="button" data-toggle="tooltip" href="/create_group/">New Group</a>
+                    </div>
+                    {% endif %}
+                </div>
+
+            </form>
+            <div class="card-footer">
+                <button type="submit" name="edit_group" value="edit_group" class="btn btn-primary">Submit</button>
             </div>
         </div>
-        <div class="row mb-2">
-            <div class="col">
-                <form method='POST'>
-                    {% csrf_token %}
-                    <div class="card">
-                        <h3 class="card-header">Internal Supervisor</h3>
+    </div>
+    <div class="row mb-2">
+        <div class="col">
+            <form method='POST'>
+                {% csrf_token %}
+                <div class="card">
+                    <h3 class="card-header">Unit</h3>
 
-                        {% include "form_templates/card_body_form.html" with form=internal_supervisor_form %}
+                    {% include "form_templates/card_body_form.html" with form=unit_form %}
 
-                        <div class="card-footer">
-                            <button type="submit" name="edit_internal_supervisor" value="edit_internal_supervisor" class="btn btn-primary">Submit</button>
-                        </div>
+                    <div class="card-footer">
+                        <button type="submit" name="edit_unit" value="edit_unit" class="btn btn-primary">Submit</button>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
-        <div class="row mb-2">
-            <div class="col">
-                <form method='POST'>
-                    {% csrf_token %}
-                    <div class="card">
-                        <h3 class="card-header">Group</h3>
-
-                        {% include "form_templates/card_body_form.html" with form=group_form %}
-
-                        <div class="card-footer">
-                            <button type="submit" name="edit_group" value="edit_group" class="btn btn-primary">Submit</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div class="row mb-2">
-            <div class="col">
-                <form method='POST'>
-                    {% csrf_token %}
-                    <div class="card">
-                        <h3 class="card-header">Unit</h3>
-
-                        {% include "form_templates/card_body_form.html" with form=unit_form %}
-
-                        <div class="card-footer">
-                            <button type="submit" name="edit_unit" value="edit_unit" class="btn btn-primary">Submit</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-
     </div>
 
     <div class="col-sm-1"></div>
     <div class="col-md-1"></div>
     <div class="col-lg-1"></div>
-
 </div>
+
 
 {% endblock %}

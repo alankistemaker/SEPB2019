@@ -102,3 +102,14 @@ class ProposalStageCreateForm(ModelForm):
     class Meta:
         model = Proposal_Stage
         fields ='__all__'
+
+class StudentListForm(forms.Form):
+    students = forms.ModelChoiceField(queryset=Student.objects.all().order_by("name"))
+
+class InternalSupervisorListForm(forms.Form):
+    internal_supervisors = forms.ModelChoiceField(
+        queryset=Internal_Supervisor.objects.all().order_by("name")
+    )
+
+class UnitListForm(forms.Form):
+    units = forms.ModelChoiceField(queryset=Unit.objects.all().order_by("unit_code"))

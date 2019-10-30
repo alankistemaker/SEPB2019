@@ -45,6 +45,17 @@
                 </div>
             </div>
 
+            <div class="nav-item dropdown m-1">
+                <button class="btn btn-light dropdown-toggle" id="admin_li" data-toggle="dropdown" href="{% url 'client_list' %}">
+                    <strong>Admin</strong>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="{% url 'create_student' %}">New Student</a>
+                    <a class="dropdown-item" href="{% url 'create_unit' %}">New Unit</a>
+                    <a class="dropdown-item" href="{% url 'create_internal_supervisor' %}">New Internal Supervisor</a>
+                </div>
+            </div>
+
             <li class="nav-item m-1">
                 <a class="btn btn-light" href="{% url 'incoming_proposal' %}"><strong>{{ count.2 }}</strong></a>
             </li>

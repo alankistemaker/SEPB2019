@@ -435,14 +435,6 @@ class Proposal(models.Model):
         null=True,
         related_name="proposals"
     )
-    
-    # Foreign Key with the Incoming Proposal model
-    proposal_incoming = models.ForeignKey(
-        Incoming_Proposal,
-        models.SET_NULL,
-        blank=True,
-        null=True
-    )
 
     # Foreign Key with contact model
     contact = models.ForeignKey(

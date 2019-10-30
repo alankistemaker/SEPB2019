@@ -273,6 +273,7 @@ def incoming_proposal(request):
         }
     )
 
+#WORKS PLEASE DO NOT CHANGE STUFF ALAN
 # Proposal Extraction View
 @login_required(login_url="/CPPMS/login/")
 def proposal_extract(request, pk=None):
@@ -311,27 +312,59 @@ def proposal_extract(request, pk=None):
         supervisor_title = request.POST.get("supervisor_title")
 
         if "save" in request.POST:
+            
+            # Client table
+            try:
+                client_table = Client.objects.create(
+                    name=client_name,
+                    address=client_address,
+                    website=client_website,
+                    desc=client_desc
+                )
+                
+            except:
+                Client.objects.filter(name=client_name).update(
+                    address=client_address,
+                    website=client_website,
+                    desc=client_desc
+                )
+                client_table = Client.objects.get(name=client_name)
+                
+            # Department table
+            try:
+                department_table = Department.objects.create(
+                    name=department_name,
+                    phone=department_phone,
+                    email=department_email,
+                    client=client_table
+                )
+                
+            except:
+                Department.objects.filter(name=department_name).update(
+                    phone=department_phone,
+                    email=department_email,
+                    client=client_table
+                )
+                department_table = Department.objects.get(name=department_name)
+                
             # External Supervisor table
             try:
                 external_supervisor_table = External_Supervisor.objects.create(
                     name=supervisor_name,
                     email=supervisor_email,
                     phone=supervisor_phone,
-                    title=supervisor_title
+                    title=supervisor_title,
+                    department=department_table
                 )
                 
             except:
-                external_supervisor_table = External_Supervisor.objects.get(
-                    name=supervisor_name
+                External_Supervisor.objects.filter(name=supervisor_name).update(
+                    email=supervisor_email,
+                    phone=supervisor_phone,
+                    title=supervisor_title,
+                    department=department_table
                 )
-                
-            # Department table
-            try:
-                department_table = Department.objects.create(
-                    name=department_name, phone=department_phone, email=department_email
-                )
-            except:
-                department_table = Department.objects.get(name=department_name)
+                external_supervisor_table = External_Supervisor.objects.get(name=supervisor_name)
                 
             # Contact table
             try:
@@ -340,22 +373,18 @@ def proposal_extract(request, pk=None):
                     position=contact_position,
                     phone=contact_phone,
                     email=contact_email,
-                    department=department_table,
+                    department=department_table
                 )
+                
             except:
+                Contact.objects.filter(name=contact_name).update(
+                    position=contact_position,
+                    phone=contact_phone,
+                    email=contact_email,
+                    department=department_table
+                )
                 contact_table = Contact.objects.get(name=contact_name)
-                contact_table.department = department_table
-            # Client table
-            try:
-                client_table = Client.objects.create(
-                    name=client_name,
-                    address=client_address,
-                    website=client_website,
-                    desc=client_desc,
-                )
-            except:
-                client_table = Client.objects.get(name=client_name)
-                client_table.contact = contact_table
+                
             # Proposal table
             proposal_table = Proposal.objects.create(
                 title=title,
@@ -367,17 +396,14 @@ def proposal_extract(request, pk=None):
                 res=proposal_research,
                 client=client_table,
                 external_supervisor=external_supervisor_table,
+                contact=contact_table
             )
-            messages.add_message(
-                request, messages.INFO, "Sucess Update Project Detail!"
-            )
+            
+            messages.add_message(request, messages.INFO, "Sucessfully Extracted This Incoming Proposal!")
 
-            proposal_extract = Incoming_Proposal.proposals.filter(
-                pk=proposal_id
-            ).delete()
-            messages.add_message(
-                request, messages.INFO, "Sucess Delete This Incoming Proposal!"
-            )
+            proposal_extract = Incoming_Proposal.proposals.filter(pk=proposal_extract.pk).delete()
+            
+            messages.add_message(request, messages.INFO, "Sucessfully Deleted This Incoming Proposal!")
 
             return redirect("proposal_list")
         
@@ -409,9 +435,7 @@ def proposal_extract(request, pk=None):
             
             proposal_extract = Incoming_Proposal.proposals.filter(pk=proposal_extract.pk).delete()
 
-            messages.add_message(
-                request, messages.INFO, "Sucessfully Deleted This Incoming Proposal!"
-            )
+            messages.INFO(request, "Sucessfully Deleted This Incoming Proposal!")
 
             return redirect("incoming_proposal")
 
@@ -532,53 +556,6 @@ def proposal_stage_create(request):
         form = ProposalStageCreateForm()
     return render(request,'proposal_stage_create.html',{"form":form,'username':username})
 
-
-
-# Proposal Progress View
-@login_required(login_url="/CPPMS/login/")
-def proposal_progress(request, pk=None):
-    username = request.user.first_name + " " + request.user.last_name
-    proposal_progress = get_object_or_404(Proposal, pk=pk)
-    count()
-    project_title = ""
-    title = "Proposal Progress"
-
-    if request.method == "POST":
-        project_title = request.POST.get("title")
-
-        if "generate" in request.POST:
-            try:
-                internal_supervisor_table = Internal_Supervisor.objects.create(
-                    name=proposal_progress.supervisors_external.name,
-                    email=proposal_progress.supervisors_external.email,
-                    phone=proposal_progress.supervisors_external.phone,
-                    title=proposal_progress.supervisors_external.title,
-                )
-            except:
-                internal_supervisor_table = Internal_Supervisor.objects.get(
-                    name=proposal_progress.supervisors_external.name
-                )
-
-            project_generate = Project.objects.create(
-                title=project_title,
-                internal_supervisor=internal_supervisor_table,
-                proposal=proposal_progress,
-            )
-            messages.add_message(request, messages.INFO, "Sucess create a new project")
-
-            return redirect("project_list.html")
-
-    return render(
-        request,
-        "proposal_progress.html",
-        {
-            "count": count,
-            "proposal_progress": proposal_progress,
-            "username": username,
-            "title":title
-        }
-    )
-
 # Proposal Detail View
 @login_required(login_url="/CPPMS/login/")
 def proposal_detail(request, pk=None):
@@ -680,11 +657,13 @@ def proposal_edit(request, pk=None):
                     "Client created for proposal"
                 )
             except:
-                client_table = Client.objects.filter(name=client_name).update(
+                Client.objects.filter(name=client_name).update(
                     address = client_address,
                     website = client_website,
                     desc = client_desc
                 )
+                client_table = Client.objects.get(name=client_name)
+                
                 messages.info(
                     request,
                     "Client updated: " + client_name
@@ -703,11 +682,12 @@ def proposal_edit(request, pk=None):
                     "Department Created: " + department_name
                 )
             except:
-                department_table = Department.objects.filter(phone=department_phone).update(
+                Department.objects.filter(phone=department_phone).update(
                     name = department_name,
                     email = department_email,
                     client = client_table
                 )
+                department_table = Department.objects.get(phone=department_phone)
                 messages.info(
                     request,
                     "Department updated: " + department_name
@@ -728,12 +708,13 @@ def proposal_edit(request, pk=None):
                 )
             except:
                     
-                external_supervisor_table = External_Supervisor.objects.filter(email=supervisor_email).update(
+                External_Supervisor.objects.filter(email=supervisor_email).update(
                     name = supervisor_name,
                     phone = supervisor_phone,
                     title = supervisor_title,
                     department = department_table
                 )
+                external_supervisor_table = External_Supervisor.objects.get(email=supervisor_email)
                 messages.info(
                     request,
                     "External Supervisor Updated: " + supervisor_name
@@ -746,28 +727,27 @@ def proposal_edit(request, pk=None):
                     position = contact_position,
                     phone = contact_phone,
                     email = contact_email,
-                    department = department_table,
-                    client = client_table
+                    department = department_table
                 )
                 messages.info(
                     request,
                     "Contact Created: " + contact_name
                 )
             except:
-                contact_table = Contact.objects.filter(email=contact_email).update(
+                Contact.objects.filter(email=contact_email).update(
                     name = contact_name,
                     position = contact_position,
                     phone = contact_phone,
-                    department = department_table,
-                    client = client_table
+                    department = department_table
                 )
+                contact_table = Contact.objects.get(email=contact_email)
                 messages.info(
                     request,
                     "Contact updated: " + contact_name
                 )
 
             try:
-                Proposal.objects.get(request.proposal).update(
+                Proposal.objects.filter(pk=proposal_detail.pk).update(
                     title = title,
                     desc = description,
                     status = status,
@@ -776,7 +756,8 @@ def proposal_edit(request, pk=None):
                     env = proposal_environment,
                     res = proposal_research,
                     client = client_table,
-                    external_supervisor = external_supervisor_table
+                    external_supervisor = external_supervisor_table,
+                    contact=contact_table
                 )
                 messages.info(
                     request,
@@ -957,19 +938,29 @@ def project_create(request, pk=None):
 
     if request.method == "POST":
         form_data = ProjectForm(request.POST)
-        new_project = form_data.save()
-        new_project.proposal = proposal_detail
-        new_project_group = Group.objects.create(
-            name="New Group"
-        )
-        new_project.group = new_project_group
+        if form_data.is_valid():
+            new_project = form_data.save()
+            new_project.proposal = proposal_detail
+            new_group = Group.objects.create(
+            title="New Group"
+            )   
+            new_project.group = new_group
+            new_project.save()
+            return redirect("project_edit", new_project.pk)
+        else:
+            project_form = form_data
 
-        return redirect("project_edit", new_project.pk)
+    internal_supervisor_list = InternalSupervisorListForm()
+    student_list = StudentListForm()
+    unit_list = UnitListForm()
 
     return render(
         request,
         "project_create.html",
         {
+            "internal_supervisor_list": internal_supervisor_list,
+            "student_list": student_list,
+            "unit_list": unit_list,
             "project_form": project_form,
             "count": count,
             "proposal_detail": proposal_detail,
@@ -1021,106 +1012,31 @@ def project_edit(request, pk=None):
     units = Unit.objects.all()
     groups = Group.objects.all()
     students = Student.objects.all()
+    internal_supervisors = Internal_Supervisor.objects.all()
     count()
     title = "Editing " + project_detail.title
-
-    # pass associated objects to forms if they exist
-    if project_detail.internal_supervisor is not None:
-        internal_supervisor_form = InternalSupervisorForm(instance=project_detail.internal_supervisor)
-    else:
-        internal_supervisor_form = InternalSupervisorForm()
-    
-    if project_detail.group is not None:
-        group_form = GroupForm(instance=project_detail.group)
-    else:
-        group_form = GroupForm()
-    
-    if project_detail.unit is not None:
-        unit_form = UnitForm(instance=project_detail.unit)
-    else:
-        unit_form = UnitForm()
 
     project_form = ProjectForm(instance=project_detail)
 
     if request.method == "POST":
         # if the group button triggered the post request
-        if "edit_group" in request.POST:
-            # check the project for a group
-            if project_detail.group is not None:
-                # if a group exists, attach it to the form (update)
-                edit_group = GroupForm(request.POST, instance=project_detail.group)
-            else:
-                # if no group exists, create fresh form (create)
-                edit_group = GroupForm(request.POST)
-
-            # assign form data to a group object
-            group = edit_group.save()
-            # assign group to project
-            project_detail.group = group
-            # save the project
-            project_detail.save()
-            # update messages
-            messages.info(
-                    request,
-                    "Group updated"
-                )
-            # refresh page
-            return redirect("project_edit", project_detail.pk)
-        
-        # if the internal supervisor button triggered the post request
-        if 'edit_internal_supervisor' in request.POST:
-            if project_detail.internal_supervisor is not None:
-                edit_internal_supervisor = InternalSupervisorForm(request.POST, instance=project_detail.internal_supervisor)
-            else:
-                edit_internal_supervisor = InternalSupervisorForm(request.POST)
-            
-            internal_supervisor = edit_internal_supervisor.save()
-            project_detail.internal_supervisor = internal_supervisor
-            project_detail.save()
-            messages.info(
-                request,
-                "Internal Supervisor updated"
-            )
-            return redirect("project_edit", project_detail.pk)
-
-        # if the unit button triggered the post request
-        if "edit_unit" in request.POST:
-            if project_detail.unit is not None:
-                edit_unit = UnitForm(request.POST, instance=project_detail.unit)
-            else:
-                edit_unit = UnitForm(request.POST)
-
-            unit = edit_unit.save()
-            project_detail.unit = unit     
-            project_detail.save()  
-            messages.info(
-                    request,
-                    "Unit updated"
-                )
-            return redirect("project_edit", project_detail.pk)
-        
-        # if the project button triggered the post request
-        if "edit_project" in request.POST:
-            edit_project = ProjectForm(request.POST, instance=project_detail)
+        edit_project = ProjectForm(request.POST, instance=project_detail)
+        if edit_project.is_valid():
             project_detail = edit_project.save()
-            messages.info(
-                request,
-                "Project updated"
-            )
-                
+        else:
+            project_form = edit_project                
 
     return render(
         request,
         "project_edit.html",
         {
-            "internal_supervisor_form": internal_supervisor_form,
-            "group_form": group_form,
             "project_form": project_form,
-            "unit_form": unit_form,
             "count": count,
             "project_detail": project_detail,
+            "internal_supervisors": internal_supervisors,
             "units": units,
             "groups": groups,
+            "students": students,
             "username": username,
             "title":title
         }
@@ -1206,8 +1122,8 @@ def new_client(request):
                 department=department_table
             )
             
-            messages.add_message(request, messages.SUCCESS, "Successfully Added New Client!")
-            return redirect("../../")
+            messages.INFO(request, "Successfully Added New Client!")
+            return redirect("client_list")
             
     return render(
         request,
@@ -1324,14 +1240,14 @@ def client_edit(request, pk=None):
                 desc=client_description
             )
 
-            messages.add_message(request, messages.SUCCESS, "Sucessfully Updated Client Details!")
+            messages.INFO(request, "Sucessfully Updated Client Details!")
             
             return redirect("client_list")
             
         if "delete" in request.POST:
             client_edit = Client.objects.filter(pk=client_edit.pk).delete()
             
-            messages.add_message(request, messages.SUCCESS, "Sucessfully Deleted Client Details!")
+            messages.INFO(request, "Sucessfully Deleted Client Details!")
             
             return redirect("client_list")
         
@@ -1386,6 +1302,7 @@ def client_edit(request, pk=None):
                     "Could not create new department"
                 )
             return redirect("client_edit", client_edit.pk)
+        
     department_form = DepartmentForm()        
     return render(
         request,
@@ -1725,3 +1642,127 @@ def word_detail(request, pk=None):
             "title":title
         }
                      )
+
+@login_required(login_url="/CPPMS/login/")
+def create_student(request):
+    count()
+    student_form = StudentForm()
+
+    if request.method == "POST":
+        new_student = StudentForm(request.POST)
+        if new_student.is_valid():
+            new_student.save()
+            messages.INFO(request, "Student added.")
+        else:
+            student_form = new_student
+            
+        
+    return render(
+        request, "create_student.html",
+        {
+            "student_form": student_form,
+            "count": count,
+        }
+    )
+
+@login_required(login_url="/CPPMS/login/")
+def create_internal_supervisor(request):
+    count()
+    internal_supervisor_form = InternalSupervisorForm()
+
+    if request.method == "POST":
+        new_internal_supervisor = InternalSupervisorForm(request.POST)
+        if new_internal_supervisor.is_valid():
+            new_internal_supervisor.save()
+            messages.INFO(request, "Internal Supervisor added.")
+        else:
+            internal_supervisor_form = new_internal_supervisor
+
+    return render(
+        request, "create_internal_supervisor.html",
+        {
+            "count": count,
+            "internal_supervisor_form": internal_supervisor_form
+        }
+    )
+
+@login_required(login_url="/CPPMS/login/")
+def create_unit(request):
+    count()
+    unit_form = UnitForm()
+
+    if request.method == "POST":
+        new_unit = UnitForm(request.POST)
+        if new_unit.is_valid():
+            new_unit = new_unit.save()
+            messages.INFO(request, "Unit added.")
+        else:
+            unit_form = new_unit
+
+    return render(
+        request, "create_unit.html",
+        {
+            "unit_form": unit_form,
+            "count": count,
+        }
+    )
+
+@login_required(login_url="/CPPMS/login/")
+def edit_student(request, pk=None):
+    count()
+    student_form = StudentForm()
+
+    if request.method == "POST":
+        new_student = StudentForm(request.POST)
+        if new_student.is_valid():
+            new_student.save()
+        else:
+            student_form = new_student
+        
+    return render(
+        request, "create_student.html",
+        {
+            "student_form": student_form,
+            "count": count,
+        }
+    )
+
+@login_required(login_url="/CPPMS/login/")
+def edit_internal_supervisor(request, pk=None):
+    count()
+    internal_supervisor_form = InternalSupervisorForm()
+
+    if request.method == "POST":
+        new_internal_supervisor = InternalSupervisorForm(request.POST)
+        if new_internal_supervisor.is_valid():
+            new_internal_supervisor.save()
+        else:
+            internal_supervisor_form = new_internal_supervisor
+
+    return render(
+        request, "create_internal_supervisor.html",
+        {
+            "internal_supervisor_form": internal_supervisor_form,
+            "count": count
+        }
+    )
+
+@login_required(login_url="/CPPMS/login/")
+def edit_unit(request, pk=None):
+    count()
+    unit_form = UnitForm()
+
+    if request.method == "POST":
+        new_unit = UnitForm(request.POST)
+        if new_unit.is_valid():
+            new_unit = new_unit.save()
+        else:
+            unit_form = new_unit
+
+    return render(
+        request, "create_unit.html",
+        {
+            "unit_form": unit_form,
+            "count": count
+        }
+    )
