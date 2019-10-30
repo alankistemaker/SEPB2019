@@ -977,10 +977,15 @@ def project_list(request):
 def project_edit(request, pk=None):
     username = request.user.first_name + " " + request.user.last_name
     project_detail = get_object_or_404(Project, pk=pk)
-    units = Unit.objects.all()
-    groups = Group.objects.all()
-    students = Student.objects.all()
-    internal_supervisors = Internal_Supervisor.objects.all()
+    units = UnitForm()
+    groups = GroupForm()
+    students = StudentForm()
+    internal_supervisors = InternalSupervisorForm()
+    
+    unit_list = UnitListForm()
+    group_list = GroupListForm()
+    student_list = StudentListForm()
+    internal_supervisor_list = InternalSupervisorListForm()
     count()
     title = "Editing " + project_detail.title
 
@@ -1006,7 +1011,11 @@ def project_edit(request, pk=None):
             "groups": groups,
             "students": students,
             "username": username,
-            "title":title
+            "title":title,
+            "unit_list": unit_list,
+            "group_list": group_list,
+            "student_list": student_list,
+            "internal_supervisor_list": internal_supervisor_list
         }
     )
 
@@ -1645,7 +1654,7 @@ def create_internal_supervisor(request):
         new_internal_supervisor = InternalSupervisorForm(request.POST)
         if new_internal_supervisor.is_valid():
             new_internal_supervisor.save()
-            messages.INFO(request, "Internal Supervisor added.")
+            messages.add_message(request, messages.INFO, "Internal Supervisor added.")
         else:
             internal_supervisor_form = new_internal_supervisor
 
@@ -1737,3 +1746,5 @@ def edit_unit(request, pk=None):
             "count": count
         }
     )
+
+

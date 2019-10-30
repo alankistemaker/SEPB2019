@@ -104,12 +104,13 @@ class ProposalStageCreateForm(ModelForm):
         fields ='__all__'
 
 class StudentListForm(forms.Form):
-    students = forms.ModelChoiceField(queryset=Student.objects.all().order_by("name"))
+    students = forms.ModelChoiceField(queryset=Student.objects.all().order_by("name"), label="Students")
 
 class InternalSupervisorListForm(forms.Form):
-    internal_supervisors = forms.ModelChoiceField(
-        queryset=Internal_Supervisor.objects.all().order_by("name")
-    )
+    internal_supervisors = forms.ModelChoiceField(queryset=Internal_Supervisor.objects.all().order_by("name"), label="Internal Supervisors")
 
 class UnitListForm(forms.Form):
-    units = forms.ModelChoiceField(queryset=Unit.objects.all().order_by("unit_code"))
+    units = forms.ModelChoiceField(queryset=Unit.objects.all().order_by("unit_code"), label="Units")
+
+class GroupListForm(forms.Form):
+    groups = forms.ModelChoiceField(queryset=Group.objects.all(), label="Groups")
