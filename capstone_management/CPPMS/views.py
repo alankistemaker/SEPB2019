@@ -41,12 +41,11 @@ def count():
 def autocompleteModel(request):
     if request.is_ajax():
         q = request.GET.get("term", "").capitalize()
-        search_qs = Client.objects.filter(Q(pk__icontains=q) | Q(name__startswith=q))
+        search_qs = Proposal.objects.filter(Q(pk__icontains=q) | Q(title__icontains=q))
         results = []
         print(q)
         for r in search_qs:
-            results.append(r.name)
-
+            results.append(r.title)
         data = json.dumps(results)
     else:
         data = "fail"
