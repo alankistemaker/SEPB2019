@@ -518,16 +518,16 @@ def Proposal_Stage_Create(request):
             item = form.save(commit=False)
             item.save()
             form = ProposalStageCreateForm()
-            context = {
+    else:
+        form = ProposalStageCreateForm()
+        
+    context = {
             "form":form,
             "count": count,
             "username": username,
             "title":title
                 }
-            return render(request,'proposal_stage_create.html',context)
-    else:
-        form = ProposalStageCreateForm()
-    return render(request,'proposal_stage_create.html',{"form":form,'username':username})
+    return render(request,'proposal_stage_create.html',context)
 
 
 
