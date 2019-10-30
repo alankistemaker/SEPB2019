@@ -45,7 +45,7 @@
                             <tr>
                                 <th scope="col"><strong>Title</strong></th>
                                 <th scope="col"><strong>Date</strong></th>
-                                <th scope="col"><strong>Details</strong></th>
+                                <th scope="col" style="min-width: 200px"><strong>Details</strong></th>
                                 <th scope="col"><strong>Client</strong></th>
                             </tr>
                         </thead>
@@ -55,7 +55,7 @@
                                 <td><a href="proposal_detail/{{ proposal.pk }}">{{ proposal.title }}</a></td>
                                 <td>{{ proposal.created_at }}</td>
                                 <td>
-                                    <a class="btn btn-dark" role="button" type="submit" name="project" value="project" data-toggle="tooltip" title="Project" href="{% url 'generation_list' title=proposal.title %}">Details</a>
+                                    <a class="btn btn-dark" role="button" type="submit" name="project" value="project" data-toggle="tooltip" title="Project" href="proposal_detail/{{ proposal.pk }}">Details</a>
                                     <a class="btn btn-dark" role="button" type="submit" name="proposal_stage" value="proposal_stage" data-toggle="tooltip" title="Proposal_stage" href="proposal_status/{{ proposal.pk }}">Stages</a>
                                 </td>
                                 <td>{{ proposal.client }}</td>

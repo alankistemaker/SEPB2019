@@ -1215,7 +1215,7 @@ def client_edit(request, pk=None):
         if "delete" in request.POST:
             client_edit = Client.objects.filter(pk=client_edit.pk).delete()
             
-            messages.INFO(request, "Sucessfully Deleted Client Details!")
+            messages.add_message(request, messages.INFO, "Sucessfully Deleted Client Details!")
             
             return redirect("client_list")
         
@@ -1457,33 +1457,11 @@ def word_detail(request, pk=None):
             proposal_detail = Upload_Proposal.objects.filter(pk=proposal_detail.pk).delete()
             os.remove(full_path)
             
-            messages.warning(
-                    request,
-                    "Proposal deleted!"
-                )
+            messages.addmessage(request, messages.INFO, "Proposal deleted!")
             
             return redirect("word_proposal")
 
         if "save" in request.POST:
-            # External Supervisor table
-            try:
-                external_supervisor_table = External_Supervisor.objects.create(
-                    name=supervisor_name,
-                    email=supervisor_email,
-                    phone=supervisor_phone,
-                    title=supervisor_title
-                )
-                
-            except:
-                external_supervisor_table = External_Supervisor.objects.get(
-                    email=supervisor_email
-                )
-                
-                messages.warning(
-                    request,
-                    "External Supervisor already exists!"
-                )
-                
             # Client Table
             try:
                 client_table = Client.objects.create(
@@ -1498,12 +1476,14 @@ def word_detail(request, pk=None):
                 )
                 
             except:
-                client_table = Client.objects.get(name=client_name)
-                messages.warning(
-                    request,
-                    "Client already exists!"
+                Client.objects.filter(name=client_name).update(
+                    address=client_address,
+                    website=client_website,
+                    desc=client_desc
                 )
-
+                client_table = Client.objects.get(name=client_name)
+                messages.warning(request, "Client already exists, updating!")
+            
             # Department Table
             try:
                 department_table = Department.objects.create(
@@ -1513,16 +1493,37 @@ def word_detail(request, pk=None):
                     client=client_table
                 )
                 
-                messages.info(
-                    "Department added: " + department_name + " @ " + client_table.name
+                messages.info("Department added: " + department_name + " @ " + client_table.name)
+                
+            except:
+                Department.objects.filter(phone=department_phone).update(
+                    name=department_name,
+                    email=department_email,
+                    client=client_table
+                )
+                department_table = Department.objects.get(phone=department_phone)
+                messages.warning(request, "Department already exists")
+            
+            # External Supervisor table
+            try:
+                external_supervisor_table = External_Supervisor.objects.create(
+                    name=supervisor_name,
+                    email=supervisor_email,
+                    phone=supervisor_phone,
+                    title=supervisor_title,
+                    department=department_table
                 )
                 
             except:
-                department_table = Department.objects.get(phone=department_phone)
-                messages.warning(
-                    request,
-                    "Department already exists"
+                External_Supervisor.objects.filter(email=supervisor_email).update(
+                    name=supervisor_name,
+                    phone=supervisor_phone,
+                    title=supervisor_title,
+                    department=department_table
                 )
+                external_supervisor_table = External_Supervisor.objects.get(email=supervisor_email)
+                
+                messages.warning(request, "External Supervisor already exists!")
             
             # Contact table
             try:
@@ -1531,22 +1532,19 @@ def word_detail(request, pk=None):
                     position=contact_position,
                     phone=contact_phone,
                     email=contact_email,
-                    client=client_table,
                     department=department_table
                 )
-                messages.info(
-                    request,
-                    "Contact added: " + contact_name
-                )
+                messages.info(request,"Contact added: " + contact_name)
                 
             except:
-                contact_table = Contact.objects.get(email=contact_email)
-                contact_table.department = department_table
-                contact_table.client = client_table
-                messages.warning(
-                    request,
-                    "Contact already exists!"
+                Contact.objects.filter(email=contact_email).update(
+                    name=contact_name,
+                    position=contact_position,
+                    phone=contact_phone,
+                    department=department_table
                 )
+                contact_table = Contact.objects.get(email=contact_email)
+                messages.warning(request,"Contact already exists!")
                 
             # Proposal table
             try:
@@ -1559,24 +1557,29 @@ def word_detail(request, pk=None):
                     env=proposal_environment,
                     res=proposal_research,
                     client=client_table,
-                    external_supervisor=external_supervisor_table
+                    external_supervisor=external_supervisor_table,
+                    contact=contact_table
                 )   
-                messages.INFO(
-                    request, 
-                    "Proposal Created: " + title
-                )
-                proposal_detail=Upload_Proposal.objects.filter(pk=proposal_id).delete()
-                #### os.remove(full_path)
-                messages.add_message(request,"Sucess Save/Update Word-structured Proposal Detail!")
+                messages.INFO(request, "Proposal Created: " + title)
+                
+                proposal_detail = Upload_Proposal.objects.filter(pk=proposal_id).delete()
+                os.remove(full_path)
+                messages.add_message(request, messages.INFO, "Sucess Save/Update Word-structured Proposal Detail!")
                                 
             except:
-                proposal_table = Proposal.objects.get(title=proposal_title)
-                proposal_table.client = client_table
-                proposal_table.external_supervisor = external_supervisor_table
-                messages.warning(
-                    request,
-                    "Proposal already exists!"
+                Proposal.objects.filter(title=proposal_title).update(
+                    desc=description,
+                    status=status,
+                    spec=proposal_specialisation,
+                    skills=proposal_skills,
+                    env=proposal_environment,
+                    res=proposal_research,
+                    client=client_table,
+                    external_supervisor=external_supervisor_table,
+                    contact=contact_table
                 )
+                proposal_table = Proposal.objects.get(title=proposal_title)
+                messages.warning(request, "Proposal already exists!" )
 
     return render(
         request, "word_detail.html",
