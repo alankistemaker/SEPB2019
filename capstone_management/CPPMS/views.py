@@ -790,37 +790,6 @@ def proposal_edit(request, pk=None):
         }
     )
 
-# Project Generation View
-@login_required(login_url="/CPPMS/login/")
-def generation_list(request, title=None):
-    username = request.user.first_name + " " + request.user.last_name
-    count()
-    title = "Generation List"
-
-    if request.method == "POST":
-        filter_value = request.POST.get("generation_list")
-    else:
-        filter_value = ""
-
-    generation_list = Project.objects.filter(proposal__title=title)
-    if filter_value:
-        generation_filter = generation_list.filter(
-            Q(pk__icontains=filter_value) | Q(title__icontains=filter_value)
-        )
-    else:
-        generation_filter = generation_list.all()
-
-    return render(
-        request,
-        "generation_list.html",
-        {
-            "count": count,
-            "generation_filter": generation_filter,
-            "filter_value": filter_value,
-            "username": username,
-            "title":title
-        }
-    )
 
 # Archive Proposal View
 @login_required(login_url="/CPPMS/login/")
