@@ -104,13 +104,13 @@
                         </div>
                         <div class="card-body">
 
-                           <a href="/CPPMS/project/project_list/project_detail/{{ projects.0.pk }}"> <h6 class=" font-weight-bold">{{projects.0.title}} </h6></a>
+                           <a href="/CPPMS/project/project_list/project_detail/{{ projects.0.pk }}" style="text-decoration:none;color:inherit;"> <h6 class=" font-weight-bold">{{projects.0.title}} </h6></a>
                            
-                            <a href="/CPPMS/project/project_list/project_detail/{{ projects.1.pk }}"> <h6 class=" font-weight-bold">{{projects.1.title}} </h6></a>
-                            <a href="/CPPMS/project/project_list/project_detail/{{ projects.2.pk }}"> <h6 class=" font-weight-bold">{{projects.2.title}} </h6></a>
+                            <a href="/CPPMS/project/project_list/project_detail/{{ projects.1.pk }}"style="text-decoration:none;color:inherit;"> <h6 class=" font-weight-bold">{{projects.1.title}} </h6></a>
+                            <a href="/CPPMS/project/project_list/project_detail/{{ projects.2.pk }}"style="text-decoration:none;color:inherit;"> <h6 class=" font-weight-bold">{{projects.2.title}} </h6></a>
                            
-                            <a href="/CPPMS/project/project_list/project_detail/{{ projects.3.pk }}"> <h6 class=" font-weight-bold">{{projects.3.title}} </h6></a>
-                            <a href="/CPPMS/project/project_list/project_detail/{{ projects.4.pk }}"> <h6 class=" font-weight-bold">{{projects.4.title}} </h6></a>
+                            <a href="/CPPMS/project/project_list/project_detail/{{ projects.3.pk }}"style="text-decoration:none;color:inherit;"> <h6 class=" font-weight-bold">{{projects.3.title}} </h6></a>
+                            <a href="/CPPMS/project/project_list/project_detail/{{ projects.4.pk }}"style="text-decoration:none;color:inherit;"> <h6 class=" font-weight-bold">{{projects.4.title}} </h6></a>
                
 
                         </div>
@@ -129,9 +129,11 @@
                         </div>
                         <div class="card-body">
 
-                            <p>Last Login : {{login_user }} <br>
-                                {{last_login}} <br>
-                                User Name : {{username}} </p>
+                            <p>
+                            <h6 class=" font-weight-bold">User's Name            : {{username}} </h6>
+                     
+                            <h6 class=" font-weight-bold">Last Login Date Time : {{last_login}} </h6>
+     </p>
                         </div>
                     </div>
 
