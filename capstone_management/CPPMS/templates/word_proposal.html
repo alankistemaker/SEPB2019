@@ -15,7 +15,7 @@
 
 <div class="row mb-2">
     <div class="col-md-1"></div>
-    
+
     <div class="col">
         <div class="row mb-2">
             <div class="col">
@@ -39,24 +39,28 @@
             <div class="col">
                 <div class="card table-responsive shadow-sm">
                     <table class="table table-hover">
-                        <tr class="table-primary">
-                            <th>ID</th>
-                            <th style="min-width: 150px">Proposal Title</th>
-                            <th style="min-width: 150px">Uploaded At</th>
-                        </tr>
-                        {% for proposal in word_proposals %}
-                        <tr>
-                            <td><a href="word_proposal_detail/{{ proposal.pk }}">{{ proposal.pk }}</a></td>
-                            <td><a href="word_proposal_detail/{{ proposal.pk }}">{{ proposal.title }}</a></td>
-                            <td>{{ proposal.created_at }}</td>
-                        </tr>
-                        {% endfor %}
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th style="min-width: 150px">Proposal Title</th>
+                                <th style="min-width: 150px">Uploaded At</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for proposal in word_proposals %}
+                            <tr>
+                                <td><a href="word_proposal_detail/{{ proposal.pk }}">{{ proposal.pk }}</a></td>
+                                <td><a href="word_proposal_detail/{{ proposal.pk }}">{{ proposal.title }}</a></td>
+                                <td>{{ proposal.created_at }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
-    
+
     <div class="col-md-1"></div>
 </div>
 

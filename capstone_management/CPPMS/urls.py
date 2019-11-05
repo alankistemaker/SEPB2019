@@ -31,8 +31,27 @@ urlpatterns = [
         name="proposal_extract",
     ),
     path("proposal/proposal_list/", views.proposal_list, name="proposal_list"),
-    path("proposal/proposal_status_e/<int:tid>/", views.proposal_status_e, name="proposal_status_e"),
-    path("proposal/proposal_status_edit/<int:tid>/", views.Proposal_Status_Edit, name="proposal_status_Edit"),
+    re_path(
+        "proposal_status/(?P<pk>[_\w\d\-]+)$",
+        views.proposal_status,
+        name="proposal_status",
+    ),
+    path(
+        "proposal/proposal_status_edit/(?P<pk>[_\w\d\-]+)$",
+        views.proposal_status_edit,
+        name="proposal_status_edit",
+    ),
+    path("proposal/proposal_list/", views.proposal_list, name="proposal_list"),
+    path(
+        "proposal/proposal_status_e/<int:tid>/",
+        views.proposal_status_e,
+        name="proposal_status_e",
+    ),
+    path(
+        "proposal/proposal_status_edit/<int:tid>/",
+        views.Proposal_Status_Edit,
+        name="proposal_status_Edit",
+    ),
     path("proposal_progress/", views.proposal_progress, name="proposal_progress"),
     re_path(
         "proposal_detail/(?P<pk>[_\w\d\-]+)$",
@@ -41,11 +60,6 @@ urlpatterns = [
     ),
     re_path(
         "proposal_edit/(?P<pk>[_\w\d\-]+)$", views.proposal_edit, name="proposal_edit"
-    ),
-    path(
-        "proposal/generation_list/(?P<title>[_\w\d\-]+)$",
-        views.generation_list,
-        name="generation_list",
     ),
     path("proposal/archive_proposal/", views.archive_proposal, name="archive_proposal"),
     re_path(
@@ -81,5 +95,25 @@ urlpatterns = [
     path("ajax_calls/search/", views.autocompleteModel, name="autocompleteModel"),
     path("ajax_calls/search2/", views.autocompleteModel2, name="autocompleteModel2"),
     path("ajax_calls/search3/", views.autocompleteModel3, name="autocompleteModel3"),
-    path("proposal_stage_create/", views.Proposal_Stage_Create, name="proposal_stage_create"),
+    path(
+        "proposal_stage_create/",
+        views.proposal_stage_create,
+        name="proposal_stage_create",
+    ),
+    path("create_student/", views.create_student, name="create_student"),
+    path("create_unit/", views.create_unit, name="create_unit"),
+    path(
+        "create_internal_supervisor/",
+        views.create_internal_supervisor,
+        name="create_internal_supervisor",
+    ),
+    re_path("edit_unit/(?P<pk>[_\w\d\-]+)$", views.edit_unit, name="edit_unit"),
+    re_path(
+        "edit_internal_supervisor/(?P<pk>[_\w\d\-]+)$",
+        views.edit_internal_supervisor,
+        name="edit_internal_supervisor",
+    ),
+    re_path(
+        "edit_student/(?P<pk>[_\w\d\-]+)$", views.edit_student, name="edit_student"
+    ),
 ]

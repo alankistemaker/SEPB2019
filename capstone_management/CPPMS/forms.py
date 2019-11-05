@@ -1,11 +1,11 @@
 from django import forms
 from django.forms import ModelForm
 from django.contrib.auth import authenticate, get_user_model, login, logout
+from django.contrib.auth.forms import UserCreationForm
+from .models import *
 
 User = get_user_model
 User1 = get_user_model()
-from django.contrib.auth.forms import UserCreationForm 
-from .models import Proposal_Status,Proposal_Stage
 
 # Login Form
 class UserLoginForm(forms.Form):
@@ -25,7 +25,8 @@ class UserLoginForm(forms.Form):
             if not user.is_active:
                 raise forms.ValidationError("This user is not longer active")
         return super(UserLoginForm, self).clean(*args, **kwargs)
-    
+
+
 # Add User
 class SignUpForm(UserCreationForm):
     first_name = forms.CharField(max_length=30, required=False, help_text="Optional.")
@@ -55,9 +56,71 @@ class UserForm(forms.ModelForm):
 class ProposalStatusForm(ModelForm):
     class Meta:
         model = Proposal_Status
-        fields ='__all__'
+        fields = "__all__"
+
+
+class GroupForm(ModelForm):
+    class Meta:
+        model = Group
+        fields = "__all__"
+        exclude = ["created_at", "updated_at"]
+
+
+class StudentForm(ModelForm):
+    class Meta:
+        model = Student
+        fields = "__all__"
+        exclude = ["created_at", "updated_at"]
+
+
+class InternalSupervisorForm(ModelForm):
+    class Meta:
+        model = Internal_Supervisor
+        fields = "__all__"
+        exclude = ["created_at", "updated_at"]
+
+
+class UnitForm(ModelForm):
+    class Meta:
+        model = Unit
+        fields = "__all__"
+        exclude = ["created_at", "updated_at"]
+        labels = {
+            "title": "Unit Title",
+            "unit_code": "Unit Code",
+            "BB_unit_code": "Blackboard Unit Code",
+            "ulos": "Unit Learning Outcomes",
+            "convenor": "Unit Convenor",
+        }
+
+
+class ProjectForm(ModelForm):
+    class Meta:
+        model = Project
+        fields = ["title", "category", "year"]
+
+
+class DepartmentForm(ModelForm):
+    class Meta:
+        model = Department
+        fields = "__all__"
+
 
 class ProposalStageCreateForm(ModelForm):
     class Meta:
         model = Proposal_Stage
-        fields ='__all__'
+        fields = "__all__"
+
+
+class StudentListForm(forms.Form):
+    students = forms.ModelChoiceField(queryset=Student.objects.all().order_by("name"))
+
+
+class InternalSupervisorListForm(forms.Form):
+    internal_supervisors = forms.ModelChoiceField(
+        queryset=Internal_Supervisor.objects.all().order_by("name")
+    )
+
+
+class UnitListForm(forms.Form):
+    units = forms.ModelChoiceField(queryset=Unit.objects.all().order_by("unit_code"))

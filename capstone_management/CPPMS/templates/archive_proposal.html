@@ -1,4 +1,4 @@
-{% extends "proposal.html" %} 
+{% extends "proposal.html" %}
 
 {% block sub-page_content %}
 
@@ -11,31 +11,36 @@
 
 {% endblock %}
 
-{% block page_detail_content %} 
+{% block page_detail_content %}
 
 <div class="row mb-2">
     <div class="col-md-1"></div>
-    
+
     <div class="col">
         <div class="table-responsive card shadow-sm">
             <table class="table table-bordered table-hover">
-                <tr class="table-primary">
-                    <th scope="col">TITLE</th>
-                    <th scope="col">CLIENT NAME</th>
-                    <th scope="col">DATE</th>
-                </tr>
-                {% for proposal in archive_proposal %}
-                <tr scope="row">
-                    <td><a href="archive_edit/{{ proposal.pk }}">{{ proposal.title }}</a></td>
-                    <td>{{ proposal.client_name }}</td>
-                    <td>{{ proposal.created_at }}</td>
-                </tr>
-                {% endfor %}
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Title</th>
+                        <th scope="col">Client Name</th>
+                        <th scope="col">Date</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for proposal in archive_proposal %}
+                    <tr scope="row">
+                        <td><a href="archive_edit/{{ proposal.pk }}">{{ proposal.title }}</a></td>
+                        <td>{{ proposal.client_name }}</td>
+                        <td>{{ proposal.created_at }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
             </table>
         </div>
     </div>
-    
+
     <div class="col-md-1"></div>
-</div>        
+</div>
 
 {% endblock %}

@@ -14,60 +14,50 @@
 {% block page_detail_content %}
 
 <div class="row mb-2">
-
     <div class="col-md-1"></div>
 
     <div class="col">
-
-        <div class="row mb-2">
-            <div class="col-sm-2"></div>
-
-
-
-            <div class="col-sm-2"></div>
-        </div>
-
         <div class="row mb-2">
             <div class="col">
                 <div class="table-responsive card shadow-sm">
                     <table class="table table-bordered table-hover">
-                        <thead>
-                            <tr class="table-primary">
+                        <thead class="thead-dark">
+                            <tr>
                                 <th scope="col"><strong>Proposal Stage</strong></th>
                                 <th scope="col"><strong>Status</strong></th>
                                 <th scope="col"><strong>Created</strong></th>
                                 <th scope="col"><strong>Updated</strong></th>
+                            </tr>
+                        </thead>
+                        <tbody>
                             {% for stage in Pro_Stage %}
                             <tr scope="row">
                                 <td>{{stage.stage_name}}</td>
-                                
+
                                 {%  if  stage.status  == '0' %}
                                 <td align="center">
-                                     OPEN
+                                    OPEN
                                 </td>
                                 {% elif stage.status == '1' %}
                                 <td align="center">
-                                     PENDING
-                                 </td>
+                                    PENDING
+                                </td>
                                 {% elif stage.status == '2' %}
                                 <td align="center">
-                                  DONE
+                                    DONE
                                 </td>
                                 {% elif stage.status == '3' %}
                                 <td align="center">
-                                  N/A
+                                    N/A
                                 </td>
                                 {% endif %}
 
                                 <td>{{stage.created_at}}</td>
                                 <td>{{stage.updated_at}}</td>
 
-
-
-
                             </tr>
                             {% endfor %}
-                         
+
                         </tbody>
                     </table>
                 </div>

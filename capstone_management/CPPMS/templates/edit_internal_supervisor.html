@@ -1,0 +1,17 @@
+{% extends "proposal.html" %}
+
+{% block sub-page_content %}
+
+<h2>Create Internal Supervisor</h2>
+{% for message in messages %}<li>{{ message }}</li>{% endfor %}
+
+{% endblock %}
+
+{% block page_detail_content %}
+
+<form method=POST>
+{% csrf_token %}
+{% include "form_templates/page_form.html" with form=internal_supervisor_form %}
+</form>
+
+{% endblock %}

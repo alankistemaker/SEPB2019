@@ -1,32 +1,26 @@
 {% extends "client.html" %}
-​
 {% block sub-page_content %}
-​
 {% if not messages %}
 <h2>Client Details</h2>
 {% else %}
 <h2>Client Details</h2>
 {% for message in messages %}<li>{{ message }}</li>{% endfor %}
 {% endif %}
-​
 {% endblock %}
-​
+
 {% block page_detail_content %}
-​
+
 <div class="row">
-​
     <div class="col-1"></div>
-​
+    
     <div class="col-md-5">
-        <div class="row">
+        
+        <div class="row mb-2">
             <div class="col">
                 <div class="card">
                     <h3 class="card-header">{{ client_detail.name }}</h3>
-​
                     <div class="card-body">
-​
                         <div class="row mb-2">
-​
                             <div class="col">
                                 <div class="card">
                                     <div class="card-body">
@@ -54,8 +48,8 @@
                 </div>
             </div>
         </div>
-​
-        <div class="row">
+        
+        <div class="row mb-2">
             <div class="col">
                 <div class="card">
                     <h3 class="card-header">Departments</h3>
@@ -74,7 +68,8 @@
                                                 <p>{{ department.email }}</p>
                                             </li>
                                             {% for contact in department.contacts.all %}
-                                            <li class="list-group-item"><h5>Contact:</h5>
+                                            <li class="list-group-item">
+                                                <h5>Contact:</h5>
                                                 <p><strong>Name: </strong>{{ contact.name }}</p>
                                                 <p><strong>Email: </strong>{{ contact.email }}</p>
                                                 <p><strong>Phone: </strong>{{ contact.phone }}</p>
@@ -90,32 +85,30 @@
                 </div>
             </div>
         </div>
-​
-​
+        
         <div class="row mb-2">
             <div class="col text-right">
                 <a class="btn btn-dark" href="client_edit/{{ client_detail.pk }}" role="button" data-toggle="tooltip" title="Edit '{{ client_detail.name }}'">Edit <i class="fa fa-edit"></i></a>
             </div>
         </div>
+        
     </div>
-​
+    
     <div class="col-md-5">
         <div class="card">
             <h3 class="card-header">Client's Proposals</h3>
             <div class="card-body">
                 <div class="row mb-2">
-​
                     <div class="col">
                         <div class="table-responsive">
                             <table class="table table-bordered table-hover">
                                 <thead>
                                     <tr class="table-primary">
-                                        <th scope="col"><strong>TITLE</strong></th>
-                                        <th scope="col"><strong>DATE</strong></th>
-                                        <th scope="col"><strong>STATUS</strong></th>
+                                        <th scope="col"><strong>Title</strong></th>
+                                        <th scope="col"><strong>Date</strong></th>
+                                        <th scope="col"><strong>Status</strong></th>
                                     </tr>
                                 </thead>
-​
                                 <tbody>
                                     {% for proposal in proposal_filter %}
                                     <tr scope="row">
@@ -128,14 +121,10 @@
                             </table>
                         </div>
                     </div>
-​
                 </div>
             </div>
-​
         </div>
     </div>
-​
     <div class="col-1"></div>
 </div>
-​
 {% endblock %}

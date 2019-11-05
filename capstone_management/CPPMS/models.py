@@ -1,7 +1,5 @@
 from django.db import models
 
-# Create your models here.
-
 # Incoming Proposals Model
 class Incoming_Proposal(models.Model):
     # calling 'Proposals_Incoming.proposals.all()' will return a list of all Proposals_Incoming objects
@@ -371,7 +369,7 @@ class Contact(models.Model):
     phone = models.CharField(max_length=10, default="00000000")
     
     # The Contact's email address
-    email = models.CharField(max_length=255, default="", unique=True)
+    email = models.EmailField(max_length=255, default="", unique=True)
 
     # OEM Relationships
     
@@ -437,14 +435,6 @@ class Proposal(models.Model):
         null=True,
         related_name="proposals"
     )
-    
-    # Foreign Key with the Incoming Proposal model
-    proposal_incoming = models.ForeignKey(
-        Incoming_Proposal,
-        models.SET_NULL,
-        blank=True,
-        null=True
-    )
 
     # Foreign Key with contact model
     contact = models.ForeignKey(
@@ -472,7 +462,7 @@ class Student(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     
     # Student's Email
-    email = models.CharField(max_length=128, default="", unique=True)
+    email = models.EmailField(max_length=128, default="", unique=True)
 
     # OEM Relationships
     

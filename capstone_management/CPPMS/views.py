@@ -8,6 +8,7 @@ from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 from docx import Document
 from io import StringIO
+import logging
 import os
 
 from django.contrib.auth import (
@@ -18,7 +19,7 @@ from django.contrib.auth import (
     update_session_auth_hash,
 )
 from django.contrib.auth.decorators import login_required
-from .forms import UserLoginForm, SignUpForm, UserForm
+from .forms import *
 from django.contrib import messages
 from django.contrib.auth.forms import PasswordChangeForm
 from django.http import HttpResponse
@@ -41,12 +42,11 @@ def count():
 def autocompleteModel(request):
     if request.is_ajax():
         q = request.GET.get("term", "").capitalize()
-        search_qs = Client.objects.filter(Q(pk__icontains=q) | Q(name__startswith=q))
+        search_qs = Proposal.objects.filter(Q(pk__icontains=q) | Q(title__icontains=q))
         results = []
         print(q)
         for r in search_qs:
-            results.append(r.name)
-
+            results.append(r.title)
         data = json.dumps(results)
     else:
         data = "fail"
@@ -272,6 +272,7 @@ def incoming_proposal(request):
         }
     )
 
+#WORKS PLEASE DO NOT CHANGE STUFF ALAN
 # Proposal Extraction View
 @login_required(login_url="/CPPMS/login/")
 def proposal_extract(request, pk=None):
@@ -310,27 +311,59 @@ def proposal_extract(request, pk=None):
         supervisor_title = request.POST.get("supervisor_title")
 
         if "save" in request.POST:
+            
+            # Client table
+            try:
+                client_table = Client.objects.create(
+                    name=client_name,
+                    address=client_address,
+                    website=client_website,
+                    desc=client_desc
+                )
+                
+            except:
+                Client.objects.filter(name=client_name).update(
+                    address=client_address,
+                    website=client_website,
+                    desc=client_desc
+                )
+                client_table = Client.objects.get(name=client_name)
+                
+            # Department table
+            try:
+                department_table = Department.objects.create(
+                    name=department_name,
+                    phone=department_phone,
+                    email=department_email,
+                    client=client_table
+                )
+                
+            except:
+                Department.objects.filter(name=department_name).update(
+                    phone=department_phone,
+                    email=department_email,
+                    client=client_table
+                )
+                department_table = Department.objects.get(name=department_name)
+                
             # External Supervisor table
             try:
                 external_supervisor_table = External_Supervisor.objects.create(
                     name=supervisor_name,
                     email=supervisor_email,
                     phone=supervisor_phone,
-                    title=supervisor_title
+                    title=supervisor_title,
+                    department=department_table
                 )
                 
             except:
-                external_supervisor_table = External_Supervisor.objects.get(
-                    name=supervisor_name
+                External_Supervisor.objects.filter(name=supervisor_name).update(
+                    email=supervisor_email,
+                    phone=supervisor_phone,
+                    title=supervisor_title,
+                    department=department_table
                 )
-                
-            # Department table
-            try:
-                department_table = Department.objects.create(
-                    name=department_name, phone=department_phone, email=department_email
-                )
-            except:
-                department_table = Department.objects.get(name=department_name)
+                external_supervisor_table = External_Supervisor.objects.get(name=supervisor_name)
                 
             # Contact table
             try:
@@ -339,22 +372,18 @@ def proposal_extract(request, pk=None):
                     position=contact_position,
                     phone=contact_phone,
                     email=contact_email,
-                    department=department_table,
+                    department=department_table
                 )
+                
             except:
+                Contact.objects.filter(name=contact_name).update(
+                    position=contact_position,
+                    phone=contact_phone,
+                    email=contact_email,
+                    department=department_table
+                )
                 contact_table = Contact.objects.get(name=contact_name)
-                contact_table.department = department_table
-            # Client table
-            try:
-                client_table = Client.objects.create(
-                    name=client_name,
-                    address=client_address,
-                    website=client_website,
-                    desc=client_desc,
-                )
-            except:
-                client_table = Client.objects.get(name=client_name)
-                client_table.contact = contact_table
+                
             # Proposal table
             proposal_table = Proposal.objects.create(
                 title=title,
@@ -366,17 +395,14 @@ def proposal_extract(request, pk=None):
                 res=proposal_research,
                 client=client_table,
                 external_supervisor=external_supervisor_table,
+                contact=contact_table
             )
-            messages.add_message(
-                request, messages.INFO, "Sucess Update Project Detail!"
-            )
+            
+            messages.add_message(request, messages.INFO, "Sucessfully Extracted This Incoming Proposal!")
 
-            proposal_extract = Incoming_Proposal.proposals.filter(
-                pk=proposal_id
-            ).delete()
-            messages.add_message(
-                request, messages.INFO, "Sucess Delete This Incoming Proposal!"
-            )
+            proposal_extract = Incoming_Proposal.proposals.filter(pk=proposal_extract.pk).delete()
+            
+            messages.add_message(request, messages.INFO, "Sucessfully Deleted This Incoming Proposal!")
 
             return redirect("proposal_list")
         
@@ -408,9 +434,7 @@ def proposal_extract(request, pk=None):
             
             proposal_extract = Incoming_Proposal.proposals.filter(pk=proposal_extract.pk).delete()
 
-            messages.add_message(
-                request, messages.INFO, "Sucessfully Deleted This Incoming Proposal!"
-            )
+            messages.INFO(request, "Sucessfully Deleted This Incoming Proposal!")
 
             return redirect("incoming_proposal")
 
@@ -457,12 +481,13 @@ def proposal_list(request):
             "title":title
         }
     )
+
 @login_required(login_url="/CPPMS/login/")
-def proposal_status_e(request,tid=None):
+def proposal_status(request,pk=None):
     username = request.user.first_name + " " + request.user.last_name
     count()
     title = "Stages of Proposal" 
-    query1 = get_object_or_404(Proposal,pk=tid)
+    query1 = get_object_or_404(Proposal,pk=pk)
     #Pro_Stage = get_object_or_404(Proposal_Stage,proposal=query1)
     #
 
@@ -481,19 +506,20 @@ def proposal_status_e(request,tid=None):
             "title":title
         }
     )
+
 @login_required(login_url="/CPPMS/login/")
-def Proposal_Status_Edit(request,tid=None):
+def proposal_status_edit(request,pk=None):
     username = request.user.first_name + " " + request.user.last_name
     count()
     title = "Status of Proposals"
 
-    query1 = get_object_or_404(Proposal,pk=tid)
+    query1 = get_object_or_404(Proposal,pk=pk)
     item = Proposal_Status(Proposal,proposal=query1)
     form =ProposalStatusForm(request.POST or None,instance=item)
     if form.is_valid():
         status = form.save(commit=False)
         status.save()
-        return redirect("/CPPMS/proposal/proposal_status/")
+        return redirect("proposal_list.html")
     else:
         form = ProposalStatusForm(instance=item)
 
@@ -508,7 +534,7 @@ def Proposal_Status_Edit(request,tid=None):
 
 
 @login_required(login_url="/CPPMS/login/")
-def Proposal_Stage_Create(request):
+def proposal_stage_create(request):
     username = request.user.first_name + " " + request.user.last_name
     count()
     title = "Create proposal stages"
@@ -518,63 +544,16 @@ def Proposal_Stage_Create(request):
             item = form.save(commit=False)
             item.save()
             form = ProposalStageCreateForm()
-            context = {
+    else:
+        form = ProposalStageCreateForm()
+        
+    context = {
             "form":form,
             "count": count,
             "username": username,
             "title":title
                 }
-            return render(request,'proposal_stage_create.html',context)
-    else:
-        form = ProposalStageCreateForm()
-    return render(request,'proposal_stage_create.html',{"form":form,'username':username})
-
-
-
-# Proposal Progress View
-@login_required(login_url="/CPPMS/login/")
-def proposal_progress(request, pk=None):
-    username = request.user.first_name + " " + request.user.last_name
-    proposal_progress = get_object_or_404(Proposal, pk=1)
-    count()
-    project_title = ""
-    title = "Proposal Progress"
-
-    if request.method == "POST":
-        project_title = request.POST.get("title")
-
-        if "generate" in request.POST:
-            try:
-                internal_supervisor_table = Internal_Supervisor.objects.create(
-                    name=proposal_progress.supervisors_external.name,
-                    email=proposal_progress.supervisors_external.email,
-                    phone=proposal_progress.supervisors_external.phone,
-                    title=proposal_progress.supervisors_external.title,
-                )
-            except:
-                internal_supervisor_table = Internal_Supervisor.objects.get(
-                    name=proposal_progress.supervisors_external.name
-                )
-
-            project_generate = Project.objects.create(
-                title=project_title,
-                internal_supervisor=internal_supervisor_table,
-                proposal=proposal_progress,
-            )
-            messages.add_message(request, messages.INFO, "Sucess create a new project")
-
-            return redirect("../../../project/project_list")
-
-    return render(
-        request,
-        "proposal_progress.html",
-        {
-            "count": count,
-            "proposal_progress": proposal_progress,
-            "username": username,
-            "title":title
-        }
-    )
+    return render(request,'proposal_stage_create.html',context)
 
 # Proposal Detail View
 @login_required(login_url="/CPPMS/login/")
@@ -594,10 +573,18 @@ def proposal_detail(request, pk=None):
     else:
         project_filter = project_list.all()
 
+    project_form = ProjectForm()
+
+    if request.method == "POST":
+        form_project = ProjectForm(request.POST)
+        new_project = form_project.save()
+        new_project.proposal = proposal_detail
+
     return render(
         request,
         "proposal_detail.html",
         {
+            "project_form": project_form,
             "count": count,
             "proposal_detail": proposal_detail,
             "username": username,
@@ -669,11 +656,13 @@ def proposal_edit(request, pk=None):
                     "Client created for proposal"
                 )
             except:
-                client_table = Client.objects.filter(name=client_name).update(
+                Client.objects.filter(name=client_name).update(
                     address = client_address,
                     website = client_website,
                     desc = client_desc
                 )
+                client_table = Client.objects.get(name=client_name)
+                
                 messages.info(
                     request,
                     "Client updated: " + client_name
@@ -692,11 +681,12 @@ def proposal_edit(request, pk=None):
                     "Department Created: " + department_name
                 )
             except:
-                department_table = Department.objects.filter(phone=department_phone).update(
+                Department.objects.filter(phone=department_phone).update(
                     name = department_name,
                     email = department_email,
                     client = client_table
                 )
+                department_table = Department.objects.get(phone=department_phone)
                 messages.info(
                     request,
                     "Department updated: " + department_name
@@ -717,12 +707,13 @@ def proposal_edit(request, pk=None):
                 )
             except:
                     
-                external_supervisor_table = External_Supervisor.objects.filter(email=supervisor_email).update(
+                External_Supervisor.objects.filter(email=supervisor_email).update(
                     name = supervisor_name,
                     phone = supervisor_phone,
                     title = supervisor_title,
                     department = department_table
                 )
+                external_supervisor_table = External_Supervisor.objects.get(email=supervisor_email)
                 messages.info(
                     request,
                     "External Supervisor Updated: " + supervisor_name
@@ -735,28 +726,27 @@ def proposal_edit(request, pk=None):
                     position = contact_position,
                     phone = contact_phone,
                     email = contact_email,
-                    department = department_table,
-                    client = client_table
+                    department = department_table
                 )
                 messages.info(
                     request,
                     "Contact Created: " + contact_name
                 )
             except:
-                contact_table = Contact.objects.filter(email=contact_email).update(
+                Contact.objects.filter(email=contact_email).update(
                     name = contact_name,
                     position = contact_position,
                     phone = contact_phone,
-                    department = department_table,
-                    client = client_table
+                    department = department_table
                 )
+                contact_table = Contact.objects.get(email=contact_email)
                 messages.info(
                     request,
                     "Contact updated: " + contact_name
                 )
 
             try:
-                Proposal.objects.get(request.proposal).update(
+                Proposal.objects.filter(pk=proposal_detail.pk).update(
                     title = title,
                     desc = description,
                     status = status,
@@ -765,7 +755,8 @@ def proposal_edit(request, pk=None):
                     env = proposal_environment,
                     res = proposal_research,
                     client = client_table,
-                    external_supervisor = external_supervisor_table
+                    external_supervisor = external_supervisor_table,
+                    contact=contact_table
                 )
                 messages.info(
                     request,
@@ -790,37 +781,6 @@ def proposal_edit(request, pk=None):
         }
     )
 
-# Project Generation View
-@login_required(login_url="/CPPMS/login/")
-def generation_list(request, title=None):
-    username = request.user.first_name + " " + request.user.last_name
-    count()
-    title = "Generation List"
-
-    if request.method == "POST":
-        filter_value = request.POST.get("generation_list")
-    else:
-        filter_value = ""
-
-    generation_list = Project.objects.filter(proposal__title=title)
-    if filter_value:
-        generation_filter = generation_list.filter(
-            Q(pk__icontains=filter_value) | Q(title__icontains=filter_value)
-        )
-    else:
-        generation_filter = generation_list.all()
-
-    return render(
-        request,
-        "generation_list.html",
-        {
-            "count": count,
-            "generation_filter": generation_filter,
-            "filter_value": filter_value,
-            "username": username,
-            "title":title
-        }
-    )
 
 # Archive Proposal View
 @login_required(login_url="/CPPMS/login/")
@@ -940,16 +900,39 @@ def project_create(request, pk=None):
     username = request.user.first_name + " " + request.user.last_name
     count()
     proposal_detail = get_object_or_404(Proposal, pk=pk)
-    units = Unit.objects.all()
-    groups = Group.objects.all()
-    title = "New Project"
+
+    page_title = "New Project"
+    project_form = ProjectForm()
+
+    if request.method == "POST":
+        form_data = ProjectForm(request.POST)
+        if form_data.is_valid():
+            new_project = form_data.save()
+            new_project.proposal = proposal_detail
+            new_group = Group.objects.create(
+            title="New Group"
+            )   
+            new_project.group = new_group
+            new_project.save()
+            return redirect("project_edit", new_project.pk)
+        else:
+            project_form = form_data
+
+    internal_supervisor_list = InternalSupervisorListForm()
+    student_list = StudentListForm()
+    unit_list = UnitListForm()
+
     return render(
         request,
         "project_create.html",
         {
+            "internal_supervisor_list": internal_supervisor_list,
+            "student_list": student_list,
+            "unit_list": unit_list,
+            "project_form": project_form,
             "count": count,
             "proposal_detail": proposal_detail,
-            "title": title
+            "title": page_title,
         }
     )
 
@@ -996,113 +979,32 @@ def project_edit(request, pk=None):
     project_detail = get_object_or_404(Project, pk=pk)
     units = Unit.objects.all()
     groups = Group.objects.all()
+    students = Student.objects.all()
+    internal_supervisors = Internal_Supervisor.objects.all()
     count()
     title = "Editing " + project_detail.title
 
+    project_form = ProjectForm(instance=project_detail)
+
     if request.method == "POST":
-        project_title = request.POST.get("title")
-        project_category = request.POST.get("category")
-        project_year = request.POST.get("year")
-        project_completed = request.POST.get("completed")
-        project_groupname = request.POST.get("group")
-        project_unit = request.POST.get("unit")
-
-        supervisor_name = request.POST.get("supervisor_name")
-        supervisor_title = request.POST.get("supervisor_title")
-        supervisor_email = request.POST.get("supervisor_email")
-        supervisor_phone = request.POST.get("supervisor_phone")
-
-        proposal_title = request.POST.get("proposal_title")
-
-        # project_teamleader = request.POST.get("teamleader")
-        # project_groupsize = request.POST.get("groupsize")
-
-        if "save" in request.POST:
-            ####if Group.objects.filter(pk=project_groupname.pk):
-            ####    project_groupname.project = project_detail
-            ####else:
-            ####    Group.objects.create(name=project_groupname)
-            
-            try:
-                Internal_Supervisor.objects.create(
-                    name = supervisor_name,
-                    title = supervisor_title,
-                    email = supervisor_email,
-                    phone = supervisor_phone
-                )
-                
-                internal_supervisor_table = Internal_Supervisor.objects.get(pk=project_detail.internal_supervisor.pk)
-                
-                messages.warning(
-                    request,
-                    "Internal Supervisor Created: " + supervisor_name
-                )
-                
-            except:
-                Internal_Supervisor.objects.filter(pk=project_detail.internal_supervisor.pk).update(
-                    name = supervisor_name,
-                    title = supervisor_title,
-                    email = supervisor_email,
-                    phone = supervisor_phone
-                )
-                
-                internal_supervisor_table = Internal_Supervisor.objects.get(pk=project_detail.internal_supervisor.pk)
-                
-                messages.warning(
-                    request,
-                    "Supervisor Updated: " + supervisor_name
-                )
-                
-            try:
-                project_detail = Project.objects.create(
-                    title = project_title,
-                    category = project_category,
-                    year = project_year,
-                    #completed = project_completed,
-                    internal_supervisor = internal_supervisor_table
-                )
-                
-                messages.warning(
-                    request,
-                    "Project Updated: " + supervisor_name
-                )
-                
-                return redirect("project_list")
-            
-            except:
-                project_detail = Project.objects.filter(pk=project_detail.pk).update(
-                    title = project_title,
-                    category = project_category,
-                    year = project_year,
-                    #completed = project_completed,
-                    internal_supervisor = internal_supervisor_table
-                )
-            
-                messages.warning(
-                    request,
-                    "Updated Project: " + project_title
-                )
-                
-                return redirect("project_list")
-
-        if "delete" in request.POST:
-            project_detail = Project.objects.filter(pk=project_detail.pk).delete()
-            
-            messages.warning(
-                    request,
-                    "Project deleted!"
-            )
-
-            return redirect("project_list")
+        # if the group button triggered the post request
+        edit_project = ProjectForm(request.POST, instance=project_detail)
+        if edit_project.is_valid():
+            project_detail = edit_project.save()
+        else:
+            project_form = edit_project                
 
     return render(
         request,
         "project_edit.html",
         {
+            "project_form": project_form,
             "count": count,
             "project_detail": project_detail,
+            "internal_supervisors": internal_supervisors,
             "units": units,
             "groups": groups,
+            "students": students,
             "username": username,
             "title":title
         }
@@ -1188,8 +1090,8 @@ def new_client(request):
                 department=department_table
             )
             
-            messages.add_message(request, messages.SUCCESS, "Successfully Added New Client!")
-            return redirect("../../")
+            messages.INFO(request, "Successfully Added New Client!")
+            return redirect("client_list")
             
     return render(
         request,
@@ -1306,14 +1208,14 @@ def client_edit(request, pk=None):
                 desc=client_description
             )
 
-            messages.add_message(request, messages.SUCCESS, "Sucessfully Updated Client Details!")
+            messages.INFO(request, "Sucessfully Updated Client Details!")
             
             return redirect("client_list")
             
         if "delete" in request.POST:
             client_edit = Client.objects.filter(pk=client_edit.pk).delete()
             
-            messages.add_message(request, messages.SUCCESS, "Sucessfully Deleted Client Details!")
+            messages.add_message(request, messages.INFO, "Sucessfully Deleted Client Details!")
             
             return redirect("client_list")
         
@@ -1368,11 +1270,13 @@ def client_edit(request, pk=None):
                     "Could not create new department"
                 )
             return redirect("client_edit", client_edit.pk)
-            
+        
+    department_form = DepartmentForm()        
     return render(
         request,
         "client_edit.html",
         {
+            "department_form": department_form,
             "count": count,
             "client_edit": client_edit,
             "username": username,
@@ -1553,33 +1457,11 @@ def word_detail(request, pk=None):
             proposal_detail = Upload_Proposal.objects.filter(pk=proposal_detail.pk).delete()
             os.remove(full_path)
             
-            messages.warning(
-                    request,
-                    "Proposal deleted!"
-                )
+            messages.addmessage(request, messages.INFO, "Proposal deleted!")
             
             return redirect("word_proposal")
 
         if "save" in request.POST:
-            # External Supervisor table
-            try:
-                external_supervisor_table = External_Supervisor.objects.create(
-                    name=supervisor_name,
-                    email=supervisor_email,
-                    phone=supervisor_phone,
-                    title=supervisor_title
-                )
-                
-            except:
-                external_supervisor_table = External_Supervisor.objects.get(
-                    email=supervisor_email
-                )
-                
-                messages.warning(
-                    request,
-                    "External Supervisor already exists!"
-                )
-                
             # Client Table
             try:
                 client_table = Client.objects.create(
@@ -1594,12 +1476,14 @@ def word_detail(request, pk=None):
                 )
                 
             except:
-                client_table = Client.objects.get(name=client_name)
-                messages.warning(
-                    request,
-                    "Client already exists!"
+                Client.objects.filter(name=client_name).update(
+                    address=client_address,
+                    website=client_website,
+                    desc=client_desc
                 )
-
+                client_table = Client.objects.get(name=client_name)
+                messages.warning(request, "Client already exists, updating!")
+            
             # Department Table
             try:
                 department_table = Department.objects.create(
@@ -1609,16 +1493,37 @@ def word_detail(request, pk=None):
                     client=client_table
                 )
                 
-                messages.info(
-                    "Department added: " + department_name + " @ " + client_table.name
+                messages.info("Department added: " + department_name + " @ " + client_table.name)
+                
+            except:
+                Department.objects.filter(phone=department_phone).update(
+                    name=department_name,
+                    email=department_email,
+                    client=client_table
+                )
+                department_table = Department.objects.get(phone=department_phone)
+                messages.warning(request, "Department already exists")
+            
+            # External Supervisor table
+            try:
+                external_supervisor_table = External_Supervisor.objects.create(
+                    name=supervisor_name,
+                    email=supervisor_email,
+                    phone=supervisor_phone,
+                    title=supervisor_title,
+                    department=department_table
                 )
                 
             except:
-                department_table = Department.objects.get(phone=department_phone)
-                messages.warning(
-                    request,
-                    "Department already exists"
+                External_Supervisor.objects.filter(email=supervisor_email).update(
+                    name=supervisor_name,
+                    phone=supervisor_phone,
+                    title=supervisor_title,
+                    department=department_table
                 )
+                external_supervisor_table = External_Supervisor.objects.get(email=supervisor_email)
+                
+                messages.warning(request, "External Supervisor already exists!")
             
             # Contact table
             try:
@@ -1627,22 +1532,19 @@ def word_detail(request, pk=None):
                     position=contact_position,
                     phone=contact_phone,
                     email=contact_email,
-                    client=client_table,
                     department=department_table
                 )
-                messages.info(
-                    request,
-                    "Contact added: " + contact_name
-                )
+                messages.info(request,"Contact added: " + contact_name)
                 
             except:
-                contact_table = Contact.objects.get(email=contact_email)
-                contact_table.department = department_table
-                contact_table.client = client_table
-                messages.warning(
-                    request,
-                    "Contact already exists!"
+                Contact.objects.filter(email=contact_email).update(
+                    name=contact_name,
+                    position=contact_position,
+                    phone=contact_phone,
+                    department=department_table
                 )
+                contact_table = Contact.objects.get(email=contact_email)
+                messages.warning(request,"Contact already exists!")
                 
             # Proposal table
             try:
@@ -1655,24 +1557,29 @@ def word_detail(request, pk=None):
                     env=proposal_environment,
                     res=proposal_research,
                     client=client_table,
-                    external_supervisor=external_supervisor_table
+                    external_supervisor=external_supervisor_table,
+                    contact=contact_table
                 )   
-                messages.INFO(
-                    request, 
-                    "Proposal Created: " + title
-                )
-                proposal_detail=Upload_Proposal.objects.filter(pk=proposal_id).delete()
-                #### os.remove(full_path)
-                messages.add_message(request,"Sucess Save/Update Word-structured Proposal Detail!")
+                messages.INFO(request, "Proposal Created: " + title)
+                
+                proposal_detail = Upload_Proposal.objects.filter(pk=proposal_id).delete()
+                os.remove(full_path)
+                messages.add_message(request, messages.INFO, "Sucess Save/Update Word-structured Proposal Detail!")
                                 
             except:
-                proposal_table = Proposal.objects.get(title=proposal_title)
-                proposal_table.client = client_table
-                proposal_table.external_supervisor = external_supervisor_table
-                messages.warning(
-                    request,
-                    "Proposal already exists!"
+                Proposal.objects.filter(title=proposal_title).update(
+                    desc=description,
+                    status=status,
+                    spec=proposal_specialisation,
+                    skills=proposal_skills,
+                    env=proposal_environment,
+                    res=proposal_research,
+                    client=client_table,
+                    external_supervisor=external_supervisor_table,
+                    contact=contact_table
                 )
+                proposal_table = Proposal.objects.get(title=proposal_title)
+                messages.warning(request, "Proposal already exists!" )
 
     return render(
         request, "word_detail.html",
@@ -1706,3 +1613,127 @@ def word_detail(request, pk=None):
             "title":title
         }
                      )
+
+@login_required(login_url="/CPPMS/login/")
+def create_student(request):
+    count()
+    student_form = StudentForm()
+
+    if request.method == "POST":
+        new_student = StudentForm(request.POST)
+        if new_student.is_valid():
+            new_student.save()
+            messages.INFO(request, "Student added.")
+        else:
+            student_form = new_student
+            
+        
+    return render(
+        request, "create_student.html",
+        {
+            "student_form": student_form,
+            "count": count,
+        }
+    )
+
+@login_required(login_url="/CPPMS/login/")
+def create_internal_supervisor(request):
+    count()
+    internal_supervisor_form = InternalSupervisorForm()
+
+    if request.method == "POST":
+        new_internal_supervisor = InternalSupervisorForm(request.POST)
+        if new_internal_supervisor.is_valid():
+            new_internal_supervisor.save()
+            messages.INFO(request, "Internal Supervisor added.")
+        else:
+            internal_supervisor_form = new_internal_supervisor
+
+    return render(
+        request, "create_internal_supervisor.html",
+        {
+            "count": count,
+            "internal_supervisor_form": internal_supervisor_form
+        }
+    )
+
+@login_required(login_url="/CPPMS/login/")
+def create_unit(request):
+    count()
+    unit_form = UnitForm()
+
+    if request.method == "POST":
+        new_unit = UnitForm(request.POST)
+        if new_unit.is_valid():
+            new_unit = new_unit.save()
+            messages.INFO(request, "Unit added.")
+        else:
+            unit_form = new_unit
+
+    return render(
+        request, "create_unit.html",
+        {
+            "unit_form": unit_form,
+            "count": count,
+        }
+    )
+
+@login_required(login_url="/CPPMS/login/")
+def edit_student(request, pk=None):
+    count()
+    student_form = StudentForm()
+
+    if request.method == "POST":
+        new_student = StudentForm(request.POST)
+        if new_student.is_valid():
+            new_student.save()
+        else:
+            student_form = new_student
+        
+    return render(
+        request, "create_student.html",
+        {
+            "student_form": student_form,
+            "count": count,
+        }
+    )
+
+@login_required(login_url="/CPPMS/login/")
+def edit_internal_supervisor(request, pk=None):
+    count()
+    internal_supervisor_form = InternalSupervisorForm()
+
+    if request.method == "POST":
+        new_internal_supervisor = InternalSupervisorForm(request.POST)
+        if new_internal_supervisor.is_valid():
+            new_internal_supervisor.save()
+        else:
+            internal_supervisor_form = new_internal_supervisor
+
+    return render(
+        request, "create_internal_supervisor.html",
+        {
+            "internal_supervisor_form": internal_supervisor_form,
+            "count": count
+        }
+    )
+
+@login_required(login_url="/CPPMS/login/")
+def edit_unit(request, pk=None):
+    count()
+    unit_form = UnitForm()
+
+    if request.method == "POST":
+        new_unit = UnitForm(request.POST)
+        if new_unit.is_valid():
+            new_unit = new_unit.save()
+        else:
+            unit_form = new_unit
+
+    return render(
+        request, "create_unit.html",
+        {
+            "unit_form": unit_form,
+            "count": count
+        }
+    )
