@@ -1,0 +1,20 @@
+{% extends "client.html" %}
+
+{% block sub-page_content %}
+
+<h2>Create Client</h2>
+{% for message in messages %}<li>{{ message }}</li>{% endfor %}
+
+{% endblock %}
+
+{% block page_detail_content %}
+
+{% include "form_templates/top.html"%}
+<form method=POST>
+{% csrf_token %}
+{% include "form_templates/card_body_form.html" with form=client_form %}
+<button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% include "form_templates/bottom.html"%}
+
+{% endblock %}

@@ -1,11 +1,12 @@
 from django import forms
 from django.forms import ModelForm
 from django.contrib.auth import authenticate, get_user_model, login, logout
+from .models import *
 
 User = get_user_model
 User1 = get_user_model()
 from django.contrib.auth.forms import UserCreationForm
-from .models import *
+
 
 # Login Form
 class UserLoginForm(forms.Form):
@@ -103,6 +104,7 @@ class ProjectForm(ModelForm):
 class DepartmentForm(ModelForm):
     class Meta:
         model = Department
+        exclude = ['client']
         fields = "__all__"
 
 
@@ -116,11 +118,25 @@ class InternalSupervisorListForm(forms.Form):
     )
 
 
-class UnitListForm(forms.Form):
-    units = forms.ModelChoiceField(queryset=Unit.objects.all().order_by("unit_code"))
-        fields ='__all__'
-
 class ProposalStageCreateForm(ModelForm):
     class Meta:
         model = Proposal_Stage
-        fields ='__all__'
+        fields = "__all__"
+
+
+class UnitListForm(forms.Form):
+    units = forms.ModelChoiceField(queryset=Unit.objects.all().order_by("unit_code"))
+    fields = "__all__"
+
+
+class ContactForm(ModelForm):
+    class Meta:
+        model = Contact
+        exclude = ['department']
+        fields = "__all__"
+
+
+class ClientForm(ModelForm):
+    class Meta:
+        model = Client
+        fields = "__all__"

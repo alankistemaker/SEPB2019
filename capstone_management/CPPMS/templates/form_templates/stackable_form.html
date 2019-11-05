@@ -1,0 +1,31 @@
+{% load widget_tweaks %}                 
+{% for field in form.visible_fields %}
+    <div class="row mb-2">
+        <div class="col">
+            <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">{{ field.label_tag }}</span>
+                </div>
+                {% if form.is_bound %}
+                    {% if field.errors %}
+                        {% render_field field class="form-control is-invalid" style="text-align:right" %}
+                        {% for error in field.errors %}
+                            <div class="invalid-feedback">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        {% render_field field class="form-control is-valid" style="text-align:right" %}
+                    {% endif %}
+                {% else %}
+                    {% render_field field class="form-control" style="text-align:right" %}
+                {% endif %}
+
+                {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                {% endif %}
+                <hr />
+            </div>
+        </div>
+    </div>
+{% endfor %>
