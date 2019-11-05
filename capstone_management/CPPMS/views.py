@@ -1055,48 +1055,25 @@ def new_client(request):
     count()
     title = "New Client"
 
-    if request.method == "POST":
-        client_name = request.POST.get("client_name")
-        client_address = request.POST.get("client_address")
-        client_website = request.POST.get("client_website")
-        client_description = request.POST.get("client_description")
-        client_department_name = request.POST.get("department_name")
-        client_department_phone = request.POST.get("department_phone")
-        client_department_email = request.POST.get("department_email")
-        client_contact_name = request.POST.get("contact_name")
-        client_contact_position = request.POST.get("contact_position")
-        client_contact_phone = request.POST.get("contact_phone")
-        client_contact_email = request.POST.get("contact_email")
+    client_form = ClientForm()
 
-        if "save" in request.POST:
-            new_client = Client.objects.create(
-                name=client_name,
-                address=client_address,
-                website=client_website,
-                desc=client_description
-            )
-            
-            department_table = Department.objects.create(
-                name=client_department_name,
-                phone=client_department_phone,
-                email=client_department_email
-            )
-            
-            contact_table = Contact.objects.create(
-                name=client_contact_name,
-                position=client_contact_position,
-                phone=client_contact_phone,
-                email=client_contact_email,
-                department=department_table
-            )
-            
-            messages.INFO(request, "Successfully Added New Client!")
-            return redirect("client_list")
+    if request.method == "POST":
+        # client form
+        client_data = ClientForm(request.POST)
+        
+        # if client form data is valid
+        if client_data.is_valid():
+            # create new client from form data
+            new_client = client_data.save()
+            return redirect("client_detail", new_client.pk)
+        else:
+            client_form = client_data
             
     return render(
         request,
-        "new_client.html",
+        "create_client.html",
         {
+            "client_form": client_form,
             "count": count,
             "username": username,
             "title":title
@@ -1170,6 +1147,70 @@ def client_detail(request, pk=None):
 @login_required(login_url="/CPPMS/login/")
 def client_edit(request, pk=None):
     username = request.user.first_name + " " + request.user.last_name
+    count()
+    title = "Edit Client"
+    client_edit = get_object_or_404(Client, pk=pk)
+    contact_forms = []
+    department_forms = []
+    for department in client_edit.departments.all():
+        department_forms.append(DepartmentForm(instance=department))
+        for contact in department.contacts.all():
+            contact_forms.append(ContactForm(instance=contact))
+
+    client_form = ClientForm(instance=client_edit)
+    new_department_form = DepartmentForm()
+    new_contact_form = ContactForm()
+
+    if request.method == "POST":
+        # client form
+        client_data = ClientForm(request.POST)
+        new_department = None
+        
+        # if client form data is valid
+        if client_data.is_valid():
+            # create new client from form data
+            new_client = client_data.save()
+            
+            # department form
+            department_data = DepartmentForm(request.POST)
+            if department_data.is_valid():
+                # create new department from form data
+                new_department = department_data.save()
+                # add client to department
+                new_department.client = new_client
+                new_department.save()
+            else:
+                department_form = department_data
+
+            # contact form
+            contact_data = ContactForm(request.POST)
+            if contact_data.is_valid() and new_department is not None:
+                new_contact = contact_data.save(commit=False)
+                new_contact.department = new_department
+                new_contact.save()
+            else:
+                contact_form = contact_data
+        
+            return redirect("client_detail", new_client.pk)
+        else:
+            client_form = client_data
+            
+    return render(
+        request,
+        "edit_client.html",
+        {
+            "client_edit": client_edit,
+            "department_forms": department_forms,
+            "new_department_form": new_department_form,
+            "new_contact_form": new_contact_form,
+            "client_form": client_form,
+            "contact_forms": contact_forms,
+            "count": count,
+            "username": username,
+            "title":title
+        }
+    )
+    """username = request.user.first_name + " " + request.user.last_name
     client_edit = get_object_or_404(Client, pk=pk)
     count()
     title = "Editing " + client_edit.name
@@ -1283,6 +1324,7 @@ def client_edit(request, pk=None):
             "title":title
         }
     )
+    """
 
 # Word Import View
 @login_required(login_url="/CPPMS/login/")

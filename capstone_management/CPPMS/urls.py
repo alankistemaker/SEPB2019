@@ -31,17 +31,6 @@ urlpatterns = [
         name="proposal_extract",
     ),
     path("proposal/proposal_list/", views.proposal_list, name="proposal_list"),
-    re_path(
-        "proposal_status/(?P<pk>[_\w\d\-]+)$",
-        views.proposal_status,
-        name="proposal_status",
-    ),
-    path(
-        "proposal/proposal_status_edit/(?P<pk>[_\w\d\-]+)$",
-        views.proposal_status_edit,
-        name="proposal_status_edit",
-    ),
-    path("proposal/proposal_list/", views.proposal_list, name="proposal_list"),
     path(
         "proposal/proposal_status_e/<int:tid>/",
         views.proposal_status_e,
@@ -95,11 +84,6 @@ urlpatterns = [
     path("ajax_calls/search/", views.autocompleteModel, name="autocompleteModel"),
     path("ajax_calls/search2/", views.autocompleteModel2, name="autocompleteModel2"),
     path("ajax_calls/search3/", views.autocompleteModel3, name="autocompleteModel3"),
-    path(
-        "proposal_stage_create/",
-        views.proposal_stage_create,
-        name="proposal_stage_create",
-    ),
     path("create_student/", views.create_student, name="create_student"),
     path("create_unit/", views.create_unit, name="create_unit"),
     path(
@@ -115,5 +99,10 @@ urlpatterns = [
     ),
     re_path(
         "edit_student/(?P<pk>[_\w\d\-]+)$", views.edit_student, name="edit_student"
+    ),
+    path(
+        "proposal_stage_create/",
+        views.Proposal_Stage_Create,
+        name="proposal_stage_create",
     ),
 ]

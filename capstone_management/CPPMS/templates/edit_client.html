@@ -1,0 +1,47 @@
+{% extends "client.html" %}
+
+{% block sub-page_content %}
+
+<h2>Edit Client</h2>
+{% for message in messages %}<li>{{ message }}</li>{% endfor %}
+
+{% endblock %}
+
+{% block page_detail_content %}
+
+<div class="row mb-2">
+
+        <div class="col-lg-1"></div>
+        <div class="col-md-1"></div>
+        <div class="col-sm-1"></div>
+        <form method=POST>
+        {% csrf_token %}
+
+        <div class="col">
+            <div class="card">
+                <h3 class="card-header">{{ client_edit.name }}</h3>
+
+                <div class="card-body">
+                    
+                    {% include "form_templates/card_body_form.html" with form=client_form %}
+                </div>
+            </div>
+            {% for contact_form in contact_forms %}
+                {% include "form_templates/card_with_header_form.html" with form=contact_form %}
+                <hr />
+            {% endfor %}
+            {% for department_form in department_forms %}
+                {% include "form_templates/card_with_header_form.html" with form=department_form %}
+                <hr />
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+        </form>
+
+        <div class="col-sm-1"></div>
+        <div class="col-md-1"></div>
+        <div class="col-lg-1"></div>
+
+    </div>
+
+{% endblock %}
