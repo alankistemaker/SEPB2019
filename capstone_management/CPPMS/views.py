@@ -906,11 +906,12 @@ def project_create(request, pk=None):
 
     if request.method == "POST":
         form_data = ProjectForm(request.POST)
+        group_name = request.POST.get("group_name")
         if form_data.is_valid():
             new_project = form_data.save()
             new_project.proposal = proposal_detail
             new_group = Group.objects.create(
-            title="New Group"
+            title=group_name
             )   
             new_project.group = new_group
             new_project.save()
@@ -977,36 +978,99 @@ def project_list(request):
 def project_edit(request, pk=None):
     username = request.user.first_name + " " + request.user.last_name
     project_detail = get_object_or_404(Project, pk=pk)
-    units = Unit.objects.all()
-    groups = Group.objects.all()
-    students = Student.objects.all()
-    internal_supervisors = Internal_Supervisor.objects.all()
     count()
     title = "Editing " + project_detail.title
 
-    project_form = ProjectForm(instance=project_detail)
+    #project_form = ProjectForm(instance=project_detail)
+    project_form = EditProjectForm(instance=project_detail)
+    student_form = StudentForm()
+    if project_detail.group is not None:
+        group_form = GroupForm(instance=project_detail.group)
+    else:
+        group_form = GroupForm()
 
     if request.method == "POST":
-        # if the group button triggered the post request
-        edit_project = ProjectForm(request.POST, instance=project_detail)
-        if edit_project.is_valid():
-            project_detail = edit_project.save()
-        else:
-            project_form = edit_project                
+
+        if "add_student" in request.POST:
+            new_student = StudentForm(request.POST)
+            if new_student.is_valid():
+                add_student = new_student.save()
+                project_detail.group.students.add(add_student)
+                project_detail.save()
+            else:
+                student_form = new_student
+            
+            return redirect('project_edit', pk=project_detail.pk)
+        
+        if "remove_student" in request.POST:
+            student_pk = request.POST.get("remove_student")
+            student = Student.object.filter(pk=student_pk)
+            if student is not None:
+                project_detail.group.students.remove(student)
+                project_detail.save()
+
+                return redirect("project_edit", pk=project_detail.pk)
+            
+
+        
+        if "save_project" in request.POST:
+            edit_project = EditProjectForm(request.POST, instance=project_detail)
+            if edit_project.is_valid():
+                project_detail = edit_project.save()
+                
+                return redirect('project_detail', pk=project_detail.pk)
+            else:
+                project_form = edit_project
+
+        if "delete_group" in request.POST:
+            if project_detail.group is not None:
+                project_detail.group = None
+                project_detail.save()
+                return redirect('project_edit', pk=project_detail.pk)
 
     return render(
         request,
-        "project_edit.html",
+        #"project_edit.html",
+        'edit_project.html',
         {
             "project_form": project_form,
+            "student_form": student_form,
+            "group_form": group_form,
             "count": count,
             "project_detail": project_detail,
-            "internal_supervisors": internal_supervisors,
-            "units": units,
-            "groups": groups,
-            "students": students,
             "username": username,
             "title":title
+        }
+    )
+
+# Create Group
+@login_required(login_url="/CPPMS/login/")
+def create_group(request, pk=None):
+    username = request.user.first_name + " " + request.user.last_name
+    project_detail = get_object_or_404(Project, pk=pk)
+    count()
+    title = "New Group"
+
+    group_form = GroupForm()
+
+    if request.method == "POST":
+        new_group = GroupForm(request.POST)
+        if new_group.is_valid():
+            new_group = new_group.save()
+            project_detail.group = new_group
+            project_detail.save()
+            return redirect("project_edit", pk=project_detail.pk)
+        else:
+            group_form = new_group
+
+    return render(
+        request,
+        "create_group.html",
+        {
+            "project_detail": project_detail,
+            "group_form": group_form,
+            "title": title,
+            "username": username
         }
     )
 
@@ -1723,14 +1787,18 @@ def create_unit(request):
 @login_required(login_url="/CPPMS/login/")
 def edit_student(request, pk=None):
     count()
-    student_form = StudentForm()
+    title = "Edit Student"
+    student_detail = get_object_or_404(Student, pk=pk)
+    student_form = StudentForm(instance=student_detail)
+
 
     if request.method == "POST":
-        new_student = StudentForm(request.POST)
-        if new_student.is_valid():
-            new_student.save()
+        edit_student = StudentForm(request.POST, instance=student_detail)
+        if edit_student.is_valid():
+            edit_student.save()
+            student_form = edit_student
         else:
-            student_form = new_student
+            student_form = edit_student
         
     return render(
         request, "create_student.html",

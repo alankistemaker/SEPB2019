@@ -35,111 +35,113 @@
 
     <div class="col">
         <div class="row mb-2">
-            <form method='POST'>
-                {% csrf_token %}
-                <div class="card">
-                    <h3 class="card-header">{{ project_detail.title }}</h3>
+            <div class="card">
+                <h3 class="card-header">{{ project_detail.title }}</h3>
 
-                    {% include "form_templates/card_body_form.html" with form=project_form %}
+                {% include "form_templates/card_body_form.html" with form=project_form %}
 
-                    <div class="card-footer">
-                        <button type="submit" name="edit_project" value="edit_project" class="btn btn-primary">Submit</button>
-                    </div>
+                <div class="card-footer">
+                    <button type="submit" name="edit_project" value="edit_project" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="card">
+                {% if project_detail.internal_supervisor is not None %}
+                <h5 class="card-header">
+                    <a data-toggle="collapse" href="#collapse1">
+                        Internal Supervisor - {{ project_detail.internal_supervisor.name }}
+                    </a>
+                </h5>
+                <div id="collapse1" class="collapse">
+                    <ul class="list-group">
+                        <li class="list-group-item">Name:
+                            <p>{{ project_detail.internal_supervisor.name }}</p>
+                        </li>
+                        <li class="list-group-item">Email:
+                            <p>{{ project_detail.internal_supervisor.email }}</p>
+                        </li>
+                        <li class="list-group-item">Department:
+                            <p>{{ project_detail.internal_supervisor.department }}</p>
+                        </li>
+                        <li class='list-group-item'>
+                            <a class="btn btn-primary" role="button">Edit</a>
+                            <a class="btn btn-primary" role="button">Remove</a>
+                        </li>
+                    </ul>
+
                 </div>
 
-                <div class="card">
-                    {% if project_detail.internal_supervisor is not None %}
-                    <h5 class="card-header">
-                        <a data-toggle="collapse" href="#collapse1">
-                            Internal Supervisor - {{ project_detail.internal_supervisor.name }}
-                        </a>
-                    </h5>
-                    <div id="collapse1" class="collapse">
-                        <ul class="list-group">
-                            <li class="list-group-item">Name:
-                                <p>{{ project_detail.internal_supervisor.name }}</p>
-                            </li>
-                            <li class="list-group-item">Email:
-                                <p>{{ project_detail.internal_supervisor.email }}</p>
-                            </li>
-                            <li class="list-group-item">Department:
-                                <p>{{ project_detail.internal_supervisor.department }}</p>
-                            </li>
-                            <li class='list-group-item'>
-                                <a class="btn btn-primary" role="button">Edit</a>
-                                <a class="btn btn-primary" role="button">Remove</a>
-                            </li>
-                        </ul>
-
-                    </div>
-
-                    {% else %}
-                    <h5 class="card-header">
-                        <a data-toggle="collapse" href="#supervisor_collapse">
-                            Add Internal Supervisor
-                        </a>
-                    </h5>
-                    <div class="collapse" id="supervisor_collapse">
-                        <input type="text" list="internal_supervisors" name="internal_supervisor">
-                        <datalist id="internal_supervisors">
-                            {% for internal_supervisor in internal_supervisors %}
-                            <option value="{{ internal_supervisor }}">
-                                {% endfor %}
-                        </datalist>
-                        <a class="btn btn-primary" role="button" data-toggle="tooltip" href="{% url 'create_internal_supervisor' %}">New Internal Supervisor</a>
-                    </div>
-                    {% endif %}
+                {% else %}
+                <h5 class="card-header">
+                    <a data-toggle="collapse" href="#supervisor_collapse">
+                        Add Internal Supervisor
+                    </a>
+                </h5>
+                <div class="collapse" id="supervisor_collapse">
+                    <input type="text" list="internal_supervisors" name="internal_supervisor">
+                    <datalist id="internal_supervisors">
+                        {% for internal_supervisor in internal_supervisors %}
+                        <option value="{{ internal_supervisor }}">
+                            {% endfor %}
+                    </datalist>
+                    <a class="btn btn-primary" role="button" data-toggle="tooltip" href="{% url 'create_internal_supervisor' %}">New Internal Supervisor</a>
                 </div>
+                {% endif %}
+            </div>
+        </div>
 
+        <div class="row mb-2">
+            <div class="card">
+                {% if project_detail.unit is not None %}
+                <h5 class="card-header">
+                    <a data-toggle="collapse" href="#collapse2">
+                        {{ project_detail.unit.title }} - Unit
+                    </a>
+                </h5>
+                <div id="collapse2" class="collapse">
+                    <ul class="list-group">
+                        <li class="list-group-item">Title:
+                            <p>{{ project_detail.unit.title }}</p>
+                        </li>
+                        <li class="list-group-item">Convenor:
+                            <p>{{ project_detail.unit.convenor }}</p>
+                        </li>
+                        <li class='list-group-item'>
+                            <a class="btn btn-primary" role="button">Edit</a>
+                            <a class="btn btn-primary" role="button">Remove</a>
+                        </li>
+                    </ul>
 
-                <div class="card">
-                    {% if project_detail.unit is not None %}
-                    <h5 class="card-header">
-                        <a data-toggle="collapse" href="#collapse2">
-                            {{ project_detail.unit.title }} - Unit
-                        </a>
-                    </h5>
-                    <div id="collapse2" class="collapse">
-                        <ul class="list-group">
-                            <li class="list-group-item">Title:
-                                <p>{{ project_detail.unit.title }}</p>
-                            </li>
-                            <li class="list-group-item">Convenor:
-                                <p>{{ project_detail.unit.convenor }}</p>
-                            </li>
-                            <li class='list-group-item'>
-                                <a class="btn btn-primary" role="button">Edit</a>
-                                <a class="btn btn-primary" role="button">Remove</a>
-                            </li>
-                        </ul>
-
-                    </div>
-                    {% else %}
-                    <h5 class="card-header">
-                        <a data-toggle="collapse" href="#unit_collapse">
-                            Add Unit
-                        </a>
-                    </h5>
-                    <div class="collapse" id="unit_collapse">
-                        <input type="text" list="units" name="units">
-                        <datalist id="units">
-                            {% for unit in units %}
-                            <option value="{{ unit.full }}">
-                                {% endfor %}
-                        </datalist>
-                    </div>
-                    {% endif %}
                 </div>
-
-                <div class="card">
-                    {% if project_detail.group is not None %}
+                {% else %}
+                <h5 class="card-header">
+                    <a data-toggle="collapse" href="#unit_collapse">
+                        Add Unit
+                    </a>
+                </h5>
+                <div class="collapse" id="unit_collapse">
+                    <input type="text" list="units" name="units">
+                    <datalist id="units">
+                        {% for unit in units %}
+                        <option value="{{ unit.full }}">
+                            {% endfor %}
+                    </datalist>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="row mb-2">
+            <div class="card">
+                {% if project_detail.group is not None %}
                     <h5 class="card-header">
                         <a data-toggle="collapse" href="#collapse3">
                             Group - {{ project_detail.group.title }}
                         </a>
                     </h5>
                     <div class="collapse" id="collapse3">
-
                         <div class="table-responsive card shadow-sm">
                             <table class="table table-bordered table-hover text-center">
                                 <thead>
@@ -166,7 +168,6 @@
                             </table>
                         </div>
                         <div class="row">
-
                             <input type="text" list="student_list" name="students">
                             <datalist id="student_list">
                                 {% for student in students %}
@@ -178,9 +179,8 @@
                         <div class="row">
                             <a class="btn btn-primary" role="button" data-toggle="tooltip" href="create_student/">New Student</a>
                         </div>
-
                     </div>
-                    {% else %}
+                {% else %}
                     <h5 class="card-header">
                         <a data-toggle="collapse" href="#group_collapse">
                             Add Group
@@ -194,30 +194,23 @@
                                 {% endfor %}
                         </datalist>
                         <a class="btn btn-primary" role="button" data-toggle="tooltip" href="/create_group/">New Group</a>
-                    </div>
-                    {% endif %}
+                        <div class="card-footer">
+                    <button type="submit" name="edit_group" value="edit_group" class="btn btn-primary">Submit Group</button>
                 </div>
-
-            </form>
-            <div class="card-footer">
-                <button type="submit" name="edit_group" value="edit_group" class="btn btn-primary">Submit</button>
+                    </div>
+                {% endif %}
             </div>
         </div>
-    </div>
-    <div class="row mb-2">
-        <div class="col">
-            <form method='POST'>
-                {% csrf_token %}
-                <div class="card">
-                    <h3 class="card-header">Unit</h3>
 
-                    {% include "form_templates/card_body_form.html" with form=unit_form %}
-
-                    <div class="card-footer">
-                        <button type="submit" name="edit_unit" value="edit_unit" class="btn btn-primary">Submit</button>
-                    </div>
-                </div>
-            </form>
+        <div class="row mb-2">
+            <div class="card">
+                <h5 class="card-header">
+                    <a data-toggle="collapse_id" href="#collapse_id">
+                        Unit
+                    </a>
+                </h5>
+                {% include "form_templates/collapse_body_form.html" with form=unit_form collapse_id="collapse_unit" %}
+            </div>
         </div>
     </div>
 
@@ -228,3 +221,4 @@
 
 
 {% endblock %}
+

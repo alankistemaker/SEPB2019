@@ -1,0 +1,101 @@
+{% extends "proposal.html" %}
+
+{% block sub-page_content %}
+
+<h2>Edit Project</h2>
+{% for message in messages %}<li>{{ message }}</li>{% endfor %}
+
+{% endblock %}
+
+{% block page_detail_content %}
+
+<form method=POST>
+{% csrf_token %}
+
+<div class="modal fade" id="add_student_modal" tabindex="-1" role="dialog" aria-labelledby="add_student">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title" id="add_student_group">Add student to group: {{ project_detail.group.title }}</h4>
+            </div>
+
+            <div class="modal-body">
+                {% include "form_templates/modal_body_form.html" with form=student_form %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" name="add_student" value="add_student">Add Student</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-2">
+
+    <div class="col-lg-1"></div>
+    <div class="col-md-1"></div>
+    <div class="col-sm-1"></div>
+
+    <div class="col">
+
+        <div class="card">
+            <h3 class="card-header">{{ project_detail.title }}</h3>
+            {% include "form_templates/card_body_form.html" with form=project_form %}
+            <div class="card-footer">
+                <a role="button" class="btn btn-dark" href="project_detail/{{ project_detail.pk }}">Back</a>
+                <button type="submit" name="save_project" value="save_project" class="btn btn-dark">Save</button>
+            </div>
+        </div>
+
+        <div class="card">
+            {% if project_detail.group is None %}
+                <h5 class="card-header">Create New Group
+                    <a class="btn btn-dark" role="button" name="new_group" value="new_group" href="create_group/{{ project_detail.pk }}">New Group</a>
+                </h5>
+            {% else %}
+                <h5 class="card-header">{{ project_detail.group }}</h5>
+            {% endif %}
+            
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Email</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for student in project_detail.group.students.all %}
+                            <tr scope="row">
+                                <td>{{ student.email }}</td>
+                                <td>{{ student.name }}</td>
+                                <td>
+                                    <button class="btn btn-dark" type="submit" name="remove_student" value="{{ student.pk }}">Remove</Button>
+                                    <a role="button" class="btn btn-dark" type="submit" name="edit_student" value="edit_student" href="edit_student/{{ student.pk }}">Edit</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        <tbody>
+                    </table>
+                </div>
+                <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#add_student_modal">New Student</button>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-dark" name="delete_group" value="delete_group">Delete Group</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-lg-1"></div>
+    <div class="col-md-1"></div>
+    <div class="col-sm-1"></div>
+
+</div>
+
+</form>
+
+{% endblock %}

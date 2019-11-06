@@ -64,14 +64,13 @@ class GroupForm(ModelForm):
     class Meta:
         model = Group
         fields = "__all__"
-        exclude = ["created_at", "updated_at"]
+        exclude = ["created_at", "updated_at", "students", "leaders"]
 
 
 class StudentForm(ModelForm):
     class Meta:
         model = Student
         fields = "__all__"
-        exclude = ["created_at", "updated_at"]
 
 
 class InternalSupervisorForm(ModelForm):
@@ -99,6 +98,13 @@ class ProjectForm(ModelForm):
     class Meta:
         model = Project
         fields = ["title", "category", "year"]
+
+
+class EditProjectForm(ModelForm):
+    class Meta:
+        model = Project
+        exclude = ["proposal", "group"]
+        fields = "__all__"
 
 
 class DepartmentForm(ModelForm):

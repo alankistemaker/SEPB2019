@@ -1,0 +1,37 @@
+{% extends "client.html" %}
+
+{% block sub-page_content %}
+
+<h2>Create Group</h2>
+{% for message in messages %}<li>{{ message }}</li>{% endfor %}
+
+{% endblock %}
+
+{% block page_detail_content %}
+<div class="row mb-2">
+
+    <div class="col-lg-1"></div>
+    <div class="col-md-1"></div>
+    <div class="col-sm-1"></div>
+
+    <div class="col">
+        <div class="card">
+            <h3 class="card-header">New Group</h3>
+
+            <div class="card-body">
+            <form method=POST>
+            {% csrf_token %}
+                {% include "form_templates/card_body_form.html" with form=group_form %}
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-1"></div>
+    <div class="col-md-1"></div>
+    <div class="col-lg-1"></div>
+
+</div>
+
+{% endblock %}
