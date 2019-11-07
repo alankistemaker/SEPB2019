@@ -1774,11 +1774,19 @@ def edit_student(request, pk=None):
         if edit_student.is_valid():
             edit_student.save()
             student_form = edit_student
+            messages.success(
+                request,
+                "Successfully Updated Student"
+            )
         else:
             student_form = edit_student
+            messages.error(
+                request,
+                "Could not update student"
+            )
         
     return render(
-        request, "create_student.html",
+        request, "edit_student.html",
         {
             "student_form": student_form,
             "count": count,
@@ -1816,21 +1824,29 @@ def edit_unit(request, pk=None):
     username = request.user.first_name + " " + request.user.last_name
     title = "Edit Unit"
     count()
-    unit_form = UnitForm()
+    unit_detail = get_object_or_404(Unit, pk=pk)
+    edit_unit_form = UnitForm(instance=unit_detail)
 
     if request.method == "POST":
-        new_unit = UnitForm(request.POST)
-        if new_unit.is_valid():
-            new_unit = new_unit.save()
+        edit_unit_form = UnitForm(request.POST, instance=unit_detail)
+        if edit_unit_form.is_valid():
+            edit_unit = edit_unit_form.save()
+            messages.success(
+                request,
+                "Successfully updated unit"
+            )
         else:
-            unit_form = new_unit
+            messages.error(
+                request,
+                "Could not update unit"
+            )
 
     return render(
-        request, "create_unit.html",
+        request, "edit_unit.html",
         {
             "title": title,
             "username": username,
-            "unit_form": unit_form,
+            "edit_unit_form": edit_unit_form,
             "count": count
         }
     )

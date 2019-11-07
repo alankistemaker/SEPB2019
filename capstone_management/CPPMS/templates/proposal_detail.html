@@ -17,7 +17,16 @@
         <div class="row mb-2">
             <div class="col">
                 <div class="card">
-                    <h3 class="card-header">{{ proposal_detail.title }}</h3>
+                    <h3 class="card-header">
+                        <div class="d-flex">
+                            <div class="p-2">
+                                {{ proposal_detail.title }}
+                            </div>
+                            <div class="ml-auto p-2">
+                                <a class="btn btn-dark" href="proposal_edit/{{ proposal_detail.pk }}" role="button" data-toggle="tooltip" title="Edit '{{ proposal_detail.title }}'">Edit <i class="fa fa-edit"></i></a>
+                            </div>
+                        </div>
+                    </h3>
                     <div class="card-body">
                         <div class="row mb-2">
                             <div class="col">
@@ -139,18 +148,19 @@
                 </div>
             </div>
         </div>
-
-        <div class="row mb-2">
-            <div class="col text-right">
-                <a class="btn btn-dark" href="proposal_edit/{{ proposal_detail.pk }}" role="button" data-toggle="tooltip" title="Edit '{{ proposal_detail.title }}'">Edit <i class="fa fa-edit"></i></a>
-            </div>
-        </div>
     </div>
 
     <div class="col-md-5">
         <div class="card">
-            <h3 class="card-header">Proposal Projects
-                <a class="btn btn-dark" role="button" type="submit" name="new_project" data-toggle="tooltip" href="project_create/{{ proposal_detail.pk }}">New Project</a>
+            <h3 class="card-header">
+                <div class="d-flex">
+                    <div class="p-2">
+                        Proposal Projects
+                    </div>
+                    <div class="ml-auto p-2">
+                        <a class="btn btn-dark" role="button" type="submit" name="new_project" data-toggle="tooltip" href="project_create/{{ proposal_detail.pk }}">New Project</a>
+                    </div>
+                </div>
             </h3>
             <div class="card-body">
                 <div class="row mb-2">

@@ -27,6 +27,7 @@
                                 <th scope="col"><strong>Title</strong></th>
                                 <th scope="col"><strong>Current Projects</strong></th>
                                 <th scope="col"><strong>Past Projects</strong></th>
+                                <th scope="col"><strong>Edit</strong></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -36,7 +37,31 @@
                                 <td>{{ unit.title }}</td>
                                 <td>{{ unit.current_projects.count }}</td>
                                 <td>{{ unit.past_projects.count }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-danger" data-target="#delete_unit_modal" data-toggle="modal">Delete</button>
+                                    <a role="button" class="btn btn-dark" href="edit_unit/{{ unit.pk }}">Edit</button>
+                                </td>
                             </tr>
+                            <div id="delete_unit_modal" tabindex="-1" class="modal fade">
+                                <form method="POST">
+                                {% csrf_token %}
+                                <div class="modal-dialog modal-confirm">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Are you sure?</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Do you really want to delete the Unit {{ unit.title }}?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" role="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                                            <button type="submit" role="button" name="delete_unit" value="{{ unit.pk }}" class="btn btn-danger">Delete</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                </form>
+                            </div>
                             {% endfor %}
                         </tbody>
                     </table>

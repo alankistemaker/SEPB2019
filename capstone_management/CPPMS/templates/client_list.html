@@ -48,7 +48,7 @@
                                 <th scope="col"><strong>Client</strong></th>
                                 <th scope="col"><strong>Created</strong></th>
                                 <th scope="col"><strong>Updated</strong></th>
-                                <th scope="col"><strong>Proposals</strong><th>
+                                <th scope="col"><strong>Proposals</strong></th>
                                 <th scope="col"><strong>Departments</strong></th>
                             </tr>
                         </thead>
@@ -59,7 +59,11 @@
                                 <td>{{ client.created_at }}</td>
                                 <td>{{ client.updated_at }}</td>
                                 <td>{{ client.proposals.count }}</td>
-                                <td>{% for department in client.departments.all %}{{ department.name }}<br>{% endfor %}</td>
+                                <td>
+                                    {% for department in client.departments.all %}
+                                    {{ department.name }}<br>
+                                    {% endfor %}
+                                </td>
                             </tr>
                             {% endfor %}
                         </tbody>

@@ -23,7 +23,16 @@
         <div class="row mb-2">
             <div class="col">
                 <div class="card">
-                    <h3 class="card-header">{{ project_detail.title }}</h3>
+                    <h3 class="card-header">
+                        <div class="d-flex">
+                            <div class="p-2">
+                                {{ project_detail.title }}
+                            </div>
+                            <div class="ml-auto p-2">
+                                <a class="btn btn-dark" role="button" href="project_edit/{{ project_detail.pk }}" data-toggle="tooltip" title="Edit '{{ project_detail.title }}'">Edit <i class="fa fa-edit"></i></a>
+                            </div>
+                        </div>
+                    </h3>
 
                     <div class="card-body">
 
@@ -71,7 +80,7 @@
                                 <p>{{ project_detail.category }}</p>
                             </li>
                             <li class="list-group-item"><strong>Convenor: </strong>
-                                <p>TODO</p>
+                                <p>{{ project_detail.unit.convenor }}</p>
                             </li>
                             <li class="list-group-item"><strong>Created: </strong>
                                 <p>{{ project_detail.created_at }}</p>
@@ -82,12 +91,6 @@
                         </ul>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="row mb-2">
-            <div class="col text-right">
-                <a class="btn btn-dark" role="button" href="project_edit/{{ project_detail.pk }}" data-toggle="tooltip" title="Edit '{{ project_detail.title }}'">Edit <i class="fa fa-edit"></i></a>
             </div>
         </div>
 

@@ -2,7 +2,7 @@
 
 {% block sub-page_content %}
 
-<h2>Create Unit</h2>
+<h2>Edit Unit</h2>
 {% for message in messages %}<li>{{ message }}</li>{% endfor %}
 
 {% endblock %}
@@ -11,7 +11,7 @@
 
 <form method=POST>
 {% csrf_token %}
-{% include "form_templates/page_form.html" with form=unit_form %}
+{% include "form_templates/page_form.html" with form=edit_unit_form %}
 </form>
 
 {% endblock %}

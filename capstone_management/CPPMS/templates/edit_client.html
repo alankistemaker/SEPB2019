@@ -119,10 +119,13 @@
             <h3 class="card-header">
                 <div class="d-flex">
                     <div class="p-2">
-                        <a data-toggle="collapse" href="#collapse_contacts">Contacts</a>
+                        Contacts
                     </div>
                     <div class="ml-auto p-2">
-                        <button class="btn btn-info" type="button" data-target="#new_contact_modal" data-toggle="modal">New Contact</button>
+                        <a class="btn btn-dark" data-toggle="collapse" href="#collapse_contacts">Show All</a>
+                    </div>
+                    <div class="p-2">
+                        <button class="btn btn-info" type="button" data-target="#new_contact_modal" data-toggle="modal">New</button>
                     </div>
                 </div>
             </h3>
@@ -131,7 +134,7 @@
             <form method=POST>
             {% csrf_token %} 
             <div class="collapse" id="collapse_contacts">
-                <h5 class="card-title ml-3 pt-1">
+                <h5 class="card-title p-2">
                     <div class="d-flex">
                         <div class="p-2">
                             {{ contact_form.name.value }}
@@ -153,10 +156,13 @@
             <h3 class="card-header">
                 <div class="d-flex">
                     <div class="p-2">
-                        <a data-toggle="collapse" href="#collapse_departments">Departments</a>
+                        Departments
                     </div>
                     <div class="ml-auto p-2">
-                        <button class="btn btn-info" type="button" data-target="#new_department_modal" data-toggle="modal">New Department</button>   
+                        <a class="btn btn-dark" data-toggle="collapse" href="#collapse_departments">Show All</a>
+                    </div>
+                    <div class="p-2">
+                        <button class="btn btn-info" type="button" data-target="#new_department_modal" data-toggle="modal">New</button>   
                     </div>
                 </div>
             </h3>
@@ -172,7 +178,10 @@
                                 {{ department_form.name.value }}
                             </div>
                             <div class="ml-auto p-2">
-                                <button class="btn btn-danger" type="submit" value="{{ department_form.phone.value }}" name="delete_department">Delete Department</button>   
+                                <button class="btn btn-success" type="submit" name="save_department">Save</button>   
+                            </div>
+                            <div class="p-2">
+                                <button class="btn btn-danger" type="submit" value="{{ department_form.phone.value }}" name="delete_department">Delete</button>   
                             </div>
                         </div>
                     </h5>
