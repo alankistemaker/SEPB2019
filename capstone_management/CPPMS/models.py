@@ -217,6 +217,17 @@ class Client(models.Model):
     def __str__(self):
         return self.name
 
+    def proposals(self):
+        return self.proposals.all()
+
+    def projects(self):
+        proposals = self.proposals.all()
+        project_list = []
+        for project in proposals.projects:
+            project_list.append(project)
+        
+        return project_list
+
 # Departments Model
 class Department(models.Model):
     # Name of the Department
@@ -280,6 +291,12 @@ class Internal_Supervisor(models.Model):
 
     def __str__(self):
         return self.name
+
+    def past_projects(self):
+        return Project.objects.filter(internal_supervisor=self, completed=True)
+    
+    def current_projects(self):
+        return Project.objects.filter(internal_supervisor=self, completed=False)
 
 # External Supervisor Model
 class External_Supervisor(models.Model):
@@ -350,6 +367,12 @@ class Unit(models.Model):
 
     def full(self):
         return self.unit_code + ": " + self.title
+    
+    def past_projects(self):
+        return Project.objects.filter(unit=self, completed=True)
+    
+    def current_projects(self):
+        return Project.objects.filter(unit=self, completed=False)
 
 # Contacts Model
 class Contact(models.Model):
@@ -517,8 +540,6 @@ class Project(models.Model):
     
     # Has the Project been completed in the past
     completed = models.BooleanField(default=0)
-    
-    # group_code_canvas = models.CharField(max_length=255, default="")
 
     # OEM Relationships
     pass
@@ -536,7 +557,8 @@ class Project(models.Model):
         Proposal,
         on_delete=models.CASCADE,
         blank=True,
-        null=True
+        null=True,
+        related_name="projects"
     )
     
     # Foreign Key with the Internal Supervisor model
@@ -557,6 +579,9 @@ class Project(models.Model):
 
     def __str__(self):
         return self.title
+
+    def students(self):
+        return self.group.students.all()
 
 class Proposal_Stage(models.Model):
     stage_name = models.CharField(max_length=128, default="")

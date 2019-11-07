@@ -11,13 +11,12 @@
 
 <form method=POST>
 {% csrf_token %}
-
-<div class="modal fade" id="add_student_modal" tabindex="-1" role="dialog" aria-labelledby="add_student">
+<div class="modal fade" id="add_new_student_modal" tabindex="-1" role="dialog" aria-labelledby="add_student">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
 
             <div class="modal-header">
-                <h4 class="modal-title" id="add_student_group">Add student to group: {{ project_detail.group.title }}</h4>
+                <h4 class="modal-title" id="add_new_student_group">Create student and add to group: {{ project_detail.group.title }}</h4>
             </div>
 
             <div class="modal-body">
@@ -25,10 +24,85 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" name="add_student" value="add_student">Add Student</button>
+                <button type="submit" class="btn btn-primary" name="add_new_student" value="add_new_student">Add Student</button>
             </div>
         </div>
     </div>
+</div>
+</form>
+
+<form method=POST>
+{% csrf_token %}
+<div class="modal fade" id="delete_group_modal" tabindex="-1" role="dialog" aria-labelledby="delete_group">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title">Are you sure?</h4>
+            </div>
+
+           <div class="modal-body">
+                <p>Do you really want to delete {{ project_detail.group.title }}? </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" name="delete_group">Delete Group</button>
+            </div>
+        </div>
+    </div>
+</div>
+</form>
+
+<form method=POST>
+{% csrf_token %}
+<div class="modal fade" id="add_student_modal" tabindex="-1" role="dialog" aria-labelledby="add_student">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title" id="add_student_group">Add existing student to group: {{ project_detail.group.title }}</h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group">
+                    Students
+                    
+                        <select class="form-control" name="add_student_group">
+                        {% for student in student_list %}
+                            <option value="{{ student.pk }}">{{ student.name }}</option>
+                        {% endfor %}
+                        </select>
+                    
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" name="add_student">Add Student</button>
+            </div>
+        </div>
+    </div>
+</div>
+</form>
+
+<div id="delete_project_modal" tabindex="-1" class="modal fade">
+    <form method="POST">
+    {% csrf_token %}
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Are you sure?</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Do you really want to delete the Project: {{ project_detail.title }}? </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" role="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                <button type="submit" role="button" name="delete_project" value="delete_project" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+    </div>
+    </form>
 </div>
 
 <div class="row mb-2">
@@ -38,57 +112,102 @@
     <div class="col-sm-1"></div>
 
     <div class="col">
-
+        <form method=POST>
+        {% csrf_token %}
         <div class="card">
             <h3 class="card-header">{{ project_detail.title }}</h3>
+            
             {% include "form_templates/card_body_form.html" with form=project_form %}
-            <div class="card-footer">
-                <a role="button" class="btn btn-dark" href="project_detail/{{ project_detail.pk }}">Back</a>
-                <button type="submit" name="save_project" value="save_project" class="btn btn-dark">Save</button>
-            </div>
-        </div>
-
-        <div class="card">
-            {% if project_detail.group is None %}
-                <h5 class="card-header">Create New Group
-                    <a class="btn btn-dark" role="button" name="new_group" value="new_group" href="create_group/{{ project_detail.pk }}">New Group</a>
-                </h5>
-            {% else %}
-                <h5 class="card-header">{{ project_detail.group }}</h5>
-            {% endif %}
             
             <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Email</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Edit</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for student in project_detail.group.students.all %}
-                            <tr scope="row">
-                                <td>{{ student.email }}</td>
-                                <td>{{ student.name }}</td>
-                                <td>
-                                    <button class="btn btn-dark" type="submit" name="remove_student" value="{{ student.pk }}">Remove</Button>
-                                    <a role="button" class="btn btn-dark" type="submit" name="edit_student" value="edit_student" href="edit_student/{{ student.pk }}">Edit</a>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        <tbody>
-                    </table>
+                <div class="d-flex">
+
+                    <div class="p-2">
+                        <a class="btn btn-dark" href="project_detail/{{ project_detail.pk }}">Back</a>
+                    </div>
+                    <div class="ml-auto p-2">
+                        <button type="submit" name="save_project" value="save_project" class="btn btn-success">Save</button>
+                    </div>
+                    <div class="p-2">
+                        <button class="btn btn-danger" type="button" role="button" data-target="#delete_project_modal" data-toggle="modal">Delete Project</button>
+                    </div>
                 </div>
-                <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#add_student_modal">New Student</button>
             </div>
-            <div class="card-footer">
-                <button type="submit" class="btn btn-dark" name="delete_group" value="delete_group">Delete Group</button>
-            </div>
+        </div>
+        </form>
+        <hr />
+
+        <form method=POST>
+        {% csrf_token %}
+        <div class="card">
+            {% if project_detail.group is None %}
+                <h5 class="card-header">
+                    <div class="d-flex">
+                        <div class="p">
+                            Create New Group
+                        </div>
+                        <div class="ml-auto p">
+                            <a class="btn btn-dark" role="button" name="new_group" value="new_group" href="create_group/{{ project_detail.pk }}">New Group</a>
+                        </div>
+                    </div>  
+                </h5>
+            {% else %}
+                <h4 class="card-header">
+                    <div class="d-flex">
+                        <div class="p-1">
+                            Group Name: {{ project_detail.group }}
+                        </div>
+                        <div class="ml-auto p-2">
+                            <a class="btn btn-secondary" data-toggle="collapse" href="#collapse_group">Details</a>
+                        </div>
+                    </div>
+                </h4>
+            
+                <div class="collapse" id="collapse_group">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Edit</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for student in project_detail.group.students.all %}
+                                <tr scope="row">
+                                    <td>{{ student.email }}</td>
+                                    <td>{{ student.name }}</td>
+                                    <td>
+                                        <button class="btn btn-dark" type="submit" name="remove_student" value="{{ student.pk }}">Remove</Button>
+                                        <a role="button" class="btn btn-dark" type="submit" name="edit_student" value="edit_student" href="edit_student/{{ student.pk }}">Edit</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            <tbody>
+                        </table>
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="d-flex">
+                            <div class="p-1">
+                                <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#add_new_student_modal">Add New Student</button>
+                            </div>
+                            <div class="p-1">
+                                <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#add_student_modal">Add Existing Student</button>
+                            </div>
+                            <div class="ml-auto p-1">
+                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete_group_modal">Delete Group</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            {% endif %}
         </div>
 
     </div>
+    </form>
 
     <div class="col-lg-1"></div>
     <div class="col-md-1"></div>

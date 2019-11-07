@@ -1,0 +1,58 @@
+{% extends "proposal.html" %}
+
+{% block sub-page_content %}
+
+<h2>Students</h2>
+{% if messages %}
+{% for message in messages %}<li>{{ message }}</li>{% endfor %}
+{% endif %}
+
+{% endblock %}
+
+{% block page_detail_content %}
+
+<form method=POST>
+{% csrf_token %}
+<div class="row mb-2">
+
+    <div class="col-md-1"></div>
+
+    <div class="col">
+
+        <div class="row mb-2">
+            <div class="col">
+                <div class="table-responsive card shadow-sm">
+                    <table class="table table-bordered table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col"><strong>Name</strong></th>
+                                <th scope="col"><strong>Email</strong></th>
+                                <th scope="col"><strong>Created</strong></th>
+                                <th scope="col"><strong>Updated</strong></th>
+                                <th scope="col"><strong>Edit</strong></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for student in student_list %}
+                            <tr scope="row">
+                                <td>{{ student.name }}</td>
+                                <td>{{ student.email }}</td>
+                                <td>{{ student.created_at }}</td>
+                                <td>{{ student.updated_at }}</td>
+                                <td>
+                                    <button type="submit" name="delete_student" value="{{ student.pk }}" class="btn btn-dark">Delete</button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-1"></div>
+</div>
+</form>
+
+{% endblock %}

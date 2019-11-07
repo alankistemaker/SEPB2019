@@ -1,0 +1,53 @@
+{% extends "proposal.html" %}
+
+{% block sub-page_content %}
+
+<h2>Internal Supervisors</h2>
+{% if messages %}
+{% for message in messages %}<li>{{ message }}</li>{% endfor %}
+{% endif %}
+
+{% endblock %}
+
+{% block page_detail_content %}
+
+<div class="row mb-2">
+
+    <div class="col-md-1"></div>
+
+    <div class="col">
+
+        <div class="row mb-2">
+            <div class="col">
+                <div class="table-responsive card shadow-sm">
+                    <table class="table table-bordered table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col"><strong>Name</strong></th>
+                                <th scope="col"><strong>Department</strong></th>
+                                <th scope="col"><strong>Email</strong></th>
+                                <th scope="col"><strong>Current Projects</strong></th>
+                                <th scope="col"><strong>Past Projects</strong></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for supervisor in supervisor_list %}
+                            <tr scope="row">
+                                <td>{{ supervisor.name }}</td>
+                                <td>{{ supervisor.department }}</td>
+                                <td>{{ supervisor.email }}</td>
+                                <td>{{ supervisor.current_projects.count }}</td>
+                                <td>{{ supervisor.past_projects.count }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-1"></div>
+</div>
+
+{% endblock %}

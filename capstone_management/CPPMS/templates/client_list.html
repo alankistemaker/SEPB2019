@@ -46,9 +46,9 @@
                         <thead class="thead-dark">
                             <tr>
                                 <th scope="col"><strong>Client</strong></th>
-                                <th scope="col"><strong>Added</strong></th>
+                                <th scope="col"><strong>Created</strong></th>
                                 <th scope="col"><strong>Updated</strong></th>
-                                <th scope="col"><strong>Contact</strong></th>
+                                <th scope="col"><strong>Proposals</strong><th>
                                 <th scope="col"><strong>Departments</strong></th>
                             </tr>
                         </thead>
@@ -58,12 +58,8 @@
                                 <td><a href="client_detail/{{client.pk}}">{{ client.name }}</a></td>
                                 <td>{{ client.created_at }}</td>
                                 <td>{{ client.updated_at }}</td>
-                                <td>{{ client.contact }}</td>
-                                <td>
-                                    {% for department in client.departments.all %}
-                                    - {{ department.name }} <br/>
-                                    {% endfor %}
-                                </td>
+                                <td>{{ client.proposals.count }}</td>
+                                <td>{% for department in client.departments.all %}{{ department.name }}<br>{% endfor %}</td>
                             </tr>
                             {% endfor %}
                         </tbody>

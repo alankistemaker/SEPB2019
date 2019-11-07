@@ -148,7 +148,19 @@ class ContactForm(ModelForm):
         fields = "__all__"
 
 
+class EditClientContactForm(ModelForm):
+    class Meta:
+        model = Contact
+        fields = "__all__"
+
+
 class ClientForm(ModelForm):
     class Meta:
         model = Client
         fields = "__all__"
+
+
+class AddStudentGroupForm(ModelForm):
+    class Meta:
+        model = Group
+        fields = ["students"]

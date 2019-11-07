@@ -532,7 +532,6 @@ def proposal_status_edit(request,pk=None):
                 }
     return render(request, 'proposal_status_edit.html',context)
 
-
 @login_required(login_url="/CPPMS/login/")
 def proposal_stage_create(request):
     username = request.user.first_name + " " + request.user.last_name
@@ -781,7 +780,6 @@ def proposal_edit(request, pk=None):
         }
     )
 
-
 # Archive Proposal View
 @login_required(login_url="/CPPMS/login/")
 def archive_proposal(request):
@@ -984,6 +982,8 @@ def project_edit(request, pk=None):
     #project_form = ProjectForm(instance=project_detail)
     project_form = EditProjectForm(instance=project_detail)
     student_form = StudentForm()
+    add_student_form = AddStudentGroupForm()
+    student_list_form = StudentListForm()
     if project_detail.group is not None:
         group_form = GroupForm(instance=project_detail.group)
     else:
@@ -991,28 +991,6 @@ def project_edit(request, pk=None):
 
     if request.method == "POST":
 
-        if "add_student" in request.POST:
-            new_student = StudentForm(request.POST)
-            if new_student.is_valid():
-                add_student = new_student.save()
-                project_detail.group.students.add(add_student)
-                project_detail.save()
-            else:
-                student_form = new_student
-            
-            return redirect('project_edit', pk=project_detail.pk)
-        
-        if "remove_student" in request.POST:
-            student_pk = request.POST.get("remove_student")
-            student = Student.object.filter(pk=student_pk)
-            if student is not None:
-                project_detail.group.students.remove(student)
-                project_detail.save()
-
-                return redirect("project_edit", pk=project_detail.pk)
-            
-
-        
         if "save_project" in request.POST:
             edit_project = EditProjectForm(request.POST, instance=project_detail)
             if edit_project.is_valid():
@@ -1021,12 +999,61 @@ def project_edit(request, pk=None):
                 return redirect('project_detail', pk=project_detail.pk)
             else:
                 project_form = edit_project
+                messages.error(
+                    request,
+                    "Could not update project"
+                )
+
+        if "add_student" in request.POST:
+            try:
+                student = Student.objects.get(pk=request.POST.get("add_student_group"))
+                project_detail.group.students.add(student)
+                messages.info(
+                    request,
+                    "added student to group"
+                )
+            except:
+                messages.error(
+                    request,
+                    "Could not add student to group"
+                )
+        
+        
+        if "add_new_student" in request.POST:
+            new_student = StudentForm(request.POST)
+            if new_student.is_valid():
+                add_student = new_student.save()
+                project_detail.group.students.add(add_student)
+                project_detail.save()
+            else:
+                student_form = new_student
+                messages.error(
+                    request,
+                    "Could not validate student details"
+                )
+            
+            return redirect('project_edit', pk=project_detail.pk)
+        
+        if "remove_student" in request.POST:
+            student_pk = request.POST.get("remove_student")
+            student = Student.objects.get(pk=student_pk)
+            if student is not None:
+                project_detail.group.students.remove(student)
+                project_detail.save()
+
+                return redirect("project_edit", pk=project_detail.pk)
+            else:
+                messages.error(
+                    request,
+                    "Student value is None"
+                )
 
         if "delete_group" in request.POST:
             if project_detail.group is not None:
-                project_detail.group = None
-                project_detail.save()
+                project_detail.group.delete()
                 return redirect('project_edit', pk=project_detail.pk)
+    
+    student_list = Student.objects.all()
 
     return render(
         request,
@@ -1039,7 +1066,9 @@ def project_edit(request, pk=None):
             "count": count,
             "project_detail": project_detail,
             "username": username,
-            "title":title
+            "title":title,
+            "add_student_form": add_student_form,
+            "student_list": student_list,
         }
     )
 
@@ -1214,57 +1243,105 @@ def client_edit(request, pk=None):
     count()
     title = "Edit Client"
     client_edit = get_object_or_404(Client, pk=pk)
+    new_department_form = DepartmentForm()
+    new_contact_form = ContactForm()
+
+    if request.method == "POST":
+        if "delete_client" in request.POST:
+            client_edit.delete()
+            return redirect("client_list")
+        
+        if "delete_contact" in request.POST:
+            # we use the unique field 'email' to find the contact
+            contact_email = request.POST.get("delete_contact")
+            contact = Contact.objects.get(email=contact_email)
+            if contact is not None:
+                contact.delete()
+                return redirect("edit_client", pk=client_edit.pk)
+            else:
+                messages.error(
+                    request,
+                    "Could not delete contact"
+                )
+        
+        if "delete_department" in request.POST:
+            # we use the unique field 'phone' to find the department
+            department_phone = request.POST.get("delete_department")
+            department = Department.objects.get(phone=department_phone)
+            if department is not None:
+                department.delete()
+                return redirect("client_edit", pk=client_edit.pk)
+            else:
+                messages.error(
+                    request,
+                    "Could not delete department"
+                )
+        
+        if "edit_client" in request.POST:
+            # edit the client's details
+            new_client_form = ClientForm(request.POST, instance=edit_client)
+            if new_client_form.is_valid():
+                new_client = client_form.save()
+                messages.success(
+                    request,
+                    "Updated Client Details"
+                )
+            else:
+                messages.error(
+                    request,
+                    "Could not validate client details"
+                )
+
+        if "new_department" in request.POST:
+            # create new department
+            new_department_form = DepartmentForm(request.POST)
+            if new_department_form.is_valid():
+                new_department = new_department_form.save()
+                client_edit.departments.add(new_department)
+                messages.success(
+                    request,
+                    "New Department added to client"
+                )
+            else:
+                new_department_form = new_department
+                messages.error(
+                    request,
+                    "Error validating department details, please try again"
+                )
+
+        if "new_contact" in request.POST:
+            # create new contact
+            new_contact_form = ContactForm(request.POST)
+            if new_contact_form.is_valid():
+                new_contact = new_contact_form.save()
+                new_contact.department = Department.objects.get(pk=request.POST.get("contact_department"))
+                new_contact.save()
+                messages.info(
+                    request,
+                    "Contact Created"
+                )
+            else:
+                messages.error(
+                    request,
+                    "Error validating contact details, please try again"
+                )
+
+    client_form = ClientForm(instance=client_edit)
+    departments = client_edit.departments.all()
     contact_forms = []
     department_forms = []
     for department in client_edit.departments.all():
         department_forms.append(DepartmentForm(instance=department))
         for contact in department.contacts.all():
-            contact_forms.append(ContactForm(instance=contact))
-
-    client_form = ClientForm(instance=client_edit)
-    new_department_form = DepartmentForm()
-    new_contact_form = ContactForm()
-
-    if request.method == "POST":
-        # client form
-        client_data = ClientForm(request.POST)
-        new_department = None
-        
-        # if client form data is valid
-        if client_data.is_valid():
-            # create new client from form data
-            new_client = client_data.save()
-            
-            # department form
-            department_data = DepartmentForm(request.POST)
-            if department_data.is_valid():
-                # create new department from form data
-                new_department = department_data.save()
-                # add client to department
-                new_department.client = new_client
-                new_department.save()
-            else:
-                department_form = department_data
-
-            # contact form
-            contact_data = ContactForm(request.POST)
-            if contact_data.is_valid() and new_department is not None:
-                new_contact = contact_data.save(commit=False)
-                new_contact.department = new_department
-                new_contact.save()
-            else:
-                contact_form = contact_data
-        
-            return redirect("client_detail", new_client.pk)
-        else:
-            client_form = client_data
-            
+            contact_forms.append(EditClientContactForm(instance=contact))
+     
     return render(
         request,
         "edit_client.html",
         {
             "client_edit": client_edit,
             "department_forms": department_forms,
+            "departments": departments,
             "new_department_form": new_department_form,
             "new_contact_form": new_contact_form,
             "client_form": client_form,
@@ -1274,121 +1351,6 @@ def client_edit(request, pk=None):
             "title":title
         }
     )
-    """username = request.user.first_name + " " + request.user.last_name
-    client_edit = get_object_or_404(Client, pk=pk)
-    count()
-    title = "Editing " + client_edit.name
-
-    if request.method == "POST":
-        client_name = request.POST.get("client_name")
-        client_address = request.POST.get("client_address")
-        client_website = request.POST.get("client_website")
-        client_description = request.POST.get("client_description")
-        client_department_name = request.POST.get("department_name")
-        client_department_phone = request.POST.get("department_phone")
-        client_department_email = request.POST.get("department_email")
-        client_contact_name = request.POST.get("contact_name")
-        client_contact_position = request.POST.get("contact_position")
-        client_contact_phone = request.POST.get("contact_phone")
-        client_contact_email = request.POST.get("contact_email")
-    
-        if "save" in request.POST:
-            contact_table = Contact.objects.filter(pk=client_edit.contact.pk).update(
-                name=client_contact_name,
-                position=client_contact_position,
-                phone=client_contact_phone,
-                email=client_contact_email
-            )
-            
-            department_table = Department.objects.filter(pk=client_edit.contact.department.pk).update(
-                name=client_department_name,
-                phone=client_department_phone,
-                email=client_department_email
-            )
-            
-            client_edit = Client.objects.filter(pk=client_edit.pk).update(
-                name=client_name,
-                address=client_address,
-                website=client_website,
-                desc=client_description
-            )
-
-            messages.INFO(request, "Sucessfully Updated Client Details!")
-            
-            return redirect("client_list")
-            
-        if "delete" in request.POST:
-            client_edit = Client.objects.filter(pk=client_edit.pk).delete()
-            
-            messages.add_message(request, messages.INFO, "Sucessfully Deleted Client Details!")
-            
-            return redirect("client_list")
-        
-        if "delete_department" in request.POST:
-            try:
-                edit_department = Department.objects.filter(pk=request.POST.get("delete_department")).delete()
-                messages.info(
-                    request,
-                    "Deleted department %s" % edit_department
-                )
-            except:
-                messages.warning(
-                    request,
-                    "Department doesnt exist! "
-                )
-            return redirect("client_edit", client_edit.pk)
-
-        if "edit_department" in request.POST:
-            try:
-                edit_department = Department.objects.get(pk=request.edit_department).update(
-                    name=request.POST.get("department_name"),
-                    phone=request.POST.get("department_phone"),
-                    email=request.POST.get("department_email"),
-                    client=client_edit
-                )
-
-            except:
-                messages.warning(
-                    request,
-                    "Could not update department"
-                )
-            return redirect("client_edit", client_edit.pk)
-
-        if "create_department" in request.POST:
-            create_department_name = request.POST.get("create_department_name")
-            create_department_phone = request.POST.get("create_department_phone")
-            create_department_email = request.POST.get("create_department_email")
-            try:
-                new_department = Department.objects.create(
-                    name=create_department_name,
-                    phone=create_department_phone,
-                    email=create_department_email,
-                    client=client_edit
-                )
-                messages.info(
-                    request,
-                    "Created new department for %s: %s!" % client_edit.name % new_department.name
-                )
-            except:
-                messages.warning(
-                    request,
-                    "Could not create new department"
-                )
-            return redirect("client_edit", client_edit.pk)
-        
-    department_form = DepartmentForm()        
-    return render(
-        request,
-        "client_edit.html",
-        {
-            "department_form": department_form,
-            "count": count,
-            "client_edit": client_edit,
-            "username": username,
-            "title":title
-        }
-    )
-    """
 
 # Word Import View
 @login_required(login_url="/CPPMS/login/")
@@ -1722,14 +1684,19 @@ def word_detail(request, pk=None):
 
 @login_required(login_url="/CPPMS/login/")
 def create_student(request):
+    username = request.user.first_name + " " + request.user.last_name
     count()
     student_form = StudentForm()
+    title = "Create Student"
 
     if request.method == "POST":
         new_student = StudentForm(request.POST)
         if new_student.is_valid():
             new_student.save()
-            messages.INFO(request, "Student added.")
+            messages.success(
+                request,
+                "Created Student"
+            )
         else:
             student_form = new_student
             
@@ -1739,12 +1706,15 @@ def create_student(request):
         {
             "student_form": student_form,
             "count": count,
+            "username": username,
         }
     )
 
 @login_required(login_url="/CPPMS/login/")
 def create_internal_supervisor(request):
+    username = request.user.first_name + " " + request.user.last_name
     count()
+    title = "Create Internal Supervisor"
     internal_supervisor_form = InternalSupervisorForm()
 
     if request.method == "POST":
@@ -1759,13 +1729,17 @@ def create_internal_supervisor(request):
         request, "create_internal_supervisor.html",
         {
             "count": count,
+            "username": username,
+            "title": title,
             "internal_supervisor_form": internal_supervisor_form
         }
     )
 
 @login_required(login_url="/CPPMS/login/")
 def create_unit(request):
+    username = request.user.first_name + " " + request.user.last_name
     count()
+    title = "Create Unit"
     unit_form = UnitForm()
 
     if request.method == "POST":
@@ -1780,12 +1754,15 @@ def create_unit(request):
         request, "create_unit.html",
         {
             "unit_form": unit_form,
+            "username": username,
+            "title": title,
             "count": count,
         }
     )
 
 @login_required(login_url="/CPPMS/login/")
 def edit_student(request, pk=None):
+    username = request.user.first_name + " " + request.user.last_name
     count()
     title = "Edit Student"
     student_detail = get_object_or_404(Student, pk=pk)
@@ -1805,11 +1782,15 @@ def edit_student(request, pk=None):
         {
             "student_form": student_form,
             "count": count,
+            "username": username,
+            "title": title,
         }
     )
 
 @login_required(login_url="/CPPMS/login/")
 def edit_internal_supervisor(request, pk=None):
+    username = request.user.first_name + " " + request.user.last_name
+    title = "Edit Internal Supervisor"
     count()
     internal_supervisor_form = InternalSupervisorForm()
 
@@ -1823,6 +1804,8 @@ def edit_internal_supervisor(request, pk=None):
     return render(
         request, "create_internal_supervisor.html",
         {
+            "title": title,
+            "username": username,
             "internal_supervisor_form": internal_supervisor_form,
             "count": count
         }
@@ -1830,6 +1813,8 @@ def edit_internal_supervisor(request, pk=None):
 
 @login_required(login_url="/CPPMS/login/")
 def edit_unit(request, pk=None):
+    username = request.user.first_name + " " + request.user.last_name
+    title = "Edit Unit"
     count()
     unit_form = UnitForm()
 
@@ -1843,7 +1828,74 @@ def edit_unit(request, pk=None):
     return render(
         request, "create_unit.html",
         {
+            "title": title,
+            "username": username,
             "unit_form": unit_form,
             "count": count
+        }
+    )
+
+@login_required(login_url="/CPPMS/login/")
+def unit_list(request):
+    username = request.user.first_name + " " + request.user.last_name
+    count()
+    title = "Unit List"
+    unit_list = Unit.objects.all()
+
+    return render(
+        request, "unit_list.html",
+        {
+            "title": title,
+            "username": username,
+            "count": count,
+            "unit_list": unit_list,
+        }
+    )
+
+@login_required(login_url="/CPPMS/login/")
+def internal_supervisor_list(request):
+    username = request.user.first_name + " " + request.user.last_name
+    count()
+    title = "internal supevisor list"
+    supervisor_list = Internal_Supervisor.objects.all()
+
+    return render(
+        request, "internal_supervisor_list.html",
+        {
+            "title": title,
+            "username": username,
+            "count": count,
+            "supervisor_list": supervisor_list,
+        }
+    )
+
+@login_required(login_url="/CPPMS/login/")
+def student_list(request):
+    username = request.user.first_name + " " + request.user.last_name
+    count()
+    title = "Student List"
+    student_list = Student.objects.all()
+
+    if request.method == "POST":
+        delete_student = request.POST.get("delete_student")
+        if delete_student is not None:
+            Student.objects.filter(pk=delete_student).delete()
+            messages.info(
+                request,
+                "Successfully Deleted Student"
+            )
+        else:
+            messages.error(
+                request,
+                "Couldn't delete student"
+            )
+
+    return render(
+        request, "student_list.html",
+        {
+            "title": title,
+            "username": username,
+            "count": count,
+            "student_list": student_list,
         }
     )

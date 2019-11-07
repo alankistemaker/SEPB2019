@@ -100,8 +100,13 @@ urlpatterns = [
         name="proposal_stage_create",
     ),
     re_path(
-        "create_group/(?P<pk>[_\w\d\-]+)$",
-        views.create_group,
-        name="create_group",
-    )
+        "create_group/(?P<pk>[_\w\d\-]+)$", views.create_group, name="create_group"
+    ),
+    path("unit_list", views.unit_list, name="unit_list"),
+    path(
+        "internal_supervisor_list",
+        views.internal_supervisor_list,
+        name="internal_supervisor_list",
+    ),
+    path("student_list", views.student_list, name="student_list"),
 ]
