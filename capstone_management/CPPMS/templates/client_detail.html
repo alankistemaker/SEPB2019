@@ -18,7 +18,16 @@
         <div class="row mb-2">
             <div class="col">
                 <div class="card">
-                    <h3 class="card-header">{{ client_detail.name }}</h3>
+                    <h3 class="card-header">
+                        <div class="d-flex">
+                            <div class="p-2">
+                                {{ client_detail.name }}
+                            </div>
+                            <div class="ml-auto p-2">
+                                <a class="btn btn-dark" href="client_edit/{{ client_detail.pk }}" role="button" data-toggle="tooltip" title="Edit '{{ client_detail.name }}'">Edit <i class="fa fa-edit"></i></a>
+                            </div>
+                        </div>
+                    </h3>
                     <div class="card-body">
                         <div class="row mb-2">
                             <div class="col">
@@ -83,12 +92,6 @@
                         {% endfor %}
                     </div>
                 </div>
-            </div>
-        </div>
-        
-        <div class="row mb-2">
-            <div class="col text-right">
-                <a class="btn btn-dark" href="client_edit/{{ client_detail.pk }}" role="button" data-toggle="tooltip" title="Edit '{{ client_detail.name }}'">Edit <i class="fa fa-edit"></i></a>
             </div>
         </div>
         

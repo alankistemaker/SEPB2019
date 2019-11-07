@@ -1270,7 +1270,10 @@ def client_edit(request, pk=None):
             department = Department.objects.get(phone=department_phone)
             if department is not None:
                 department.delete()
-                return redirect("client_edit", pk=client_edit.pk)
+                messages.success(
+                    request,
+                    "Successfully deleted department"
+                )
             else:
                 messages.error(
                     request,
