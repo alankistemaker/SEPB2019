@@ -1528,7 +1528,7 @@ def word_detail(request, pk=None):
             proposal_detail = Upload_Proposal.objects.filter(pk=proposal_detail.pk).delete()
             os.remove(full_path)
             
-            messages.addmessage(request, messages.INFO, "Proposal deleted!")
+            messages.info(request, "Proposal deleted!")
             
             return redirect("word_proposal")
 
