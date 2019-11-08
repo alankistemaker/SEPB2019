@@ -31,10 +31,15 @@ urlpatterns = [
         name="proposal_extract",
     ),
     path("proposal/proposal_list/", views.proposal_list, name="proposal_list"),
-    path(
+    re_path(
+        "proposal_status/(?P<pk>[_\w\d\-]+)$",
+        views.proposal_status,
+        name="proposal_status",
+    ),
+    re_path(
         "proposal/proposal_status_edit/<int:tid>/",
         views.proposal_status_edit,
-        name="proposal_status_Edit",
+        name="proposal_status_edit",
     ),
     re_path(
         "proposal_detail/(?P<pk>[_\w\d\-]+)$",
