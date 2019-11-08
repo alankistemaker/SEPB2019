@@ -38,11 +38,11 @@
                                 <td>{{ unit.current_projects.count }}</td>
                                 <td>{{ unit.past_projects.count }}</td>
                                 <td>
-                                    <button type="button" class="btn btn-danger" data-target="#delete_unit_modal" data-toggle="modal">Delete</button>
+                                    <button type="button" class="btn btn-danger" data-target="#delete_unit_modal_{{ unit.pk }}" data-toggle="modal">Delete</button>
                                     <a role="button" class="btn btn-dark" href="edit_unit/{{ unit.pk }}">Edit</button>
                                 </td>
                             </tr>
-                            <div id="delete_unit_modal" tabindex="-1" class="modal fade">
+                            <div id="delete_unit_modal_{{ unit.pk }}" tabindex="-1" class="modal fade">
                                 <form method="POST">
                                 {% csrf_token %}
                                 <div class="modal-dialog modal-confirm">

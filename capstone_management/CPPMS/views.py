@@ -1271,16 +1271,17 @@ def client_edit(request, pk=None):
             # we use the unique field 'phone' to find the department
             department_phone = request.POST.get("delete_department")
             department = Department.objects.get(phone=department_phone)
-            if department is not None:
+            name = department.name
+            try:
                 department.delete()
                 messages.success(
                     request,
-                    "Successfully deleted department"
+                    "Deleted department: %s" %name
                 )
-            else:
+            except:
                 messages.error(
                     request,
-                    "Could not delete department"
+                    "Could not delete department: %s" %name
                 )
         
         if "edit_client" in request.POST:
@@ -1741,8 +1742,11 @@ def create_internal_supervisor(request):
     if request.method == "POST":
         new_internal_supervisor = InternalSupervisorForm(request.POST)
         if new_internal_supervisor.is_valid():
-            new_internal_supervisor.save()
-            messages.INFO(request, "Internal Supervisor added.")
+            supervisor = new_internal_supervisor.save()
+            messages.success(
+                request, 
+                "Internal Supervisor created: %s" %supervisor.name
+            )
         else:
             internal_supervisor_form = new_internal_supervisor
 
@@ -1767,7 +1771,7 @@ def create_unit(request):
         new_unit = UnitForm(request.POST)
         if new_unit.is_valid():
             new_unit = new_unit.save()
-            messages.INFO(request, "Unit added.")
+            messages.info(request, "Unit added.")
         else:
             unit_form = new_unit
 
@@ -1878,6 +1882,24 @@ def unit_list(request):
     count()
     title = "Unit List"
     unit_list = Unit.objects.all()
+
+    if request.method == "POST":
+        if "delete_unit" in request.POST:
+            unit_pk = request.POST.get("delete_unit")
+            try:
+                unit = Unit.objects.get(pk=unit_pk)
+                title = unit.title
+                unit.delete()
+                messages.success(
+                    request,
+                    "Deleted Unit: %s" %title
+                )
+            except:
+                messages.error(
+                    request,
+                    "Could not delete unit"
+                )
+
 
     return render(
         request, "unit_list.html",
