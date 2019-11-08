@@ -140,7 +140,7 @@
                             {{ contact_form.name.value }}
                         </div>
                         <div class="ml-auto p-2">
-                            <button class="btn btn-danger" type="submit" value="{{ contact_form.email.value }}">Delete Contact</button>
+                            <button class="btn btn-danger" type="submit" name="delete_contact" value="{{ contact_form.email.value }}">Delete Contact</button>
                         </div>
                     </div>
                 </h5>
@@ -178,10 +178,10 @@
                                 {{ department_form.name.value }}
                             </div>
                             <div class="ml-auto p-2">
-                                <button class="btn btn-success" type="submit" name="save_department">Save</button>   
+                                <button class="btn btn-success" type="submit" value="{{ department_form.phone.value }}" name="save_department">Save</button>   
                             </div>
                             <div class="p-2">
-                                <button class="btn btn-info" type="button" data-target="#delete_department_modal" data-toggle="modal">Delete</button>     
+                                <button class="btn btn-info" type="button" data-target="#delete_department_modal_{{ department_form.name.value }}" data-toggle="modal">Delete</button>     
                             </div>
                         </div>
                     </h5>
@@ -191,7 +191,7 @@
 
                 </div>
 
-                <div id="delete_department_modal" tabindex="-1" class="modal fade">
+                <div tabindex="-1" class="modal fade" id="delete_department_modal_{{ department_form.name.value }}">
                     
                     <div class="modal-dialog modal-confirm">
                         <div class="modal-content">

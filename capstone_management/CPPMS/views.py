@@ -1257,7 +1257,10 @@ def client_edit(request, pk=None):
             contact = Contact.objects.get(email=contact_email)
             if contact is not None:
                 contact.delete()
-                return redirect("edit_client", pk=client_edit.pk)
+                messages.success(
+                    request,
+                    "Contact deleted"
+                )
             else:
                 messages.error(
                     request,
@@ -1293,6 +1296,21 @@ def client_edit(request, pk=None):
                 messages.error(
                     request,
                     "Could not validate client details"
+                )
+        if "save_department" in request.POST:
+            department_phone = request.POST.get("save_department")
+            department = Department.objects.get(phone=department_phone)
+            edit_department_form = DepartmentForm(request.POST, instance=department)
+            if edit_department_form.is_valid():
+                edit_department = edit_department_form.save()
+                messages.success(
+                    request,
+                    "Updated department"
+                )
+            else:
+                messages.error(
+                    request,
+                    "Could not update department"
                 )
 
         if "new_department" in request.POST:
