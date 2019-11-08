@@ -991,6 +991,16 @@ def project_edit(request, pk=None):
 
     if request.method == "POST":
 
+        if "delete_project" in request.POST:
+            try:
+                project_detail.delete()
+                return redirect('project_list')
+            except:
+                messages.error(
+                    request,
+                    "Could not delete project"
+                )
+
         if "save_project" in request.POST:
             edit_project = EditProjectForm(request.POST, instance=project_detail)
             if edit_project.is_valid():
